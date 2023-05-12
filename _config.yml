@@ -42,7 +42,7 @@ markdown: kramdown
 defaults:
   # _posts
   - scope:
-      path: ""
+      path: "/portfolio-1"
       type: posts
     values:
       layout: single
