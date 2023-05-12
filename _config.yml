@@ -41,7 +41,7 @@ markdown: kramdown
 
 #permalink: :title
 #permalink: /portfolio-1/:title
-permalink: /:categories/:year/:month/:day/:title:output_ext
+permalink: /portfolio-1/:categories/:year/:month/:day/:title:output_ext
 
 plugins:
   - jekyll-remote-theme
