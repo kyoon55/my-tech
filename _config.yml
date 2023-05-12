@@ -39,8 +39,8 @@ markdown: kramdown
 # Details: https://help.formspree.io/hc/en-us/articles/360017735154-How-to-prevent-spam
 # formspree_form_path: "f/a_form_id"
 
-#permalink: :title
-permalink: /portfolio-1/:title/
+#permalink: /portfolio-1/:title
+permalink: /portfolio-1/:categories/:year/:month/:day/:title
 
 plugins:
   - jekyll-remote-theme
