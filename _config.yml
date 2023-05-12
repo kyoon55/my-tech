@@ -41,7 +41,7 @@ markdown: kramdown
 
 #permalink: :title
 #permalink: /portfolio-1/:title
-permalink: /about/
+permalink: /portfolio-1/about/
 
 plugins:
   - jekyll-remote-theme
