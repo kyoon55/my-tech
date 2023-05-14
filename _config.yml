@@ -40,7 +40,7 @@ markdown: kramdown
 # formspree_form_path: "f/a_form_id"
 
 #permalink: /portfolio-1/:title
-permalink: /portfolio-1/_posts/
+permalink: /portfolio-1/
 
 plugins:
   - jekyll-remote-theme
