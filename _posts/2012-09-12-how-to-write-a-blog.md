@@ -1,11 +1,9 @@
 ---
 layout: post
 title:  "Welcome to Jekyll!"
-permalink: /portfolio-1/temp_document/welcome-to-jekyll
+permalink: /welcome-to-jekyll/
 ---
 
 # Welcome
-
 **Hello world**, this is my first Jekyll blog post.
-
 I hope you like it!
