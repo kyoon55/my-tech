@@ -1,7 +1,6 @@
 ---
 layout: post
 title:  "Welcome to Jekyll!"
-permalink: /portfolio-1/temp_document/how-to-write-a-blog.md
 ---
 
 # Welcome
