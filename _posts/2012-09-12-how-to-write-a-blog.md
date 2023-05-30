@@ -1,8 +1,8 @@
 ---
-layout: page
+layout: post
 title:  "Welcome to Jekyll!"
 #permalink: /portfolio-1/:title:output_ext
-permalink: /portfolio-1/2012-09-12-how-to-write-a-blog.md
+permalink: /portfolio-1/:categories/:year/:month/:day/:title/
 ---
 
 # Welcome
