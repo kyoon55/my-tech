@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Welcome to Jekyll!"
-permalink: /portfolio-1/:year/:month/:day/:title:output_ext
+permalink: /portfolio-1/:month/:day/:title:output_ext
 ---
 
 # Welcome
