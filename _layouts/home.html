@@ -13,9 +13,15 @@ layout: default
     {% endif %}
   </div>
   {% if site.jekyll-theme-experiment.about.avatar %}
-    <div class="avatar">
-        <img src="{{ site.jekyll-theme-experiment.about.avatar }}" alt="avatar">
-    </div>
+  <div class="l-content information-box">
+    <hr class="hr-decorator">
+    {% if  site.title %}
+      <h1>{{ site.title }}</h1>
+    {% endif %}
+    {% if  site.description %}
+      <h3>{{ site.description }}</h3>
+    {% endif %}
+  </div>
   {% endif %}
 </div>
 
