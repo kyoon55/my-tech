@@ -1,46 +1,59 @@
-# Welcome to Jekyll!
-# 
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that.
-# This file is *NOT* reloaded automatically when you use 'bundle exec jekyll serve'.
-# If you change this file, please restart the server process.
-
 # Site settings
-# are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
+title: Jekyll Doc Theme
+email: your-email@domain.com
+description: >
+  Jekyll Template for Project Websites
+  providing documentation and blog post pages.
+lang: en-US
 
-#theme: jekyll-agency
-remote_theme: raviriley/agency-jekyll-theme
+baseurl: "/jekyll-doc-theme" # the subpath of your site, e.g. /blog/
+url: https://aksakalli.github.io/jekyll-doc-theme # the base hostname & protocol for your site
+git_address: https://github.com/aksakalli/jekyll-doc-theme
+git_edit_address: https://github.com/aksakalli/jekyll-doc-theme/blob/gh-pages
 
-url    : "" # the base hostname & protocol for your site, e.g. http://example.com
-baseurl: "/portfolio-1" # the subpath of your site, e.g. /blog
+# theme options from https://bootswatch.com/3/
+# comment out this to use default Bootstrap
+bootwatch: paper # cerulean cosmo custom cyborg darkly flatly journal lumen readable sandstone simplex slate solar spacelab superhero united yeti
 
-#title      : Test Test Test
-email      : your-email@example.com #this is also the email contact forms will go to
-description: "Agency Bootstrap theme converted to a Jekyll theme, plus new features: Google Analytics, Markdown support, custom pages, and more!"
-author     : Your Name
-logo:     #optional, defaults to site title
-  path: assets\img\clients\it-prime-solutions.png
-  height: 40 #height in px, defaults to 52px
+# Build settings
+markdown: kramdown
+highlighter: rouge
+# Plugins (previously gems:)
+plugins:
+  - jekyll-feed
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
-locale: "en-US" # See available languages in _data/sitetext.yml
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - .idea/
+  - .gitignore
+  - README.md
+  - vendor
+timezone: Europe/Berlin
+defaults:
+- scope:
+    path: _posts
+    type: posts
+  values:
+    layout: post
+    sectionid: blog
 
-analytics:
-  google: #Google Analytics tracking code here
+- scope:
+    path: _docs
+    type: docs
+  values:
+    layout: docs
+    sectionid: docs
+    seo:
+      type: "WebPage"
 
 collections:
-  portfolio:
-
-markdown: kramdown
-
-# Uncomment following line to use Formspree form ID based URL instead of email based URL
-# Details: https://help.formspree.io/hc/en-us/articles/360017735154-How-to-prevent-spam
-# formspree_form_path: "f/a_form_id"
-
-permalink: /portfolio-1/:title
-#permalink: /:categories/:year/:month/:day/:title:output_ext
-
-plugins:
-  - jekyll-remote-theme
+  docs:
+    permalink: /:collection/:path/
+    output: true
+  posts:
+    permalink: /blog/:year/:month/:day/:title/
+    output: true
