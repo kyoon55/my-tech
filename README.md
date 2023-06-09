@@ -1,161 +1,141 @@
-# Jekyll Doc Theme
+# jekyll-theme-experiment
 
-Go to [the website](https://aksakalli.github.io/jekyll-doc-theme/) for detailed information and demo.
+Since I started using [Jekyll](https://jekyllrb.com/) I have wanted to make a theme, so I have decided to create it to publish my portfolio.
 
-## Running locally
+![](https://cl.ly/2F3f432B0z09/Screen%20Recording%202018-02-24%20at%2011.23%20p.m..gif)
 
-You need Ruby and gem before starting, then:
+Made with ♥️ by @anxhe
+
+Your can see a demo [here](https://anxhe.github.io/jekyll-theme-experiment/)
+
+## Installation
+
+You will need to have installed [ruby](https://www.ruby-lang.org/en/documentation/installation/).
+
+Then, in a bash terminal execute the following commands:
+
+```sh
+gem install bundler jekyll
+```
+
+## Usage
+
+- Create a new Jekyll site (by running the `jekyll new` command), Jekyll installs a site that uses a gem-based theme called Minima.
 
 ```bash
-# install bundler
-gem install bundler
+jekyll new <your-blog-name>
+cd <your-blog-name>
+```
+- Now we have to replace the `minima` gem with `jekyll-theme-experiment` in `Gemfile`, as follows:
 
-# clone the project
-git clone https://github.com/aksakalli/jekyll-doc-theme.git
-cd jekyll-doc-theme
+```diff
+# Gemfile
+- gem "minima", "~> 2.0"
++ gem 'jekyll-theme-experiment'
+```
 
-# install dependencies
-bundle install
+- Then run:
 
-# run jekyll with dependencies
+`bundle install`
+
+- Next, we need to replace `minima` theme key in `_config.yml` as follows:
+
+```yml
+# _config.yml
+theme: jekyll-theme-experiment
+```
+
+- Each section and content is customizable via `_config.yml` file:
+
+Replace the sample data with your own:
+
+```yml
+
+title: Your awesome title
+description: >- # this means to ignore newlines until "baseurl:"
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
+```
+
+jekyll-theme-experiment allows you to customize the following sections in the main layout:
+
+  - about
+  - portfolio
+  - tools
+
+Add the following sample data to try it:
+
+```yml
+jekyll-theme-experiment:
+  about: # optional
+    avatar: https://robohash.org/experiment-avatar.png?size=300x300
+
+  portfolio: # optional
+    title: Portfolio
+    # Depending of the number of projects, you will need to update $projects
+    # variable in a sass file. e.g.
+    # _sass/main.scss
+    #
+    projects:
+      - name: Jekyll Theme experiment
+        link: http://example.com
+        github: https://github.com/anxhe/jekyll-theme-experiment
+        img_relative_url: /assets/example.png
+
+  tools: # optional
+    title: Tools and Experience 
+    icons:
+      - relative_url: /assets/icons/bitbucket/bitbucket-original.svg
+```
+
+By default, jekyll generates a couple markdown files, we'll need to make
+a few changes:
+
+- Update `index.md` adding `title: home` to yaml's frontmatter
+- Delete `about.md`, as this theme uses similar in the home layout.
+- If you pretend use this site for blogging, you'll need to create a `blog.md` file with the following contents:
+
+![](https://cl.ly/3h3v3b210c0p/Screen%20Recording%202018-02-24%20at%2011.27%20p.m..gif)
+
+```md
+---
+layout: blog
+title: blog
+permalink: /blog/
+---
+```
+
+Now we're ready, start the server:
+
+```sh
 bundle exec jekyll serve
 ```
 
-### Theme Assets
+Finally, open  http://127.0.0.1:4000/ in the browser, and that's it, feel free to poke around.
 
-As of the move to support [Github Pages](https://pages.github.com/) a number of files have been relocated to the `/asset` folder.
-- css/
-- fonts/
-- img/
-- js/
-- 404.html
-- allposts.html
-- search.json
+## Customize navigation links
 
-## Docker
+**Taken from minima theme**
 
-Alternatively, you can deploy it using the multi-stage [Dockerfile](Dockerfile)
-that serves files from Nginx for better performance in production.
+This allows you to set which pages you want to appear in the navigation area and configure order of the links. For instance, to only link to the about and the portfolio page, add the following to your `_config.yml`:
 
-Build the image for your site's `JEKYLL_BASEURL`:
-
-```
-docker build --build-arg JEKYLL_BASEURL="/your-base/url" -t jekyll-doc-theme .
+```yml
+header_pages:
+  - about.md
+  - portfolio.md
 ```
 
-(or leave it empty for root: `JEKYLL_BASEURL=""`) and serve it:
+## Contributing
 
-```
-docker run -p 8080:80 jekyll-doc-theme
-```
+Bug reports and pull requests are welcome on GitHub at https://github.com/anxhe/jekyll-theme-experiment/issues. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-## Github Pages
+## Credits
 
-The theme is also available to [Github Pages](https://pages.github.com/) by making use of the [Remote Theme](https://github.com/benbalter/jekyll-remote-theme) plugin:
-
-**Gemfile**
-```
-# If you want to use GitHub Pages, remove the "gem "jekyll"" above and
-# uncomment the line below. To upgrade, run `bundle update github-pages`.
-gem "github-pages", group: :jekyll_plugins
-```
-
-**_config.yml**
-```
-# Configure the remote_theme plugin with the gh-pages branch
-# or the specific tag
-remote_theme: aksakalli/jekyll-doc-theme@gh-pages   
-```
-
-### Theme Assets
-
-Files from your project will override any theme file with the same name.  For example, the most comment use case for this, would be to modify your sites theme or colors.   To do this, the following steps should be taken:
-
-1) Copy the contents of the `aksakalli/jekyll-doc-theme/asset/css/main.scss` to your own project (maintaining folder structure)
-2) Modify the variables you wish to use prior to the import statements, for example:
-
-```
-// Bootstrap variable overrides
-$grid-gutter-width: 30px !default;
-$container-desktop: (900px + $grid-gutter-width) !default;
-$container-large-desktop: (900px + $grid-gutter-width) !default;
-
-@import // Original import statement
-  {% if site.bootwatch %}
-    "bootswatch/{{site.bootwatch | downcase}}/variables",
-  {% endif %}
-
-  "bootstrap",
-
-  {% if site.bootwatch %}
-    "bootswatch/{{site.bootwatch | downcase}}/bootswatch",
-  {% endif %}
-
-  "syntax-highlighting",
-  "typeahead",
-  "jekyll-doc-theme"
-;
-
-// More custom overrides.
-```
-
-3) Import or override any other theme styles after the standard imports
-
-## Projects using Jekyll Doc Theme
-
-* http://teavm.org/
-* https://ogb.stanford.edu/
-* https://griddb.org/
-* https://su2code.github.io/
-* https://contextmapper.org/
-* https://launchany.github.io/mvd-template/
-* https://knowit.github.io/kubernetes-workshop/
-* https://rec.danmuji.org/
-* https://nethesis.github.io/icaro/
-* http://ai.cs.ucl.ac.uk/
-* http://tizonia.org
-* https://lakka-switch.github.io/documentation/
-* https://cs.anu.edu.au/cybersec/issisp2018/
-* http://www.channotation.org/
-* http://nemo.apache.org/
-* https://csuf-acm.github.io/
-* https://extemporelang.github.io/
-* https://media-ed-online.github.io/intro-web-dev-2018spr/
-* https://midlevel.github.io/MLAPI/
-* https://pulp-platform.github.io/ariane/docs/home/
-* https://koopjs.github.io/
-* https://developer.apiture.com/
-* https://contextmapper.github.io/
-* https://www.bruttin.com/CosmosDbExplorer/
-* http://mosaic-lopow.github.io/dash7-ap-open-source-stack/
-* http://www.vstream.ml/
-* http://docs.fronthack.com/
-* https://repaircafeportsmouth.org.uk/
-* http://brotherskeeperkenya.com/
-* https://hschne.at/Fluentast/
-* https://zoe-analytics.eu/
-* https://uli.kmz-brno.cz/
-* https://lime.software/
-* https://weft.aka.farm
-* https://microros.github.io/
-* https://citystoriesucla.github.io/citystories-LA-docs
-* http://lessrt.org/
-* http://kivik.io/
-* https://www.iot-kit.nl/
-* http://justindietz.com/
-* https://universalsplitscreen.github.io/
-* https://docs.oneflowcloud.com/
-* https://actlist.silentsoft.org/
-* https://teevid.github.io
-* https://developer.ipums.org
-* https://osmpersia.github.io (right-to-left)
-* https://ecmlpkdd2019.org
-* https://idle.land
-* https://mqless.com
-* https://muict-seru.github.io/
-* https://www.invoice-x.org
-* https://www.devops.geek.nz
+- [Jekyll](https://github.com/jekyll/jekyll) and [Minima](https://github.com/jekyll/minima) - Thanks to their creators and contributors
+- [Vitaly Rubtsov](https://dribbble.com/Vitwai) for inspiration on  his [hamburguer menu animation](https://dribbble.com/shots/2293621-Hamburger-Menu-Animation)
+- [Luis Manuel](https://scotch.io/@lmgonzalves) for his implementation of the above hamburger menu on [this tutorial](https://scotch.io/tutorials/building-a-morphing-hamburger-menu-with-css)
 
 ## License
 
-Released under [the MIT license](LICENSE).
+The theme is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
