@@ -1,13 +1,18 @@
 <section class="hero is-fullheight has-text-centered" id="contact">
     <div class="hero-body">
         <div class="container">
-            <ul>
-                {% for post in site.temp_document %}
-                  <li>
-                    <a href="{{ post.url }}">{{ post.title }}</a>
-                  </li>
-                {% endfor %}
-              </ul>
+            <section class="page-section">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-3"> <!-- 25% column -->
+                      <!-- add your content for the left column here -->
+                    </div>
+                    <div class="col-md-9"> <!-- 75% column -->
+                      <!-- add your content for the right column here -->
+                    </div>
+                  </div>
+                </div>
+              </section>
             {% unless site.facebook_username == %}
             <a id="contact-button" href="https://m.me/{{site.facebook_username}}"
                 class="button is-rounded is-uppercase has-text-weight-normal is-black is-outlined has-text-weight-semibold column is-two-fifths"
