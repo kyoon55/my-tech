@@ -7,6 +7,11 @@ tags:
 - RHCSA
 ---
 
+| Syntax | Description |
+| ----------- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+
 # Redhat
 
 - [RHCSA](#RHCSA)
