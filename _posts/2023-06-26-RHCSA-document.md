@@ -1,10 +1,11 @@
 ---
-title: RHCSA Study Guide
+title: RHCSA Study Guide from Sander van Vugt’s book
 layout: post
 #post-image: "https://raw.githubusercontent.com/thedevslot/WhatATheme/master/assets/images/What%20is%20Jekyll%20and%20How%20to%20use%20it.png?token=AHMQUELVG36IDSA4SZEZ5P26Z64IW"
-description: This is a post for RHCSA studfy materials
+description: This is a post for RHCSA studfy materials from Sander van Vugt’s book
 tags:
 - RHCSA
+- Sander van Vugt’s book
 ---
 # Notes for RHCSA
 
@@ -81,8 +82,8 @@ To grep a string with dash, such as `-a`, specify `--` to [signify end](https://
 
 If you have an alias and don't want to invoke it, preface it with "\\"  eg `\rm` to avoid `rm -i`
 
-Find files only `find . -size -1000c -type f` 
-This finds files with <1000 chars. Otherwise specify `+1000c` for larger ones. Or omit `+/-` for exact file sizes. Works with k, M, G as well for file sizes. 
+Find files only `find . -size -1000c -type f`
+This finds files with <1000 chars. Otherwise specify `+1000c` for larger ones. Or omit `+/-` for exact file sizes. Works with k, M, G as well for file sizes.
 
 Find files with octal permissions `find /dir -perm 0777 -type f`
 
@@ -91,6 +92,7 @@ Find files modified in last 2 hours `find /dir -mmin 120 -type f`
 Find files larger between 5MB and 10MB `find /dir -size +5M -size -10M -type f`
 
 # 2. Essential tools
+
 To clear bash history completely, remove ~/.bash_history and do `history -c`
 
 # Filesystem tools
@@ -142,7 +144,7 @@ Can use gzip or bzip to compress archive in place.
 * ending with ash `grep 'ash$' /etc/passwd`
 * missing one character `.`
 * missing either a,o,u `[aou]`
-* matches zero or 1 previous char `colou?r`. Returns *color* or *colour* 
+* matches zero or 1 previous char `colou?r`. Returns *color* or *colour*
 * match the preceding char twice `\{2\}`
 * match min 1 max 3 `\{1,3\}`
 * starts with # or ; `^[#|;]`
@@ -154,7 +156,6 @@ Can use gzip or bzip to compress archive in place.
 Replace all old-text with new-text in place `sed -i s/old-text/new-text/g ~/myfile`
 
 Print line 5 with sed `sed -n 5p /etc/passwd`
-
 
 To print the last column with awk use `$NF`
 
@@ -210,9 +211,9 @@ Create **/etc/nologin.txt** which is displayed to all users to deny access excep
 
 `usermod` can change the groups a user belongs to.
 
-User settings stored in **/etc/login.defs** 
+User settings stored in **/etc/login.defs**
 
-and 
+and
 
 **/etc/default/useradd** determines dir of $HOME
 
@@ -561,6 +562,7 @@ Query package, even list its contents without installing with `yum repoquery -l 
 Install with `yum install`
 
 Install exact version of package:
+
 ```text
 [root@localhost ~]# yum list createrepo_c --showduplicates
 Updating Subscription Management repositories.
@@ -710,7 +712,7 @@ Linux processes are started with a certain priority, by default all are equal (2
 * Lower number priority are higher
 * Ranges from -20 to 19
 
-To change priority of process PID 3233 to 10 ` renice -n 10 -p 3233`
+To change priority of process PID 3233 to 10 `renice -n 10 -p 3233`
 
 Or specify NI of process with `ni -n 1 dd command`
 
@@ -733,6 +735,7 @@ Signal commands
 By default `kill` uses SIGTERM, which may not work. If it doesn't use SIGKILL with `kill -9 [PID]`
 
 A few types of `kill` signals
+
 * 1 SIGHUP - Terminal closes (similar to SIGTERM)
 * 2 SIGINT - Ctrl-C (stop and wait for further input)
 * 3 SIGQUIT - Same as SIGTERM but generates core dump file on exit
@@ -763,7 +766,7 @@ High **wa** typically indicates system is suffering from slow disk ops.
 
 ### Commands in `top`
 
-* In `top` interface, press `k` to select process to terminate, then followed by signal type (default SIGTERM 15). 
+* In `top` interface, press `k` to select process to terminate, then followed by signal type (default SIGTERM 15).
   * Press `h` to show below hot keys.
   * Press `r` to renice process PID
   * Press `1` to display CPU stats for each.
@@ -933,6 +936,7 @@ Show options for config file `systemctl show httpd.service`, note you can use ap
 Check section options for .unit files with `man -k systemd.unit`
 
 Prevent unit from being started with `systemctl mask name.service`. Undo with `systemctl unmask name.service`. Differs from `disable` in that nothing can start it, not even manually or other serivices.
+
 * This creates symlink in /etc/systemd/system/file.service to /dev/null
 * Must remove existing file from /etc/systemd/system/ first
 
@@ -952,6 +956,7 @@ Cron config files are found in **/etc/cron**\*
 Create cron files as user with `crontab -e -u username`, these are stored in **/var/spool/cron**. Note that you don't specify the user to run as unlike in **/etc/crontab**.
 
 Allow users to create cronjobs if their name is in **/etc/cron.allow**, deny if their name is in **/etc/cron.deny**. Both files can't exist at same time.
+
 * Check `man crontab` for how exactly this works
 
 Note: `run-parts` runs all the commands in the directory.
@@ -960,7 +965,8 @@ Note: `run-parts` runs all the commands in the directory.
 
 **anacron** an alternative to cron that can see when the scheduled task was last run, and run it if more than 24 hours. Can only run daily at most
 
-Used to run scheduled tasks without specifying exact times, such as 
+Used to run scheduled tasks without specifying exact times, such as
+
 * /etc/cron.hourly
 * /etc/cron.daily
 * etc..
@@ -970,6 +976,7 @@ Used to run scheduled tasks without specifying exact times, such as
 Syntax at **/etc/anacrontab**, and check `man anacrontab` for more.
 
 Example: The last job, named **db_cleanup**  runs once every 10 days, with 5 min delay and does `/usr/bin/touch /root/anacron_created_this`
+
 ```text
 #period in days   delay in minutes   job-identifier   command
 1       5       cron.daily              nice run-parts /etc/cron.daily
@@ -1111,13 +1118,17 @@ Message from syslogd@localhost at Jul 12 01:50:52 ...
 ### 13.1.4 rsyslog eg config
 
 1. In **/etc/httpd/conf/httpd.conf**, add this line so it logs to local1
+
   ```text
   ErrorLog    syslog:local1
   ```
+
 2. Then in **/etc/rsyslog.conf** add this line to tell it where to write the log to
+
   ```text
   local1.error        /var/log/httpd-error.log
   ```
+
 3. Restart rsyslog.service
 
 To use logger to write debug priority msg do `logger -p daemon.debug "Debug msg"`
@@ -1178,6 +1189,7 @@ View service logs with `journalctl -u sshd.service -xe`
 
 * Partitions are slices of a disk
 * They are named in sequence eg.
+
 1. /dev/sda1
 2. /dev/sda2
 3. /dev/sda3
@@ -1187,6 +1199,7 @@ View service logs with `journalctl -u sshd.service -xe`
 ## 14.3 Disk layouts
 
 BIOS - MBR (master boot record)
+
 * 4 partitions only
   * 512 bytes for boot
   * Max 2 TB total
@@ -1197,6 +1210,7 @@ BIOS - MBR (master boot record)
 * Virtual servers use MBR rather than GUID
 
 UEFI - GPT (GUID partition table)
+
 * 128 partitions max
 * Typical for physical server
 
@@ -2095,10 +2109,12 @@ tmpfs                      563M  4.0K  563M   1% /run/user/1000
 
 * Generates meaningful name with /dev/mapper/*
 * Symlinks to actual device name
+
   ```text
   [root@localhost ~]# ls -lah /dev/mapper/group1-lvdata
   lrwxrwxrwx. 1 root root 7 May  2 19:12 /dev/mapper/group1-lvdata -> ../dm-0
   ```
+
 * Don't use actual names eg `../dm-0` because that could change
 
 ## 15.3 Resizing LVM volumes
@@ -2106,9 +2122,11 @@ tmpfs                      563M  4.0K  563M   1% /run/user/1000
 1. Before enlarging LV check if there is storage available with `vgs`.
 2. Use `vgextend` to add PVs to the VG.
 3. Use `lvresize` with `-r` option (auto-resize filesystem) `-L-500M` to resize if VG has enough
+
    ```text
    lvresize -r -L-500M /dev/group1/lvdata1
    ```
+
 4. Note you can specify `-l 75%FREE` or similar to take up 75% of free space in the VG.
 
 Alternatively you can use `resize2fs /dev/group1/lvdata1` to automatically resize or specify size as further argument.
@@ -2118,10 +2136,12 @@ Tip: To create 1GiB of random data file do `dd if=/dev/urandom of=/mnt/lvdata/ra
 `lsblk -f` will show FS for each block device
 
 To remove LV
+
 1. Format filesystem with `mkfs`, this will erase everything as well
 2. `lvremove /dev/vg-name/lv-name`
 
 ## 15.4 Stratis Volumes
+
 * Volume management file system (but not FS)
 * Works with XFS filesystems only
   * But don't need to create XFS FS before applying `stratis pool`
@@ -2152,9 +2172,11 @@ To remove LV
   * `stratis filesystem` - Shows FS usage
 * Note that that typical Linux tools like `df` don't give accurate size
 * Use UUID to mount in /etc/fstab, include systemd service dependency
+
   ```text
   UUID=xxx /stratis1 xfs defaults,x-systemd.requires=stratisd.service   0 0
   ```
+
 Note: This syntax for `x-systemd.requires` is found in `man vdo` or in `man systemd.mount`
 
 #### Snapshots
@@ -2192,10 +2214,11 @@ To destroy stratis FS, make sure unmounted then `stratis fs destroy poolname fs-
 * First install packages `kmod-kvdo`, `vdo`
 * Refer to systemd mount example in `/usr/share/doc/vdo/examples`
   * Remember to rename .mount file after the mount-point dir name (replace '/' with '-'), eg **/mnt/vdo0** means **mnt-vdo0.mount**
+
 1. Create vdo0 with `vdo create --name=vdo0 --device=/dev/sdb --vdoLogicalSize=1T` (man page)
 2. Create filesystem with `mkfs -t ext4 -E nodiscard /dev/mapper/vdo0`, or specifying `-K` option in `mkfs.xfs` or `mkfs.ext4` to speed things up.
 3. Mount with /etc/fstab, `mount` command or systemd mount.
-4. Verify all is well with ` vdostats --human-readable`
+4. Verify all is well with `vdostats --human-readable`
 
 ### 15.5.2 Remove VDO volume
 
@@ -2214,9 +2237,11 @@ First prepare Linux partition or disk, assume it's **/dev/sda2** here. Don't cre
 3. Check that `/dev/mapper/encrypted` is created and exists
 4. Create filesystem with `mkfs`
 5. Create file `/etc/crypttab`, check `man crypttab` for syntax. Generally you'll need these minimal options
+
   ```text
   encrypted /dev/sda2 none
   ```
+
 6. Mount in /etc/fstab.
 7. Reboot and enter passphrase
 
@@ -2242,6 +2267,7 @@ Show module info with `modinfo modname`, show parameters
 Edit conf files in **/etc/modprobe.d**, then load again with `modprobe`
 
 To load modules with specified parameters, first list them
+
 ```text
 [root@localhost sys]# modinfo cdrom | grep parm
 parm:           debug:bool
@@ -2253,6 +2279,7 @@ parm:           mrw_format_restart:bool
 ```
 
 Then suppose we want to turn on debug, we do this and verify
+
 ```text
 [root@localhost sys]# modprobe cdrom debug=1
   [root@localhost sys]# sysctl -a | grep cdrom.debug
@@ -2260,6 +2287,7 @@ dev.cdrom.debug = 1
 ```
 
 To set persistent create file in /etc/modprobe.d/cdrom.conf with
+
 ```text
 options cdrom debug=1
 ```
@@ -2297,7 +2325,7 @@ or to **/etc/sysctl.conf**
 Note: To decide whether to edit kernel parameters under sysctl.d or modprobe.d, run `sysctl -a` and see if the parameter is there. If it isn't, create conf file under modprobe.d. [Explanation:](https://unix.stackexchange.com/questions/410811/difference-between-modprobe-and-sysctl-w-in-terms-of-setting-system-parameters)
 
 > In a nutshell: If you are unsure, first look into `/proc/sys` or the output of `sysctl -a`: if the parameter you're looking for is not there, it is not a sysctl parameter and is probably a module parameter (or the module that would provide the sysctl is not currently loaded, in which case it's better to set the value as a module parameter anyway - trying to set a sysctl belonging to a module that is not currently loaded will just produce an error).
-> 
+>
 > Then, find out which module the parameter belongs to. If the module is built into the kernel, you'll probably have to use a boot option; if it is loadable with `modprobe` (i.e. the respective `<module>.ko` file exists somewhere in the `/lib/modules/<kernel version>/` directory tree), then you can use `modprobe` and/or `/etc/modprobe.d/`.
 
 ## 16.3 Update kernel
@@ -2334,6 +2362,7 @@ Grub config file at **/etc/default/grub**. This file tells GRUB what to to do an
 * /boot/efi/EFI/centos - CentOS
 
   File is automatically generated, don't edit it. Check that you're on a BIOS or UEFI system by checking `mount | grep efi`
+
 ```text
 [root@localhost ~]# cat /etc/default/grub
 GRUB_TIMEOUT=5 # System waits for this period of time to access grub menu before continuing
@@ -2432,11 +2461,13 @@ linux ($root)/vmlinuz-4.18.0-80.el8.x86_64 root=/dev/mapper/rhel-root ro crash k
 ### 18.1.1 Reset root password
 
 After booting kernel with argument `rd.break`:
+
 1. Mount the disk root filesystem at /sysroot with `mount -o remount,rw /sysroot`
 2. Make **/sysroot** the root directory with `chroot /sysroot`
 3. Now you have access to root filesystem. Do
    * `echo Password | passwd root --stdin`
    * `echo "attacker:\$(openssl passwd -1 Password1):0:0::/root:/bin/bash" >> /etc/passwd`
+
 * Create empty file for SELinux `touch /.autorelabel` in root dir (this is explained in SELinux chapter as re-applying SELinux policy to entire filesystem after modification which changed the file context labels).
 * **Ctrl-D** x 2 to reboot and wait for SELinux to relabel for a few min. Reboot again if stuck for too long.
 
@@ -2774,6 +2805,7 @@ Copy over public key to SSH server with `ssh-copy-id -i id_rsa.pub -p 2022 ivan@
 Note you need to already have a way to SSH login
 
 Caching SSH passphrase for current session - Uses SSH authentication agent
+
 1. Run on current shell `ssh-agent /bin/bash`
 2. Cache passphrase `ssh-add id_rsa`
 3. Login SSH without providing passphrase
@@ -2814,6 +2846,7 @@ Keep server connection alive for X seconds by setting **ServerAliveInterval** an
 ## 21.2 httpd config file
 
 Config file at `/etc/httpd/conf/httpd.conf`
+
 * **ServerRoot** - Where httpd config files are kept
   * Additional ones at `/etc/httpd/conf.d`
 * **DocumentRoot** - Where web docs are served from. If not specified **/var/www/htdocs**
@@ -2889,6 +2922,7 @@ where `semanage fcontext` changes the policy
 * `(/.*)?` regexp for everything below /mydir
 
 and `restorecon` applies to the file system
+
 * `-R` implies recursive
 * `-v` show verbosity (increase with more v's)
 
@@ -2897,14 +2931,17 @@ and `restorecon` applies to the file system
 Tip: Scroll down to bottom in `man semanage` to find the `semanage` commands, then look at their respective man pages for command examples.
 
 ## 22.5 Example: Enable SELinux context for new document root dir
-Note: 
+
+Note:
+
 * This example uses sealert. Install sealert if not already installed. Check `yum provides` for package name (setroubleshoot-server)
 * Without sealert, the messages are in /var/log/audit/audit.log, grep for **AVC** to find them but not useful info on resolving.
 * Before doing the below also note you can use `setenforce 0` to temporarily disable SELinux and check if everything works and SELinux is at fault for blocking.
 
 1. Edit **/etc/httpd/conf/httpd.conf** to serve new `DocumentRoot` dir at **/web** and restart httpd.service
-2. Note that visiting http://localhost:80 loads the error page instead of **index.html**
+2. Note that visiting <http://localhost:80> loads the error page instead of **index.html**
 3. Check file context label type for default document root **/var/www/html**. We see it's **httpd_sys_content_t**
+
    ```text
    [root@localhost ~]# ls -lahZ /var/www/html
    total 4.0K
@@ -2912,14 +2949,18 @@ Note:
    drwxr-xr-x. 4 root root system_u:object_r:httpd_sys_content_t:s0     33 Feb 26 08:44 ..
    -rw-r--r--. 1 root root unconfined_u:object_r:httpd_sys_content_t:s0 28 May 21 16:45 index.html
    ```
+
 4. Use `grep sealert /var/log/messages` to see what SE alerts. Or alternative you can have it analyze /var/log/audit/audit.log with `sealert -a /var/log/audit/audit.log`
+
    ```text
    May 28 15:20:34 localhost setroubleshoot[4400]: SELinux is preventing httpd from getattr access on the file /web/index.html. For complete SELinux messages run: sealert -l ef6270c5-c56e-45be-a52b-7a731c1257ad
    May 28 15:33:12 localhost dbus-daemon[1097]: [system] Activating service name='org.fedoraproject.Setroubleshootd' requested by ':1.263' (uid=0 pid=4678 comm="/usr/libexec/platform-python -Es /usr/bin/sealert " label="unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023") (using servicehelper)
    May 28 15:40:16 localhost setroubleshoot[4924]: SELinux is preventing httpd from getattr access on the file /web/index.html. For complete SELinux messages run: sealert -l ef6270c5-c56e-45be-a52b-7a731c1257ad
    May 28 15:40:20 localhost setroubleshoot[4924]: SELinux is preventing httpd from getattr access on the file /web/index.html. For complete SELinux messages run: sealert -l ef6270c5-c56e-45be-a52b-7a731c1257ad
    ```
+
 5. Running `sealert -l ef6270c5-c56e-45be-a52b-7a731c1257ad` we see
+
    ```text
    If you want to allow httpd to have getattr access on the index.html file
    Then you need to change the label on /web/index.html
@@ -2929,7 +2970,9 @@ Note:
    Then execute:
    restorecon -v '/web/index.html'
    ```
+
 6. Verify that /web is not on the list of dirs with file context label **httpd_sys_content_t**
+
    ```text
    [root@localhost ~]# semanage fcontext -l | grep httpd_sys_content_t
     /etc/htdig(/.*)?                                   all files          system_u:object_r:httpd_sys_content_t:s0
@@ -2952,19 +2995,24 @@ Note:
     /var/www/icons(/.*)?                               all files          system_u:object_r:httpd_sys_content_t:s0
     /var/www/svn/conf(/.*)?                            all files          system_u:object_r:httpd_sys_content_t:s0
    ```
+
 7. Add it with `semanage fcontext -a -t FILE_TYPE /web(/.*)?` and then `restorecon -R -v /web`
+
    ```text
    [root@localhost ~]# semanage fcontext -a -t httpd_sys_content_t "/web(/.*)?"
    [root@localhost ~]# restorecon -R -v /web
    Relabeled /web from unconfined_u:object_r:default_t:s0 to unconfined_u:object_r:httpd_sys_content_t:s0
    Relabeled /web/index.html from unconfined_u:object_r:default_t:s0 to unconfined_u:object_r:httpd_sys_content_t:s0
    ```
+
 8. Verify it is now on the list with same file context label
+
    ```text
    [root@localhost ~]# semanage fcontext -l | grep "/web(/.*)?"
    /etc/zabbix/web(/.*)?                              all files          system_u:object_r:httpd_sys_rw_content_t:s0
    /web(/.*)?                                         all files          system_u:object_r:httpd_sys_content_t:s0
    ```
+
 9. The web page is now visible from browser
 
 ## 22.6 Installing SELinux-specific man pages
@@ -2972,11 +3020,14 @@ Note:
 How to install SELinux man pages (important for exam)
 
 1. Assume we only see one SEL man page
+
    ```text
    [root@localhost ~]# man -k _selinux
    pam_selinux (8)      - PAM module to set the default security context
    ```
+
 2. Find package **sepolicy** which is used to install manpage, amongst other things.
+
    ```text
    [root@localhost ~]# yum provides */sepolicy
    Updating Subscription Management repositories.
@@ -3011,19 +3062,23 @@ How to install SELinux man pages (important for exam)
    Matched from:
    Filename    : /usr/lib/python3.6/site-packages/sepolicy
    ```
+
 3. Package is **policycoreutils-devel**, install if not already present.
 4. Now install sepolicy man pages with `sepolicy manpage -a -p /usr/share/man/man8`. This will install all the sepolicy man pages like **/usr/share/man/man8/httpd_rotatelogs_selinux.8**. Note this takes a long time
 5. Update mandb with `mandb` You'll see `866 manual pages were added.` or simlar. Now `man -k _selinux` will list a lot more entries. Grep it to look for service-specific entries.
 
 ## 22.7 Quick note on `restorecon`
+
 * Used to restore context settings from policy to files
 * Needed because copying or creating subdirs inherits those contexts from parent dir; might differ from SELinux policy
 * Can apply to root dir with `restorecon /` or `touch /.autorelabel` on reboot.
 
 ## 22.8 SELinux Booleans
+
 Booleans are used to turn on/off SELinux policies
 
 For example, assume we allow FTP server anonymous writes but SELinux still blocks it. Checking Boolean we figure out why since **ftpd_anon_write** is set to off.
+
 ```text
 [root@localhost ~]# getsebool -a | grep ftp
 ftpd_anon_write --> off
@@ -3041,6 +3096,7 @@ tftp_home_dir --> off
 ```
 
 Set to ON with `setsebool -PV`, check man pages for switches. P is permanent, V verbose.
+
 ```text
 [root@localhost ~]# setsebool -PV ftpd_anon_write on
 [root@localhost ~]# getsebool -a | grep ftp
@@ -3086,13 +3142,16 @@ What you need to know for SELinux on the `exam`, taken from book:
 * Hard to use, so **firewalld** was created to configure it, similar to Ubuntu's **ufw**
 
 ## 23.1 firewalld concepts
+
 Zones:
+
 * Collection of rules applied to incoming packets matching a source address or NIC
 * Similar to a firewalld profile to be loaded on systems with relevant characteristics ie. dmz zone for dmz servers.
 
 See default zones with `man 5 firewalld.zones`
 
 Services:
+
 * Unlike systemd services, this specifies ports to be opened and potential kernel modules to be loaded
 * Default XML config files in **/usr/lib/firewalld/services**
 * Custom config files can be added to **/etc/firewalld/services/**, restart service to load
@@ -3102,6 +3161,7 @@ Services need to be added to the right zones to work.
 Tip: In exam work with services primarily, only add ports to firewalld if it's non-standard for service.
 
 ## 23.2 `firewall-cmd`
+
 Though available with `--help` there are way too many commands there.
 
 Note: `get` commands tend to list, while `list` commands tend to get the current config
@@ -3117,7 +3177,7 @@ Get config for specified zone `firewall-cmd --list-all --zone=public`
 * List zones with `firewall-cmd --get-zones`
 * Get current zone with `firewall-cmd --get-default-zone`
 * Change default zone to **trusted** `firewall-cmd --set-default-zone=trusted`
-    * Verify with `firewall-cmd --list-all`
+  * Verify with `firewall-cmd --list-all`
 
 ### 23.2.2 Services
 
@@ -3137,6 +3197,7 @@ Remove port with `firewall-cmd --remove-port=2020/tcp`
 Note you can make runtime config permanent with `--runtime-to-permanent` switch.
 
 General technique:
+
 1. Instead of opening ports with firewall-cmd, look for a relevant service in **/usr/lib/firewalld/service**
 2. Add service to default zone `firewall-cmd --add-service=servicename --permanent` and `--reload`
 3. Only add ports for non-standard numbers like alternatives for SSH
@@ -3146,42 +3207,51 @@ General technique:
 Skipped `firewall-config` which is GUI version of `firewall-cmd`
 
 # 24. Network Storage
+
 Tip: Only need to know how to mount as a client, not configure as server for the exam.
 
 Install required client packages for mounting with `yum groups` **Network File System Client**. Do a list first with `--hidden` switch to see all.
 
 ## 24.1 NFS
+
 ### 24.1.1 Mount as client
 
 Mount NFS share on client:
+
 1. Need **nfs-utils** package
 2. Check exports with `showmount -e nfs-server-ip`
+
   ```text
   Export list for 192.168.92.160:
   /nfs *
   ```
-3. Mount with `mount -t nfs nfs-server-ip:/nfs /mnt/pt` 
+
+3. Mount with `mount -t nfs nfs-server-ip:/nfs /mnt/pt`
 4. Check mount with `mount | grep nfs-server-ip`
 
 Tip: Check mount options with `man mount.nfs`
 
 ### 24.1.2 Mount on `/etc/fstab`
+
 Very similar to block storage mount. Add this in /etc/fstab
+
 ```text
 192.168.92.151:/nfs   /nfs  nfs sync,_netdev 0 0
 ```
+
 * Note the `sync` option (instead of `default`) ensures data is written to network share and not to buffers where it might get lost.
 * `_netdev` (check `man mount`) is enabled to ensure the share is not mounted until network is available.
 
 Check fstab mount options with `man nfs`
 
-## 24.2 CIFS 
+## 24.2 CIFS
 
 ### 24.2.1 Mount as client
 
 Mount Samba share
 
 1. First check the share name, this is needed for mounting
+
   ```text
   [root@localhost ~]# smbclient -NL 192.168.92.151
   
@@ -3192,19 +3262,25 @@ Mount Samba share
           IPC$            IPC       IPC Service (us20-04 server (Samba, Ubuntu))
   SMB1 disabled -- no workgroup available
   ```
+
 2. Mount with the username you are given with and specify the sharename, not shared folder name. Note the UNC path syntax.
+
   ```text
   [root@localhost ~]# mount -t cifs -o user=ivan //192.168.92.151/sambashare /mnt/samba
   Password for ivan@//192.168.92.151/sambashare:  *********
   ```
+
 3. Check with `mount` that it is successful
 4. Alternatively one can use credentials file in the format if the password can't be specified on the CLI easily.
+
   ```text
   user=testuser
   password=Password1
   domain=some-domain
   ```
+
   And option `credentials` to mount
+
   ```
   -o credentials=/path/to/creds/file
   ```
@@ -3214,9 +3290,11 @@ Check mount options with `man mount.cifs`. Check /var/log/messages if there are 
 ### 24.2.2 Mount on /etc/fstab
 
 Specify the sharename and user/password
+
 ```text
 //192.168.92.151/sambashare   /mnt/samba  cifs  _netdev,user=ivan,password=Password1   0 0
 ```
+
 ## 24.3 Automount
 
 * Install package **autofs**
@@ -3229,19 +3307,21 @@ Specify the sharename and user/password
 To configure automount for NFS
 
 In /etc/auto.master specify the path to the file containing the config for mounting NFS
+
 ```text
 /nfs  /etc/auto.nfs
 #/path/to/mount  /nfs/mount/config
 ```
 
 Then in /etc/auto.nfs, specify the subdir mount point.
+
 ```text
 files  -rw  server2:/nfs
 #/subdir/to/mount/  #read-write  #NFS mount target
 #Here it's /nfs/files
 ```
 
-To trigger do `ls /nfs/files` and it mounts 
+To trigger do `ls /nfs/files` and it mounts
 
 ### 24.3.1 Automount wildcards
 
@@ -3250,16 +3330,19 @@ Let's say you want to mount the dir /users/tom on NFS server but you don't know 
 In general `*` as the mount path will match `&` on the server NFS end
 
 In /etc/auto.master:
+
 ```text
 /mnt/users  /etc/auto.users
 ```
 
 In /etc/auto.users:
+
 ```text
 *    -rw    192.168.92.151:/users/&
 ```
 
 The mount point will be at **/mnt/users/*** where `*` matches `&` on the server end. Say the NFS server is serving **/users/tom**. After accessing /mnt/users/tom, we see the mount point is
+
 ```text
 192.168.92.151:/users/tom   20G   13G  6.1G  68% /mnt/users/tom
 ```
@@ -3267,7 +3350,9 @@ The mount point will be at **/mnt/users/*** where `*` matches `&` on the server 
 Check `man 5 autofs` for syntax
 
 # 25. Time services
+
 ## 25.1 Definitions
+
 * Hardware time (or RTC) - Maintained by motherboard clock independently of OS even when shutdown. Defaults to UTC.
   * Show hardware clock time with `hwclock`
   * Set system time from hardware clock `hwclock --hctosys`
@@ -3279,6 +3364,7 @@ Check `man 5 autofs` for syntax
   * Convert from epoch time to UTC with `date --date @1654311408.584`
 
 ## 25.2 NTP  - Network time protocol
+
 * Lower stratum is more accurate
   * Internet time servers use 1, 2
   * 15 used for inaccurate clocks
@@ -3288,9 +3374,11 @@ Check `man 5 autofs` for syntax
   * In that case, set hwclock and take system time from there then use NTP
 
 ## 25.3 Commands
+
 ### 25.3.1 `timedatectl`
 
 Used for
+
 * Setting timezones
   * Note this actually sets **/etc/localtime** with a symlink
 * Turning NTP on/off
@@ -3303,20 +3391,26 @@ Used for
 Can be used to change timezone, but better off with `timedatectl`
 
 ## 25.4 Configure NTP client
+
 To configure a server to sync NTP with a specific source:
 
 On server:
+
 1. Edit /etc/chrony.conf to disable default NTP server. Comment it out
+
   ```text
   #pool 2.rhel.pool.ntp.org iburst
   ```
+
 2. Set to advertise even without synchronisation with time source by setting `local stratum 5` and allow clients to poll them.
+
   ```text
   # Serve time even if not synchronized to a time source.
   local stratum 5
   # Allow NTP client access from local network.
   allow 192.168.0.0/16
   ```
+
 3. Restart **chronyd.service**
 4. Add service **ntp** to `firewall-cmd`
 
@@ -3326,13 +3420,16 @@ On client:
 2. Restart **chronyd.service**
 3. Check `chronyc sources`
 4. Run `timedatectl` and you'll see **no** for synchronised. This takes time to sync unless you have configured `iburst` on the server.
+
 ```text
   System clock synchronized: no
   NTP service: active
 ```
 
 # 26. Managing containers
+
 ## 26.1 Setup and installation
+
 Note that RHEL 8 uses cri-o instead of docker for containers
 
 Install module container-tools with `yum module install container-tools`. Do a `yum module list` to see all modules first.
@@ -3340,6 +3437,7 @@ Install module container-tools with `yum module install container-tools`. Do a `
 Note: cgroups or control groups used to limit resources a process can take up.
 
 If when running containers or pulling images you get this error
+
 ```text
 Trying to pull registry.access.redhat.com/nginx...
   unsupported: This repo requires terms acceptance and is only available on registry.redhat.io
@@ -3357,6 +3455,7 @@ If still can't work edit **/etc/containers/registries.conf** to include docker.i
 Note: Unlike docker, Cri-O, managed by `podman` can run rootless containers by default.
 
 ## 26.2 `podman` commands
+
 Very similar to `docker` command
 
 Run container `podman run -d nginx`
@@ -3364,6 +3463,7 @@ Run container `podman run -d nginx`
 Run in interactive mode `podman run -it nginx`
 
 List containers `podman ps -a`
+
 * Note even as root this doesn't list containers started by other users. [No way](https://unix.stackexchange.com/questions/680171/list-containers-from-other-users) to do that.
 
 If you started the container with a non-persistent process, detach from interactive mode without shutting down with Ctrl-P, Ctrl-Q
@@ -3389,11 +3489,13 @@ List image tags with `podman search image-name --list-tags`. Note this works on 
 Search specific registry with exact image name **ubi8** with `podman search registry.access.redhat.com/ubi8`
 
 ## 26.3 Registries config
+
 Global config at **/etc/containers/registries.conf**
 
 Overridden by user config at **~/.config/containers/registries.conf** for rootless containers
 
 Config settings
+
 * \[registries.search] - Default registries used in order specified here
 * \[registries.insecure] - Registries that are not TLS-secure
 * \[registries.block] - Blocks `podman` from pulling from these registries
@@ -3402,10 +3504,12 @@ Run `podman info` to see which registries are used, then use `podman login regis
 
 ## 26.4 Inspecting images
 
-Inspect images locally with `podman inspect imagename:tag`. 
+Inspect images locally with `podman inspect imagename:tag`.
+
 * Look for **Cmd** to see what it runs when booted up.
 
 Inspect image remotely without pulling down with `skopeo inspect docker://docker.io/library/websphere-liberty`
+
 * Note that unlike `podman inspect` locally, it doesn't show details like Cmd run
 
 Note: `podman inspect | grep usage` might reveal help on how to run the image as container
@@ -3419,26 +3523,32 @@ Note: In general specify the image name and its tags at the end of `podman run` 
 Non-root users can run containers too, just can't map to ports below 1024.
 
 Run nginx, exposing port 8080 on host to container `podman run -d -p 8080:80 --name nginx-port -t localhost/local/nginx:redhat`
+
 * Consult `man podman-run` for the `-p` syntax
 * Also add port to `firewall-cmd`
 
 View mapped ports on host with `podman port -a`
 
 Only root containers have IP addresses.
+
 * Check IP of container with `podman inspect container-name | grep -i address`
 
 ### 26.5.2 Setting env variables in containers
 
-Set env variable $TESTING ` podman run -d -e TESTING="hello nurse" --name nginx-nurse localhost/local/nginx:redhat`
+Set env variable $TESTING `podman run -d -e TESTING="hello nurse" --name nginx-nurse localhost/local/nginx:redhat`
+
 * Search "environment" in `man podman-run`
 * To check env is set, don't `echo $TESTING` in `podman exec` but rather do `env | grep TESTING`. [ref](https://stackoverflow.com/questions/34051747/get-environment-variable-from-docker-container)
 
 ## 26.6 Container storage
+
 * Writable, non-persistent layer added to container on launch.
 * Mount with switch `-v /host/dir:/container/dir:Z`
 
 ### 26.6.1 Persistent storage by non-root users
+
 Two conditions before container can be mounted
+
 * Host directory writable by user running container, *and* writable by everyone else. Set `chmod o+w /path/to/dir`
 * SELinux context label set to **container_file_t**
   * This is set if mounted with `-v /hostdir:/containerdir:Z`  if the user owns the directory; not enough for user to just have write permissions
@@ -3450,9 +3560,10 @@ Two conditions before container can be mounted
 * systemd user unit files for rootless containers so systemd can start them
 * `systemctl --user` commands work only on SSH or console logins, not `sudo` or `su`
 
-By default systemd user services start when user session is opened, closed when user session is stopped. 
+By default systemd user services start when user session is opened, closed when user session is stopped.
 
 **Steps:**
+
 1. Enable linger with `sudo loginctl enable-linger username`
     * Verify with `loginctl show-user username`. Disable with `loginctl disable-linger`.
 2. Create dir **~/.config/systemd/user/**, by default non-existent.
