@@ -6,5435 +6,3474 @@ description: This is a post for RHCSA studfy materials
 tags:
 - RHCSA
 ---
+# Notes for RHCSA
 
-| Syntax | Description |
-| ----------- | ----------- |
-| Header | Title |
-| Paragraph | Text |
-
-# Redhat
-
-- [RHCSA](#rhcsa)
-- [RHCE](#rhce)
-
-## RHCSA
-
-- [Redhat](#redhat)
-  - [RHCSA](#rhcsa)
-    - [Understand and use essential tools](#understand-and-use-essential-tools)
-    - [Create simple shell scripts](#create-simple-shell-scripts)
-    - [Operate running systems](#operate-running-systems)
-    - [Configure local storage](#configure-local-storage)
-    - [Create and configure file systems](#create-and-configure-file-systems)
-    - [Deploy, configure, and maintain systems](#deploy-configure-and-maintain-systems)
-    - [Manage basic networking](#manage-basic-networking)
-    - [Manage users and groups](#manage-users-and-groups)
-    - [Manage security](#manage-security)
-    - [Manage containers](#manage-containers)
-    - [Exercises](#exercises)
-  - [RHCE](#rhce)
-    - [Understand core components of Ansible](#understand-core-components-of-ansible)
-    - [Install and configure an Ansible control node](#install-and-configure-an-ansible-control-node)
-    - [Configure Ansible managed nodes](#configure-ansible-managed-nodes)
-    - [Script administration tasks](#script-administration-tasks)
-    - [Create Ansible plays and playbooks](#create-ansible-plays-and-playbooks)
-    - [Use Ansible modules for system administration tasks that work with](#use-ansible-modules-for-system-administration-tasks-that-work-with)
-    - [Work with roles](#work-with-roles)
-    - [Use advanced Ansible features](#use-advanced-ansible-features)
-
-### Understand and use essential tools
-
-1. Programmable completion for bash is provided in the bash-completion module. To install this module:
-
-    ```shell
-    sudo dnf install bash-completion
-    ```
-
-1. Access a shell prompt and issue commands with correct syntax
-
-    - Common commands and their options, as well as vim usage, are shown below:
-        | Command        | Options                                                                                                                                                          | Description                                     |
-        |----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
-        | ls             | -h (human readable) <br>  -a (show hidden) <br> -l (detailed) <br> -lt (newist file first) <br> -ltr (oldest file first)                                         | List of files and directories                   |
-        | pwd            |                                                                                                                                                                  | Print working directory                         |
-        | cd             | ~ (home) <br> / (root) <br> - (switch) <br> .. (parent)                                                                                                          | Change directories                              |
-        | who            | whoami (show user)                                                                                                                                               | Show logged in users                            |
-        | what           | w (shorthand)                                                                                                                                                    | Show logged in users with more detail           |
-        | uptime         |                                                                                                                                                                  | Show system uptime                              |
-        | logname        |                                                                                                                                                                  | Show real username (if using su)                |
-        | id             |                                                                                                                                                                  | Shows a user's UID, username, GUID etc.         |
-        | groups         |                                                                                                                                                                  | Lists groups for users                          |
-        | last           |                                                                                                                                                                  | List all user logins and system reboots         |
-        | lastb          |                                                                                                                                                                  | List all failed login attempts                  |
-        | lastlog        |                                                                                                                                                                  | List recent logins                              |
-        | uname          | -a (details)                                                                                                                                                     | System information                              |
-        | hostnamectl    | set-hostname                                                                                                                                                     | View hostname                                   |
-        | clear          |                                                                                                                                                                  | Clear the screen                                |
-        | timedatectl    | set-time <br> list-timezones <br> set-timezone <br>                                                                                                              | Display system time                             |
-        | date           | --set                                                                                                                                                            | View system date                                |
-        | which          |                                                                                                                                                                  | Show path to a command                          |
-        | wc             |                                                                                                                                                                  | Word count                                      |
-        | lspci          | -m (legible)                                                                                                                                                     | PCI buses details                               |
-        | lsusb          |                                                                                                                                                                  | USB buses details                               |
-        | lscpu          |                                                                                                                                                                  | Processor details                               |
-        | gzip/bzip2     | -d (uncompress)                                                                                                                                                  | Compress files                                  |
-        | gunzip/bunzip2 |                                                                                                                                                                  | Uncompress files                                |
-        | tar            | -c (create) <br> -f (specifies name) <br> -v (verbose) <br> -r (append to existing) <br> -x (extract) <br> -z (compress with gzip) <br> -j (compress with bzip2) | Archive file                                    |
-        | star           |                                                                                                                                                                  | Enhanced tar                                    |
-        | man            | -k (keyword) <br> -f (short description)                                                                                                                         | Manual                                          |
-        | mandb          |                                                                                                                                                                  | Update the mandb                                |
-        | ssh            | -l (as different user)                                                                                                                                           | SSH to another Linux system                     |
-        | tty            |                                                                                                                                                                  | Display terminal name                           |
-        | whatis         |                                                                                                                                                                  | Search the command in the mandb for description |
-        | info           |                                                                                                                                                                  | More detailed than man                          |
-        | apropos        |                                                                                                                                                                  | Search the command in the mandb                 |
-        | grep           | -n (show line numbers) <br> -v (pattern exclusion) <br> -i (case insensitive) <br> -E (use alternation) <br> -w (word match)                                     | Find text                                       |
-
-        | Key                      | Description                     |
-        |--------------------------|---------------------------------|
-        | i                        | Change to insert mode           |
-        | h, j, k, l               | Move left, down, up, right      |
-        | w, b, e, ge              | Move word at a time             |
-        | n[action]                | Do n times                      |
-        | x                        | Remove a character              |
-        | a                        | Append                          |
-        | f[char]                  | Move to next given char in line |
-        | F[char]                  | Move to previous char in line   |
-        | ; and ,                  | Repeat last f or F              |
-        | /yourtext and then: n, N | Search text                     |
-        | d[movement]              | Delete by giving movement       |
-        | r[char]                  | Replaces character below cursor |
-        | 0, $                     | Move to start/end of line       |
-        | o, O                     | Add new line                    |
-        | %                        | Goto corresponding parentheses  |
-        | ci[movement]             | Change inside of given movement |
-        | D                        | Delete to end of line           |
-        | S                        | Clear current line              |
-        | gg / G                   | Move to start / end of buffer   |
-        | yy                       | Copy current line               |
-        | p                        | Paste copied text after cursor  |
+RHCSA notes based on Sander van Vugt 3rd edn.
 
-1. Use input-output redirection (>, >>, |, 2>, etc.)
-    - The default locations for input, output, and error are referred to as standard input (stdin), standard output (stdout), and standard error (stderr).
+# 1. Basic system management
 
-    - Standard input redirection can be done to have a command read the required information from an alternative source, such as a file, instead of the keyboard. For example:
+## 1.1 Essential tools
 
-        ```shell
-        cat < /etc/cron.allow 
-        ```
+Some commands
 
-    - Standard output redirection sends the output generated by a command to an alternative destination, such as a file. For example:
+`findmnt` - List all currently mounted filesystems
 
-        ```shell
-        ll > ll.out
-        ```
+`!<num>` Run command in `history` line number
 
-    - Standard error redirection sends the output generated by a command to an alternative destination, such as a file. For example:
+Redirect stderr only with `2>`
 
-        ```shell
-        echo test 2> outerr.out
-        ```
+Use `type` to determine if a command is alias, builtin or external
 
-    - Instead of > to create or overwrite, >> can be used to append to a file.
+```text
+[ivan@localhost ~]$ type echo
+echo is a shell builtin
+[ivan@localhost ~]$ type cat
+cat is hashed (/usr/bin/cat)
+[ivan@localhost ~]$ type ls
+ls is aliased to `ls --color=auto'
+```
 
-    - To redirect both stdout and stderror to a file:
+`time` used to determine how long it takes to execute a script or a command
 
-        ```shell
-        echo test >> result.txt 2>&1
-        ```
+Search titles and short description man pages for commands with `man -k keyword`. To search all man pages use `man -K keyword`. Case insensitive search with `-ki`
 
-1. Use grep and regular expressions to analyse text
-    - The grep command is used to find text. For example:
+[Create DB](https://unix.stackexchange.com/questions/323007/man-k-returns-no-results) with `mandb -c` if there's no results
 
-        ```shell
-        grep user100 /etc/passwd
-        ```
+Can display item of man which matches with `man -f <command>`
 
-    - Common regular expression parameters are shown below:
-        | Symbol | Description                                                        |
-        |--------|--------------------------------------------------------------------|
-        | ^      | Beginning of a line or word                                        |
-        | $      | End of a line or word                                              |
-        | \|     | Or                                                                 |
-        | .      | Any character                                                      |
-        | *      | Any number of any character                                        |
-        | ?      | Exactly one character                                              |
-        | []     | Range of characters                                                |
-        | \      | Escape character                                                   |
-        | ''     | Mask meaning of enclosed special characters                        |
-        | ""     | Mask meaning of all enclosed special characters except \, $ and '' |
+Open manpage for specific man page type
 
-1. Access remote systems using SSH
+```text
+[ivan@localhost etc]$ man -k glob
+File::DosGlob (3pm)  - DOS like globbing and then some
+File::Glob (3pm)     - Perl extension for BSD glob routine
+glob (3)             - find pathnames matching a pattern, free memory from glob()
+glob (3p)            - generate pathnames matching a pattern
+glob (7)             - globbing pathnames
+glob.h (0p)          - pathname pattern-matching types
+globfree (3)         - find pathnames matching a pattern, free memory from glob()
+semanage.conf (5)    - global configuration file for the SELinux Management library
+tuned-main.conf (5)  - Tuned global configuration file
+vars (3pm)           - Perl pragma to predeclare global variable names
+```
 
-    - Secure Shell (SSH) provides a secure mechanism for data transmission between source and destination systems over IP networks.
+Open **glob (7)** with `man 7 glob`
 
-    - SSH uses encryption and performs data integrity checks on transmitted data.
+Note you can use `help command` also, especially for bash scripting.
 
-    - The version of SSH used is defined in `/etc/ssh/sshd_config`.
+Globbing commands
 
-    - The most common authentication methods are Password-Based Authentication and Public/Private Key-Based Authentication.
+```text
+ls host*
+ls ?ost
+ls [hm]ost # Starting with either h or m
+ls [!hm]ost # Anything that doesn't start with h or m 
+ls script[0-9][0-9]
+```
 
-    - The command *ssh-keygen* is used to generate keys and place them in the .ssh directory, and the command *ssh-copy-id* is used to copy the public key file to your account on the remote server.
+To grep a string with dash, such as `-a`, specify `--` to [signify end](https://unix.stackexchange.com/a/11382/312281) of command options eg
 
-    - TCP Wrappers is a host-based mechanism that is used to limit access to wrappers-aware TCP services on the system by inbound clients. 2 files `/etc/hosts.allow` and `/etc/hosts.deny` are used to control access. The .allow file is referenced before the .deny file. The format of the files is \<name of service process>:\<user@source>.
+```text
+[ivan@localhost ~]$ cp --help | grep -- -a
+  -a, --archive                same as -dR --preserve=all
+      --attributes-only        don't copy the file data, just the attributes
+```
 
-    - All messages related to TCP Wrappers are logged to the `/var/log/secure` file.
+If you have an alias and don't want to invoke it, preface it with "\\"  eg `\rm` to avoid `rm -i`
 
-    - To login using SSH:
+Find files only `find . -size -1000c -type f` 
+This finds files with <1000 chars. Otherwise specify `+1000c` for larger ones. Or omit `+/-` for exact file sizes. Works with k, M, G as well for file sizes. 
 
-        ```shell
-        ssh user@host
-        ```
+Find files with octal permissions `find /dir -perm 0777 -type f`
 
-1. Log in and switch users in multiuser targets
+Find files modified in last 2 hours `find /dir -mmin 120 -type f`
 
-    - A user can switch to another user using the *su* command. The *-i* option ensures that the target users login scripts are run:
+Find files larger between 5MB and 10MB `find /dir -size +5M -size -10M -type f`
 
-        ```shell
-        sudo -i -u targetUser
-        ```
+# 2. Essential tools
+To clear bash history completely, remove ~/.bash_history and do `history -c`
 
-    - To run a command as root without switching:
+# Filesystem tools
 
-        ```shell
-        sudo -c
-        ```
+## 3.1 Filesystem tools
 
-    - The configuration for which users can run which commands using sudo is defined in the `/etc/sudoers` file. The visudo command is used to edit the sudoers file. The sudo command logs successful authentication and command data to `/var/log/secure`.
+Copy and keep current permissions on files `cp -a /src /dst`
 
-1. Archive, compress, unpack, and decompress files using tar, star, gzip, and bzip2
+Hidden files not copied over by default, to do this copy recursively with `cp -r /src /dest`, alternatively `cp -a /src /dst/` tries to preserve as much as possible the source dirs.
 
-    - To archive using tar:
+Copy files over only and not the dir containing them with `cp -a /src/dir/. /dst/dir/`
 
-        ```shell
-        tar cvf myTar.tar /home
-        ```
+## 3.2 Links
 
-    - To unpack using tar:
+### Hard links
 
-        ```shell
-        tar xvf myTar.tar
-        ```
+When you create a file you are creating a hard link, which contains everything about the file except its name, which is stored in directory.
 
-    - To compress using tar and gzip:
+* Can create multiple hard links to same file, but not at all to directories.
+* Removing the last hard link to a file also removes access to the file's data.
+* Must be owner of file you want to create hard link to
 
-        ```shell
-        tar cvfz myTar.tar /home
-        ```
+Create hard link to /etc/hosts with `ln /etc/hosts .` When doing `ls -ilah`, we can see the hard link counter (2)
 
-    - To compress using tar and bzip2:
+```text
+[ivan@localhost ~]$ ls -ilah hosts
+34182727 -rw-r--r--. 2 root root 158 May 28 16:57 hosts
+[ivan@localhost ~]$ ls -ilah /etc/hosts
+34182727 -rw-r--r--. 2 root root 158 May 28 16:57 /etc/hosts
+```
 
-        ```shell
-        tar cvfj myTar.tar /home
-        ```
+## 3.3 Working with tar and archives
 
-    - To decompress using tar and gzip:
+Add file to existing archive `tar -rvf archive.tar /etc/hosts`, update newer file in archive with `-u`
 
-        ```shell
-        tar xvfz myTar.tar /home
-        ```
+Extract just one file from archive `tar -xvf etc.tar etc/hosts`
 
-    - To decompress using tar and bzip2:
+Typical command to zip in bzip2 is `tar -cjvf /path/to/archive.tar.bz2 /dir/to/zip`. Test with `tar -tvf /path/to/archive.tar.bz2`.
 
-        ```shell
-        tar xvfj myTar.tar /home
-        ```
+Note: Archives are not necessarily compressed, unless you also specify `-z` (gzip) or `-j`(bzip2)
 
-    - The star command is an enhanced version of tar. It also supports SELinux security contexts and extended file attributes. The options are like tar.
+Can use gzip or bzip to compress archive in place.
 
-1. Create and edit text files
+# 4. Working with text files
 
-    - To create an empty file:
+## 4.1 Regex with `grep`
 
-        ```shell
-        touch file
-        cat > newfile
-        ```
+* starting with anna `grep '^anna' /etc/passwd`
+* ending with ash `grep 'ash$' /etc/passwd`
+* missing one character `.`
+* missing either a,o,u `[aou]`
+* matches zero or 1 previous char `colou?r`. Returns *color* or *colour* 
+* match the preceding char twice `\{2\}`
+* match min 1 max 3 `\{1,3\}`
+* starts with # or ; `^[#|;]`
+* match files containing exactly 3 chars `^...$`
+* match whole word root only `\broot\b`
 
-    - To create a file using vim:
+## 4.2 sed and awk
 
-        ```shell
-        vi file
-        ```
+Replace all old-text with new-text in place `sed -i s/old-text/new-text/g ~/myfile`
 
-1. Create, delete, copy, and move files and directories
+Print line 5 with sed `sed -n 5p /etc/passwd`
 
-    - To create a directory:
 
-        ```shell
-        mkdir directory
-        ```
+To print the last column with awk use `$NF`
 
-    - To move a file or directory:
+## 4.3 head and tail
 
-        ```shell
-        mv item1 item2
-        ```
+To print everything but last line `head -n -1`
 
-    - To copy a file or directory:
+Similarly for tail, everything but first line (exclude headers) `tail -n +2` (note the syntax here is starting with specified line number)
 
-        ```shell
-        cp item1 item2
-        ```
+# 5. Connecting to RHEL
 
-    - To remove a file:
+## 5.1 SSH
 
-        ```shell
-        rm file1
-        ```
+Add `ForwardX11 yes` to /etc/ssh/ssh\_config to allow X11 forwarding back to SSH client. Per session basis, use `ssh -X`
 
-    - To remove an empty directory:
+Copy the public ssh key to target computer with `ssh-copy-id IP`
 
-        ```shell
-        rmdir directory
-        ```
+## 5.2 tty
 
-    - To remove a non-empty directory:
+Switch between virtual consoles tty's with either `Ctrl Alt` F1-F6 or (change virtual terminal) `chvt 1-6` with sudo. Device files are **/dev/tty1** to **/dev/tty6**.
 
-        ```shell
-        rm -r directory
-        ```
+* 1 is login screen
+* 2 is GUI console after logging in
+* 3-6 seems to be just text based
 
-1. Create hard and soft links
+# 6. User and group management
 
-    - A soft link associates one file with another. If the original file is removed the soft link will point to nothing. To create a soft link to file1:
+## 6.1 su
 
-        ```shell
-        ln -s file1 softlink
-        ```
+`su` with hyphen '-' uses the user's environment, while excluding it means keeping your current environment.
 
-    - A hard link associates multiple files to the same inode making them indistinguishable. If the original file is removed, you will still have access to the data through the linked file. To create a soft link to file1:
+## 6.2 sudo
 
-        ```shell
-        ln file1 hardlink
-        ```
+Add user to wheel group (allows sudo) with `usermod -aG wheel user`
 
-1. List, set, and change standard ugo/rwx permissions
+How to read /etc/sudoers file
 
-    - Permissions are set for the user, group, and others. User is the owner of the file or the directory, group is a set of users with identical access defined in `/etc/group`, and others are all other users. The types of permission are read, write, and execute.
+* `root ALL=(ALL:ALL) ALL` The first field indicates the username that the rule will apply to (**root**).
+* `root ALL=(ALL:ALL) ALL` The first “ALL” indicates that this rule applies to all hosts.
+* `root ALL=(ALL:ALL) ALL` Second “ALL” indicates that the **root** user can run commands as all users.
+* `root ALL=(ALL:ALL) ALL` Third “ALL” indicates that the **root** user can run commands as all groups.
+* `root ALL=(ALL:ALL) ALL` The last “ALL” indicates these rules apply to all commands.
 
-    - Permission combinations are shown below:
-        | Octal Value | Binary Notation | Symbolic Notation | Explanation                           |
-        |-------------|-----------------|-------------------|---------------------------------------|
-        | 0           | 000             | ---               | No permissions.                       |
-        | 1           | 001             | --x               | Execute permission only.              |
-        | 2           | 010             | -w-               | Write permission only.                |
-        | 3           | 011             | -wx               | Write and execute permissions.        |
-        | 4           | 100             | r--               | Read permission only.                 |
-        | 5           | 101             | r-x               | Read and execute permissions.         |
-        | 6           | 110             | rw-               | Read and write permissions.           |
-        | 7           | 111             | rwx               | Read, write, and execute permissions. |
+## 6.3 /etc/passwd
 
-    - To grant the owner, group, and others all permissions using the *chmod* command:
+Range of available UIDs for system and user accounts stored in **/etc/login.defs**
 
-        ```shell
-        chmod 777 file1
-        ```
+**/sbin/nologin** denies access to specified users
 
-    - The default permissions are calculated based on the umask. The default umask for root is 0022 and 0002 for regular users (the leading 0 has no significance). The pre-defined initial permissions are 666 for files and 777 for directories. The umask is subtracted from these initial permissions to obtain the default permissions. To change the default umask:
+Create **/etc/nologin.txt** which is displayed to all users to deny access except root.
 
-        ```shell
-        umask 027
-        ```
+`useradd` to add users `userdel -r` to remove user with its files, `groupmod` to change groups. Prefer this over the editors
 
-    - Every file and directory has an owner. By default, the creator assumes ownership. The owner's group is assigned to a file or directory. To change the ownership of a file or directory:
+`usermod` can change the groups a user belongs to.
 
-        ```shell
-        useradd user100
-        chown user100 item1
-        chgrp user100 item1
-        ```
+User settings stored in **/etc/login.defs** 
 
-        ```shell
-        chown user100:user100 item1
-        ```
+and 
 
-    - Note that the -R option must be used to recursively change all files in a directory.
+**/etc/default/useradd** determines dir of $HOME
 
-1. Locate, read, and use system documentation including man, info, and files in `/usr/share/doc`
+## 6.4 /etc/shadow
 
-    - The *man* command can be used to view help for a command. To search for a command based on a keyword the *apropros* command or *man* with the -k option can be used. The *mandb* command is used to build the man database.
+Possible for multiple users to have same UID but use different passwords because /etc/shadow doesn't have UIDs and only usernames eg. toor and root maps to UID 0.
 
-    - To search for a command based on a keyword in occurring in its man page:
+Change password with either `passwd` or `chage` for password properties. Can also do this to avoid interactive input `echo password1 | passwd --stdin username`
 
-        ```shell
-        man -K <keyword>
-        ```
+`vipw` visudo for /etc/passwd, note it doesn't check correct syntax. `vigr` to edit /etc/groups
 
-    - The *whatis* command can be used to search for a command in the man database for a short description.
+To view password policy for user, run `chage -l user`. Command can also be used interactively with `chage user`
 
-    - The *info* command provides more detailed information than the *man* command.
+Can lock passwords for users which prevents them from logging in with password with `passwd -l username`
 
-    - The `/usr/share/doc` directory contains documentation for all installed packages under sub-directories that match package names followed by their version.
+## 6.5 Home dirs
 
-### Create simple shell scripts
+When creating home directories for users, files are copied over from **/etc/skel** to \~
 
-1. Conditionally execute code (use of: if, test, [], etc.)
+## 6.6 Groups
 
- - An example using if and test statements is shown with *example.sh* below:
-     ```shell
-  # contents of example.sh
-        #####
-        ##!/bin/bash
-  #ping -c 1 $1
-  #if test "$?" -eq "0"; then
-  # echo "$1 IP is reachable"
-  #else
-  # echo "$1 IP is not reachable"
-  #fi
-  #exit
-        #####
-        ```
+User's primary group defined in /etc/passwd, can also be member of one or more secondary groups.
 
- - Input arguments can be passed in after the script name, with e.g. 1 being the first input argument. The *$?* term expands the exit status of the most recently executed command. When using *echo* the *-e* argument can be used to print characters such as new lines.
+Create group with `groupadd`
 
- - An example using a case statement is shown with *example.sh* below:
-     ```shell
-  # contents of example.sh
-        #####
-        ##!/bin/bash
-  #now=$(date + "%a")
-  #case $now in
-  # Mon)
-  #  echo "Full Backup";
-  #  ;;
-  # Tue|Wed|Thu|Fri)
-  #  echo "Partial Backup";
-  #  ;;
-  # Sat|Sun)
-  #  echo "No Backup";
-  #  ;;
-  # *) ;;
-  #esac
-  #exit
-        #####
-        ```
+List all users belonging to group with `lid -g groupname`
 
- - An example using [] is shown with *example.sh* below:
-     ```shell
-  # contents of example.sh
-        #####
-        ##!/bin/bash
-  #ping -c 1 $1
-  #if ["$?" -eq "0"]; then
-  # echo "$1 IP is reachable"
-  #else
-  # echo "$1 IP is not reachable"
-  #fi
-  #exit
-        #####
-        ```
+Remove user from group with `gpasswd -d anna profs`
 
-1. Use Looping constructs (for, etc.) to process file, command line input
+To change primary group for user:
 
- - An example of a for loop is shown with *example.sh* below:
-     ```shell
-  # contents of example.sh
-        #####
-        ##!/bin/bash
-  #for file in ./*.log
-  #do
-  # mv "${file}" "${file}".txt
-  #done
-  #exit
-        #####
-        ```
+1. Switch to that user with `su`
+2. Do `newgrp group`, check with either `id` or `groups` that the primary group (listed first) has changed.
 
- - An example of a while loop is shown with *example.sh* below:
-     ```shell
-  # contents of example.sh
-        #####
-        ##!/bin/bash
-  #input = "/home/kafka.log"
-  #while IFS = read -r line
-  #do
-  # echo "$line"
-  #done < "$input"
-  #exit
-        #####
-        ```
+Or to permanently change primary group, use `usermod user -g groupname`
 
-1. Process script inputs ($1, $2, etc.)
+# 7. Permissions Management
 
- - The first variable passed into a script can be accessed with *$1*.
+## 7.1 RWX permissions
 
-1. Processing output of shell commands within a script
+| Permission | Files                | Dir                                                       | Numeric |
+| ---------- | -------------------- | --------------------------------------------------------- | ------- |
+| Read       | Open file            | List contents                                             | 4       |
+| Write      | Modify file contents | Create/delete files                                       | 2       |
+| Execute    | Run programs         | Can `cd` to dir<br />Need this to do anything in that dir | 1       |
 
- - An example is shown with *example.sh* below:
-     ```shell
-  # contents of example.sh
-        #####
-        ##!/bin/bash
-  #echo "Hello World!" >> example-`date +%Y%m%d-%H%M`.log
-  #exit
-        #####
-        ```
+So 755 permissions would be 4 + 2 + 1 = 7 for owner and 4+1=5 for group and other.
 
-1. Processing shell command exit codes
+Note that you can delete any file (including root-owned) as long as you own the dir.
 
- - The *$?* term expands the exit status of the most recently executed command.
+Linux applies permissions by checking and exiting upon first match but note that file owners can always change permissions.
 
-### Operate running systems
+### 7.1.1 Relative permissions
 
-1. Boot, reboot, and shut down a system normally
+Add execute permissions for owner, group and other with `chmod +x somefile`
 
-    - The RHEL boot process occurs when the system is powered up or reset and lasts until all enabled services are started and a login prompt appears at the screen. The login process consists of 4 steps:
+Always add `rx` to directory and never just `r` because otherwise you can't enter it.
 
-        - The firmware is the Basic Input Output System (BIOS) or Unified Extensible Firmware Interface (UEFI) code that is stored in flash memory on the motherboard. The first thing it does is run the power-on-self-test (POST) to initialise the system hardware components. It also installs appropriate drivers for the video hardware and displays system messages to the screen. It scans the available storage devices to locate a boot device (GRUB2 on RHEL), and then loads it into memory and passes control to it.
+Add write permissions to group, remove read for others `chmod g+w, o-r somefile`
 
-        - The boot loader presents a menu with a list of bootable kernels available on the system. After a pre-defined amount of time it boots the default kernel. GRUB2 searches for the kernel in the `/boot` file system. It then extracts the kernel code into memory and loads it based on the configuration in `/boot/grub2/grub.cfg`. Note that for UEFI systems, GRUB2 looks in `/boot/efi` instead and loads based on configuration in `/boot/efi/EFI/redhat/grub.efi`. Once the kernel is loaded, GRUB2 passes control to it.
+Can do recursive permissions assignment with `chmod -R o+rx /data`
 
-        - The kernel loads the initial RAM disk (initrd) image from the `/boot` file system. This acts as a temporary file system. The kernel then loads necessary modules from initrd to allow access to the physical disks and the partitions and file systems within. It also loads any drivers required to support the boot process. Later, the kernel unmounts initrd and mounts the actual root file system.
+Note you can set explicit permissions with `=` by `chmod o=rx file`
 
-        - The kernel continues the boot process. *systemd* is the default system initialisation scheme. It starts all enabled user space system and network services.
+Apart from `chown`, `chgrp` can also be used to set group.
 
-    - The *shutdown* command is used to halt, power off, or reboot the system gracefully. This command broadcasts a warning message to all logged-in users, disables further user logins, waits for the specified time, and then stops the service and shuts to the system down to the specified target state.
+## 7.2 Advanced permissions
 
-    - To shut down the system now:
+### 7.2.1 SUID/SGID permissions
 
-        ```shell
-        shutdown -P now
-        ```
+When SGID applied to directory, any file or directories created will inherit directory group owner as well.
 
-    - To halt the system now:
+Setting SUID on directory has no effect.
 
-        ```shell
-        shutdown -H now
-        ```
+Apply SUID `chmod u+s` or SGID `chmod g+s`
 
-    - To reboot the system now:
+### 7.2.2 Sticky bit
 
-        ```shell
-        shutdown -r now
-        ```
+When enabled on directories (check like this).
 
-    - To shut down the system after 5 minutes:
+```text
+[root@hnl data]# ls -ld account/
+drwxr-sr-t. 2 root account 4096 Apr 30 21:28 account/
+```
 
-        ```shell
-        shutdown -P 5
-        ```
+You can delete files only when either are true:
 
-1. Boot systems into different targets manually
+* The user is owner of the file.
+* The user is owner of the directory where the file exists.
 
-    - *systemd* is the default system initialisation mechanism in RHEL 8. It is the first process that starts at boot and it is the last process that terminates at shutdown.
+Set sticky bit with `chmod +t`  or numeric value 1.
 
-    - *Units* are systemd objects that are used for organising boot and maintenance tasks, such as hardware initialisation, socket creation, file system mounts, and service start-ups. Unit configuration is stored in their respective configuration files, which are auto generated from other configurations, created dynamically from the system state, produced at runtime, or user developed. Units are in one of several operational states, including active, inactive, in the process of being activated or deactivated, and failed. Units can be enabled or disabled.
+**No effect** when applied to files.
 
-    - Units have a name and a type, which are encoded in files of the form unitname.type. Units can be viewed using the *systemctl* command. A target is a logical collection of units. They are a special systemd unit type with the .target file extension.
+Set SUID with numeric value 4, SGID with 2, and sticky bit 1 eg. `chmod 2755 /somedir`
 
-    - *systemctl* is the primary command for interaction with systemd.
+## 7.2.3 ACLs
 
-    - To boot into a custom target the *e* key can be pressed at the GRUB2 menu, and the desired target specified using systemd.unit. After editing press *ctrl+x* to boot into the target state. To boot into the emergency target:
+If you see a '+' for the directory permissions, there's an ACL applied
 
-        ```shell
-        systemd.unit=emergency.target
-        ```
+```text
+[ivan@localhost ~]$ ls -lah /data
+total 0
+drwxr-xr-x.  4 root  root     34 Feb 12 00:57 .
+dr-xr-xr-x. 18 root  root    236 Feb 12 00:57 ..
+drwxrwx---+  2 linda account  22 Feb 12 04:15 account
+drwxrws--T+  2 linda sales    34 Feb 12 01:09 sales
+```
 
-    - To boot into the rescue target:
+Permissions only allow a single owner, group or others. Not multiple owners, group or others.
 
-        ```shell
-        systemd.unit=rescue.target
-        ```
+To check ACLs set do `getfacl /data/account/`
 
-    - Run *systemctl reboot* after you are done to reboot the system.
+To set group rx permissions for **/data/account/** `setfacl -m g:sales:rx /data/account`, verify with getfacl
 
-1. Interrupt the boot process in order to gain access to a system
+```text
+[root@localhost ~]# getfacl /data/account/
+getfacl: Removing leading '/' from absolute path names
+# file: data/account/
+# owner: linda
+# group: account
+user::rwx
+group::rwx
+group:sales:r-x
+mask::rwx
+other::---
+```
 
-    - Press *e* at the GRUB2 menu and add "rd.break" in place of "ro crash". This boot option tells the boot sequence to stop while the system is still using initramfs so that we can access the emergency shell.
+Specify `-R` to apply `setfacl` recursively to all files, dirs in directory.
 
-    - Press *ctrl+x* to reboot.
+Remove all ACL permissions for a user/group with `setfacl -m u:anna:- /tmp/myfile` or remove the ACL entry with `setfacl -x u:anna`
 
-    - Run the following command to remount the `/sysroot` directory with rw privileges:
+Note to deny a specific user all access set their permissions as `---`
 
-        ```shell
-        mount -o remount,rw /sysroot
-        ```
+Can set inherited ACLs (for all new items in dir) with `setfacl -m d:`, note that this **doesn't** change existing files/dirs but only new ones. Note you don't need to specify `-R` to make it recursive; that's automatic. `d:` here stands for default.
 
-    - Run the following command to change the root directory to `/sysroot`:
+Set no default permissions for principal others `setfacl -m d:o::- /dir`
 
-        ```shell
-        chroot /sysroot
-        ```
+```text
+[root@localhost ~]# setfacl -m d:g:account:rx,g:sales:rwx /data/sales
+[root@localhost ~]# getfacl /data/sales
+getfacl: Removing leading '/' from absolute path names
+# file: data/sales
+# owner: linda
+# group: sales
+# flags: -st
+user::rwx
+group::rwx
+group:sales:rwx
+group:account:r-x
+mask::rwx
+other::---
+default:user::rwx
+default:group::rwx
+default:group:account:r-x
+default:mask::rwx
+default:other::---
+```
 
-    - Run *passwd* command to change the root password.
+### 7.2.4 umask
 
-    - Run the following commands to create an empty, hidden file to instruct the system to perform SELinux relabelling after the next boot:
+Default umask of 666 for files and 777 for dirs, subtract the desired umask value. Stored in /etc/profile and /etc/bashrc
 
-        ```shell
-        touch /.autorelabel
-        exit
-        exit
-        ```
+| Value | Files       | Dirs              |
+| ----- | ----------- | ----------------- |
+| 0     | Read, write | Everything        |
+| 1     | Read, write | Read, write       |
+| 2     | Read        | Read, execute     |
+| 3     | Read        | Read              |
+| 4     | Write       | Write and execute |
+| 5     | Write       | Write             |
+| 6     | Nothing     | Execute           |
+| 7     | Nothing     | Nothing           |
 
-1. Identify CPU/memory intensive processes and kill processes
+Eg. to assign 755 for new dirs, and 644 for new files, specify umask as 022 because 666 - 022 = 644, 777 - 022 = 755 `umask 022`
 
-    - A process is a unit for provisioning system resources. A process is created in memory in its own address space when a program, application, or command is initiated. Processes are organised in a hierarchical fashion. Each process has a parent process that spawns it and may have one or many child processes. Each process is assigned a unique identification number, known as the Process Identifier (PID). When a process completes its lifecycle or is terminated, this event is reported back to its parent process, and all the resources provisioned to it are then freed and the PID is removed. Processes spawned at system boot are called daemons. Many of these sit in memory and wait for an event to trigger a request to use their services.
+Ignore the first zero when you run `umask` to check setting.
 
-    - There are 5 basic process states:
-        - Running: The process is being executed by the CPU.
+Set umask setting in /etc/profile for all users.
 
-        - Sleeping: The process is waiting for input from a user or another process.
+### 7.2.5 User-extended attributes
 
-        - Waiting: The process has received the input it was waiting for and is now ready to run when its turn arrives.
+Use chattr to apply attributes, one of which is immutable for files eg. `chattr +i somefile`.
 
-        - Stopped: The process is halted and will not run even when its turn arrives, unless a signal is sent to change its behaviour.
+Remove with `chattr -i somefile`
 
-        - Zombie: The process is dead. Its entry is retained until the parent process permits it to die.
+List attributes with `lsattr`
 
-    - The *ps* and *top* commands can be used to view running processes.
+# 8. Networking
 
-    - The *pidof* or *pgrep* commands can be used to view the PID associated with a process name.
+## 8.1 Validating config
 
-    - The *ps* command can be used to view the processes associated with a particular user. An example is shown below:
+Display routing table `ip route` or `route -n`
 
-        ```shell
-        ps -U root
-        ```
+Show statistics with `ip -s a`
 
-    - To kill a process the *kill* or *pkill* commands can be used. Ordinary users can kill processes they own, while the *root* user can kill any process. The *kill* command requires a PID and the *pkill* command requires a process name. An example is shown below:
+Set IP address for interface **eth0** with `ip addr add 10.0.0.10/24 dev eth0`
 
-        ```shell
-        pkill crond
-        kill `pidof crond`
-        ```
+Note that legacy interface names of **eth0** only appears when the NIC driver can't reveal anything about its location.
 
-    - The list of signals accessible by *kill* can be seen by passing the *-l* option. The default signal is SIGTERM which signals for a process to terminate in an orderly fashion.
+```text
+2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:0c:29:f6:86:61 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.92.155/24 brd 192.168.92.255 scope global noprefixroute ens160
+       valid_lft forever preferred_lft forever 
+    inet6 fe80::9c9f:9c35:cd1b:e6a3/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+```
 
-    - To use the SIGKILL signal:
+* **valid\_lft** Valid lifetime of IP
+* **scope global** tells you the scope of the IP address, global or local
 
-        ```shell
-        pkill -9 crond
-        kill -9 `pgrep crond`
-        ```
+Delete route from route table with `ip route delete 10.0.1.0/24`
 
-    - The *killall* command can be used to terminate all processes that match a specified criterion.
+Add default route with `route add default gw 192.168.1.254 eth0`
 
-1. Adjust process scheduling
+Add route to 192.168.1.0/24 `ip route add 192.168.1.0/24 dev eth0`
 
-    - The priority of a process ranges from -20 (highest) to +19 (lowest). A higher niceness lowers the execution priority of a process and a lower niceness increases it. A child process inherits the niceness of its parent process.
+Use `nmtui` to add route permanently via interface. Deactivate and reactivate to make permanent.
 
-    - To run a command with a lower (+2) priority:
+## 8.2 Network config with `nmtui` and `nmcli`
 
-        ```shell
-        nice -2 top
-        ```
+Core concepts:
 
-    - To run a command with a higher (-2) priority:
+1. Connections are attached to interfaces.
+2. NetworkManager reads these from configuration files and applies to interfaces
 
-        ```shell
-        nice --2 top
-        ```
+Note: The `network.service` doesn't exist in RHEL 8 anymore.
 
-    - To renice a running process:
+Check `nmcli` permissions with `nmcli gen permissions`
 
-        ```shell
-        renice 5 1919
-        ```
+Config made with `nmcli` persists.
 
-1. Manage tuning profiles
+List interfaces with `nmcli con show` and add interface name after that to list details eg. `nmcli con show ens160`
 
-    - Tuned is a service which monitors the system and optimises the performance of the system for different use cases. There are pre-defined tuned profiles available in the `/usr/lib/tuned` directory. New profiles are created in the `/etc/tuned` directory. The *tuned-adm* command allows you to interact with the Tuned service.
+Display all devices and status `nmcli dev status` and display device status with `nmcli dev show ens160`
 
-    - To install and start the tuned service:
+Show nmcli examples with `man nmcli-examples`
 
-        ```shell
-        yum install tuned
-        systemctl enable --now tuned
-        ```
+Use `nmtui` to add a connection to an interface, can specify type, address, GW.
 
-    - To check the currently active profile:
+* **Automatic** option means DHCP client will be used.
+* Specify subnet mask in the address or /32 will be assumed.
 
-        ```shell
-        tuned-adm active
-        ```
+Or use `nm-connection-editor` to edit interfaces, require x11-forwarding.
 
-    - To check the recommended profile:
+## 8.3 Network config files
 
-        ```shell
-        tuned-adm recommend
-        ```
+Every connection created stores a config file in dir **/etc/sysconfig/network-scripts**. Can edit that for config then use `nmcli con up interface-name` and restart service NetworkManager.
 
-    - To change the active profile:
+To set a static and DHCP address on the same interface, use `nmtui` to specify Automatic ip config and also specify an IP address.
 
-        ```shell
-        tuned-adm profile <profile-name>
-        ```
+## 8.4 Hostnames and DNS
 
-    - To create a customised profile and set it as active:
+Change hostnames with
 
-        ```shell
-        mkdir /etc/tuned/<profile-name>
-        vi /etc/tuned/<profile-name>/<profile-name.conf>
-        # customise as required
-        tuned-adm profile <profile-name>
-        systmctl restart tuned.service
-        ```
+1. `nmtui`
+2. `hostnamectl set-hostname name`
+3. Edit **/etc/hostname**
 
-1. Locate and interpret system log files and journals
+### 8.4.1 DNS
 
-    - In RHEL logs capture messages generated by the kernel, daemons, commands, user activities, applications, and other events. The daemon that is responsible for system logging is called *rsyslogd*. The configuration file for *rsyslogd* is in the `/etc/rsyslog.conf` file. As defined in this configuration file, the default repository for most logs is the `/var/log` directory.
+DNS resolution order determined in /etc/nsswitch.conf eg `hosts: files dns myhostname`
 
-    - The below commands can be used to start and stop the daemon:
+In /etc/hosts, first column is short name, 2nd FQDN and 3rd onwards are aliases
 
-        ```shell
-        systemctl stop rsyslog
-        systemctl start rsyslog
-        ```
+DNS server specified in network script dir, and pushed to **/etc/resolv.conf**, which is overwritten every time.
 
-    - A script called *logrotate* in `/etc/cron.daily` invokes the *logrotate* command to rotate log files as per the configuration file.
+Ways to specify DNS resolver
 
-    - The boot log file is available at `/var/log/boot.log` and contains logs generated during system start-up. The system log file is available in `/var/log/messages` and is the default location for storing most system activities.
+1. `nmtui`
+2. **/etc/sysconfig/network-scripts**
+3. DHCP
+4. `nmcli con mod <connection-id> [+]ipv4.dns <ip-of-dns>`
 
-1. Preserve system journals
+To prevent DHCP assignment from setting DNS resolver
 
-    - In addition to system logging, the *journald* daemon (which is an element of *systemd*) also collects and manages log messages from the kernel and daemon processes. It also captures system logs and RAM disk messages, and any alerts generated during the early boot stage. It stores these messages in binary format in files called *journals* in the `/var/run/journal` directory. These files are structured and indexed for faster and easier searches and can be viewed and managed using the *journalctl* command.
+1. Edit **/etc/sysconfig/network-scripts** to include **PEERDNS=no**
+2. Use `nmcli con mod <con-name> ipv4.ignore-auto-dns yes`
 
-    - By default, journals are stored temporarily in the `/run/log/journal` directory. This is a memory-based virtual file system and does not persist across reboots. To have journal files stored persistently in `/var/log/journal` the following commands can be run:
+Verify DNS resolution with `getent hosts hostname`
 
-        ```shell
-        mkdir -p /var/log/journal
-        systemctl restart systemd-journald
-        ```
+Also can test with `dig microsoft.com`
 
-1. Start, stop, and check the status of network services
+# 9. Managing software
 
-    - The *sshd* daemon manages ssh connections to the server. To check the status of this service:
+Traditionally packages are managed with `yum` but replaced with `dnf` recently, but still runs with `yum`. Packages provide in Red Hat Package Manager (RPM) format.
 
-        ```shell
-        systemctl is-active sshd        
-        systemctl status sshd
-        ```
+## 9.1 Registering RHEL
 
-    - To start and stop this service:
+Need to register RHEL for support and access to repositories
 
-        ```shell
-        systemctl start sshd
-        systemctl stop sshd
-        ```
+Register with `subscription-manager register`. Requires RH user account and password.
 
-    - To enable or disable this service:
+List available subscriptions with `subscription-manager list --available`
 
-        ```shell
-        systemctl enable sshd
-        systemctl disable sshd
-        ```
+Attach subscription to available repositories `subscription-manager attach --auto`. Run this after registering.
 
-    - To completely disable the service (i.e. to avoid loading the service at all):
+List subscriptions with `subscription-manager list --consumed`
 
-        ```shell
-        systemctl mask sshd
-        systemctl unmask sshd
-        ```
+Unregister subscriptions with `subscription-manager unregister`
 
-1. Securely transfer files between systems
+## 9.2 Specifying RHEL repos
 
-    - To transfer a file using the Secure Copy Protocol (SCP):
+Repos are specified in **/etc/yum.repos.d** Format:
 
-        ```shell
-        scp <file> <user>@<ip>:<file>
-        ```
+* **[label]** Short name for repo
+* **name** Specify name of repository you want to use
+* **baseurl** URL of repo to use (Specify file-based with file:///repo)
+* **gpgcheck** Set 1 to enable GPG integrity check
+* **gpgkey** Location of GPG key file
 
-    - To transfer a directory:
+Eg.
 
-        ```shell
-        scp /etc/ssh/* <user>@<ip>:/tmp
-        ```
+```text
+[AppStream]
+name=AppStream
+baseurl=file:///repo/AppStream
+gpgcheck=0
+```
 
-    - The direction of transfer can also be reversed:
+Alternatively you can use `yum-config-manager --add-repo file:///newrepo` from `yum-utils` package. This generates the .repo file in /etc/yum.repos.d/ so you can edit it.
 
-        ```shell
-        scp <user>@<ip>:/tmp/sshd_config sshd_config_external
-        ```
+To mount a CD-ROM drive as a filesystem
 
-### Configure local storage
+1. Check device path of CD-ROM with `blkid`, confirm it's /dev/sr0, and note the type (typically **iso9660**)
+2. Add line `/dev/sr0 /mnt/point iso9660 defaults 0 0` to **/etc/fstab**
+3. `mount -a`
 
-1. List, create, delete partitions on MBR and GPT disks
+Alternatively `mount -t iso9660 -o ro /dev/sr0/ /mnt/point`
 
-    - Data is stored on disk drives that are logically divided into partitions. A partition can exist on a portion of a disk, an entire disk, or across multiple disks. Each partition can contain a file system, raw data space, swap space, or dump space.
+Run `createrepo /rhel_repo/` *after* editing **/etc/yum.repos.d/\*.repo** ,when new packages are added to the repo dir.
 
-    - A disk in RHEL can be divided into several partitions. This partition information is stored on the disk in a small region, which is read by the operating system at boot time. This is known as the Master Boot Record (MBR) on BIOS-based systems, and GUID Partition Table (GPT) on UEFI-based systems. At system boot, the BIOS/UEFI scans all storage devices, detects the presence of MBR/GPT, identifies the boot disks, loads the boot loader program in memory from the default boot disk, executes the boot code to read the partition table and identify the `/boot` partition, and continues with the boot process by loading the kernel in the memory and passing control over to it.
+**Exam note**: Won't be allowed to connect to RH online repo, so have to create repo yourself.
 
-    - MBR allows the creation of only up to 4 primary partitions on a single disk, with the option of using one of the 4 partitions as an extended partition to hold an arbitrary number of logical partitions. MBR also lacks addressing space beyond 2TB due to its 32-bit nature and the disk sector size of 512-byte that it uses. MBR is also non-redundant, so a system becomes unbootable if it becomes corrupted somehow.
+## 9.3 `yum` commands
 
-    - GPT is a newer 64-bit partitioning standard developed and integrated to UEFI firmware. GPT allows for 128 partitions, use of disks much larger than 2TB, and redundant locations for the storage of partition information. GPT also allows a BIOS-based system to boot from a GPT disk, using the boot loader program stored in a protective MBR at the first disk sector.
+Search for exact package name `yum search`
 
-    - To list the mount points, size, and available space:
+Search for files or commands in packages `yum provides */filename`
 
-        ```shell
-        df -h
-        ```
+Get info on packages `yum info packagename`
 
-    - In RHEL block devices are an abstraction for certain hardware, such hard disks. The *blkid* command lists all block devices. The *lsblk* command lists more details about block devices.
+Query package, even list its contents without installing with `yum repoquery -l package-name`
 
-    - To list all disks and partitions:
+Install with `yum install`
 
-        ```shell
-        fdisk -l # MBR
-        gdisk -l # GPT
-        ```
+Install exact version of package:
+```text
+[root@localhost ~]# yum list createrepo_c --showduplicates
+Updating Subscription Management repositories.
+Last metadata expiration check: 0:06:21 ago on Sat 02 Jul 2022 11:05:38 AM PDT.
+Available Packages
+createrepo_c.x86_64                                          0.11.0-1.el8                                            rhel-8-for-x86_64-appstream-rpms
+createrepo_c.x86_64                                          0.11.0-3.el8                                            rhel-8-for-x86_64-appstream-rpms
+createrepo_c.x86_64                                          0.15.1-2.el8                                            rhel-8-for-x86_64-appstream-rpms
+createrepo_c.x86_64                                          0.15.11-2.el8                                           rhel-8-for-x86_64-appstream-rpms
+createrepo_c.x86_64                                          0.16.2-2.el8                                            rhel-8-for-x86_64-appstream-rpms
+createrepo_c.x86_64                                          0.17.2-3.el8                                            rhel-8-for-x86_64-appstream-rpms
+createrepo_c.x86_64                                          0.17.7-5.el8                                            rhel-8-for-x86_64-appstream-rpms
+```
 
-    - For MBR based partitions the *fdisk* utility can be used to create and delete partitions. To make a change to a disk:
+Drop [the .x86_64](https://unix.stackexchange.com/questions/151689/how-can-i-instruct-yum-to-install-a-specific-version-of-package-x) from the package name, and include the version with `yum install createrepo_c-0.11.0-1.el8`.
 
-        ```shell
-        fdisk <disk>
-        ```
+Can also do local install of rpm packages with `yum install package.rpm`, will find and download missing dependencies.
 
-    - For GPT based partitions the *gdisk* utility can be used to create and delete partitions. To make a change to a disk:
+Reinstall with `yum reinstall`, nevermind if `reinstall` doesn't appear on bash-completion; it'll still work.
 
-        ```shell
-        gdisk <disk>
-        ```
+Remove with `yum remove`
 
-    - To inform the OS of partition table changes:
+Note that protected packages such as **vi** can't be removed.
 
-        ```shell
-        partprobe
-        ```
+List repos with `yum repolist`, do this to check if repos are installed properly.
 
-1. Create and remove physical volumes
+List installed packages with `yum list all | installed`, installed lists installed ones only.
 
-    - Logical Volume Manager (LVM) is used to provide an abstraction layer between the physical storage and the file system. This enables the file system to be resized, to span across multiple physical disks, use random disk space, etc. One or more partitions or disks (physical volumes) can form a logical container (volume group), which is then divided into logical partitions (called logical volumes). These are further divided into physical extents (PEs) and logical extents (LEs).
+Update one package only with `yum update packagename`
 
-    - A physical volume (PV) is created when a block storage device is brought under LVM control after going through the initialisation process. This process constructs LVM data structures on the device, including a label on the second sector and metadata information. The label includes a UUID, device size, and pointers to the locations of data and metadata areas.
+Get from repos all available updates for package `yum list updates packagename`. List with `yum list --showduplicates packagename`
 
-    - A volume group (VG) is created when at least one physical volume is added to it. The space from all physical volumes in a volume group is aggregated to form one large pool of storage, which is then used to build one or more logical volumes. LVM writes metadata information for the volume group on each physical volume that is added to it.
+List previously installed packages with `yum history`
 
-    - To view physical volumes:
+Undo yum install with `yum history undo <nn>` with number from `yum history`
 
-        ```shell
-        pvs
-        ```
+Download packages only without installing `yum install packagename --downloadonly --downloadir /path/to/save`
 
-    - To view physical volumes with additional details:
+Or use yumdownloader with `yumdownloader packagename` to save to current workdir. Beware this doesn't seem to DL dependencies.
 
-        ```shell
-        pvdisplay
-        ```
+### 9.3.1 `yum`  groups
 
-    - To initialise a disk or partition for use by LVM:
+Groups are packages grouped together for similar purpose eg. Security Tools.
 
-        ```shell
-        pvcreate <disk>
-        ```
+Get info about group packages with `yum groups info "Basic Web Server"`
 
-    - To remove a physical volume from a disk:
+Packages can be grouped, list them with `yum groups list [hidden]`
 
-        ```shell
-        pvremove <disk>
-        ```
+This is so you don't have to remember package names like **nfs-utils**, when you can first do a `yum groups list --hidden | grep -i file` to find the group **File and Storage Server**, then list its contents with `yum groups info groupname`
 
-1. Assign physical volumes to volume groups
+## 9.4 Package Module Streams
 
-    - To view volume groups:
+Modules are set of packages that belong together, typically organised around a specific version of an application including its dependencies.
 
-        ```shell
-        vgs
-        ```
+Each module can have multiple application streams, with each stream containing a specific version and related updates. Only 1 stream may be enabled at any one time.
 
-    - To view volume groups with additional details:
+Unlike groups, modules [can be versioned](https://unix.stackexchange.com/questions/603905/what-is-the-difference-between-a-yum-group-and-a-yum-module-in-red-hat-enterpris) to freeze package versions.
 
-        ```shell
-        vgdisplay
-        ```
+Note: To install a specific version, install via module, not packages.
 
-    - To create a volume group:
+Modules can also have profiles, which is a list of packages installed together for a particular use case such as default, minimal, server profiles etc.
 
-        ```shell
-        vgcreate <name> <disk>
-        ```
+List module profiles with `yum module info modulename --profile`
 
-    - To extend an existing volume group:
+List modules with `yum module list modulename`. Can also omit module name to list everything. Note the **\[i]** beside the stream denotes the installed profile.
 
-        ```shell
-        vgextend <name> <disk>
-        ```
+Get module info for a particular stream with `yum module info perl:5.26`
 
-    - To remove a disk from a volume group:
+Enable module stream with `yum module enable perl:5.24`, this prepares the stream without actually installing it.
 
-        ```shell
-        vgreduce <name> <disk>
-        ```
+Install modules and profile with `yum module install modulename:streamversion/profile`.  This also enables the specified stream.
 
-    - To remove the last disk from a volume group:
+* If stream not specified, will assume default module stream.
+* Running this command will also switch to that specified stream.
 
-        ```shell
-        vgremove <name> <disk>
-        ```
+Run `yum distro-sync` to update all dependent packages that are not in the module.
 
-1. Create and delete logical volumes
+Return all streams to initial state, neither enabled/disabled. Default stream gets activated. `yum module reset php`
 
-    - To view logical volumes:
+Specify `--allowerasing` to allow deletion of installed packages to resolve.
 
-        ```shell
-        lvs
-        ```
+## 9.5 Package management with `rpm`
 
-    - To view logical volumes with additional details:
+Avoid using rpm as it doesn't handle dependencies well.
 
-        ```shell
-        lvdisplay
-        ```
+List installed packages `rpa -qa`
 
-    - To create a logical volume in vg1 named lv1 and with 4GB of space:
+Get list of files in package with `rpm -ql packagename` (need to be installed)
 
-        ```shell
-        lvcreate -L 4G -n lv1 vg1 
-        ```
+* List doc files of package with `rpm -qd`
+* List config files with `rpm -qc`
 
-    - To extend the logical volume by 1GB:
+Get description of package with `rpm -qi packagename`
 
-        ```shell
-        lvextend -L+1G <lvpath>
-        ```
+List packages which have a specific file `rpm -qf /bin/ls`. Must provide full path to file, can be any file.
 
-    - To extend the logical volume by 1GB:
+Note that once downloaded you can install packages with `yum install packagename`
 
-        ```shell
-        lvextend -L+1G <lvpath>
-        ```
+Check scripts that will run in package with `rpm -qp --scripts package.rpm` during installation.
 
-    - To reduce the size for a logical volume by 1GB:
+# 10. Managing Processes
 
-        ```shell
-        lvreduce -L-1G <lvpath>
-        ```
+List running jobs with `jobs`
 
-    - To remove a logical volume:
+After backgrounding jobs with **Ctrl-Z**, do `bg jobnumber` to resume it in background.
 
-        ```shell
-        umount <mountpoint>
-        lvremove <lvpath>
-        ```
+Kernel threads can't be killed or have their priority adjusted.
 
-1. Configure systems to mount file systems at boot by Universally Unique ID (UUID) or label
+```text
+[ivan@localhost ~]$ ps -aux | head
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.2  0.2 180124 14516 ?        Ss   17:42   0:06 /usr/lib/systemd/systemd --switched-root --system --deserialize 17
+root           2  0.0  0.0      0     0 ?        S    17:42   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   17:42   0:00 [rcu_gp]
+root           4  0.0  0.0      0     0 ?        I<   17:42   0:00 [rcu_par_gp]
+root           6  0.0  0.0      0     0 ?        I<   17:42   0:00 [kworker/0:0H-kblockd]
+root           8  0.0  0.0      0     0 ?        I<   17:42   0:00 [mm_percpu_wq]
+root           9  0.0  0.0      0     0 ?        S    17:42   0:00 [ksoftirqd/0]
+root          10  0.0  0.0      0     0 ?        I    17:42   0:00 [rcu_sched]
+root          11  0.0  0.0      0     0 ?        S    17:42   0:00 [migration/0]
+```
 
-    - The `/etc/fstab` file is a system configuration file that lists all available disks, disk partitions and their options. Each file system is described on a separate line. The `/etc/fstab` file is used by the *mount* command, which reads the file to determine which options should be used when mounting the specific device. A file system can be added to this file so that it is mounted on boot automatically.
+## 10.1 `ps` commands
 
-    - The *e2label* command can be used to change the label on ext file systems. This can then be used instead of the UUID.
+Process started from shell is child process of that shell. All processes killed when shell is stopped.
 
-1. Add new partitions and logical volumes, and swap to a system non-destructively
+Use `kill` to stop background jobs.
 
-    - Virtual memory is equal to RAM plus swap space. A swap partition is a standard disk partition that is designated as swap space by the *mkswap* command. A file can also be used as swap space but that is not recommended.
+**Ctrl-D** sends EOF character and ends the job.
 
-    - To create a swap:
+If a parent process is killed when child process is active, child process becomes child of systemd instead.
 
-        ```shell
-        mkswap <device>
-        ```
+List processes with either `ps aux` or `ps -ef`
 
-    - To enable a swap:
+List parent-child processes with `ps -fax`
 
-        ```shell
-        swapon <device>
-        ```
+List processes started by a user `ps -fU username`
 
-    - To check the status of swaps:
+Show process tree for a specific process named **sshd** `ps -f --forest -C sshd`
 
-        ```shell
-        swapon -s
-        ```
+Display format columns with `ps L` then select them with `ps -eo pid,user`
 
-    - To disable a swap:
+## 10.2 Process priority
 
-        ```shell
-        swapoff <device>
-        ```
+Linux processes are started with a certain priority, by default all are equal (20).
 
-    - The `/etc/fstab` file will need a new entry for the swap so that it is created persistently.
+* Lower number priority are higher
+* Ranges from -20 to 19
 
-### Create and configure file systems
+To change priority of process PID 3233 to 10 ` renice -n 10 -p 3233`
 
-1. Create, mount, unmount, and use vfat, ext4, and xfs file systems
+Or specify NI of process with `ni -n 1 dd command`
 
-    - A file system is a logical container that is used to store files and directories. Each file system must be connected to the root of the directory hierarchy to be accessible. This is typically done automatically on system boot but can be done manually as well. Each file system can be mounted or unmounted using the UUID associated with it or by using a label that can be assigned to it. Mounting is the process of attaching an additional filesystem, which resides on a CDROM, Hard Disk Drive (HDD) or other storage device, to the currently accessible filesystem of a computer.
+Regular users can only decrease priority, only root can increase.
 
-    - Each file system is created in a separate partition or logical volume. A typical RHEL system has numerous file systems. During OS installation, the `/` and `/boot` file systems are created by default. Typical additional file systems created during installation include `/home`, `/opt`, `/tmp`, `/usr` and `/var`.
+Processes with lower NI get more %CPU in `top`
 
-    - File systems supported in RHEL are categorised as disk-based, network-based, and memory-based. Disk-based and network-based file systems are stored persistently, while data in memory-based systems is lost at system reboot. The different file systems are shown below:
+Note: PR = 20 + NI ([ref](https://askubuntu.com/questions/656771/process-niceness-vs-priority))
 
-    | File System          | Type    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-    |----------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-    | ext2                 | Disk    | The second generation of the extended file system. The first generation is no longer supported. ext2 is deprecated in RHEL and will be removed in a future RHEL release.                                                                                                                                                                                                                                                                                                                                        |
-    | ext3                 | Disk    | The third generation of the extended file system. It supports metadata journaling for faster recovery, superior reliability, file systems up to 16TB, files up to 2TB, and up to 32,000 sub-directories. ext3 writes each metadata update in its entirety to the journal after it has been completed. The system looks in the file system journal following a reboot after a system crash has occurred, and recovers the file system rapidly using the updated structural information stored in its journal. |
-    | ext4                 | Disk    | The fourth generation of the extended file system. It supports file systems up to 1EB, files up to 16TB, an unlimited number of sub-directories, metadata and quota journaling, and extended user attributes.                                                                                                                                                                                                                                                                                                   |
-    | xfs                  | Disk    | XFS is a highly scalable and high-performance 64-bit file system.  It supports metadata journaling for faster crash recovery, online defragmentation, expansion quota journaling, and extended user attributes. It supports file systems and files of sizes up to 8EB. It is the default file system in RHEL 8.                                                                                                                                                                                                  |
-    | btrfs                | Disk    | B-tree file system that supports a system size of 50TB. It supports more files, larger files, and larger volumes than ext4 and supports snapshotting and compression capabilities.                                                                                                                                                                                                                                                                                                                              |
-    | vfat                 | Disk    | This is used for post-Windows 95 file system format on hard disks, USB drives, and floppy disks.                                                                                                                                                                                                                                                                                                                                                                                                                |
-    | iso9660              | Disk    | This is used for CD/DVD-based optical file systems.                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-    | BIOS Boot            | Disk    | A very small partition required for booting a device with a GUID partition table (GPT) on a BIOS system.                                                                                                                                                                                                                                                                                                                                                                                                        |
-    | EFI System Partition | Disk    | A small partition required for booting a device with a GUID partition table (GPT) on a UEFI system.                                                                                                                                                                                                                                                                                                                                                                                                             |
-    | NFS                  | Network | A directory or file system shared over the network for access by other Linux systems.                                                                                                                                                                                                                                                                                                                                                                                                                           |
-    | AutoFS               | Network | An NFS file system set to mount and unmount automatically on a remote system.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-    | CIFS                 | Network | Common Internet File System (aka Samba). A directory or file system shared over the network for access by Windows and other Linux systems.                                                                                                                                                                                                                                                                                                                                                                    |
+## 10.3 Killing processes
 
-    - The *mount* command is used to attach a file system to a desired point in the directory hierarchy to make it accessible to users and applications. This point is referred to as the *mount point*, which is essentially an empty directory created solely for this point. The *mount* command requires the absolute pathname (or its UUID or label) to the block device containing the file system, and a mount point name to attach it to the directory tree. The *mount* command adds an entry to the `/proc/mounts` file and instructs the kernel to add the entry to the `/proc/mounts` file as well after a file system has been successfully mounted.
+View all signals with `man 7 signal`
 
-    - The opposite of the *mount* command is *unmount*, which is used to detach a file system from the directory hierarchy and make it inaccessible to users and applications.
+Signal commands
 
-    - To create a vfat file system:
+* Ask process to terminate with SIGTERM (15)
+* Force process to stop with SIGKILL (9)
+* SIGHUP process (1), will cause process to reread config files, useful for changes.
 
-        ```shell
-        mkfs.vfat <path>
-        ```
+By default `kill` uses SIGTERM, which may not work. If it doesn't use SIGKILL with `kill -9 [PID]`
 
-    - To mount a vfat file system:
+A few types of `kill` signals
+* 1 SIGHUP - Terminal closes (similar to SIGTERM)
+* 2 SIGINT - Ctrl-C (stop and wait for further input)
+* 3 SIGQUIT - Same as SIGTERM but generates core dump file on exit
+* 9 SIGKILL - Terminate immediately, don't return control to process and no cleanup
+* 15 SIGTERM - Default kill signal (allows process to save progress)
 
-        ```shell
-        mount <path> /mnt
-        ```
+List signal names with `kill -l`
 
-     - To unmount a vfat file system:
+`pkill` kills process by name instead of PID (check with `ps` only)
 
-        ```shell
-        umount <path> /mnt
-        ```
+`killall` terminates all processes with same name
 
-     - To check a vfat file system:
+## 10.4 Using `top`
 
-        ```shell
-        fsck.vfat <path>
-        ```
+### Linux process states
 
-    - To create an ext4 file system:
+| State                     | Meaning                                                        |
+| ------------------------- | -------------------------------------------------------------- |
+| Running (R)               | Active and using CPU time                                      |
+| Sleeping (S)              | Waiting for event, or inputs. Can be stopped here with Ctrl-C. |
+| Uninterruptible sleep (D) | Sleep state that can't be stopped.                             |
+| Stopped (T)               | Stopped process, typically using Ctrl-Z                        |
+| Zombie (Z)                | Stopped but can't be removed by parent.                        |
 
-        ```shell
-        mkfs.ext4 <path>
-        ```
+Priority **rt** can't be changed and are highest priority.
 
-    - To mount an ext4 file system:
+High **wa** typically indicates system is suffering from slow disk ops.
 
-        ```shell
-        mount <path> /mnt
-        ```
+### Commands in `top`
 
-     - To unmount an ext4 file system:
+* In `top` interface, press `k` to select process to terminate, then followed by signal type (default SIGTERM 15). 
+  * Press `h` to show below hot keys.
+  * Press `r` to renice process PID
+  * Press `1` to display CPU stats for each.
+  * Press `Shift-M` to sort by %MEM, `Shift-P` by %CPU
+  * Press `z` for colours
+  * Press `F` to select fields to display
 
-        ```shell
-        umount <path> /mnt
-        ```
+View load average with either `top` or `uptime` for last 1, 5 and 15 min.
 
-     - To check an ext4 file system:
+Rule of thumb: Load average shouldn't be higher than number of CPUs. Check with `lscpu`
 
-        ```shell
-        fsck <path>
-        ```
+CPUs = Threads per core x Cores per socket x sockets \[[ref](https://unix.stackexchange.com/questions/218074/how-to-know-number-of-cores-of-a-system-in-linux)]
 
-     - To get additional details about an ext4 file system:
+## 10.5 Using `tuned` to optimise performance
 
-        ```shell
-        dumpe2fs <path>
-        ```
+List available profiles with `tuned-adm list`
 
-    - To create a xfs file system:
+Show active profile `tuned-adm active`
 
-        ```shell
-        mkfs.xfs <path>
-        ```
+Check tuned running status with `service`
 
-    - To mount a xfs file system:
+Check profile recommendation with `tuned-adm recommend`
 
-        ```shell
-        mount <path> /mnt
-        ```
+Switch to specified profile `tuned-adm profile profilename profilename2`, can specify multiple active profiles!
 
-     - To unmount a xfs file system:
+## 10.6 Reading memory
 
-        ```shell
-        umount <path> /mnt
-        ```
+**Free** is memory not used currently, while **available** considers memory in buffer and cache that can be liberated immediately.
 
-     - To check a xfs file system:
+## 10.7 `lsof`
 
-        ```shell
-        xfs_repair <path>
-        ```
+List files opened by process PID 2833 `lsof -p 2833`
 
-     - To get additional details about an xfs file system:
+# 11. Working with systemd
 
-        ```shell
-        xfs_info <path>
-        ```
+Systemd runs units (of which service is one of them), types of which you can get a list by doing `systemctl -t help`. It manages everything after Linux kernel starts.
 
-    - The path is the device name or a regular file that shall contain the file system.
+Unit files are processed in the following priority if multiple exists for same unit
 
-1. Mount and unmount network file systems using NFS
+Default unit files in **/usr/lib/systemd/system** - Lowest priority
 
-     - To confirm nfs-utils is installed:
+Custom unit files in **/etc/systemd/system** - 2nd highest priority
 
-        ```shell
-        dnf install nfs-utils
-        ```
+Automatically generated unit files in **/run/systemd/system** - Highest priority
 
-     - To mount the network file system:
+Change systemd editor with `export SYSTEMD_EDITOR=/usr/bin/vim`
 
-        ```shell
-        mount -t nfs 10.0.2.5:/home/nfs-share /mnt
-        ```
+## 11.1 Service units
 
-     - Alternatively the following can be run after adding the entry to `/etc/fstab`:
+Reading service unit files
 
-        ```shell
-        mount -a 
-        ```
+```text
+[Unit]
+Description=Vsftpd ftp daemon
+After=network.target # Service should start after this. Before indicates running before specified unit.
 
-     - Using AutoFS with NFS:
+[Service]
+Type=forking
+ExecStart=/usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf # How to start service. ExecStop specifies how to stop
 
-        ```shell
-  # on the server
-        systemctl status 
-  mkdir /common
-  echo "/common *(rw)" >> /etc/exports
-  systemctl restart nfs-server.service
+[Install]
+WantedBy=multi-user.target
+```
 
-  # on the client
-  dnf install autofs -y
-  mkdir /autodir
-  vi /etc/auto.master
-  # add line
-  #/- /etc/auto.master.d/auto.dir
-  vi /etc/auto.master.d/auto.dir
-  # add line
-  #/autodir 172.25.1.4:/common
-  systemctl restart autofs & systemctl enable autofs
+## 11.2 Mount units
 
-  # on the server
-  touch /common/test
-  
-  # on the client
-  ls /autodir # confirm test file is created
-        ```
+[Differences](https://unix.stackexchange.com/questions/528134/difference-between-mounting-approaches) between fstab and systemd mount
 
-1. Extend existing logical volumes
+Example of tmp.mount
 
-     - To extend the logical volume size by 2GB:
+```text
+[Unit]
+Description=Temporary Directory (/tmp)
+Documentation=man:hier(7)
+Documentation=https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+ConditionPathIsSymbolicLink=!/tmp
+DefaultDependencies=no
+Conflicts=umount.target # units that can't work with this.
+Before=local-fs.target umount.target
+After=swap.target
 
-        ```shell
-        lvextend -L+2G /dev/vg1/lv1
-        lvdisplay # confirm changes
-        ```
+[Mount] # Same syntax as mount command
+What=tmpfs
+Where=/tmp
+Type=tmpfs
+Options=mode=1777,strictatime,nosuid,nodev
 
-     - To extend the file system:
+# Make 'systemctl enable tmp.mount' work:
+[Install]
+WantedBy=local-fs.target
+```
 
-        ```shell
-        df -Th # confirm file system type
-        resize2fs /dev/vg1/lvl1 # for ext3 or ext4
-        xfs_growfs /mnt # for xfs
-        ```
+## 11.3 Socket units
 
-1. Create and configure set-GID directories for collaboration
+Files are \*.socket files
 
-     - SUID (meaning set user id) is used to specify that a user can run an executable file with effective permissions of the file owner.  This is primarily used to elevate the privileges of the current user. When a user executes the file, the operating system will execute as the file owner. Instead of the normal *x* which represents execute permissions, an *s* will be visible. To set the SUID:
+**ListenStream** for TCP and **ListenDatagram** for UDP
 
-        ```shell
-        chmod u+s <filename>
-        ```
+Used to ensure daemons start up only when needed.
 
-     - SGID (meaning set group id) is used to specify that a user can run an executable file with effective permissions of the owning group.  When a user executes the file, the operating system will execute as the owning group. Instead of the normal x which represents execute permissions, an s will be visible. To set the SGID:
+.service files need to have the same name; cockpit.socket needs cockpit.service
 
-        ```shell
-        chmod g+s <filename>
-        ```
+## 11.4 Target units
 
-     - To create a group and shared directory:
+Group of units. For example, **multi-user.target** requires **basic.target** units to be started first, since the latter is specified under **Requires**
 
-        ```shell
-        groupadd accounts
-        mkdir -p /home/shared/accounts
-        chown nobody:accounts /home/shared/accounts
-        chmod g+s /home/shared/accounts
-        chmod 070 /home/shared/accounts
-        ```
+Load ordering is also supported with **Before** and **After**
 
-     - When using SGID on a directory all files that are created in the directory will be owned by the group of the directory as opposed to the group of the owner.
+The **\[Install]** section of a unit tells systemd which target to add the unit to when you run `systemctl enable`
 
-     - If the sticky bit is set on a directory, the files in that directory can only be removed by the owner. A typical use case is for the `/tmp` directory. It can be written to by any user, but other users cannot delete the files of others. To set the sticky bit:
+When enabled, systemd creates symbolic links in /etc/systemd/system subdirs. See later chapter on managing boot process for details.
 
-        ```shell
-        chmod +t <directory>
-        ```
+## 11.5 Systemd unit file syntax
 
-    - The SUID, SGID and sticky bit can also be set with number notation. The standard number (rwx) is prepended with 4 for SUID, 2 for SGID, and 1 for the sticky bit.
+Readable explanation [here](https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files)
 
-    - To remove special permissions the *-* flag is used instead of the *+* flag.
+**[Unit]** Section
 
-1. Configure disk compression
+* **`Requires=`**: Units listed here must successfully activate as well, else this unit will fail. These units are started in parallel with the current unit by default.
+* **`Wants=`**:  Less strict than Requires. If these units are not found or fail to start, the current unit will continue to function. Parallel activation unless modified by other directives.
+* **`Before=`**: The units listed in this directive will not be started until the current unit is marked as started if they are activated at the same time.
+* **`After=`**: The units listed in this directive will be started before starting the current unit.
 
-    - The Virtual Data Optimiser (VDO) provides data reduction in the form of deduplication, compression, and thin provisioning.
+**[Install]** Section
 
-    - To install vdo:
+* `WantedBy=`: Having this creates a dependency with the specified unit. If multi-user-target is specified, then a symlink to the unit file is created in **/etc/systemd/system/multi-user.target.wants/**. Units in that directory start when multi-user.target starts
+* `RequiredBy=` Stricter than `WantedBy`, will fail the directive-listed unit if the current unit can't start.
 
-        ```shell
-        dnf install vdo kmod-kvdo
-        ```
+## 11.6 Managing with `systemctl`
 
-    - To create the vdo:
+Start with `systemctl start servicename.service`
 
-        ```shell
-        vdo create --name=vdo1 --device=/dev/sdb --vdoLogicalSize=30G --writePolicy=async
-        ```
+Start on boot with `systemctl enable servicename.service`. Important for RHCSA.
 
-    - To create and mount the file system:
+```text
+[root@localhost ~]# systemctl status vsftpd.service
+● vsftpd.service - Vsftpd ftp daemon
+   Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; disabled; vendor preset: disabled)
+   Active: active (running) since Thu 2022-03-17 08:51:10 PDT; 15s ago
+  Process: 5149 ExecStart=/usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf (code=exited, status=0/SUCCESS)
+ Main PID: 5150 (vsftpd)
+    Tasks: 1 (limit: 35797)
+   Memory: 584.0K
+   CGroup: /system.slice/vsftpd.service
+           └─5150 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+```
 
-        ```shell
-        mkfs.xfs /dev/mapper/vdo1
-        mount /dev/mapper/vdo1 /mnt
-        ```
+* Loaded: **disabled** means service is not configured to start on boot.
+* When done editing systemd.service file do `systemctl daemon-reload`
 
-1. Manage layered storage
+Note: "loaded" just means the units are read [from disk into memory](https://unix.stackexchange.com/questions/336443/systemd-loaded-vs-enabled-unit-state). Doesn't mean they are active (aka running). To list everything including those not loaded do `systemctl list-unit-files`
 
-    - Stratis is a storage management solution introduced in RHEL 8 that allows the configuration of advanced storage features such as pool-based management, thin provisioning, file system snapshots and monitoring.
+List service units with `systemctl list-units --type=service`
 
-    - To install stratis:
+List all units (including non-service) `systemctl list-units`
 
-        ```shell
-        dnf install stratisd stratis-cli
-        systemctl start stratisd
-        ```
+List all services including dead/inactive ones `systemctl --type=service --all`
 
-    - To confirm there is no file system on the disk to be used:
+List all service dependencies with `systemctl list-dependencies vsftpd`, to see which unts depends on this, `--reverse`
 
-        ```shell
-        lsblk
-        blkid -p /dev/sdb
-        ```
+Cat the service unit file with `systemctl cat httpd.service`
 
-    - If there is a file system remove it using:
+Edit unit files with `systemctl edit --full svcname.service`, file created in **/etc/systemd/system**
 
-        ```shell
-        wipefs -a /dev/sdb
-        ```
+Show options for config file `systemctl show httpd.service`, note you can use apropos to find man pages for **systemd.service** to understand the options.
 
-    - To create a stratis pool and confirm:
+Check section options for .unit files with `man -k systemd.unit`
 
-        ```shell
-        stratis pool create strat1 /dev/sdb
-        stratis pool list
-        ```
+Prevent unit from being started with `systemctl mask name.service`. Undo with `systemctl unmask name.service`. Differs from `disable` in that nothing can start it, not even manually or other serivices.
+* This creates symlink in /etc/systemd/system/file.service to /dev/null
+* Must remove existing file from /etc/systemd/system/ first
 
-    - To create a file system and confirm:
+Can disable with `systemctl disable` but unlike mask this can still be started manually or by other services.
 
-        ```shell
-        stratis fs create strat1 fs1
-        stratis fs list
-        ```
+# 12. Tasks
 
-    - To mount the file system and confirm:
+Service **crond.service** is what checks for tasks to be started every min.
 
-        ```shell
-        mount /stratis/strat1/fs1 /mnt
-        df -h
-        # add to /etc/fstab to make it persistent
-        ```
+Cron time/date expressions available with `man 5 crontab`, or read **/etc/crontab**
 
-    - To add a disk to the stratis pool and confirm:
+Cron config files are found in **/etc/cron**\*
 
-        ```shell
-        stratis pool add-data strat1 /dev/sdc
-        stratis pool list
-        ```
+* If you need regular tasks but not specific timings dump it in /etc/cron.hourly,daily,weekly,monthly
+* Note that when scheduled times conflict eg. 11th of month, but not weekdays, it'll run on both inclusive.
 
-    - To create a snapshot and confirm:
+Create cron files as user with `crontab -e -u username`, these are stored in **/var/spool/cron**. Note that you don't specify the user to run as unlike in **/etc/crontab**.
 
-        ```shell
-        stratis fs snapshot strat1 fs1 snapshot1
-        stratis filesystem list strat1
-        ```
+Allow users to create cronjobs if their name is in **/etc/cron.allow**, deny if their name is in **/etc/cron.deny**. Both files can't exist at same time.
+* Check `man crontab` for how exactly this works
 
-    - To mount a snapshot:
+Note: `run-parts` runs all the commands in the directory.
 
-        ```shell
-        unmount /stratis/strat1/fs1
-        mount /stratis/strat1/snapshot1 /mnt
-        ```
+## 12.1 `anacron` tasks
 
-    - To destroy a snapshot and confirm:
+**anacron** an alternative to cron that can see when the scheduled task was last run, and run it if more than 24 hours. Can only run daily at most
 
-        ```shell
-        unmount /stratis/strat1/snapshot1
-        stratis filesystem destroy strat1 snapshot1
-        stratis filesystem list
-        ```
+Used to run scheduled tasks without specifying exact times, such as 
+* /etc/cron.hourly
+* /etc/cron.daily
+* etc..
 
-    - To remove a stratis filesystem and pool and confirm:
+[Explanation](https://www.digitalocean.com/community/tutorials/how-to-schedule-routine-tasks-with-cron-and-anacron-on-a-vps), name taken from *anachronistic*
 
-        ```shell
-        stratis filesystem destroy strat1 fs1
-        stratis filesystem list
-        stratis pool destroy strat1
-        stratis pool list
-        ```
+Syntax at **/etc/anacrontab**, and check `man anacrontab` for more.
 
-1. Diagnose and correct file permission problems
+Example: The last job, named **db_cleanup**  runs once every 10 days, with 5 min delay and does `/usr/bin/touch /root/anacron_created_this`
+```text
+#period in days   delay in minutes   job-identifier   command
+1       5       cron.daily              nice run-parts /etc/cron.daily
+7       25      cron.weekly             nice run-parts /etc/cron.weekly
+@monthly 45     cron.monthly            nice run-parts /etc/cron.monthly
+10      5       db_cleanup /usr/bin/touch /root/anacron_created_this
+```
 
-    - File permissions can be modified using *chmod* and *setfacl*.
+## 12.2 Non-recurring future task with `at`
 
-### Deploy, configure, and maintain systems
+`at time` to schedule non-recurring tasks, works with service **atd.service**.
 
-1. Schedule tasks using at and cron
+* Very flexible time specification: 6pm, 18:00, 1800, or even "6pm tomorrow"
 
-    - Job scheduling and execution is handled by the *atd* and *crond* daemons. While *atd* manages jobs scheduled to run once in the future, *crond* is responsible for running jobs repetitively at pre-specified times. At start-up, *crond* reads schedules in files located in the `/var/spool/cron` and `/etc/cron.d` directories, and loads them in memory for later execution.
+`atq` to list all current scheduled jobs
 
-    - There are 4 files that control permissions for setting scheduled jobs. These are *at.allow*, *at.deny*, *cron.allow* and *cron.deny*. These files are in the `/etc` directory. The syntax of the files is identical, with each file taking 1 username per line. If no files exist, then no users are permitted. By default, the *deny* files exist and are empty, and the *allow* files do not exist. This opens up full access to using both tools for all users.
+`atrm job-number` removes job at job-number. Check `man at` to see possible `at` commands.
 
-    - All activities involving *atd* and *crond* are logged to the `/var/log/cron` file.
+Check man page for `at.deny` to see how to use /etc/at.allow and /etc/at.deny
 
-    - The *at* command is used to schedule one-time execution of a program by the *atd* daemon. All submitted jobs are stored in the `/var/spool/at` directory.
+# 13. Logging
 
-    - To schedule a job using *at* the below syntax is used:
+Access **journald** logs with `journalctl`
 
-        ```shell
-        at 11:30pm 6/30/15
-        ```
+However, since **journald** logs isn't persistent between reboots, messages are forwarded to rsyslogd service, which writes to **/var/log**
 
-    - The commands to execute are defined in the terminal, press *ctrl+d* when finished. The added job can be viewed with *at* and can be removed with the *-d* option.
+Check logs in 3 places
 
-    - A shell script can also be provided:
+1. **/var/log logs**
+2. `journalctl` command
+3. `systemctl status <unit>`
 
-        ```shell
-        at -f ~/script1.sh 11:30pm 6/30/15
-        ```
+**System log files overview**
 
-    - The `/etc/crontab` file has the following columns:
-        - 1: Minutes of hour (0-59), with multiple comma separated values, or * to represent every minute.
-        - 2: Hours of day (0-23), with multiple comma separated values, or * to represent every hour.
-        - 3: Days of month (1-31), with multiple comma separated values, or * to represent every day.
-        - 4: Month of year (1-12, jan-dec), with multiple comma separated values, or * to represent every month.
-        - 5: Day of week (0-6, sun-sat), with multiple comma separated values, or * to represent every day.
-        - 6: Full path name of the command or script to be executed, along with any arguments.
+| Log file          | Contents              |
+| ----------------- | --------------------- |
+| /var/log/messages | Syslog                |
+| /var/log/dmesg    | Kernel log            |
+| /var/log/secure   | Auth-related messages |
+| /var/log/boot.log | System startup logs   |
+| /var/log/httpd/\* | Apache logs           |
 
-    - Step values can be used with */2 meaning every 2nd minute.
+Write to syslog with `logger`
 
-    - The *crontab* command can be used to edit the file. Common options are *e* (edit), *l* (view), *r* (remove):
+## 13.1 Configure rsyslogd
 
-        ```shell
-        crontab -e
-        ```
+Rsyslog is a centralised logging system in Unix, runs as service **rsyslogd**
 
-1. Start and stop services and configure services to start automatically at boot
+Configure with **/etc/rsyslog.conf**, or put file **/etc/rsyslog.d**
 
-    - To check the status of a service:
+Pass specific parameters to rsyslogd service upon starting with **/etc/sysconfig/rsyslog**, can check rsyslog.service file for this.
 
-        ```shell
-        systemctl status <service>
-        ```
+Check man page for rsyslog.conf for explanation of options.
 
-    - To start a service:
+Supports centralised logging in company
 
-        ```shell
-        systemctl start <service>
-        ```
+### 13.1.1 rsyslog.conf
 
-    - To stop a service:
+MODULES - Rsyslog is modular
 
-        ```shell
-        systemctl stop <service>
-        ```
+GLOBAL DIRECTIVES - Where log files should be placed
 
-    - To make a service reload its configuration:
+RULES - What type of information should be logged to which logfile
 
-        ```shell
-        systemctl reload <service>
-        ```
+```text
+# Everybody gets emergency messages
+*.emerg                                                 :omusrmsg:* # module
+# Log anything (except mail) of level info or higher.
+# Don't log private authentication messages!
+*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+# Log all the mail messages in one place.
+mail.*                                                  -/var/log/maillog
+```
 
-    - To make a service reload its configuration or restart if it can't reload:
+* Dash before the log file location tells it to buffer before writing
+* Format is {facility}.{priority}
 
-        ```shell
-        systemctl reload-or-restart <service>
-        ```
+### 13.1.2 Rsyslog facilities
 
-    - To make a service start on boot:
+Category of information that's logged (not exhaustive)
 
-        ```shell
-        systemctl enable <service>
-        ```
+| Facility      | Used by                                                                                            |
+| ------------- | -------------------------------------------------------------------------------------------------- |
+| auth/authpriv | Messages related to authentication. Note: security facility deprecated                             |
+| cron          | Messages generated by the **crond** service.                                                       |
+| daemon        | Generic facility that can be used for nonspecified daemons.                                        |
+| kern          | Kernel messages.                                                                                   |
+| mail          | Email-related messages.                                                                            |
+| mark          | Special facility that can be used to write a marker periodically.                                  |
+| news          | Messages generated by the NNTP news system.                                                        |
+| syslog        | Messages generated by the syslog system.                                                           |
+| user          | Messages generated in user space.                                                                  |
+| local0-7      | Messages generated by services that are configured by any of the local0 through local7 facilities. |
 
-    - To stop a service starting on boot:
+### 13.1.3 Rsyslog priorities
 
-        ```shell
-        systemctl disable <service>
-        ```
+In order of increasing priority. Note when specified, priorities and above for each facility are logged.
 
-    - To check if a service is enabled:
+| Priority       | Description                                                                            |
+| -------------- | -------------------------------------------------------------------------------------- |
+| debug          | Debug messages that will give as much information as possible about service operation. |
+| info           | Informational messages about normal service operation.                                 |
+| notice         | Informational messages about items that might become an issue later.                   |
+| warning / warn | Something is suboptimal, but there is no real error yet.                               |
+| err / error    | A noncritical error has occurred.                                                      |
+| crit           | A critical error has occurred.                                                         |
+| alert          | Message used when the availability of the service is about to be discontinued.         |
+| emerg / panic  | Message generated when the availability of the service is discontinued.                |
 
-        ```shell
-        systemctl is-enabled <service>
-        ```
+Both priorities and facilities in **rsyslog.conf** man page or logger man page.
 
-    - To check if a service has failed:
+To configure logging only a specific priority to file, such as a cron debug priority only, specify '='
 
-        ```shell
-        systemctl is-failed <service>
-        ```
+```text
+cron.=debug -/var/log/cron.debug
+```
 
-    - To view the configuration file for a service:
+rsyslog allows you to send emergency message to currently logged on users
 
-        ```shell
-        systemctl cat /usr/lib/sysdtemd/system/<service>
-        ```
+```text
+# Everybody gets emergency messages
+*.emerg                                                 :omusrmsg:*
+```
 
-   - To view the dependencies for a service:
+So when you write to alert level emerg it shows up to everyone
 
-        ```shell
-        systemctl list-dependencies <service>
-        ```
+```text
+[root@localhost ~]# logger -p mail.emerg "Testing"
+[root@localhost ~]#
+Broadcast message from systemd-journald@localhost.localdomain (Tue 2022-07-12 01:50:52 +08):
 
-   - To stop a service from being run by anyone but the system and from being started on boot:
+ivan[12959]: Testing
 
-        ```shell
-        systemctl mask <service>
-        ```
 
-   - To remove a mask:
+Message from syslogd@localhost at Jul 12 01:50:52 ...
+ ivan[12959]:Testing
+```
 
-        ```shell
-        systemctl unmask <service>
-        ```
+### 13.1.4 rsyslog eg config
 
-1. Configure systems to boot into a specific target automatically
+1. In **/etc/httpd/conf/httpd.conf**, add this line so it logs to local1
+  ```text
+  ErrorLog    syslog:local1
+  ```
+2. Then in **/etc/rsyslog.conf** add this line to tell it where to write the log to
+  ```text
+  local1.error        /var/log/httpd-error.log
+  ```
+3. Restart rsyslog.service
 
-   - To get the default target:
+To use logger to write debug priority msg do `logger -p daemon.debug "Debug msg"`
 
-        ```shell
-        systemctl get-default
-        ```
+### 13.1.5 Log rotate
 
-   - To list available targets:
+Settings in **/etc/logrotate.conf**, check man page
 
-        ```shell
-        systemctl list-units --type target --all
-        ```
+Put additional settings in **/etc/logrotate.d**
 
-   - To change the default target:
+## 13.2 journald
 
-        ```shell
-        systemctl set-default <target>
-        ```
+systemd-journald.service logs to **/dev/log**, which is monitored by rsyslog and directed output to **/var/log/**\*
 
-    - The change will take affect after a reboot.
+Journal by default stored in **/run/log/journal** in binary and non-persistent. To make persistent, set `Storage=auto` in  **/etc/systemd/journald.conf** to write to **/var/log/journal** dir (also see `man journald.conf`)
 
-1. Configure time service clients
+Configure journald parameters with **/etc/systemd/journald.conf**
 
-    - To print the date:
+Options for **Storage** parameter man page for journald.conf
 
-        ```shell
-        date +%d%m%y-%H%M%S
-        ```
+Steps to configure persistent **/var/log/journal**
 
-    - To set the system clock as per the hardware clock:
+1. Create **/var/log/journal** dir
+2. Ensure Storage parameter in **/etc/systemd/journald.conf** is auto at least
+3. Set group ownership of dir to systemd-journald
+4. Set GUID for /var/log/journal so group can write
+5. Reboot
 
-        ```shell
-        hwclock -s
-        ```
+### 13.2.1 `journalctl`
 
-    - To set the hardware clock as per the system clock:
+Live view of journalctl `journalctl -f`
 
-        ```shell
-        hwclock -w
-        ```
+Show messages logged for specific account `journalctl _UID=1000`
 
-    - The *timedatectl* command can also be used to view the date and time.
+Show error priority messages only `journalctl -p err`, check man page to see what priority levels.
 
-    - To change the date or time:
+Show messages from time period `journalctl --since {YYYY-MM-DD hh:mm:ss}`. Can also use `--until`
 
-        ```shell
-        timedatectl set-time 2020-03-18
-        timedatectl set-time 22:43:00
-        ```
+Add `-o verbose` flag to see detailed output
 
-    - To view a list of time zones:
+Once persistent, view journald messages since last boot with `journalctl -b`
 
-        ```shell
-        timedatectl list-timezones
-        ```
+View service logs with `journalctl -u sshd.service -xe`
 
-    - To change the time zone:
+# 14. Storage
 
-        ```shell
-        timedatectl set-timezone <timezone>
-        ```
+## 14.1 Common disk device types
 
-    - To enable NTP:
+| Device name  | Description             |
+| ------------ | ----------------------- |
+| /dev/sda     | HDD that uses SCSI      |
+| /dev/nvme0n1 | NVMe interface (n1, n2) |
+| /dev/hda     | Legacy IDE disk device  |
+| /dev/vda     | Common KVM disk driver  |
+| /dev/xvda    | Xen virtualisation      |
 
-        ```shell
-        timedatectl set-ntp yes
-        ```
+## 14.2 Disk layout
 
-    - To start the *chronyd* service:
+* Partitions are slices of a disk
+* They are named in sequence eg.
+1. /dev/sda1
+2. /dev/sda2
+3. /dev/sda3
 
-        ```shell
-        systemctl start chronyd
-        ```
+![Partitions](./Images/Partitions.png)
 
-1. Install and update software packages from Red Hat Network, a remote repository, or from the local file system
+## 14.3 Disk layouts
 
-    - The .rpm extension is a format for files that are manipulated by the Redhat Package Manager (RPM) package management system. RHEL 8 provides tools for the installation and administration of RPM packages. A package is a group of files organised in a directory structure and metadata that makes up a software application.
+BIOS - MBR (master boot record)
+* 4 partitions only
+  * 512 bytes for boot
+  * Max 2 TB total
+  * 64 bytes
+* Last partition used to address all remaining disk space
+  * Within the last extended partition, you can create logical partitions to extend
+  * Logical partitions always start at 5, eg sda5
+* Virtual servers use MBR rather than GUID
 
-    - An RPM package name follows the below format:
+UEFI - GPT (GUID partition table)
+* 128 partitions max
+* Typical for physical server
 
-        ```shell
-        openssl-1.0.1e-34.el7.x86_64.rpm
-        # package name = openssl
-        # package version = 1.0.1e
-        # package release = 34
-        # RHEL version = el7
-        # processor architecture = x86_64
-        # extension = .rpm
-        ```
+## 14.3 Commands
 
-    - The *subscription-manager* command can be used to link a Red Hat subscription to a system.
+List block partitions `lsblk -p`
 
-    - The *dnf* command is the front-end to *rpm* and is the preferred tool for package management. The *yum* command has been superseded by *dnf* in RHEL 8. It requires that the system has access to a software repository. The primary benefit of *dnf* is that it automatically resolves dependencies by downloading and installing any additional required packages.
+List device files for partitions `ls -lah /dev/nvme*`
 
-    - To list enabled and disabled repositories:
+See block devices from kernel POV `/proc/partitions`
 
-        ```shell
-        dnf repolist all
-        dnf repoinfo
-        ```
+General steps for storage
 
-    - To search for a package:
+1. Create MBR/GPT record on block device
+2. Create partition, specify type
+3. Create filesystem with `mkfs`
+4. Label with `tune2fs` or `xfs_admin`
+5. Mount with label
 
-        ```shell
-        dnf search <package>
-        dnf list <package>
-        ```
+## 14.4 Storage options
 
-    - To view more information about a particular package:
+1. Partitions
+2. LVM logical volumes
+3. Stratis (new RHEL 8)
+4. Virtual Data Optimizer (RHEL 8)
 
-        ```shell
-        dnf info <package>
-        ```
+## 14.5 Partitions
 
-    - To install a package:
+* Doesn't create filesystems
+* Logical partitions are in running order eg. deleting 5 will automatically change 6 to 5 and may cause problems in /etc/fstab.
 
-        ```shell
-        dnf install <package>
-        ```
+### 14.5.1 Creating a partition with `parted`
 
-    - To remove a package:
+Check the partitions first
 
-        ```shell
-        dnf remove <package>
-        ```
+```text
+[root@localhost ~]# lsblk -p
+NAME             MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+/dev/sda           8:0    0   10G  0 disk
+/dev/sr0          11:0    1 1024M  0 rom
+/dev/nvme0n1     259:0    0   20G  0 disk
+├─/dev/nvme0n1p1 259:1    0  300M  0 part /boot
+├─/dev/nvme0n1p2 259:2    0    2G  0 part [SWAP]
+└─/dev/nvme0n1p3 259:3    0 17.7G  0 part /
+```
 
-    - To find a package from a file:
+Check if filesystems exist on /dev/sda
 
-        ```shell
-        dnf provides <path>
-        ```
+```text
+[root@localhost ~]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+devtmpfs        2.8G     0  2.8G   0% /dev
+tmpfs           2.8G     0  2.8G   0% /dev/shm
+tmpfs           2.8G  1.6M  2.8G   1% /run
+tmpfs           2.8G     0  2.8G   0% /sys/fs/cgroup
+/dev/nvme0n1p3   18G  6.4G   12G  36% /
+/dev/nvme0n1p1  295M  160M  136M  55% /boot
+tmpfs           563M  1.2M  562M   1% /run/user/42
+tmpfs           563M  4.0K  563M   1% /run/user/1000
+```
 
-    - To install a package locally:
+Nope. Now run `parted`
 
-        ```shell
-        dnf localinstall <path>
-        ```
+```text
+[root@localhost ~]# parted /dev/sda
+GNU Parted 3.2
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) p
+Error: /dev/sda: unrecognised disk label
+Model: VMware, VMware Virtual S (scsi)
+Disk /dev/sda: 10.7GB
+Sector size (logical/physical): 512B/512B
+Partition Table: unknown
+Disk Flags:
+```
 
-    - To view available groups:
+Use `mklabel` to set the [label-type](https://www.gnu.org/software/parted/manual/html_node/parted_17.html)
 
-        ```shell
-        dnf groups list
-        ```
+* bsd
+* loop (raw disk access)
+* gpt
+* mac
+* msdos
+* pc98
+* sun
 
-    - To install a group (e.g. System Tools):
+Here we choose GPT
 
-        ```shell
-        dnf group "System Tools"
-        ```
+```text
+(parted) p
+Model: VMware, VMware Virtual S (scsi)
+Disk /dev/sda: 10.7GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags:
 
-    - To remove a group (e.g. System Tools):
+Number  Start  End  Size  File system  Name  Flags
+```
 
-        ```shell
-        dnf group remove "System Tools"
-        ```
+Now create a partition of 1024 MiB
 
-    - To see the history of installations using *dnf*:
+```text
+(parted) mkpart one 1MiB 1024Mib
+(parted) p
+Model: VMware, VMware Virtual S (scsi)
+Disk /dev/sda: 10.7GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags:
 
-        ```shell
-        dnf history list
-        ```
+Number  Start   End     Size    File system  Name  Flags
+ 1      1049kB  1074MB  1073MB               one
 
-    - To undo a particular installation (e.g. ID=22):
+(parted) quit
+Information: You may need to update /etc/fstab.
 
-        ```shell
-        dnf history undo 22
-        ```
+[root@localhost ~]# udevadm settle
+```
 
-    - To redo a particular installation (e.g. ID=22):
+Verify partition was created
 
-        ```shell
-        dnf history redo 22
-        ```
+```text
+[root@localhost ~]# lsblk -p
+NAME             MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+/dev/sda           8:0    0   10G  0 disk
+└─/dev/sda1        8:1    0 1023M  0 part
+/dev/sr0          11:0    1 1024M  0 rom
+/dev/nvme0n1     259:0    0   20G  0 disk
+├─/dev/nvme0n1p1 259:1    0  300M  0 part /boot
+├─/dev/nvme0n1p2 259:2    0    2G  0 part [SWAP]
+└─/dev/nvme0n1p3 259:3    0 17.7G  0 part /
+[root@localhost ~]# cat /proc/partitions
+major minor  #blocks  name
 
-    - To add a repository using the dnf config manager:
+ 259        0   20971520 nvme0n1
+ 259        1     307200 nvme0n1p1
+ 259        2    2097152 nvme0n1p2
+ 259        3   18566144 nvme0n1p3
+  11        0    1048575 sr0
+   8        0   10485760 sda
+   8        1    1047552 sda1
+```
 
-        ```shell
-        dnf config-manager --add-repo <url>
-        ```
+Alternatively use `gdisk` to change partition table type to GPT by:
 
-    - To enable a repository using the dnf config manager:
+Press **o** then **w** to write changes
 
-        ```shell
-        dnf config-manager --enablerepo <repository>
-        ```
+Or `fdisk` to set partition table type
 
-    - To disable a repository using the dnf config manager:
+Press **o** then **w**
 
-        ```shell
-        dnf config-manager --disablerepo <repository>
-        ```
+### 14.5.2 Creating primary partition with `fdisk`
 
-    - To create a repository:
+Suppose we have a 5GiB disk
 
-        ```shell
-        dnf install createrepo
-        mkdir <path>
-        createrepo --<name> <path>
-        yum-config-manager --add-repo file://<path>
-        ```
+```text
+[root@localhost ~]# fdisk /dev/sdb
 
-1. Work with package module streams
+Welcome to fdisk (util-linux 2.32.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
 
-    - RHEL 8 introduced the concept of Application Streams. Components made available as Application Streams can be packaged as modules or RPM packages and are delivered through the AppStream repository in RHEL 8. Module streams represent versions of the Application Stream components. Only one module stream can be active at a particular time, but it allows multiple different versions to be available in the same dnf repository.
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0xa1ab66c2.
+```
 
-    - To view modules:
+Note we can press 'm' to list options. Print the existing config
 
-        ```shell
-        dnf module list
-        ```
+```text
+Command (m for help): p
+Disk /dev/sdb: 5 GiB, 5368709120 bytes, 10485760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xa1ab66c2
+```
 
-    - To get information about a module:
+Now create a 1 GiB partition
 
-        ```shell
-        dnf module info --profile <module-name>
-        ```
+```text
+Command (m for help): n
+Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (1-4, default 1): 1
+First sector (2048-10485759, default 2048):
+Last sector, +sectors or +size{K,M,G,T,P} (2048-10485759, default 10485759): +1G
 
-    - To install a module:
+Created a new partition 1 of type 'Linux' and of size 1 GiB.
+```
 
-        ```shell
-        dnf module install <module-name>
-        ```
+Now check and write the partition to disk
 
-    - To remove a module:
+```text
+Command (m for help): p
+Disk /dev/sdb: 5 GiB, 5368709120 bytes, 10485760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xa1ab66c2
 
-        ```shell
-        dnf module remove <module-name>
-        ```
+Device     Boot Start     End Sectors Size Id Type
+/dev/sdb1        2048 2099199 2097152   1G 83 Linux
 
-    - To reset a module after removing it:
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+```
 
-        ```shell
-        dnf module reset <module-name>
-        ```
+Now list the partitions
 
-    - To be specific about the module installation:
+```text
+[root@localhost ~]# lsblk -p
+NAME             MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+/dev/sda           8:0    0   10G  0 disk
+└─/dev/sda1        8:1    0 1023M  0 part
+/dev/sdb           8:16   0    5G  0 disk
+└─/dev/sdb1        8:17   0    1G  0 part
+/dev/sr0          11:0    1 1024M  0 rom
+/dev/nvme0n1     259:0    0   20G  0 disk
+├─/dev/nvme0n1p1 259:1    0  300M  0 part /boot
+├─/dev/nvme0n1p2 259:2    0    2G  0 part [SWAP]
+└─/dev/nvme0n1p3 259:3    0 17.7G  0 part /
+[root@localhost ~]# cat /proc/partitions
+major minor  #blocks  name
 
-        ```shell
-        dnf module install <module-name>:<version>/<profile>
-        ```
+ 259        0   20971520 nvme0n1
+ 259        1     307200 nvme0n1p1
+ 259        2    2097152 nvme0n1p2
+ 259        3   18566144 nvme0n1p3
+  11        0    1048575 sr0
+   8        0   10485760 sda
+   8        1    1047552 sda1
+   8       16    5242880 sdb
+   8       17    1048576 sdb1
+```
 
-    - To check the version of a module:
+### 14.5.3 Creating extended and logical partitions with `fdisk`
 
-        ```shell
-        <module-name> -v
-        ```
+First create the last extended partition
 
-1. Modify the system bootloader
+1. Select extended partition (note auto-selected for 4th partition).
+2. Last sector automatically specified
 
-    - The GRUB2 configuration can be edited directly on the boot screen. The configuration can also be edited using the command line.
+```text
+Command (m for help): p
+Disk /dev/sdb: 5 GiB, 5368709120 bytes, 10485760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xa1ab66c2
 
-    - To view the grub2 commands:
+Device     Boot   Start     End Sectors Size Id Type
+/dev/sdb1          2048 2099199 2097152   1G 83 Linux
+/dev/sdb2       2099200 4196351 2097152   1G 83 Linux
+/dev/sdb3       4196352 6293503 2097152   1G 83 Linux
 
-        ```shell
-        grub2
-        ```
+Command (m for help): n
+Partition type
+   p   primary (3 primary, 0 extended, 1 free)
+   e   extended (container for logical partitions)
+Select (default e): e
 
-    - To make a change to the configuration:
+Selected partition 4
+First sector (6293504-10485759, default 6293504):
+Last sector, +sectors or +size{K,M,G,T,P} (6293504-10485759, default 10485759):
 
-        ```shell
-        vi /etc/default/grub
-        # Change a value
-        grub2-mkconfig -o /boot/grub2/grub.cfg
-        # View changes
-        vi /boot/grub2/grub.cfg
-        ```
+Created a new partition 4 of type 'Extended' and of size 2 GiB.
+```
 
-### Manage basic networking
+Next create the logical partition (5th) within the extended partition. Here we assume it's 300MiB
 
-1. Configure IPv4 and IPv6 addresses
+```text
+Command (m for help): p
+Disk /dev/sdb: 5 GiB, 5368709120 bytes, 10485760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xa1ab66c2
 
-    - The format of an IPv4 address is a set of 4 8-bit integers that gives a 32-bit IP address.  The format of an IPv6 is a set of 8 16-bit hexadecimal numbers that gives a 128-bit IP address.
+Device     Boot   Start      End Sectors Size Id Type
+/dev/sdb1          2048  2099199 2097152   1G 83 Linux
+/dev/sdb2       2099200  4196351 2097152   1G 83 Linux
+/dev/sdb3       4196352  6293503 2097152   1G 83 Linux
+/dev/sdb4       6293504 10485759 4192256   2G  5 Extended
 
-    - The *nmcli* command is used to configure networking using the NetworkManager service. This command is used to create, display, edit, delete, activate, and deactivate network connections. Each network device corresponds to a Network Manager device.
+Command (m for help): n
+All primary partitions are in use.
+Adding logical partition 5
+First sector (6295552-10485759, default 6295552):
+Last sector, +sectors or +size{K,M,G,T,P} (6295552-10485759, default 10485759): +300M
 
-    - Using nmcli with the connection option lists the available connection profiles in NetworkManager.
+Created a new partition 5 of type 'Linux' and of size 300 MiB.
 
-    - The *ip* command can also be used for network configuration. The main difference between ip and nmcli is that changes made with the ip command are not persistent.
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+```
 
-    - To view system IP addresses:
+Check the partitions
 
-        ```shell
-        ip addr
-        ```
+```text
+[root@localhost ~]# lsblk -p
+NAME             MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+/dev/sda           8:0    0   10G  0 disk
+└─/dev/sda1        8:1    0 1023M  0 part
+/dev/sdb           8:16   0    5G  0 disk
+├─/dev/sdb1        8:17   0    1G  0 part
+├─/dev/sdb2        8:18   0    1G  0 part
+├─/dev/sdb3        8:19   0    1G  0 part
+├─/dev/sdb4        8:20   0    1K  0 part
+└─/dev/sdb5        8:21   0  300M  0 part
+/dev/sr0          11:0    1 1024M  0 rom
+/dev/nvme0n1     259:0    0   20G  0 disk
+├─/dev/nvme0n1p1 259:1    0  300M  0 part /boot
+├─/dev/nvme0n1p2 259:2    0    2G  0 part [SWAP]
+└─/dev/nvme0n1p3 259:3    0 17.7G  0 part /
+```
 
-    - To show the current connections:
+Use `partprobe /dev/sdb` to write changes if necessary. Reboot if needed.
 
-        ```shell
-        nmcli connection show
-        ```
+### 14.5.4 Creating partitions with `gdisk`
 
-    - Using nmcli with the device option lists the available network devices in the system.
+Warning: Never use `gdisk` on a dos disk which has been worked on by `fdisk`
 
-    - To view the current network device status and details:
+First check the disk is GPT
 
-        ```shell
-        nmcli device status
-        nmcli device show
-        ```
+```text
+[root@localhost ~]# fdisk -l /dev/sda
+Disk /dev/sda: 10 GiB, 10737418240 bytes, 20971520 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 489B6456-C0BA-4966-BF5D-9CD5151244AB
 
-    - To add an ethernet IPv4 connection:
+Device     Start     End Sectors  Size Type
+/dev/sda1   2048 2097151 2095104 1023M Linux filesystem
+```
 
-        ```shell
-        nmcli connection add con-name <name> ifname <name> type ethernet ip4 <address> gw4 <address>
-        ```
+Invoke `gdisk` on the disk, here create a 2 GiB partition
 
-    - To manually modify a connection:
+```text
+Command (? for help): n
+Partition number (2-128, default 2): 2
+First sector (34-20971486, default = 2097152) or {+-}size{KMGTP}:
+Last sector (2097152-20971486, default = 20971486) or {+-}size{KMGTP}: +2G
+Current type is 'Linux filesystem'
+Hex code or GUID (L to show codes, Enter = 8300):
+```
 
-        ```shell
-        nmcli connection modify <name> ipv4.addresses <address>
-        nmcli connection modify <name> ipv4.method manual
-        ```
+After selecting partition type, check config
 
-    - To delete a connection:
+```text
+Command (? for help): p
+Disk /dev/sda: 20971520 sectors, 10.0 GiB
+Model: VMware Virtual S
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): 489B6456-C0BA-4966-BF5D-9CD5151244AB
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 20971486
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 14682045 sectors (7.0 GiB)
 
-        ```shell
-        nmcli connection delete <name>
-        ```
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         2097151   1023.0 MiB  8300  one
+   2         2097152         6291455   2.0 GiB     8300  Linux filesystem
+```
 
-    - To activate a connection:
+Now write changes, note you can do `partprobe /dev/sda`
 
-        ```shell
-        nmcli connection up <name>
-        ```
+```text
+Command (? for help): w
 
-    - To deactivate a connection:
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
 
-        ```shell
-        nmcli connection down <name>
-        ```
+Do you want to proceed? (Y/N): Y
+OK; writing new GUID partition table (GPT) to /dev/sda.
+The operation has completed successfully.
+```
 
-    - To check the DNS servers that are being used:
+Note you can use either `fdisk`  or `gdisk` to convert from gpt to mbr and vice versa.
 
-        ```shell
-        cat /etc/resolv.conf
-        ```
+For `fdisk` select **o** or Create a new empty DOS partition table, same **o** for gdisk
 
-    - To change the DNS server being used:
+Note you can use `cfdisk` to resize partitions instead of deleting and recreating them.
 
-        ```shell
-        nmcli con mod <name> ipv4.dns <dns>
-        systemctl restart NetworkManager.service
-        ```
+## 14.6 Creating filesystems
 
-1. Configure hostname resolution
+File systems define methods to writing data to disk and how data is stored on partitions.
 
-    - To lookup the IP address based on a host name the *host* or *nslookup* commands can be used.
+To see list of available file systems do `mkfs.[tab-autocomplete]`
 
-    - The `/etc/hosts` file is like a local DNS. The `/etc/nsswitch.conf` file controls the order that resources are checked for resolution.
+Create ext4 FS on **/dev/sdb2**
 
-    - To lookup the hostname:
+```text
+[root@localhost ~]# lsblk -p
+NAME             MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+/dev/sda           8:0    0   10G  0 disk
+├─/dev/sda1        8:1    0 1023M  0 part
+└─/dev/sda2        8:2    0    2G  0 part
+/dev/sdb           8:16   0    5G  0 disk
+├─/dev/sdb1        8:17   0    1G  0 part
+├─/dev/sdb2        8:18   0    1G  0 part
+├─/dev/sdb3        8:19   0    1G  0 part
+├─/dev/sdb4        8:20   0    1K  0 part
+└─/dev/sdb5        8:21   0  300M  0 part
+/dev/sr0          11:0    1 1024M  0 rom
+/dev/nvme0n1     259:0    0   20G  0 disk
+├─/dev/nvme0n1p1 259:1    0  300M  0 part /boot
+├─/dev/nvme0n1p2 259:2    0    2G  0 part [SWAP]
+└─/dev/nvme0n1p3 259:3    0 17.7G  0 part /
+```
 
-        ```shell
-        hostname -s # short
-        hostname -f # fully qualified domain name
-        ```
+Just one command, this also counts as formatting partition
 
-    - The hostname file is in `/etc/hostname`. To refresh any changes run the *hostnamectl* command.
+```text
+[root@localhost ~]# mkfs -t ext4 /dev/sdb2
+mke2fs 1.45.4 (23-Sep-2019)
+Creating filesystem with 262144 4k blocks and 65536 inodes
+Filesystem UUID: 0d173550-b627-404c-a309-aa03813a73a1
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376
 
-1. Configure network services to start automatically at boot
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done
+```
 
-    - To install a service and make it start automatically at boot:
+Verify that ext4 FS has been created on /dev/sdb2
 
-        ```shell
-        dnf install httpd
-        systemctl enable httpd
-        ```
+```text
+[root@localhost ~]# lsblk -f -p
+NAME             FSTYPE LABEL UUID                                 MOUNTPOINT
+/dev/sda
+├─/dev/sda1
+└─/dev/sda2
+/dev/sdb
+├─/dev/sdb1
+├─/dev/sdb2      ext4         0d173550-b627-404c-a309-aa03813a73a1
+├─/dev/sdb3
+├─/dev/sdb4
+└─/dev/sdb5
+/dev/sr0
+/dev/nvme0n1
+├─/dev/nvme0n1p1 xfs          07da6565-a9cb-4048-b8f0-af5ee2688e41 /boot
+├─/dev/nvme0n1p2 swap         ca7f7b00-020c-4480-9bd5-c307805b5660 [SWAP]
+└─/dev/nvme0n1p3 xfs          06302ef6-921a-48ba-8acb-d51215031951 /
+```
 
-    - To set a connection to be enabled on boot:
+Or alternatively `blkid`. Note it returns type only when FS exists
 
-        ```shell
-        nmcli connection modify eth0 connection.autoconnect yes
-        ```
+```text
+[root@localhost ~]# blkid /dev/sdb2
+/dev/sdb2: UUID="0d173550-b627-404c-a309-aa03813a73a1" TYPE="ext4" PARTUUID="a1ab66c2-02"
+[root@localhost ~]# blkid /dev/sdb1
+/dev/sdb1: PARTUUID="a1ab66c2-01"
+```
 
-1. Restrict network access using firewall-cmd/firewall
+Now mount it with `mount /dev/sdb2 /mnt/sdb2`
 
- - Netfilter is a framework provided by the Linux kernel that provides functions for packet filtering. In RHEL 7 and earlier iptables was the default way of configuring Netfilter. Disadvantages of ipables were that a separate version (ip6tables) was required for ipv6, and that the user interface is not very user friendly.
+Check it's mounted
 
-    - The default firewall system in RHEL 8 is *firewalld*. Firewalld is a zone-based firewall. Each zone can be associated with one or more network interfaces, and each zone can be configured to accept or deny services and ports. The *firewall-cmd* command is the command line client for firewalld.
+```text
+[root@localhost ~]# mount | grep '^/'
+/dev/nvme0n1p3 on / type xfs (rw,relatime,seclabel,attr2,inode64,noquota)
+/dev/nvme0n1p1 on /boot type xfs (rw,relatime,seclabel,attr2,inode64,noquota)
+/dev/sdb2 on /mnt/sdb2 type ext4 (rw,relatime,seclabel)
+```
 
-    - To check firewall zones:
+Tip: `lsof [file or dir]` can be used to check what processes are using a file or dir
 
-        ```shell
-        firewall-cmd --get-zones
-        ```
+Explanation of options for mounting in `man 8 mount`
 
-    - To list configuration for a zone:
+## 14.7 Mounting with `/etc/fstab`
 
-        ```shell
-        firewall-cmd --zone work --list-all
-        ```
+Check man page for fstab for explanation of fields, then do `systemctl daemon-reload`
 
-    - To create a new zone:
+Also do `mount -a` to mount /etc/fstab
 
-        ```shell
-        firewall-cmd --new-zone servers --permanent
-        ```
+## 14.8 Persistent naming
 
-    - To reload firewall-cmd configuration:
+* Device names are non-persistent
+* Logical partitions are named in sequence
+* Removing logical partition 5 will result in 6 being renamed 5
+* Any mount entry in /etc/fstab referencing 6 will fail
 
-        ```shell
-        firewall-cmd --reload
-        ```
+To mitigate this, we can use UUID (check with `lsblk` in /etc/fstab or either
 
-    - To add a service to a zone:
+* `tune2fs` for ext filesystems
+* `xfs_admin` for XFS filesystems
 
-        ```shell
-        firewall-cmd --zone servers --add-service=ssh --permanent
-        ```
+Demo for `xfs_admin`
 
-    - To add an interface to a zone:
+```text
+[root@localhost ~]# blkid /dev/sda1
+/dev/sda1: UUID="2f6aeaed-119d-4077-ba11-0c364970865f" TYPE="xfs" PARTLABEL="one" PARTUUID="93c2fe55-4bf0-49d7-ba71-1a96d073eb71"
+[root@localhost ~]# xfs_admin -L somedir /dev/sda1
+writing all SBs
+new label = "somedir"
+[root@localhost ~]# blkid /dev/sda1
+/dev/sda1: LABEL="somedir" UUID="2f6aeaed-119d-4077-ba11-0c364970865f" TYPE="xfs" PARTLABEL="one" PARTUUID="93c2fe55-4bf0-49d7-ba71-1a96d073eb71"
+# Edit /etc/fstab to mount it
+[root@localhost somedir]# grep somedir /etc/fstab
+LABEL="somedir"                 /mnt/somedir    xfs     defaults        0       0
+```
 
-        ```shell
-        firewall-cmd --change-interface=enp0s8 --zone=servers --permanent
-        ```
+Mount with `mount -a` and check with `df`
 
-    - To get active zones:
+Also verify by checking /dev/disk
 
-        ```shell
-        firewall-cmd --get-active-zones
-        ```
+```text
+[root@localhost somedir]# ls -lah /dev/disk
+total 0
+drwxr-xr-x.  8 root root  160 May  1 20:40 .
+drwxr-xr-x. 19 root root 3.4K May  1 18:09 ..
+drwxr-xr-x.  2 root root  280 May  1 17:03 by-id
+drwxr-xr-x.  2 root root   60 May  1 20:40 by-label
+drwxr-xr-x.  2 root root   80 May  1 18:09 by-partlabel
+drwxr-xr-x.  2 root root  240 May  1 18:09 by-partuuid
+drwxr-xr-x.  2 root root  320 May  1 18:09 by-path
+drwxr-xr-x.  2 root root  140 May  1 20:39 by-uuid
+[root@localhost somedir]# ls -lah /dev/disk/by-label/
+total 0
+drwxr-xr-x. 2 root root  60 May  1 20:40 .
+drwxr-xr-x. 8 root root 160 May  1 20:40 ..
+lrwxrwxrwx. 1 root root  10 May  1 20:40 somedir -> ../../sda1
+```
 
-    - To set a default zone:
+Exam-tip: Focus on labels and UUID
 
-        ```shell
-        firewall-cmd --set-default-zone=servers
-        ```
+## 14.9 systemd mounts
 
-    - To check the services allowed for a zone:
+Take reference from **tmp.mount**, check with `systemctl cat tmp.mount`
 
-        ```shell
-        firewall-cmd --get-services
-        ```
+Assuming you want to mount a directory **/mnt/somedir**, have to create .mount file with name **mnt-somedir.mount**, replacing `/` with `-`
 
-    - To add a port to a zone:
+Copy tmp.mount to **/etc/systemd/system/mnt-somedir.mount**, edit it to this
 
-        ```shell
-        firewall-cmd --add-port 8080/tcp --permanent --zone servers
-        ```
+```text
+[Unit]
+Description=Somedir /mnt/somedir
+Documentation=man:hier(7)
+Documentation=https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+Conflicts=umount.target
+Before=local-fs.target umount.target
+After=swap.target
 
-    - To remove a service from a zone:
+[Mount]
+What=LABEL=somedir
+Where=/mnt/somedir
+Type=xfs
+Options=defaults
 
-        ```shell
-        firewall-cmd --remove-service https --permanent --zone servers
-        ```
+# Make 'systemctl enable tmp.mount' work:
+[Install]
+WantedBy=local-fs.target
+```
 
-    - To remove a port from a zone:
+Then do `systemctl daemon-reload` and `systemctl enable`
 
-        ```shell
-        firewall-cmd --remove-port 8080/tcp --permanent --zone servers
-        ```
+```text
+[root@localhost ~]# systemctl enable --now mnt-somedir.mount
+Created symlink /etc/systemd/system/local-fs.target.wants/mnt-somedir.mount → /etc/systemd/system/mnt-somedir.mount.
+[root@localhost ~]# systemctl status mnt-somedir.mount
+● mnt-somedir.mount - Somedir /mnt/somedir
+   Loaded: loaded (/etc/systemd/system/mnt-somedir.mount; enabled; vendor preset: disabled)
+   Active: active (mounted) since Sun 2022-05-01 22:24:59 +08; 2s ago
+    Where: /mnt/somedir
+     What: /dev/sda1
+     Docs: man:hier(7)
+           https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+    Tasks: 0 (limit: 35796)
+   Memory: 16.0K
+   CGroup: /system.slice/mnt-somedir.mount
 
-### Manage users and groups
+May 01 22:24:59 localhost.localdomain systemd[1]: Mounting Somedir /mnt/somedir...
+May 01 22:24:59 localhost.localdomain systemd[1]: Mounted Somedir /mnt/somedir.
+```
 
-1. Create, delete, and modify local user accounts
+## 14.10 Managing XFS filesystems
 
-    - RHEL 8 supports three user account types: root, normal and service. The root user has full access to all services and administrative functions. A normal user can run applications and programs that they are authorised to execute. Service accounts are responsible for taking care of the installed services.
+* XFS is default filesystem on RHEL
+* These commands work only on XFS-mounted FS
 
-    - The `/etc/passwd` file contains vital user login data.
+Create XFS snapshots:
 
-    - The `/etc/shadow` file is readable only by the root user and contains user authentication information. Each row in the file corresponds to one entry in the passwd file. The password expiry settings are defined in the `/etc/login.defs` file. The `/etc/defaults/useradd` file contains defaults for the *useradd* command.
+* Create full backup of /data `xfsdump -l 0 -f /backup/data.xfsdump /data`
+* Restore with `xfsrestore -f /backup/data.xfsdump /data`
 
-    - The `/etc/group` file contains the group information. Each row in the file stores one group entry.
+Can repair broken XFS FS with `xfsrepair` (not shown)
 
-    - The `/etc/gshadow` file stores encrypted group passwords. Each row in the file corresponds to one entry in the group file.
+## 14.11 Swap partitions
 
-    - Due to manual modification, inconsistencies may arise between the above four authentication files. The *pwck* command is used to check for inconsistencies.
+* Swap is RAM emulated on disk.
+* Can be created on
+  * Partition
+  * Swap file
+  * Logical volume
 
-    - The *vipw* and *vigr* commands are used to modify the *passwd* and *group* files, respectively. These commands disable write access to these files while the privileged user is making the modifications.
+Create swap partition on **/dev/sda**
 
-    - To create a user:
+First check the disk type
 
-        ```shell
-        useradd user1
-        ```
+```text
+[root@localhost ~]# lsblk -p
+NAME             MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+/dev/sda           8:0    0   10G  0 disk
+├─/dev/sda1        8:1    0 1023M  0 part
+└─/dev/sda2        8:2    0    2G  0 part
+/dev/sdb           8:16   0    5G  0 disk
+├─/dev/sdb1        8:17   0    1G  0 part
+├─/dev/sdb2        8:18   0    1G  0 part /mnt/sdb2
+├─/dev/sdb3        8:19   0    1G  0 part
+├─/dev/sdb4        8:20   0    1K  0 part
+└─/dev/sdb5        8:21   0  300M  0 part
+/dev/sr0          11:0    1 1024M  0 rom
+/dev/nvme0n1     259:0    0   20G  0 disk
+├─/dev/nvme0n1p1 259:1    0  300M  0 part /boot
+├─/dev/nvme0n1p2 259:2    0    2G  0 part [SWAP]
+└─/dev/nvme0n1p3 259:3    0 17.7G  0 part /
+[root@localhost ~]# fdisk -l /dev/sda
+Disk /dev/sda: 10 GiB, 10737418240 bytes, 20971520 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 489B6456-C0BA-4966-BF5D-9CD5151244AB
 
-    - To check that the user has been created:
+Device       Start     End Sectors  Size Type
+/dev/sda1     2048 2097151 2095104 1023M Linux filesystem
+/dev/sda2  2097152 6291455 4194304    2G Linux filesystem
+```
 
-        ```shell
-        cat /etc/group | grep user1
-        ```
+Disk type is GPT so switch to `gdisk`
 
-    - To specify the UID and GID at user creation:
+```text
+[root@localhost ~]# gdisk /dev/sda
+GPT fdisk (gdisk) version 1.0.3
 
-        ```shell
-        useradd -u 1010 -g 1005 user1
-        ```
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
 
-    - To create a user and add them to a group:
+Found valid GPT with protective MBR; using GPT.
 
-        ```shell
-        useradd -G IT user2
-        ```
+Command (? for help): p
+Disk /dev/sda: 20971520 sectors, 10.0 GiB
+Model: VMware Virtual S
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): 489B6456-C0BA-4966-BF5D-9CD5151244AB
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 20971486
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 14682045 sectors (7.0 GiB)
 
- - Note that *-G* is a secondary group, and *-g* is the primary group. The primary group is the group that the operating system assigns to files to which a user belongs. A secondary group is one or more other groups to which a user also belongs.
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         2097151   1023.0 MiB  8300  one
+   2         2097152         6291455   2.0 GiB     8300  Linux filesystem
+```
 
-    - To delete a user:
+Create new partition, swap size 2 GiB, type Linux swap
 
-        ```shell
-        userdel user1
-        ```
+```text
+[root@localhost ~]# gdisk /dev/sda
+GPT fdisk (gdisk) version 1.0.3
 
-    - To modify a user:
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
 
-        ```shell
-        usermod -l user5 user1 # note that home directory will remain as user1
-        ```
+Found valid GPT with protective MBR; using GPT.
 
-    - To add a user but not give access to the shell:
+Command (? for help): p
+Disk /dev/sda: 20971520 sectors, 10.0 GiB
+Model: VMware Virtual S
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): 489B6456-C0BA-4966-BF5D-9CD5151244AB
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 20971486
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 14682045 sectors (7.0 GiB)
 
-        ```shell
-        useradd -s /sbin/nologin user
-        ```
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         2097151   1023.0 MiB  8300  one
+   2         2097152         6291455   2.0 GiB     8300  Linux filesystem
 
-1. Change passwords and adjust password aging for local user accounts
+Command (? for help): n
+Partition number (3-128, default 3): 3
+First sector (34-20971486, default = 6291456) or {+-}size{KMGTP}:
+Last sector (6291456-20971486, default = 20971486) or {+-}size{KMGTP}: +2G
+Current type is 'Linux filesystem'
+Hex code or GUID (L to show codes, Enter = 8300): 8200
+Changed type of partition to 'Linux swap'
 
-    - To change the password for a user:
+Command (? for help): w
 
-        ```shell
-        passwd user1
-        ```
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
 
-    - To step through password aging information the *chage* command can be used without any options.
+Do you want to proceed? (Y/N): Y
+OK; writing new GUID partition table (GPT) to /dev/sda.
+The operation has completed successfully.
+```
 
-    - To view user password expiry information:
+Turn the swap partition into swap space
 
-        ```shell
-        chage -l user1
-        ```
+```text
+[root@localhost ~]# mkswap /dev/sda3
+Setting up swapspace version 1, size = 2 GiB (2147479552 bytes)
+no label, UUID=c1a84c29-7cfa-49e9-b649-9fa490a0f575
+```
 
-    - To set the password expiry for a user 30 days from now:
+Use `swapon` to activate swap partition and notice difference in swap memory
 
-        ```shell
-        chage -M 30 user1
-        ```
+```text
+[root@localhost ~]# free -h
+              total        used        free      shared  buff/cache   available
+Mem:          5.5Gi       722Mi       4.2Gi       2.0Mi       614Mi       4.5Gi
+Swap:         2.0Gi          0B       2.0Gi
+[root@localhost ~]# swapon /dev/sda3
+[root@localhost ~]# free -h
+              total        used        free      shared  buff/cache   available
+Mem:          5.5Gi       723Mi       4.2Gi       2.0Mi       614Mi       4.5Gi
+Swap:         4.0Gi          0B       4.0Gi
+```
 
-    - To set the password expiry date:
+To add in /etc/fstab specify type as **swap** and use `swapon -a` (similar to `mount -a`)
 
-        ```shell
-        chage -E 2021-01-01 user1
-        ```
+To label swap partition, make sure swap is off with `swapoff /dev/swap` then use `swaplabel -L`
 
-    - To set the password to never expire:
+## 14.12 Swap files
 
-        ```shell
-        chage -E -1 user1
-        ```
+* Alternative to swap partition if you don't have unallocated disk space for partition
+* Performance similar
 
-1. Create, delete, and modify local groups and group memberships
+1. First create file of 1.5G or any size `fallocate -l 1.5G /swapfile`
+2. Use mkswap `mkswap /swapfile`
+3. Finally `swapon /swapfile`
+4. Verify with `free -h` or just `swapon`
 
-    - To create a group:
+# 15. Logical Volume Management (LVM)
 
-        ```shell
-        groupadd IT
-        ```
+![LVM-overview](./Images/LVM-overview.png)
 
-    - To create a group with a specific GID:
+Reasons for using LVM:
 
-        ```shell
-        groupadd -g 3032
-        ```
+1. Can add storage to volume group (pool) easily (resizing)
+2. Logical volumes created from VG can have any filesystems
+3. Create snapshot of LVM
+4. Failing hard disk can be removed after shifting data with `pvmove`; no downtime for LV.
 
-    - To delete a group:
+Terms:
 
-        ```shell
-        groupdel IT
-        ```
+* PV - Physical volume
+* VG - Volume group
+* LV - Logical volume
 
-    - To modify the name of a group:
+## 15.1 Create LV
 
-        ```shell
-        groupmod -n IT-Support IT
-        ```
+Steps:
 
-    - To modify the GID of a group:
+1. Create partitions with gdisk/fdisk as lvm partition type
+2. Create PV
+3. Create VG and add PVs to it
+4. Create LVs from VG
 
-        ```shell
-        groupmod -g 3033 IT-Support
-        ```
+Note: Don't need to remember commands, press `pv[tab]`, `lv[tab]` and `vg[tab]`
 
-    - To add a user to a group:
+### 15.1.1 Create PV
 
-        ```shell
-        groupmod -aG IT-Support user1
-        ```
+Check out `lvcreate` man page for examples
 
-    - To view the members of a group:
+Partition types for
 
-        ```shell
-        groupmems -l -g IT-Support
-        ```
+* fdisk - 8e
+* gdisk - 8e00
 
-    - To remove a user from a group:
+Create PVs, verify with `pvs` or `pvdisplay`
 
-        ```shell
-        gpasswd -d user1 IT-Support
-        ```
+```text
+[root@localhost ~]# pvcreate /dev/sda1
+  Physical volume "/dev/sda1" successfully created.
+[root@localhost ~]# pvcreate /dev/sdb1
+  Physical volume "/dev/sdb1" successfully created.
+[root@localhost ~]# pvs
+  PV         VG Fmt  Attr PSize  PFree
+  /dev/sda1     lvm2 ---   1.00g  1.00g
+  /dev/sdb1     lvm2 ---  <1.49g <1.49g
+```
 
-1. Configure superuser access
+### 15.1.2 Create VGs and add to it
 
-    - To view the sudoers file:
+Here we create VG **group1** add /dev/sda1 to it. Verify with `vgs` or `vgdisplay`. Note if you have to create with Physical Extent (block size) in mind, specify `-s 16M` or other specified size.
 
-        ```shell
-        visudo /etc/sudoers
-        ```
+```text
+[root@localhost ~]# vgcreate group1 /dev/sda1
+  Volume group "group1" successfully created
+[root@localhost ~]# vgs
+  VG     #PV #LV #SN Attr   VSize    VFree
+  group1   1   0   0 wz--n- 1020.00m 1020.00m
+```
 
-    - Members of the wheel group can use sudo on all commands. To add a user to the wheel group:
+Add more PVs to the VG with `vgextend`
 
-        ```shell
-        sudo usermod -aG wheel user1
-        ```
+```text
+[root@localhost ~]# vgextend group1 /dev/sdb1
+  Volume group "group1" successfully extended
+[root@localhost ~]# vgs
+  VG     #PV #LV #SN Attr   VSize VFree
+  group1   2   0   0 wz--n- 2.48g 2.48g
+```
 
-    - To allow an individual user sudo access to specific commands:
+### 15.1.3 Create LV from VG and filesystem
 
-        ```shell
-        visudo /etc/sudoers
-        user2 ALL=(root) /bin/ls, /bin/df -h, /bin/date
-        ```
+Create 2GiB LV named **lvdata** from VG **group1**, verify with `lvs` or `lvdisplay`. Or you can specify `-l 50` for 50 logical extents or blocks instead of `-L` for the size. Note. PE and LE are interchangeable.
 
-### Manage security
+```text
+[root@localhost ~]# vgs
+  VG     #PV #LV #SN Attr   VSize VFree
+  group1   2   0   0 wz--n- 2.48g 2.48g
+[root@localhost ~]# lvcreate -n lvdata -L 2G group1
+  Logical volume "lvdata" created.
+[root@localhost ~]# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/group1/lvdata
+  LV Name                lvdata
+  VG Name                group1
+  LV UUID                UzKHzb-oZl1-WqSr-UJoR-dvqh-8W8f-oWdUPl
+  LV Write Access        read/write
+  LV Creation host, time localhost.localdomain, 2022-05-02 18:59:15 +0800
+  LV Status              available
+  # open                 0
+  LV Size                2.00 GiB
+  Current LE             512
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:0
+```
 
-1. Configure firewall settings using firewall-cmd/firewalld
+Create filesystem from /dev/group1/lvdata, note this won't appear on `lsblk`
 
-    - Network settings such as masquerading and IP forwarding can also be configured in the firewall-config GUI application. To install this application:
+```text
+[root@localhost ~]# mkfs -t ext4 /dev/group1/lvdata
+mke2fs 1.45.4 (23-Sep-2019)
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: da65ca0c-3a26-483f-b65c-84a93c2793ae
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376, 294912
 
-        ```shell
-        dnf install firewall-config
-        ```
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done
+```
 
-    - To set port forwarding in the kernel setting:
+After mounting it appears, also note you can mount with label `mount -t ext4 LABEL=newext4 /mnt/ext4`
 
-        ```shell
-        vi /etc/sysctl.conf
-        # add line
-        net.ipv4.ip_forward=1
-        # save file
-        sysctl -p
-        ```
+```text
+[root@localhost ~]# mount /dev/group1/lvdata /mnt/lvdata
+[root@localhost ~]# df -h
+Filesystem                 Size  Used Avail Use% Mounted on
+devtmpfs                   2.8G     0  2.8G   0% /dev
+tmpfs                      2.8G     0  2.8G   0% /dev/shm
+tmpfs                      2.8G  1.7M  2.8G   1% /run
+tmpfs                      2.8G     0  2.8G   0% /sys/fs/cgroup
+/dev/nvme0n1p3              18G  7.9G  9.9G  45% /
+tmpfs                      2.8G   76K  2.8G   1% /tmp
+/dev/nvme0n1p1             295M  160M  136M  55% /boot
+/dev/sr0                   7.9G  7.9G     0 100% /repo
+tmpfs                      563M  1.2M  562M   1% /run/user/42
+tmpfs                      563M  4.0K  563M   1% /run/user/1000
+/dev/mapper/group1-lvdata  2.0G  6.0M  1.8G   1% /mnt/lvdata
+```
 
-1. Create and use file access control lists
+## 15.2 Device mapper and LVM device names
 
-    - To give a user read and write access to a file using an access control list:
+* Generates meaningful name with /dev/mapper/*
+* Symlinks to actual device name
+  ```text
+  [root@localhost ~]# ls -lah /dev/mapper/group1-lvdata
+  lrwxrwxrwx. 1 root root 7 May  2 19:12 /dev/mapper/group1-lvdata -> ../dm-0
+  ```
+* Don't use actual names eg `../dm-0` because that could change
 
-        ```shell
-        setfacl -m u:user1:rw- testFile
-        getfacl testFile
-        ```
+## 15.3 Resizing LVM volumes
 
-    - To restrict a user from accessing a file using an access control list:
+1. Before enlarging LV check if there is storage available with `vgs`.
+2. Use `vgextend` to add PVs to the VG.
+3. Use `lvresize` with `-r` option (auto-resize filesystem) `-L-500M` to resize if VG has enough
+   ```text
+   lvresize -r -L-500M /dev/group1/lvdata1
+   ```
+4. Note you can specify `-l 75%FREE` or similar to take up 75% of free space in the VG.
 
-        ```shell
-        setfacl -m u:user1:000 testFile
-        getfacl testFile
-        ```
+Alternatively you can use `resize2fs /dev/group1/lvdata1` to automatically resize or specify size as further argument.
 
-    - To remove an access control list for a user:
+Tip: To create 1GiB of random data file do `dd if=/dev/urandom of=/mnt/lvdata/randomfile bs=1024 count=$((1024*1024))`
 
-        ```shell
-        setfacl -x u:user1 testFile
-        getfacl testFile
-        ```
+`lsblk -f` will show FS for each block device
 
-    - To give a group read and execute access to a directory recursively using an access control list:
+To remove LV
+1. Format filesystem with `mkfs`, this will erase everything as well
+2. `lvremove /dev/vg-name/lv-name`
 
-        ```shell
-        setfacl -R -m g:IT-Support:r-x testDirectory
-        getfacl testFile
-        ```
+## 15.4 Stratis Volumes
+* Volume management file system (but not FS)
+* Works with XFS filesystems only
+  * But don't need to create XFS FS before applying `stratis pool`
+* Built on top of any block device
+* Lowest level is the pool, similar to LVM
+* Thin provisioned; storage assigned on the fly.
+  * Each pool in /dev/stratis/my-pool
+  * Each pool can contain multiple FS
+* Works on block devices; partitions **not** supported
+  * Min block size 1 GiB
 
-    - To remove an access control list for a group:
+### 15.4.1 Using stratis
 
-        ```shell
-        setfacl -x g:IT-Support testDirectory
-        getfacl testFile
-        ```
+1. Install packages **stratis-cli** and **stratisd**
+2. Start stratisd.service
+3. Create pool with `stratis pool create mypool /dev/sda`
+   * If you get error *Device /dev/sda has an existing signature ID\_PART\_TABLE\_TYPE=gpt ID\_PART\_TABLE\_UUID=2e555b77-8bab-4e63-a31a-82f25e8a5530*, use `wipefs /dev/sda` \[[ref](https://www.cyberciti.biz/faq/howto-use-wipefs-to-wipe-a-signature-from-disk-on-linux/)] to list all signatures and with `-a -f` switch to erase everything.
+4. Add filesystem with `stratis fs create mypool myfs1`
+   * Verify with `stratis fs list` to check where the block device is
+5. Mount as XFS filesystem with **/etc/fstab**
 
-1. Configure key-based authentication for SSH
+### 15.4.2 Managing stratis features
 
-    - To generate an id_rsa and id_rsa.pub files:
+* Add additional block devices to stratis pool `stratis pool add-data mypool /dev/sdb`
+* Monitor pool size with
+  * `stratis blockdev` - Block devices which make up pool
+  * `stratis pool` - List physical used and physical size (make sure not too close)
+  * `stratis filesystem` - Shows FS usage
+* Note that that typical Linux tools like `df` don't give accurate size
+* Use UUID to mount in /etc/fstab, include systemd service dependency
+  ```text
+  UUID=xxx /stratis1 xfs defaults,x-systemd.requires=stratisd.service   0 0
+  ```
+Note: This syntax for `x-systemd.requires` is found in `man vdo` or in `man systemd.mount`
 
-        ```shell
-        ssh-keygen
-        ```
+#### Snapshots
 
-    - To enable ssh for a user:
+* Snapshots are mountable FS
+* Can be modified after creation
+* Not linked to origin, can live longer than FS it came from
+* Each snapshot needs 0.5 Gb for XFS log
 
-        ```shell
-        touch authorized_keys
-        echo "publicKey" > /home/new_user/.ssh/authorized_keys
-        ```
+Create snapshot `stratis fs snapshot poolname fs-name snapshot-name`
 
-    - To copy the public key from server1 to server2:
+After creation it appears in the FS list
 
-        ```shell
-        ssh-copy-id -i ~/.ssh/id_rsa.pub server2
-        cat ~/.ssh/known_hosts # validate from server1
-        ```
+```text
+[root@localhost ~]# stratis fs list
+Pool Name  Name        Used      Created            Device                      UUID
+mypool     myfs1       2.18 GiB  May 03 2022 14:12  /stratis/mypool/myfs1       d87890839e4946aa9df61da229ce9e7c
+mypool     snapshot-1  2.18 GiB  May 03 2022 16:53  /stratis/mypool/snapshot-1  b027b3dd2d8a405aa681078ec66e9f2f
+```
 
-1. Set enforcing and permissive modes for SELinux
+Note the snapshot itself is a mountable FS. To restore a snapshot, rename it to the filesystem and unmount, then remount it.
 
-    - Security Enhanced Linux (SELinux) is an implementation of Mandatory Access Control (MAC) architecture developed by the U.S National Security Agency (NSA). MAC provides an added layer of protection beyond the standard Linux Discretionary Access Control (DAC), which includes the traditional file and directory permissions, ACL settings, setuid/setgid bit settings, su/sudo privileges etc.
+To destroy stratis FS, make sure unmounted then `stratis fs destroy poolname fs-name`
 
-    - MAC controls are fine-grained; they protect other services in the event one of the services is negotiated. MAC uses a set of defined authorisation rules called policy to examine security attributes associated with subjects and objects when a subject tries to access an object and decides whether to permit this access attempt. SELinux decisions are stored in a special cache referred to as Access Vector Cache (AVC).
+## 15.5 Virtual Data Optimizer (VDO)
 
-    - When an application or process makes a request to access an object, SELinux checks with the AVC, where permissions are cached for subjects and objects. If a decision is unable to be made, it sends the request to the security server. The security server checks for the security context of the app or process and the object. Security context is applied from the SELinux policy database.
+* Thin-provisioned storage
+* Manages deduplicated and compressed storage pools in RHEL 8
+* Requires min block device or partition size of > 4 GiB
+* Unlike stratis, can work with partitions
 
-    - To check the SELinux status:
+### 15.5.1 VDO setup
 
-        ```shell
-        getenforce
-        sestatus
-        ```
+* Unfortunately `vdo` has poor bash completion, check man pages for command example.
+* First install packages `kmod-kvdo`, `vdo`
+* Refer to systemd mount example in `/usr/share/doc/vdo/examples`
+  * Remember to rename .mount file after the mount-point dir name (replace '/' with '-'), eg **/mnt/vdo0** means **mnt-vdo0.mount**
+1. Create vdo0 with `vdo create --name=vdo0 --device=/dev/sdb --vdoLogicalSize=1T` (man page)
+2. Create filesystem with `mkfs -t ext4 -E nodiscard /dev/mapper/vdo0`, or specifying `-K` option in `mkfs.xfs` or `mkfs.ext4` to speed things up.
+3. Mount with /etc/fstab, `mount` command or systemd mount.
+4. Verify all is well with ` vdostats --human-readable`
 
-    - To put SELinux into permissive mode modify the `/etc/selinux/config` file as per the below and reboot:
+### 15.5.2 Remove VDO volume
 
-        ```shell
-        SELINUX=permissive
-        ```
+Stop with `vdo stop -n volname`
 
-    - Messages logged from SELinux are available in `/var/log/messages`.
+Exam tip: Reboot server after configuring storage to check persistent configuration works. Examiner will do so to check.
 
-1. List and identify SELinux file and process context
+To-do: Chap 15 End-of-Chapter Labs
 
-    - To view the SELinux contexts for files:
+## 15.6 Set up LUKS encrypted disk
 
-        ```shell
-        ls -Z
-        ```
+First prepare Linux partition or disk, assume it's **/dev/sda2** here. Don't create filesystem yet. Secret device name is **encrypted**
 
-    - To view the contexts for a user:
+1. Format the encryption layer `cryptsetup luksFormat /dev/sda2` . Enter passphrase
+2. Open with `cryptsetup luksOpen /dev/sda2 encrypted`
+3. Check that `/dev/mapper/encrypted` is created and exists
+4. Create filesystem with `mkfs`
+5. Create file `/etc/crypttab`, check `man crypttab` for syntax. Generally you'll need these minimal options
+  ```text
+  encrypted /dev/sda2 none
+  ```
+6. Mount in /etc/fstab.
+7. Reboot and enter passphrase
 
-        ```shell
-        id -Z
-        ```
+## 15.7 Skipped content
 
-    - The contexts shown follow the user:role:type:level syntax. The SELinux user is mapped to a Linux user using the SELinux policy. The role is an intermediary between domains and SELinux users. The type defines a domain for processes, and a type for files. The level is used for Multi-Category Security (MCS) and Multi-Level Security (MLS).
+* LUKS encryption not in book but in videos.
 
-    - To view the processes for a user:
+# 16. Basic kernel management
 
-        ```shell
-        ps -Z # ps -Zaux to see additional information
-        ```
+## 16.1 Kernel modules
 
-1. Restore default file contexts
+* Drivers are loaded as kernel modules
+* Kernel modules are loaded through `initramfs` or `systemd-udevd`
+* Rules files in **/usr/lib/udev/rules.d/** are read to determine device initialisation
+* Then it processes rules in **/etc/udev/rules.d/** dir
 
-    - To view the SELinux contexts for files:
+List loaded kernel modules with `lsmod`
 
-        ```shell
-        chcon unconfined:u:object_r:tmp_t:s0
-        ```
+Manually load kernel module with all dependencies with `modprobe modname`, unload with `-r`
 
-    - To restore the SELinux contexts for a file:
+Show module info with `modinfo modname`, show parameters
 
-        ```shell
-        restorecon file.txt
-        ```
+Edit conf files in **/etc/modprobe.d**, then load again with `modprobe`
 
-    - To restore the SELinux contexts recursively for a directory:
+To load modules with specified parameters, first list them
+```text
+[root@localhost sys]# modinfo cdrom | grep parm
+parm:           debug:bool
+parm:           autoclose:bool
+parm:           autoeject:bool
+parm:           lockdoor:bool
+parm:           check_media_type:bool
+parm:           mrw_format_restart:bool
+```
 
-        ```shell
-        restorecon -R directory
-        ```
+Then suppose we want to turn on debug, we do this and verify
+```text
+[root@localhost sys]# modprobe cdrom debug=1
+  [root@localhost sys]# sysctl -a | grep cdrom.debug
+dev.cdrom.debug = 1
+```
 
-1. Use Boolean settings to modify system SELinux settings
+To set persistent create file in /etc/modprobe.d/cdrom.conf with
+```text
+options cdrom debug=1
+```
 
-    - SELinux has many contexts and policies already defined. Booleans within SELinux allow common rules to be turned on and off.
+## 16.2 Kernel information
 
-    - To check a SELinux Boolean setting:  
+* Read logs with `dmesg` (add `-T` for human-readable date)
+* Alternatively `journalctl -k` or `--dmesg`
+* Files in /proc dir eg. meminfo, partitions
+* Kernel info `uname -a`
 
-        ```shell
-        getsebool -a | grep virtualbox
-        ```
+**/proc** provides access to kernel info
 
-    - To set a SELinux Boolean setting permanently:  
+**/proc** is not a filesystem mount, special type of mount to allow access to kernel
 
-        ```shell
-       setsebool -P use_virtualbox on
-        ```
+* PID dirs
+* Status files
+* Tunables in /proc/sys
+  * net/ipv4/ip\_forward
 
-1. Diagnose and address routine SELinux policy violations
+### 16.2.1 Kernel parameters
 
-    - The SELinux Administration tool is a graphical tool that enables many configuration and management operations to be performed. To install and run the tool:
+Display kernel parameters with `sysctl -a` after editing (note parameters displayed with paths replaced with ".")
 
-       ```shell
-       yum install setools-gui
-       yum install policycoreutils-gui
-       system-config-selinux
-       ```
+These tunables can be edited but won't be persistent
 
-    - SELinux alerts are written to `/var/log/audit/audit.log` if the *auditd* daemon is running, or to the `/var/log/messages` file via the *rsyslog* daemon in the absence of *auditd*.
+Can make persistent changes by writing conf file to **/etc/sysctl.d/** eg. editing this
 
-    - A GUI called the SELinux Troubleshooter can be accessed using the *sealert* command. This allows SELinux denial messages to be analysed and provides recommendations on how to fix issues.
+```text
+net.ipv4.ip_forward = 1
+```
 
-### Manage containers
+or to **/etc/sysctl.conf**
 
-1. Find and retrieve container images from a remote registry
+Note: To decide whether to edit kernel parameters under sysctl.d or modprobe.d, run `sysctl -a` and see if the parameter is there. If it isn't, create conf file under modprobe.d. [Explanation:](https://unix.stackexchange.com/questions/410811/difference-between-modprobe-and-sysctl-w-in-terms-of-setting-system-parameters)
 
- - A container is used for running multiple isolated applications on the same hardware. Unlike a virtual machine, containers share the host systems operating system. This is more lightweight but a little less flexible.
+> In a nutshell: If you are unsure, first look into `/proc/sys` or the output of `sysctl -a`: if the parameter you're looking for is not there, it is not a sysctl parameter and is probably a module parameter (or the module that would provide the sysctl is not currently loaded, in which case it's better to set the value as a module parameter anyway - trying to set a sysctl belonging to a module that is not currently loaded will just produce an error).
+> 
+> Then, find out which module the parameter belongs to. If the module is built into the kernel, you'll probably have to use a boot option; if it is loadable with `modprobe` (i.e. the respective `<module>.ko` file exists somewhere in the `/lib/modules/<kernel version>/` directory tree), then you can use `modprobe` and/or `/etc/modprobe.d/`.
 
- - Podman is a container engine developed by Redhat. Podman is an alternative to the well-known container engine Docker. It is used to directly manage pods and container images. The Podman Command Line Interface (CLI) uses the same commands as the Docker CLI. Docker is not officially supported in RHEL 8.
- 
- - To search for an image in a remote repository and download it:
+## 16.3 Update kernel
 
-        ```shell
-        dnf install podman -y
-        podman search httpd # note that docker.io/library/httpd has 3000+ stars
-        podman pull docker.io/library/httpd
-        ```
+Update with `yum install kernel`, check kernel version like any other package. Note the package for kernel is literally named **kernel**.
 
-1. Inspect container images
+By default last 3 kernels are kept in the boot options.
 
- - To view images after they have been downloaded:
-     ```shell
-        podman images
-        ```
+Set default kernel with `grubby --set-default`. Check man page of `grubby`.
 
- - To inspect an image using Podman:
+# 17. Managing boot procedure
 
-        ```shell
-        podman inspect -l # -l gets the latest container
-        ```
+## 17.1 Grub 2 loader
 
- - To inspect an image in a remote registry using Skopeo:
+### 17.1.1 Boot procedure
 
-        ```shell
-        dnf install skopeo -y
-  skopeo inspect docker://registry.fedoraproject.org/fedora:latest
-        ```
+POST  -> BIOS or UEFI -> GRUB -> Kernel (initramfs) -> systemd -> Services and base OS
+More details [here](https://askubuntu.com/questions/347203/what-exactly-is-grub)
 
-1. Perform container management using commands such as podman and skopeo
+* POST - Power on self test
+* GRUB - Grand Unified Boot Loader
+* initramfs - init RAM mini-filesystem. This contains temp root dir and drivers needed to start Linux OS and kernel modules such as SCSI and LVM for mounting FS.
 
- - The man page for Podman and bash-completion can be used to provide more details on the usage of Podman.
+### 17.1.2 Grub config
 
- - To view the logs for a container:
+Grub2 command mode not easy, need to specify many options manually to boot grub2.
 
-        ```shell
-        podman logs -l
-        ```
+Can edit grub2 parameters at runtime, press F2 then 'E' to edit.
 
- - To view the pids for a container:
+Grub config file at **/etc/default/grub**. This file tells GRUB what to to do and how do execute it. It generates a config file. Put them at these locations:
 
-        ```shell
-        podman top -l
-        ```
+* /boot/grub2/grub.cfg - BIOS
+* /boot/efi/EFI/redhat - UEFI RHEL
+* /boot/efi/EFI/centos - CentOS
 
-1. Perform basic container management such as running, starting, stopping, and listing running containers
+  File is automatically generated, don't edit it. Check that you're on a BIOS or UEFI system by checking `mount | grep efi`
+```text
+[root@localhost ~]# cat /etc/default/grub
+GRUB_TIMEOUT=5 # System waits for this period of time to access grub menu before continuing
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT="console"
+GRUB_CMDLINE_LINUX="crashkernel=auto resume=UUID=ca7f7b00-020c-4480-9bd5-c307805b5660 rhgb quiet" # Comment out rhgb quiet so it will not suppress messages
+GRUB_DISABLE_RECOVERY="true"
+GRUB_ENABLE_BLSCFG=true
+```
 
- - To start, stop and remove a container:
+After editing /etc/default/grub, do `grub2-mkconfig -o /boot/config/file/location` which differs per system (see above)
 
-        ```shell
-  podman run -dt -p 8080:80/tcp docker.io/library/httpd # redirect requests on 8080 host port to 80 container port
-     podman ps -a # view container details, use -a to see all
-     # check using 127.0.0.1:8080 on a browser
-     podman stop af1fc4ca0253 # container ID from podman ps -a
-     podman rm af1fc4ca0253
-        ```
+## 17.2 systemd targets
 
-1. Run a service inside a container
+* Group of unit files that belong together (allow specifying dependencies like packages)
+* Can be used like systemd startup profiles.
+* 4 targets:
+  * emergency.target - Minimal boot units, to fix system
+  * rescue.target - All units needed for fully operational Linux system (excluding non-essentials). Similar to Windows Safe Mode.
+  * multi-user.target - Full system functionality
+  * graphical.target - Full functionality + GUI
+* Get the full list with `systemctl list-units --type=target --all`
 
- - A Dockerfile can be used to create a custom container:
+View target dependencies with `systemctl list-dependencies basic.target`.
 
-        ```shell
-        sudo setsebool -P container_manage_cgroup on
-  vi Dockerfile
-  # contents of Dockerfile
-        #####
-        #FROM registry.access.redhat.com/ubi8/ubi-init
-  #RUN yum -y install httpd; yum clean all; systemctl enable httpd;
-  #RUN echo "Successful Web Server Test" > /var/www/html/index.html
-  #RUN mkdir /etc/systemd/system/httpd.service.d/; echo -e '[Service]\nRestart=always' > /etc/systemd/system/httpd.service.d/httpd.conf
-  #EXPOSE 80
-        #####
-  podman build -t mysysd .
-  podman run -d --name=mysysd_run -p 80:80 mysysd
-  podman ps # confirm that container is running
-        ```
+To list the inverse or to see which units are dependent on said unit, do `systemctl list-dependencies --reverse basic.target`
 
- - Note that the SELinux Boolean referred to above can be found using:
-     ```shell
-  getsebool -a | grep "container"
-        ```
+Unit file syntax explanations given with `man systemd.unit`
 
- - Note that the registry above is the Podman Universal Base Image (UBI) for RHEL 8.
+List all currently loaded targets `systemctl list-units --type target`. Include `--all` to see all targets, not just loaded ones.
 
-1. Configure a container to start automatically as a systemd service
+When you enable a service with `systemctl`, you can see it creates a symlink to wants directory where it gets started when the multi-user.target profile is loaded:
 
- - Podman was not originally designed to bring up an entire Linux system or manage services for such things as start-up order, dependency, checking, and failed service recovery. That is the job of an initialisation system like systemd.
+```text
+[root@localhost ~]# systemctl enable httpd.service --now
+Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /etc/systemd/system/httpd.service.
+```
 
- - By setting up a systemd unit file on your host computer, you can have the host automatically start, stop, check the status, and otherwise manage a container as a systemd service. Many Linux services are already packaged for RHEL to run as systemd services.
+## 17.3 Setting default systemd target
 
- - To configure a container to run as a systemd service:
+List current default target `systemctl get-default`. Usually it's **graphical.target**
 
-        ```shell
-  sudo setsebool -P container_manage_cgroup on
-        podman run -d --name httpd-server -p 8080:80 # -d for detached, -p for port forwarding
-  podman ps # confirm the container is running
-  vi /etc/systemd/system/httpd-container.service
-        # contents of httpd-container.service
-        #####
-        #[Unit]
-        #Description=httpd Container Service
-  #Wants=syslog.service
-  #
-  #[Service]
-  #Restart=always
-  #ExecStart=/usr/bin/podman start -a httpd-server
-  #ExecStop=/usr/bin/podman stop -t 2 httpd-server
-  #
-  #[Install]
-  #WantedBy=multi-user.target
-        #####
-  systemctl start httpd-container.service
-  systemctl status httpd-container.service # confirm running
-  systemctl enable httpd-container.service # will not run as part multi-user.target
-        ```
+Set default with `systemctl set-default multi-user.target` and reboot.
 
- - Note that other systemd services can be viewed in `/etc/systemd/system` and used as examples.
+To load the GUI, do `systemctl start graphical.target`, which starts up those services in graphical.target not already running, since multi-user.target has fewer services than graphical.target
 
-1. Attach persistent storage to a container
+## 17.4 Booting in to specific systemd target
 
- - To attach persistent storage to a container:
+At grub boot menu, press 'e',  set `systemd.unit=XXX.target` to boot into specific target
 
-        ```shell
-  ls /dev/sda1 # using this disk
-  mkdir -p /home/containers/disk1
-  podman run --privileged -it -v /home/containers/disk1:/mnt docker.io/library/httpd /bin/bash #  --privileged to allow with SELinux, -it for interactive terminal, -v to mount, and /bin/bash to provide a terminal
-        ```
+Or switch on running system with `systemctl isolate XXX.target`, works from numerous-services targets to minimal-services target. This drops all targets except for the specified one.
 
-### Exercises
+* Targets which allow isolation have the word `AllowIsolate` in `/usr/lib/systemd/system` or `/etc/systemd/system`
 
-1. Recovery and Practise Tasks
+Note: Check which packages are needed for GUI with `yum group list` and you'll see **Server with GUI** and you can check which groups or packages are required further with `yum groups info "groupname"`
 
-    - Recover the system and fix repositories:
+# 18. Essential troubleshooting skills
 
-        ```shell
-        # press e at grub menu
-        rd.break # add to line starting with "linux16"
-        # Replace line containing "BAD" with "x86_64"
-        mount -o remount, rw /sysroot
-        chroot /sysroot
-        passwd
-        touch /.autorelabel
-        # reboot
-        # reboot - will occur automaticaly after relabel (you can now login)
-        grub2-mkconfig -o /boot/grub2/grub.cfg # fix grub config
-        yum repolist all
-        # change files in /etc/yum.repos.d to enable repository
-        yum update -y
-        # reboot
-        ```
+Boot procedure in detail:
 
-    - Add 3 new users alice, bob and charles. Create a marketing group and add these users to the group. Create a directory `/marketing` and change the owner to alice and group to marketing. Set permissions so that members of the marketing group can share documents in the directory but nobody else can see them. Give charles read-only permission. Create an empty file in the directory:
+1. POST loads BIOS/UEFI
+   1. Boot rescue disk (not in RHCSA)
+2. Bootable device is located, bootloader is loaded (GRUB 2)
+3. Grub displays kernel menu and automatically loads one
+   1. Set `rd.break` here to avoid loading kernel, and remain in initramfs
+   2. Setting `init=/bin/sh` drops a root shell after mounting FS
+4. Kernel loads with initramfs (contains drivers for hardware needed to boot)
+   1. `/sbin/init` process (or systemd)
+      1. initrd.target units started
+      2. Root filesystem mounted on /sysroot
+   2. udev daemon
+5. System switches to root filesystem on disk
+6. Loads systemd from root FS on disk
+   1. Can configure to load **emergency.target** (smallest target) or **rescue.target** (next smallest)
+7. Default target is loaded
 
-        ```shell
-        useradd alice
-        useradd bob
-        useradd charles
-        groupadd marketing
-        mkdir /marketing
-        usermod -aG marketing alice
-        usermod -aG marketing bob
-        usermod -aG marketing charles
-        chgrp marketing marketing # may require restart to take effect
-        chmod 770 marketing
-        setfacl -m u:charles:r marketing
-        setfacl -m g:marketing:-wx marketing
-        touch file
-        ```
+Note: Login prompt can appear before the above is completed.
 
-    - Set the system time zone and configure the system to use NTP:
+Each of these steps above can be interrupted and diverted elsewhere.
 
-        ```shell
-        yum install chrony
-        systemctl enable chronyd.service
-        systemctl start chronyd.service
-        timedatectl set-timezone Australia/Sydney
-        timedatectl set-ntp true
-        ```
+## 18.1 Passing kernel boot arguments
 
-    - Install and enable the GNOME desktop:
+This interrupts at the stage where kernel is booted at grub menu (between 3,4 above). Append these to the line that resembles
 
-        ```shell
-        yum grouplist
-        yum groupinstall "GNOME Desktop" -y
-        systemtctl set-default graphical.target
-        reboot
-        ```
+```text
+linux ($root)/vmlinuz-4.18.0-80.el8.x86_64 root=/dev/mapper/rhel-root ro crash kernel=auto resume=/dev/mapper/rhel-swap rd.lvm.lv=rhel/ root rd.lvm.lv=rhel/swap rhgb quiet
+```
 
-    - Configure the system to be an NFS client:
+* `rd.break` - Stops boot after mounting **initramfs**, but before `systemd`. Minimal commands available. Root dir at `/sysroot`. Used to reset root password.
+* `init=/bin/sh` - Starts shell immediately after kernel and initrd. This *doesn't* allow you to change root password.
+* `systemd.unit=emergency.target` - Loads very basic emergency.target units. *Needs root password.*
+* `systemd.unit=rescue.target` - Loads more complete rescue.target. *Needs root password.*
 
-        ```shell
-        yum install nfs-utils
-        ```
+### 18.1.1 Reset root password
 
-    - Configure password aging for charles so his password expires in 60 days:
+After booting kernel with argument `rd.break`:
+1. Mount the disk root filesystem at /sysroot with `mount -o remount,rw /sysroot`
+2. Make **/sysroot** the root directory with `chroot /sysroot`
+3. Now you have access to root filesystem. Do
+   * `echo Password | passwd root --stdin`
+   * `echo "attacker:\$(openssl passwd -1 Password1):0:0::/root:/bin/bash" >> /etc/passwd`
+* Create empty file for SELinux `touch /.autorelabel` in root dir (this is explained in SELinux chapter as re-applying SELinux policy to entire filesystem after modification which changed the file context labels).
+* **Ctrl-D** x 2 to reboot and wait for SELinux to relabel for a few min. Reboot again if stuck for too long.
 
-        ```shell
-        chage -M 60 charles
-        chage -l charles # to confirm result
-        ```
+### 18.1.2 Booting from rescue disk
 
-    - Lock bobs account:
+Use this method if you can't boot from hard disk at all. To simulate, press F2 when you see BIOS prompt, then select CD-ROM as first bootable device.
 
-        ```shell
-        passwd -l bob
-        passwd --status bob # to confirm result
-        ```
+At this menu
 
-    - Find all setuid files on the system and save the list to `/testresults/setuid.list`:
+![Rescue disk menu](./Images/Rescue-disk-menu.png)
+Select **Troubleshooting** and you'll see
 
-        ```shell
-        find / -perm /4000 > setuid.list
-        ```
+![Rescue troubleshooting menu](./Images/Rescue-troubleshooting-menu.png)
+Select 2nd option
 
-    - Set the system FQDN to *centos.local* and alias to *centos*:
+After you see this
+![Rescue menu](./Images/Rescue-menu.png)
+Select 1
 
-        ```shell
-        hostnamectl set-hostname centos --pretty
-        hostnamectl set-hostname centos.local
-        hostname -s # to confirm result
-        hostname # to confirm result
-        ```
+![After select menu](./Images/After-select-1.png)
 
-    - As charles, create a once-off job that creates a file called `/testresults/bob` containing the text "Hello World. This is Charles." in 2 days later:
+Your root filesystem is at **/mnt/sysimage**, so run `chroot /mnt/sysimage` to make / the root filesystem. Now you have write access to the filesystem.
 
-        ```shell
-        vi hello.sh
-        # contents of hello.sh
-        #####
-        #!/bin/bash
-        # echo "Hello World. This is Charles." > bob
-        #####
-        chmod 755 hello.sh
-        usermod charles -U -e -- "" # for some reason the account was locked
-        at now + 2 days -f /testresults/bob/hello.sh
-        cd /var/spool/at # can check directory as root to confirm
-        atq # check queued job as charles
-        # atrm 1 # can remove the job using this command
-        ```
+### 18.1.3 Troubleshooting filesystem issues
 
-    - As alice, create a periodic job that appends the current date to the file `/testresults/alice` every 5 minutes every Sunday and Wednesday between the hours of 3am and 4am. Remove the ability of bob to create cron jobs:
+If you see this error message
 
-        ```shell
-        echo "bob" >> /etc/at.deny
-        sudo -i -u alice
-        vi addDate.sh
-        # contents of hello.sh
-        #####
-        ##!/bin/bash
-        #date >> alice
-        #####
-        /testresults/alice/addDate.sh
-        crontab -e
-        # */5 03,04 * * sun,wed /testresults/alice/addDate.sh
-        crontab -l # view crontab
-        # crontab -r can remove the job using this command
-        ```
+![FS mount error](./Images/FS-mount-error.png)
 
-    - Set the system SELinux mode to permissive:
+This usually implies mount problem with root filesystem on **/etc/fstab**. To fix, drop into root shell check mount problems with `mount -a` with password and edit it.
 
-        ```shell
-        setstatus # confirm current mode is not permissive
-        vi /etc/selinux/config # Update to permissive
-        reboot
-        setstatus # confirm current mode is permissive
-        ```
+Note that `fsck` checks the filesystems during boot.
 
-    - Create a firewall rule to drop all traffic from 10.10.10.*:
+### 18.1.4 Reinstalling GRUB with rescue disk
 
-        ```shell
-        firewall-cmd --zone=drop --add-source 10.10.10.0/24
-        firewall-cmd --list-all --zone=drop # confirm rule is added
-        firewall-cmd --permanent --add-source 10.10.10.0/24
-        reboot
-        firewall-cmd --list-all --zone=drop # confirm rule remains
-        ```
+Note that you can't boot kernel since GRUB is broken.
 
-1. Linux Academy - Using SSH, Redirection, and Permissions in Linux
+Once you have root shell given by rescue disk, use `chroot` to mount **/mnt/sysimage**.
 
-    - Enable SSH to connect without a password from the dev user on server1 to the dev user on server2:
+Then use `grub2-install /dev/sda` or similar to install to device
 
-        ```shell
-        ssh dev@3.85.167.210
-        ssh-keygen # created in /home/dev/.ssh
-        ssh-copy-id 34.204.14.34
-        ```
+## 18.2 Skipped content
 
-    - Copy all tar files from `/home/dev/` on server1 to `/home/dev/` on server2, and extract them making sure the output is redirected to `/home/dev/tar-output.log`:
+**Skipped dracut and repairing initramfs**
 
-        ```shell
-        scp *.tar* dev@34.204.14.34:/home/dev
-        tar xfz deploy_script.tar.gz > tar-output.log
-        tar xfz deploy_content.tar.gz >> tar-output.log
-        ```
+# 19. Bash scripting
 
-    - Set the umask so that new files are only readable and writeable by the owner:
+Scripts are run in a subshell, not the current shell. So any changes to the shell such as working directory, env, are not captured.
 
-        ```shell
-        umask 0066 # default is 0666, subtract 0066 to get 0600
-        ```
+## 19.1 Essential bash scripting
 
-    - Verify the `/home/dev/deploy.sh` script is executable and run it:
+To run script in current shell, two ways
 
-        ```shell
-        chmod 711 deploy.sh
-        ./deploy.sh
-        ```
+```text
+. myscript
+source myscript
+```
 
-1. Linux Academy - Storage Management
+Set exit code in scripts with `exit 213`, check with `echo $?`. Exit code 0 means successful, everything else is error.
 
-    - Create a 2GB GPT Partition:
+Arguments in bash script:
 
-        ```shell
-        lsblk # observe nvme1n1 disk
-        sudo gdisk /dev/nvme1n1
-        # enter n for new partition
-        # accept default partition number
-        # accept default starting sector
-        # for the ending sector, enter +2G to create a 2GB partition
-        # accept default partition type
-        # enter w to write the partition information
-        # enter y to proceed
-        lsblk # observe nvme1n1 now has partition
-        partprobe # inform OS of partition change
-        ```
+```bash
+#!/bin/bash
+# run this script with a few arguments
+echo The first argument is $1
+echo The second argument is $2
+echo the third argument is $3
+```
 
-    - Create a 2GB MBR Partition:
+Counter that shows how many arguments were used `$#`
 
-        ```shell
-        lsblk # observe nvme2n1 disk
-        sudo fdisk /dev/nvme2n1
-        # enter n for new partition
-        # accept default partition type
-        # accept default partition number
-        # accept default first sector
-        # for the ending sector, enter +2G to create a 2GB partition
-        # enter w to write the partition information
-        ```
+Array containing all arguments used when running script `$@`
 
-    - Format the GPT Partition with XFS and mount the device persistently:
+Command substitution with either `$(cmd)` or backticks `` `cmd` ``
 
-        ```shell
-        sudo mkfs.xfs /dev/nvme1n1p1
-        sudo blkid # observe nvme1n1p1 UUID
-        vi /etc/fstab
-        # add a line with the new UUID and specify /mnt/gptxfs
-        mkdir /mnt/gptxfs
-        sudo mount -a
-        mount # confirm that it's mounted
-        ```
+Consult man or help page for `test` command. Used to check if files, arguments are present.
 
-    - Format the MBR Partition with ext4 and mount the device persistently:
+Script which tests if arg is provided, if not prompts for it
 
-        ```shell
-        sudo mkfs.ext4 /dev/nvme2n1p1
-        mkdir /mnt/mbrext4
-        mount /dev/nvme2n1p1 /mnt/mbrext4
-        mount # confirm that it's mounted
-        ```
+```bash
+if test -z $1 ; then
+  echo Enter name:
+  read NAME
+else
+  NAME=$1
+fi
 
-1. Linux Academy - Working with LVM Storage
+echo The name is ${NAME}
 
-    - Create Physical Devices:
+exit 0
+```
 
-        ```shell
-        lsblk # observe disks xvdf and xvdg
-        pvcreate /dev/xvdf /dev/xvdg
-        ```
+Command `test` is used here. Alternative is `[ -z $1 ]`. Also see `man bash` for explanation.
 
-    - Create Volume Group:
+Can use `test` or `[...]`. Note double `[[...]]` are Bash only and [not POSIX-compliant](https://stackoverflow.com/questions/669452/are-double-square-brackets-preferable-over-single-square-brackets-in-b).
 
-        ```shell
-        vgcreate RHCSA /dev/xvdf /dev/xvdg
-        vgdisplay # view details
-        ```
+Bash scripts can use `set`; check syntax with `help set`. `-` sets the option, while `+` removes it.
 
-    - Create a Logical Volume:
+Most common option with `set` is `set -eux` to help with debugging. Or run with `bash -x script.sh`
 
-        ```shell
-        lvcreate -n pinehead -L 3G RHCSA
-        lvdisplay # or lvs, to view details
-        ```
+Tip: Beware that echo statements with single quotes `echo I'm sorry` need to be escaped with `\`
 
-    - Format the LV as XFS and mount it persistently at `/mnt/lvol`:
+## 19.2 Conditional  and loops
 
-        ```shell
-        fdisk -l # get path for lv
-        mkfs.xfs /dev/mapper/RHCSA-pinehead
-        mkdir /mnt/lvol
-        blkid # copy UUID for /dev/mapper/RHCSA-pinehead
-        echo "UUID=76747796-dc33-4a99-8f33-58a4db9a2b59" >> /etc/fstab
-        # add the path /mnt/vol and copy the other columns
-        mount -a
-        mount # confirm that it's mounted
-        ```
+Tip: Use `help` pages to check for syntax of script keywords eg. `help if` shows:
 
-    - Grow the mount point by 200MB:
+```text
+[root@localhost ~]# help if
+if: if COMMANDS; then COMMANDS; [ elif COMMANDS; then COMMANDS; ]... [ else COMMANDS; ] fi
+    Execute commands based on conditional.
 
-        ```shell
-        lvextend -L +200M /dev/RHCSA/pinehead
-        ```
+    The `if COMMANDS' list is executed.  If its exit status is zero, then the
+    `then COMMANDS' list is executed.  Otherwise, each `elif COMMANDS' list is
+    executed in turn, and if its exit status is zero, the corresponding
+    `then COMMANDS' list is executed and the if command completes.  Otherwise,
+    the `else COMMANDS' list is executed, if present.  The exit status of the
+    entire construct is the exit status of the last command executed, or zero
+    if no condition tested true.
 
-1. Linux Academy - Network File Systems
+    Exit Status:
+    Returns the status of the last command executed.
+```
 
-    - Set up a SAMBA share:
+Use `&&` and `||` operators to simplify conditional statements.
 
-        ```shell
-        # on the server
-        yum install samba -y
-        vi /etc/samba/smb.conf
-        # add the below block
-        #####
-        #[share]
-        #    browsable = yes
-        #    path = /smb
-        #    writeable = yes
-        #####
-        useradd shareuser
-        smbpasswd -a shareuser # enter password
-        mkdir /smb
-        systemctl start smb
-        chmod 777 /smb
-        
-        # on the client
-        mkdir /mnt/smb
-        yum install cifs-utils -y
-        # on the server hostname -I shows private IP
-        mount -t cifs //10.0.1.100/share /mnt/smb -o username=shareuser,password= # private ip used
-        ```
+This for example
 
-    - Set up the NFS share:
+```bash
+[ $COUNTER = 0 ] && echo Counter is 0
+```
 
-        ```shell
-        # on the server
-        yum install nfs-utils -y
-        mkdir /nfs
-        echo "/nfs *(rw)" >> /etc/exports
-        chmod 777 /nfs
-        exportfs -a
-        systemctl start {rpcbind,nfs-server,rpc-statd,nfs-idmapd}
+basically just prints the second part if first is true. Note you can negate conditionals with `!` in front of it like `! [ -f $1 ]`.
 
-        # on the client
-        yum install nfs-utils -y
-        mkdir /mnt/nfs
-        showmount -e 10.0.1.101 # private ip used
-        systemctl start rpcbind
-        mount -t nfs 10.0.1.101:/nfs /mnt/nfs
-        ```
+Script with `if`, `then` and `else`
 
-1. Linux Academy - Maintaining Linux Systems
+```bash
+#!/bin/bash
+# run this script with one argument
+# the goal is to find out if the argument is a file or a directory
+if [ -f $1 ]
+then
+       echo "$1 is a file" 
+elif [ -d $1 ]
+then
+       echo "$1 is a directory"
+else
+       echo "I do not know what \$1 is"
+fi
+exit 0
+```
 
-    - Schedule a job to update the server midnight tonight:
+Note you can `exit` the script early if condition not met. This simplifies the conditionals.
 
-        ```shell
-        echo "dnf update -y" > update.sh
-        chmod +x update.sh
-        at midnight -f update.sh
-        atq # to verify that job is scheduled
-        ```
+```bash
+if [ -z $1 ]; then
 
-    - Modify the NTP pools:
+  echo No args provided...
+  exit 1
 
-        ```shell
-        vi /etc/chrony.conf
-        # modify the pool directive at the top of the file
-        ```
+elif [ $inputarg = "yes" ]; then
+  echo that\'s nice
 
-    - Modify GRUB to boot a different kernel:
+elif [ $inputarg = "no" ]; then
+  echo Sorry to hear that
 
-        ```shell
-        grubby --info=ALL # list installed kernels
-        grubby --set-default-index=1
-        grubby --default-index # verify it worked
-        ```
+else
+  echo Unknown arg provided
+fi
+```
 
-1. Linux Academy - Managing Users in Linux
+### 19.2.2 `for` loops
 
-    - Create the superhero group:
+C-style:
 
-        ```shell
-        groupadd superhero
-        ```
+```bash
+for (( i=100;i>1;i-- ))
+do 
+  commands with $i
+done
 
-    - Add user accounts for Tony Stark, Diana Prince, and Carol Danvers and add them to the superhero group:
+exit 0
+```
 
-        ```shell
-        useradd tstark -G superhero
-        useradd cdanvers -G superhero
-        useradd dprince -G superhero
-        ```
+Or one-liner style, note last element is the increment/decrement counter.
 
-    - Replace the primary group of Tony Stark with the wheel group:
+```bash
+for i in {100..1..1}; do echo $i; done
+```
 
-        ```shell
-        usermod tstark -ag wheel
-        grep wheel /etc/group # to verify
-        ```
+Increment with `((i++))` and decrement with `((i--))` or `i=$((i-1)`
 
-    - Lock the account of Diana Prince:
+### 19.2.3 `while`/`until` loops
 
-        ```shell
-        usermod -L dprince 
-        chage dprince -E 0
-        ```
+`until` is the opposite of `while` which loops until conditions are met.
 
-1. Linux Academy - SELinux Learning Activity
+```bash
+#!/bin/bash
+#
+until users | grep $1 > /dev/null
+do
+    echo $1 is not logged in yet
+    sleep 5
+done
+echo $1 has just logged in
+```
 
-    - Fix the SELinux permission on `/opt/website`:
+### 19.2.4 `case` statements
 
-        ```shell
-        cd /var/www # the default root directory for a web server
-        ls -Z # observe permission on html folder
-        semanage fcontext -a -t httpd_sys_content_t '/opt/website(/.*)'
-        restorecon /opt/website
-        ```
+* Each scenario is separated with `;;`
+* Catch-all other scenarios with `*)`
+* End with `esac` or case spelled backwards
 
-    - Deploy the website and test:
+Example
 
-        ```shell
-        mv /root/index.html /opt/website
-        curl localhost/index.html # receive connection refused response
-        systemctl start httpd # need to start the service
-        setenforce 0 # set to permissive to allow for now
-        ```
+```bash
+case $1 in
+yes)
+    echo yes is selected
+    ;;
+no)
+    echo no is selected
+    ;;
+*)
+    echo All other arguments
+    ;;
+esac
+```
 
-    - Resolve the error when attempting to access `/opt/website`:
+## 19.3 Special parameters
 
-        ```shell
-        ll -Z # notice website has admin_home_t
-        restorecon /opt/website/index.html
-        ```
+These are prefixed with `$` such as `$?`, `$#`, `$@` etc. Check what they mean with `man bash`, search "special parameters".
 
-1. Linux Academy - Setting up VDO
+Some are:
 
-    - Install VDO and ensure the service is running:
+* `$#` - Number of positional parameters
+* `$@` - Array of positional paramteters
+* `$?` - Exit code of last command
 
-        ```shell
-  dnf install vdo -y
-  systemctl start vdo && systemctl enable vdo
-        ```
+## 19.4 Parameter expansion
 
-    - Setup a 100G VM storage volume:
+Note: Not sure if in syllabus.
 
-        ```shell
-  vdo create --name=ContainerStorage --device=/dev/nvme1n1 --vdoLogicalSize=100G --sparseIndex=disabled
-  # spareIndex set to meet requirement of dense index deduplication
-  mkfs.xfs -K /dev/mapper/ContainerStorage
-  mkdir /mnt/containers
-  mount /dev/mapper/ContainerStorage /mnt/containers
-  vi /etc/fstab # add line /dev/mapper/ContainerStorage /mnt/containers xfs defaults,_netdev,x-systemd.device-timeout=0,x-systemd.requires=vdo.service 0 0
-        ```
+Check with `man bash`, search for "parameter expansion".
 
-    - Setup a 60G website storage volume:
+Common ones are `${foo:-1}`, which substitutes a default value if parameter is unset, otherwise substitutes the value. Note this **doesn't** set the value for \$foo.
 
-        ```shell
-  vdo create --name=WebsiteStorage --device=/dev/nvme2n1 --vdoLogicalSize=60G --deduplication=disabled
-  # deduplication set to meet requirement of no deduplication
-  mkfs.xfs -K /dev/mapper/WebsiteStorage
-  mkdir /mnt/website
-  mount /dev/mapper/WebsiteFiles /mnt/website
-  vi /etc/fstab # add line for /dev/mapper/WebsiteStorage /mnt/website xfs defaults,_netdev,x-systemd.device-timeout=0,x-systemd.requires=vdo.service 0 0
-        ```
+```bash
+ivan@localhost:~$ echo $foo
 
-1. Linux Academy - Final Practise Exam
+ivan@localhost:~$ echo ${foo:-1}
+1
+ivan@localhost:~$ foo=2
+ivan@localhost:~$ echo ${foo:-1}
+2
+ivan@localhost:~$ echo ${foo}
+```
 
-    - Start the guest VM:
+`${foo:=2}` This assigns default value of 2 to $ foo, if  $foo is unset.
 
-        ```shell
-  # use a VNC viewer connect to IP:5901
-  virsh list --all
-  virsh start --centos7.0
-  # we already have the VM installed, we just needed to start it (so we don't need virt-install)
-  dnf install virt-viewer -y
-  virt-viewer centos7.0 # virt-manager can also be used
-  # now we are connected to the virtual machine
-  # send key Ctrl+Alt+Del when prompted for password, as we don't know it
-  # press e on GRUB screen
-  # add rd.break on the linux16 line
-  # now at the emergency console
-  mount -o remount, rw /sysroot
-  chroot /sysroot
-  passwd
-  touch /.autorelabel
-  reboot -f # needs -f to work for some reason
-  # it will restart when it completes relabelling
-        ```
+Can also be used for shell arguments $ 1,  $2 etc.
 
-    - Create three users (Derek, Tom, and Kenny) that belong to the instructors group. Prevent Tom's user from accessing a shell, and make his account expire 10 day from now:
+This shows when argument is not passed `${foo:?Unset variable}`
 
-        ```shell
-  groupadd instructors
-  useradd derek -G instructors
-  useradd tom -s /sbin/nologin -G instructors
-  useradd kenny -G instructors
-  chage tom -E 2020-10-14
-  chage -l tom # to check
-  cat /etc/group | grep instructors # to check
-        ```
+```bash
+ivan@localhost:~$ echo ${1:?Missing args}
+-bash: 1: Missing args
+```
 
-    - Download and configure apache to serve index.html from `/var/web` and access it from the host machine:
+## 19.5 Read files line by line
 
-        ```shell
-  # there is some setup first to establish connectivity/repo
-  nmcli device # eth0 shown as disconnected
-  nmcli connection up eth0
-  vi /etc/yum.repos.d/centos7.repo
-        # contents of centos.repo
-        #####
-        #[centos7]
-        #name = centos
-        #baseurl = http://mirror.centos.org/centos/7/os/x86_64/
-  #enabled = 1
-  #gpgcheck = 1
-        #gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
-        #####
-  yum repolist # confirm
-  yum install httpd -y
-  systemctl start httpd.service
-  mkdir /var/web
-  vi /etc/httpd/conf/httpd.conf
-  # change DocumentRoot to "/var/web"
-  # change Directory tag to "/var/web"
-  # change Directory tag to "/var/web/html"
-  echo "Hello world" > /var/web/index.html
-  systemctl start httpd.service
-  ip a s # note the first inet address for eth0 # from the guest VM
-  curl http://192.168.122.213/ # from the host 
-  # note that no route to host returned
-  firewall-cmd --list-services # notice no http service
-  firewall-cmd --add-service=http --permanent
-  firewall-cmd --reload
-  firewall-cmd --list-services # confirm http service
-  curl http://192.168.122.255/ # from the host 
-  # note that 403 error is returned
-  # ll -Z comparision between /var/web and /var/www shows that the SELinux type of index.html should be httpd_sys_context_t and not var_t
-  yum provides \*/semanage # suggests policycoreutils-python
-  yum install policycoreutils-python -y
-  semanage fcontext -a -t httpd_sys_content_t "/var/web(/.*)?"
-  restorecon -R -v /var/web
-  curl http://192.168.122.255/ # from the host - success!
-        ```
+Use this trick to read file line by line
 
-    - Configure umask to ensure all files created by any user cannot be accessed by the "other" users:
-
-        ```shell
-  umask 0026 # also reflect change in /etc/profile and /etc/bashrc
-  # default for files is 0666 so will be 0640 after mask
-        ```
-
-    - Find all files in `/etc` (not including subdirectories) that are older than 720 days, and output a list to `/root/oldfiles`:
-
-        ```shell
-  find /etc -maxdepth 1 -mtime +720 > /root/oldfiles 
-        ```
-
-    - Find all log messages in `/var/log/messages` that contain "ACPI", and export them to a file called `/root/logs`. Then archive all of `/var/log` and save it to `/tmp/log_archive.tgz`:
-
-        ```shell
-  grep "ACPI" /var/log/messages > /root/logs
-  tar -czf /tmp/log_archive.tgz /var/log/ # note f flag must be last!
-        ```
-
-    - Modify the GRUB timeout and make it 1 second instead of 5 seconds:
-
-        ```shell
-  find / -iname grub.cfgreboot
-  # /etc/grub.d, /etc/default/grub and grub2-mkconfig referred to in /boot/grub2/grub.cfg
-  vi /etc/default/grub # change GRUB_TIMEOUT to 1
-  grub2-mkconfig -o /boot/grub2/grub.cfg
-  reboot # confirm timeout now 1 second
-        ```
-
-    - Create a daily cron job at 4:27PM for the Derek user that runs `cat /etc/redhat-release` and redirects the output to `/home/derek/release`:
-
-        ```shell
-  cd /home/derek
-  vi script.sh
-  # contents of script.sh
-        #####
-        ##!/bin/sh
-  #cat /etc/redhat-release > /home/derek/release
-        #####
-  chmod +x script.sh
-  crontab -u derek -e
-  # contents of crontab
-        #####
-        #27 16 * * * /home/derek/script.sh
-        #####
-  crontab -u derek -l # confirm
-        ```
-
-    - Configure `time.nist.gov` as the only NTP Server:
-
-        ```shell
-  vi /etc/chrony.conf
-  # replace lines at the top with server time.nist.gov
-        ```
-
-    - Create an 800M swap partition on the `vdb` disk and use the UUID to ensure that it is persistent:
-
-        ```shell
-  fdisk -l # note that we have one MBR partitions
-  fdisk /dev/vdb
-  # select n
-  # select p
-  # select default
-  # select default
-  # enter +800M
-  # select w
-  partprobe
-  lsblk # confirm creation
-  mkswap /dev/vdb1
-  vi /etc/fstab
-  # add line containing UUID and swap for the next 2 columns
-  swapon -a
-  swap # confirm swap is available
-        ```
-
-    - Create a new logical volume (LV-A) with a size of 30 extents that belongs to the volume group VG-A (with a PE size of 32M). After creating the volume, configure the server to mount it persistently on `/mnt`:
-
-        ```shell
-  # observe through fdisk -l and df -h that /dev/vdc is available with no file system
-  yum provides pvcreate # lvm2 identified
-  yum install lvm2 -y
-  pvcreate /dev/vdc
-  vgcreate VG-A /dev/vdc -s 32M
-  lvcreate -n LV-A -l 30 VG-A
-  mkfs.xfs /dev/VG-A/LV-A
-  # note in directory /dev/mapper the name is VG--A-LV--A
-  # add an entry to /etc/fstab at /dev/mapper/VG--A-LV--A and /mnt (note that you can mount without the UUID here)
-  mount -a
-  df -h # verify that LV-A is mounted
-        ```
-
-    - On the host, not the guest VM, utilise ldap.linuxacademy.com for SSO, and configure AutoFS to mount user's home directories on login. Make sure to use Kerberos:
-
-        ```shell
-  # this objective is no longer required in RHCSA 8
-        ```
-
-    - Change the hostname of the guest to "RHCSA":
-
-        ```shell
-  hostnamectl set-hostname rhcsa
-        ```
-
-1. Asghar Ghori - Exercise 3-1: Create Compressed Archives
-
- - Create tar files compressed with gzip and bzip2 and extract them:
-     ```shell
-  # gzip
-  tar -czf home.tar.gz /home
-  tar -tf /home.tar.gz # list files
-  tar -xf home.tar.gz
-
-  # bzip
-  tar -cjf home.tar.bz2 /home
-  tar -xf home.tar.bz2 -C /tmp
-        ```
-
-1. Asghar Ghori - Exercise 3-2: Create and Manage Hard Links
-
- - Create an empty file *hard1* under */tmp* and display its attributes. Create hard links *hard2* and *hard3*. Edit *hard2* and observe the attributes. Remove *hard1* and *hard3* and list the attributes again:
-     ```shell
-  touch hard1
-  ln hard1 hard2
-  ln hard1 hard3
-  ll -i
-  # observe link count is 3 and same inode number
-  echo "hi" > hard2
-  # observe file size increased to the same value for all files
-  rm hard1
-  rm hard3
-  # observe link count is 1
-        ```
-
-1. Asghar Ghori - Exercise 3-3: Create and Manage Soft Links
-
- - Create an empty file *soft1* under `/root` pointing to `/tmp/hard2`. Edit *soft1* and list the attributes after editing. Remove *hard2* and then list *soft1*:
-     ```shell
-  ln -s /tmp/hard2 soft1
-  ll -i
-  # observe soft1 and hard2 have the same inode number
-  echo "hi" >> soft1
-  # observe file size increased
-  cd /root
-  ll -i 
-  # observe the soft link is now broken
-        ```
-
-1. Asghar Ghori - Exercise 4-1: Modify Permission Bits Using Symbolic Form
-
- - Create a file *permfile1* with read permissions for owner, group and other. Add an execute bit for the owner and a write bit for group and public. Revoke the write bit from public and assign read, write, and execute bits to the three user categories at the same time. Revoke write from the owning group and write, and execute bits from public:
-     ```shell
-  touch permfile1
-  chmod 444 permfile1
-  chmod -v u+x,g+w,o+w permfile1
-  chmod -v o-w,a=rwx permfile1
-  chmod -v g-w,o-wx permfile1
-        ```
-
-1. Asghar Ghori - Exercise 4-2: Modify Permission Bits Using Octal Form
-
- - Create a file *permfile2* with read permissions for owner, group and other. Add an execute bit for the owner and a write bit for group and public. Revoke the write bit from public and assign read, write, and execute permissions to the three user categories at the same time:
-     ```shell
-  touch permfile2
-  chmod 444 permfile2
-  chmod -v 566 permfile2
-  chmod -v 564 permfile2
-  chmod -v 777 permfile2
-        ```
-
-1. Asghar Ghori - Exercise 4-3: Test the Effect of setuid Bit on Executable Files
-
- - As root, remove the setuid bit from `/usr/bin/su`. Observe the behaviour for another user attempting to switch into root, and then add the setuid bit back:
-     ```shell
-  chmod -v u-s /usr/bin/su
-  # users now receive authentication failure when attempting to switch
-  chmod -v u+s /usr/bin/su
-        ```
-
-1. Asghar Ghori - Exercise 4-4: Test the Effect of setgid Bit on Executable Files
-
- - As root, remove the setgid bit from `/usr/bin/write`. Observe the behaviour when another user attempts to run this command, and then add the setgid bit back:
-     ```shell
-  chmod -v g-s /usr/bin/write
-  # Other users can no longer write to root
-  chmod -v g+s /usr/bin/write
-        ```
-
-1. Asghar Ghori - Exercise 4-5: Set up Shared Directory for Group Collaboration
-
- - Create users *user100* and *user200*. Create a group *sgrp* with GID 9999 and add *user100* and *user200* to this group. Create a directory `/sdir` with ownership and owning groups belong to *root* and *sgrp*, and set the setgid bit on */sdir* and test:
-     ```shell
-  groupadd sgrp -g 9999
-  useradd user100 -G sgrp 
-  useradd user200 -G sgrp 
-  mkdir /sdir
-  chown root:sgrp sdir
-  chmod g+s,g+w sdir
-  # as user100
-  cd /sdir
-  touch file
-  # owning group is sgrp and not user100 due to setgid bit
-  # as user200
-  vi file
-  # user200 can also read and write
-        ```
-
-1. Asghar Ghori - Exercise 4-6: Test the Effect of Sticky Bit
-
- - Create a file under `/tmp` as *user100* and try to delete it as *user200*. Unset the sticky bit on `/tmp` and try to erase the file again. Restore the sticky bit on `/tmp`:
-     ```shell
-  # as user100
-  touch /tmp/myfile
-  # as user200
-  rm /tmp/myfile
-  # cannot remove file: Operation not permitted
-  # as root
-  chmod -v o-t tmp
-  # as user200
-  rm /tmp/myfile
-  # file can now be removed
-  # as root
-  chmod -v o+t tmp
-        ```
-
-1. Asghar Ghori - Exercise 4-7: Identify, Apply, and Erase Access ACLs
-
- - Create a file *acluser* as *user100* in `/tmp` and check if there are any ACL settings on the file. Apply access ACLs on the file for *user100* for read and write access. Add *user200* to the file for full permissions. Remove all access ACLs from the file:
-     ```shell
-  # as user100
-  touch /tmp/acluser
-  cd /tmp
-  getfacl acluser
-  # no ACLs on the file
-  setfacl -m u:user100:rw,u:user200:rwx acluser
-  getfacl acluser
-  # ACLs have been added
-  setfacl -x user100,user200 acluser
-  getfacl acluser
-  # ACLs have been removed
-        ```
-
-1. Asghar Ghori - Exercise 4-8: Apply, Identify, and Erase Default ACLs
-
- - Create a directory *projects* as *user100* under `/tmp`. Set the default ACLs on the directory for *user100* and *user200* to give them full permissions. Create a subdirectory *prjdir1* and a file *prjfile1* under *projects* and observe the effects of default ACLs on them. Delete the default entries:
-     ```shell
-  # as user100
-  cd /tmp
-  mkdir projects
-  getfacl projects
-  # No default ACLs for user100 and user200
-  setfacl -dm u:user100:rwx,u:user200:rwx projects
-  getfacl projects
-  # Default ACLs added for user100 and user200
-  mkdir projects/prjdir1
-  getfacl prjdir1
-  # Default ACLs inherited
-  touch prjdir1/prjfile1
-  getfacl prjfile1
-  # Default ACLs inherited
-  setfacl -k projects
-        ```
-
-1. Asghar Ghori - Exercise 5-1: Create a User Account with Default Attributes
-
- - Create *user300* with the default attributes in the *useradd* and *login.defs* files. Assign this user a password and show the line entries from all 4 authentication files:
-     ```shell
-  useradd user300
-  passwd user300
-  grep user300 /etc/passwd /etc/shadow /etc/group /etc/gshadow
-        ```
-
-1. Asghar Ghori - Exercise 5-2: Create a User Account with Custom Values
-
- - Create *user300* with the default attributes in the *useradd* and *login.defs* files. Assign this user a password and show the line entries from all 4 authentication files:
-     ```shell
-  useradd user300
-  passwd user300
-  grep user300 /etc/passwd /etc/shadow /etc/group /etc/gshadow
-        ```
-
-1. Asghar Ghori - Exercise 5-3: Modify and Delete a User Account
-
- - For *user200* change the login name to *user200new*, UID to 2000, home directory to `/home/user200new`, and login shell to `/sbin/nologin`. Display the line entry for *user2new* from the *passwd* for validation. Remove this user and confirm the deletion:
-     ```shell
-  usermod -l user200new -m -d /home/user200new -s /sbin/nologin -u 2000 user200
-  grep user200new /etc/passwd # confirm updated values
-  userdel -r user200new
-  grep user200new /etc/passwd # confirm user200new deleted
-        ```
-
-1. Asghar Ghori - Exercise 5-4: Create a User Account with No-Login Access
-
- - Create an account *user400* with default attributes but with a non-interactive shell. Assign this user the nologin shell to prevent them from signing in. Display the new line entry frmo the *passwd* file and test the account:
-     ```shell
-  useradd user400 -s /sbin/nologin
-  passwd user400 # change password
-  grep user400 /etc/passwd
-  sudo -i -u user400 # This account is currently not available
-        ```
-
-1. Asghar Ghori - Exercise 6-1: Set and Confirm Password Aging with chage
-
- - Configure password ageing for user100 using the *chage* command. Set the mindays to 7, maxdays to 28, and warndays to 5. Verify the new settings. Rerun the command and set account expiry to January 31, 2020:
-     ```shell
-  chage -m 7 -M 28 -W 5 user100
-  chage -l user100
-  chage -E 2021-01-31 user100
-  chage -l
-        ```
-
-1. Asghar Ghori - Exercise 6-2: Set and Confirm Password Aging with passwd
-
- - Configure password aging for *user100* using the *passwd* command. Set the mindays to 10, maxdays to 90, and warndays to 14, and verify the new settings. Set the number of inactivity days to 5 and ensure that the user is forced to change their password upon next login:
-     ```shell
-  passwd -n 10 -x 90 -w 14 user100
-  passwd -S user100 # view status
-  passwd -i 5 user100
-  passwd -e user100
-  passwd -S user100
-        ```
-
-1. Asghar Ghori - Exercise 6-3: Lock and Unlock a User Account with usermod and passwd
-
- - Disable the ability of user100 to log in using the *usermod* and *passwd* commands. Verify the change and then reverse it:
-     ```shell
-  grep user100 /etc/shadow # confirm account not locked by absence of "!" in password
-  passwd -l user100 # usermod -L also works
-  grep user100 /etc/shadow
-  passwd -u user100 # usermod -U also works
-        ```
-
-1. Asghar Ghori - Exercise 6-4: Create a Group and Add Members
-
- - Create a group called *linuxadm* with GID 5000 and another group called *dba* sharing the GID 5000. Add *user100* as a secondary member to group *linxadm*:
-     ```shell
-  groupadd -g 5000 linuxadm
-  groupadd -o -g 5000 dba # note need -o to share GID
-  usermod -G linuxadm user100
-  grep user100 /etc/group # confirm user added to group
-        ```
-
-1. Asghar Ghori - Exercise 6-5: Modify and Delete a Group Account
-
- - Change the *linuxadm* group name to *sysadm* and the GID to 6000. Modify the primary group for user100 to *sysadm*. Remove the *sysadm* group and confirm:
-     ```shell
-  groupmod -n sysadm -g 6000 linuxadm
-  usermod -g sysadm user100
-  groupdel sysadm # can't remove while user100 has as primary group
-        ```
-
-1. Asghar Ghori - Exercise 6-6: Modify File Owner and Owning Group
-
- - Create a file *file10* and a directory *dir10* as *user200* under `/tmp`, and then change the ownership for *file10* to *user100* and the owning group to *dba* in 2 separate transactions. Apply ownership on *file10* to *user200* and owning group to *user100* at the same time. Change the 2 attributes on the directory to *user200:dba* recursively:
-     ```shell
-  # as user200
-  mkdir /tmp/dir10
-  touch /tmp/file10
-  sudo chown user100 /tmp/file10   
-  sudo chgrp dba /tmp/file10
-  sudo chown user200:user100 /tmp/file10
-  sudo chown -R user200:user100 /tmp/dir10
-        ```
-
-1. Asghar Ghori - Exercise 7-1: Modify Primary Command Prompt
-
- - Customise the primary shell prompt to display the information enclosed within the quotes "\<username on hostname in pwd\>:" using variable and command substitution. Edit the `~/.profile`file for *user100* and define the new value in there for permanence:
-     ```shell
-  export PS1="< $LOGNAME on $(hostname) in \$PWD>"
-  # add to ~/.profile for user100
-        ```
-
-1. Asghar Ghori - Exercise 8-1: Submit, View, List, and Remove an at Job
-
- - Submit a job as *user100* to run the *date* command at 11:30pm on March 31, 2021, and have the output and any error messages generated redirected to `/tmp/date.out`. List the submitted job and then remove it:
-     ```shell
-  # as user100
-  at 11:30pm 03/31/2021
-  # enter "date &> /tmp/date.out"
-  atq # view job in queue
-  at -c 1 # view job details
-  atrm 1 # remove job
-        ```
-
-1. Asghar Ghori - Exercise 8-2: Add, List, and Remove a Cron Job
-
- - Assume all users are currently denied access to cron. Submit a cron job as *user100* to echo "Hello, this is a cron test.". Schedule this command to execute at every fifth minute past the hour between 10:00 am and 11:00 am on the fifth and twentieth of every month. Have the output redirected to `/tmp/hello.out`. List the cron entry and then remove it:
-     ```shell
-  # as root
-  echo "user100" > /etc/cron.allow
-  # ensure cron.deny is empty
-  # as user100
-  crontab
-  # */5 10,11 5,20 * * echo "Hello, this is a cron test." >> /tmp/hello.out
-  crontab -e # list
-  crontab -l # remove
-        ```
-
-1. Asghar Ghori - Exercise 9-1: Perform Package Management Tasks Using rpm
-
- - Verify the integrity and authenticity of a package called *dcraw* located in the `/mnt/AppStream/Packages` directory on the installation image and then install it. Display basic information about the package, show files it contains, list documentation files, verify the package attributes and remove the package:
-     ```shell
-  ls -l /mnt/AppStream/Packages/dcraw*
-  rpmkeys -K /mnt/AppStream/Packages/dcraw-9.27.0-9.e18.x86_64.rpm # check integrity
-  sudo rpm -ivh /mnt/AppStream/Packages/dcraw-9.27.0-9.e18.x86_64.rpm # -i is install, -v is verbose and -h is hash
-  rpm -qi dcraw # -q is query and -i is install
-  rpm -qd dcraw # -q is query and -d is docfiles
-  rpm -Vv dcraw # -V is verify and -v is verbose
-  sudo rpm -ve # -v is verbose and -e is erase
-        ```
-
-1. Asghar Ghori - Exercise 10-1: Configure Access to Pre-Built ISO Repositories
-
- - Access the repositories that are available on the RHEL 8 image. Create a definition file for the repositories and confirm:
-     ```shell
-  df -h # after mounting optical drive in VirtualBox
-  vi /etc/yum.repos.d/centos.local
-  # contents of centos.local
-        #####
-        #[BaseOS]
-  #name=BaseOS
-  #baseurl=file:///run/media/$name/BaseOS
-  #gpgcheck=0
-  #
-        #[AppStream]
-  #name=AppStream
-  #baseurl=file:///run/media/$name/AppStream
-  #gpgcheck=0
-        #####
-  dnf repolist # confirm new repos are added
-        ```
-
-1. Asghar Ghori - Exercise 10-2: Manipulate Individual Packages
-
- - Determine if the *cifs-utils* package is installed and if it is available for installation. Display its information before installing it. Install the package and display its information again. Remove the package along with its dependencies and confirm the removal:
-     ```shell
-  dnf config-manager --disable AppStream
-  dnf config-manager --disable BaseOS
-  dnf list installed | greps cifs-utils # confirm not installed
-  dnf info cifs-utils # display information
-  dnf install cifs-utils -y
-  dnf info cifs-utils # Repository now says @System
-  dnf remove cifs-utils -y
-        ```
-
-1. Asghar Ghori - Exercise 10-3: Manipulate Package Groups
-
- - Perform management operations on a package group called *system tools*. Determine if this group is already installed and if it is available for installation. List the packages it contains and install it. Remove the group along with its dependencies and confirm the removal:
-     ```shell
-  dnf group list # shows System Tools as an available group
-  dnf group info "System Tools"
-  dnf group install "System Tools" -y
-  dnf group list "System Tools" # shows installed
-  dnf group remove "System Tools" -y
-        ```
-
-1. Asghar Ghori - Exercise 10-4: Manipulate Modules
-
- - Perform management operations on a module called *postgresql*. Determine if this module is already installed and if it is available for installation. Show its information and install the default profile for stream 10. Remove the module profile along with any dependencies and confirm its removal:
-     ```shell
-  dnf module list "postgresql" # no [i] tag shown so not installed
-  dnf module info postgresql:10 # note there are multiple streams
-  sudo dnf module install --profile postgresql:10 -y
-  dnf module list "postgresql" # [i] tag shown so it's installed
-  sudo dnf module remove postgresql:10 -y
-        ```
-
-1. Asghar Ghori - Exercise 10-5: Install a Module from an Alternative Stream
-
- - Downgrade a module to a lower version. Remove the stream *perl* 5.26 and confirm its removal. Manually enable the stream *perl* 5.24 and confirm its new status. Install the new version of the module and display its information:
-     ```shell
-  dnf module list perl # 5.26 shown as installed
-  dnf module remove perl -y
-  dnf module reset perl # make no version enabled
-  dnf module install perl:5.26/minimal --allowerasing
-  dnf module list perl # confirm module installed
-        ```
-
-1. Asghar Ghori - Exercise 11-1: Reset the root User Password
-
- - Terminate the boot process at an early stage to access a debug shell to reset the root password:
-     ```shell
-  # add rd.break affter "rhgb quiet" to reboot into debug shell
-  mount -o remount, rw /sysroot
-  chroot /sysroot
-  passwd # change password
-  touch /.autorelabel
-        ```
-
-1. Asghar Ghori - Exercise 11-2: Download and Install a New Kernel
-
- - Download the latest available kernel packages from the Red Hat Customer Portal and install them:
-     ```shell
-  uname -r # view kernel version
-  rpm -qa | grep "kernel"
-  # find versions on access.redhat website, download and move to /tmp
-  sudo dnf install /tmp/kernel* -y
-        ```
-
-1. Asghar Ghori - Exercise 12-1: Manage Tuning Profiles
-
- - Install the *tuned* service, start it and enable it for auto-restart upon reboot. Display all available profiles and the current active profile. Switch to one of the available profiles and confirm. Determine the recommended profile for the system and switch to it. Deactive tuning and reactivate it:
-     ```shell
-  sudo systemctl status tuned-adm # already installed and enabled
-  sudo tuned-adm profile # active profile is virtual-guest
-  sudo tuned-adm profile desktop # switch to desktop profile
-  sudo tuned-adm profile recommend # virtual-guest is recommended
-  sudo tuned-adm off # turn off profile
-        ```
-
-1. Asghar Ghori - Exercise 13-1: Add Required Storage to server2
-
- - Add 4x250MB, 1x4GB, and 2x1GB disks:
-     ```shell
-  # in virtual box add a VDI disk to the SATA controller
-  lsblk # added disks shown as sdb, sdc, sdd
-        ```
-
-1. Asghar Ghori - Exercise 13-2: Create an MBR Partition
-
- - Assign partition type "msdos" to `/dev/sdb` for using it as an MBR disk. Create and confirm a 100MB primary partition on the disk:
-     ```shell
-  parted /dev/sdb print # first line shows unrecognised disk label
-  parted /dev/sdb mklabel msdos
-  parted /dev/sdb mkpart primary 1m 101m
-  parted /dev/sdb print # confirm added partition
-        ```
-
-1. Asghar Ghori - Exercise 13-3: Delete an MBR Partition
-
- - Delete the *sdb1* partition that was created in Exercise 13-2 above:
-     ```shell
-  parted /dev/sdb rm 1
-  parted /dev/sdb print # confirm deletion
-        ```
-
-1. Asghar Ghori - Exercise 13-4: Create a GPT Partition
-
- - Assign partition type "gpt" to `/dev/sdc` for using it as a GPT disk. Create and confirm a 200MB partition on the disk:
-     ```shell
-  gdisk /dev/sdc
-  # enter n for new
-  # enter default partition number
-  # enter default first sector
-  # enter +200MB for last sector
-  # enter default file system type
-  # enter default hex code
-  # enter w to write
-  lsblk # can see sdc1 partition with 200M
-        ```
-
-1. Asghar Ghori - Exercise 13-5: Delete a GPT Partition
-
- - Delete the *sdc1* partition that was created in Exercise 13-4 above:
-     ```shell
-  gdisk /dev/sdc
-  # enter d for delete
-  # enter w to write
-  lsblk # can see no partitions under sdc
-        ```
-
-1. Asghar Ghori - Exercise 13-6: Install Software and Activate VDO
-
- - Install the VDO software packages, start the VDO services, and mark it for autostart on subsequent reboots:
-     ```shell
-  dnf install vdo kmod-kvdo -y
-  systemctl start vdo.service & systemctl enable vdo.service
-        ```
-
-1. Asghar Ghori - Exercise 13-7: Create a VDO Volume
-
- - Create a volume called *vdo-vol1* of logical size 16GB on the `/dev/sdc` disk (the actual size of `/dev/sdc` is 4GB). List the volume and display its status information. Show the activation status of the compression and de-duplication features:
-     ```shell
-  wipefs -a /dev/sdc # couldn't create without doing this first
-  vdo create --name vdo-vol1 --device /dev/sdc --vdoLogicalSize 16G --vdoSlabSize 128
-  # VDO instance 0 volume is ready at /dev/mapper/vdo-vol1
-  lsblk # confirm vdo-vol1 added below sdc
-  vdo list # returns vdo-vol1
-  vdo status --name vdo-vol1 # shows status
-  vdo status --name vdo-vol1 | grep -i "compression" # enabled
-  vdo status --name vdo-vol1 | grep -i "deduplication" # enabled
-        ```
-
-1. Asghar Ghori - Exercise 13-8: Delete a VDO Volume
-
- - Delete the *vdo-vol1* volume that was created in Exercise 13-7 above and confirm the removal:
-     ```shell
-  vdo remove --name vdo-vol1
-  vdo list # confirm removal
-        ```
-
-1. Asghar Ghori - Exercise 14-1: Create a Physical Volume and Volume Group
-
- - Initialise one partition *sdd1* (90MB) and one disk *sdb* (250MB) for use in LVM. Create a volume group called *vgbook* and add both physical volumes to it. Use the PE size of 16MB and list and display the volume group and the physical volumes:
-     ```shell
-  parted /dev/sdd mklabel msdos
-  parted /dev/sdd mkpart primary 1m 91m
-  parted /dev/sdd set 1 lvm on
-  pvcreate /dev/sdd1 /dev/sdb
-  vgcreate -vs 16 vgbook /dev/sdd1 /dev/sdb
-  vgs vgbook # list information about vgbook
-  vgdisplay -v vbook # list detailed information about vgbook
-  pvs # list information about pvs
-        ```
-
-1. Asghar Ghori - Exercise 14-2: Create Logical Volumes
-
- - Create two logical volumes, *lvol0* and *lvbook1*, in the *vgbook* volume group. Use 120MB for *lvol0* and 192MB for *lvbook1*. Display the details of the volume group and the logical volumes:
-     ```shell
-  lvcreate -vL 120M vgbook
-  lvcreate -vL 192M -n lvbook1 vgbook
-  lvs # display information
-  vgdisplay -v vgbook # display detailed information about volume group
-        ```
-
-1. Asghar Ghori - Exercise 14-3: Extend a Volume Group and a Logical Volume
-
- - Add another partition *sdd2* of size 158MB to *vgbook* to increase the pool of allocatable space. Initialise the new partition prior to adding it to the volume group. Increase the size of *lvbook1* to 336MB. Display the basic information for the physical volumes, volume group, and logical volume:
-     ```shell
-  parted mkpart /dev/sdd primary 90 250
-  parted /dev/sdd set 2 lvm on
-  parted /dev/sdd print # confirm new partition added
-  vgextend vgbook /dev/sdd2
-  pvs # display information
-  vgs # display information
-  lvextend vgbook/lvbook1 -L +144M
-  lvs # display information
-        ```
-
-1. Asghar Ghori - Exercise 14-4: Rename, Reduce, Extend, and Remove Logical Volumes
-
- - Rename *lvol0* to *lvbook2*. Decrease the size of *lvbook2* to 50MB using the *lvreduce* command and then add 32MB with the *lvresize* command. Remove both logical volumes. Display the summary for the volume groups, logical volumes, and physical volumes:
-     ```shell
-  lvrename vgbook/lvol0 vgbook/lvbook2
-  lvreduce vgbook/lvbook2 -L 50M
-  lvextend vgbook/lvbook2 -L +32M
-  lvremove vgbook/lvbook1
-  lvremove vgbook/lvbook2
-  pvs # display information
-  vgs # display information
-  lvs # display information
-        ```
-
-1. Asghar Ghori - Exercise 14-5: Reduce and Remove a Volume Group
-
- - Reduce *vgbook* by removing the *sdd1* and *sdd2* physical volumes from it, then remove the volume group. Confirm the deletion of the volume group and the logical volumes at the end:
-     ```shell
-  vgreduce vgbook /dev/sdd1 /dev/sdd2
-  vgremove vgbook
-  vgs # confirm removals
-  pvs # can be used to show output of vgreduce
-        ```
-
-1. Asghar Ghori - Exercise 14-5: Reduce and Remove a Volume Group
-
- - Reduce *vgbook* by removing the *sdd1* and *sdd2* physical volumes from it, then remove the volume group. Confirm the deletion of the volume group and the logical volumes at the end:
-     ```shell
-  vgreduce vgbook /dev/sdd1 /dev/sdd2
-  vgremove vgbook
-  vgs # confirm removals
-  pvs # can be used to show output of vgreduce
-        ```
-
-1. Asghar Ghori - Exercise 14-6: Uninitialise Physical Volumes
-
- - Uninitialise all three physical volumes - *sdd1*, *sdd2*, and *sdb* - by deleting the LVM structural information from them. Use the *pvs* command for confirmation. Remove the partitions from the *sdd* disk and verify that all disks are now in their original raw state:
-     ```shell
-  pvremove /dev/sdd1 /dev/sdd2 /dev/sdb
-  pvs
-  parted /dev/sdd
-  # enter print to view partitions
-  # enter rm 1
-  # enter rm 2
-        ```
-
-1. Asghar Ghori - Exercise 14-7: Install Software and Activate Stratis
-
- - Install the Stratis software packages, start the Stratis service, and mark it for autostart on subsequent system reboots:
-     ```shell
-  dnf install stratis-cli -y
-  systemctl start stratisd.service & systemctl enable stratisd.service
-        ```
-
-1. Asghar Ghori - Exercise 14-8: Create and Confirm a Pool and File System
-
- - Create a Stratis pool and a file system in it. Display information about the pool, file system, and device used:
-     ```shell
-  stratis pool create mypool /dev/sdd
-  stratis pool list # confirm stratis pool created
-  stratis filesystem create mypool myfs
-  stratis filesystem list # confirm filesystem created, get device path
-  mkdir /myfs1
-  mount /stratis/mypool/myfs /myfs1
-        ```
-
-1. Asghar Ghori - Exercise 14-9: Expand and Rename a Pool and File System
-
- - Expand the Stratis pool *mypool* using the *sdd* disk. Rename the pool and the file system it contains:
-     ```shell
-  stratis pool add-data mypool /dev/sdd
-  stratis pool rename mypool mynewpool
-  stratis pool list # confirm changes
-        ```
-
-1. Asghar Ghori - Exercise 14-10: Destroy a File System and Pool
-
- - Destroy the Stratis file system and the pool that was created, expanded, and renamed in the above exercises. Verify the deletion with appropriate commands:
-     ```shell
-  umount /bookfs1
-  stratis filesystem destroy mynewpool myfs
-  stratis filesystem list # confirm deletion
-  stratis pool destroy mynewpool
-  stratis pool list # confirm deletion
-        ```
-
-1. Asghar Ghori - Exercise 15-1: Create and Mount Ext4, VFAT, and XFS File Systems in Partitions
-
- - Create 2x100MB partitions on the `/dev/sdb` disk, initialise them separately with the Ext4 and VFAT file system types, define them for persistence using their UUIDs, create mount points called `/ext4fs` and `/vfatfs1`, attach them to the directory structure, and verify their availability and usage. Use the disk `/dev/sdc` and repeat the above procedure to establish an XFS file system in it and mount it on `/xfsfs1`:
-     ```shell
-  parted /dev/sdb
-  # enter mklabel 
-  # enter msdos 
-  # enter mkpart 
-  # enter primary
-  # enter ext4
-  # enter start as 0
-  # enter end as 100MB
-  # enter print to verify
-  parted /dev/sdb mkpart primary 101MB 201MB
-  # file system entered during partition created is different
-  lsblk # verify partitions
-  mkfs.ext4 /dev/sdb1
-  mkfs.vfat /dev/sdb2
-  parted /dev/sdc
-  # enter mklabel 
-  # enter msdos 
-  # enter mkpart
-  # enter primary
-  # enter xfs
-  # enter start as 0
-  # enter end as 100MB
-  mkfs.xfs /dev/sdc1
-  mkdir /ext4fs /vfatfs1 /xfsfs1
-  lsblk -f # get UUID for each file system
-  vi /etc/fstab
-  # add entries using UUIDs with defaults and file system name
-  df -hT # view file systems and mount points
-        ```
-
-1. Asghar Ghori - Exercise 15-2: Create and Mount XFS File System in VDO Volume
-
- - Create a VDO volume called *vdo1* of logical size 16GB on the *sdc* disk (actual size 4GB). Initialise the volume with the XFS file system type, define it for persistence using its device files, create a mount point called `/xfsvdo1`, attach it to the directory structure, and verify its availability and usage:
-     ```shell
-  wipefs -a /dev/sdc
-  vdo create --device /dev/sdc --vdoLogicalSize 16G --name vdo1 --vdoSlabSize 128
-  vdo list # list the vdo
-  lsblk /dev/sdc # show information about disk
-  mkdir /xfsvdo1
-  vdo status # get vdo path
-  mkfs.xfs /dev/mapper/vdo1
-  vi /etc/fstab
-  # copy example from man vdo create
-  mount -a
-  df -hT # view file systems and mount points
-        ```
-
-1. Asghar Ghori - Exercise 15-3: Create and Mount Ext4 and XFS File Systems in LVM Logical Volumes
-
- - Create a volume group called *vgfs* comprised of a 160MB physical volume created in a partition on the `/dev/sdd` disk. The PE size for the volume group should be set at 16MB. Create 2 logical volumes called *ext4vol* and *xfsvol* of sizes 80MB each and initialise them with the Ext4 and XFS file system types. Ensure that both file systems are persistently defined using their logical volume device filenames. Create mount points */ext4fs2* and */xfsfs2*, mount the file systems, and verify their availability and usage:
-     ```shell
-  vgcreate vgfs /dev/sdd --physicalextentsize 16MB
-  lvcreate vgfs --name ext4vol -L 80MB
-  lvcreate vgfs --name xfsvol -L 80MB
-  mkfs.ext4 /dev/vgfs/ext4vol
-  mkfs.xfs /dev/vgfs/xfsvol
-  blkid # copy UUID for /dev/mapper/vgfs-ext4vol and /dev/mapper/vgfs-xfsvol
-  vi /etc/fstab
-  # add lines with copied UUID
-  mount -a
-  df -hT # confirm added
-        ```
-
-1. Asghar Ghori - Exercise 15-4: Resize Ext4 and XFS File Systems in LVM Logical Volumes
-
- - Grow the size of the *vgfs* volume group that was created above by adding the whole *sdc* disk to it. Extend the *ext4vol* logical volume along with the file system it contains by 40MB using 2 separate commands. Extend the *xfsvol* logical volume along with the file system it contains by 40MB using a single command:
-     ```shell
-  vdo remove --name vdo1 # need to use this disk
-  vgextend vgfs /dev/sdc
-  lvextend -L +80 /dev/vgfs/ext4vol
-  fsadm resize /dev/vgfs/ext4vol
-  lvextend -L +80 /dev/vgfs/xfsvol
-  fsadm resize /dev/vgfs/xfsvol
-  lvresize -r -L +40 /dev/vgfs/xfsvol # -r resizes file system
-  lvs # confirm resizing
-        ```
-
-1. Asghar Ghori - Exercise 15-5: Create, Mount, and Expand XFS File System in Stratis Volume
-
- - Create a Stratis pool called *strpool* and a file system *strfs2* by reusing the 1GB *sdc* disk. Display information about the pool, file system, and device used. Expand the pool to include another 1GB disk *sdh* and confirm:
-     ```shell
-  stratis pool create strpool /dev/sdc
-  stratis filesystem create strpool strfs2
-  stratis pool list # view created stratis pool
-  stratis filesystem list # view created filesystem
-  stratis pool add-data strpool /dev/sdd
-  stratis blockdev list strpool # list block devices in pool
-  mkdir /strfs2
-  lsblk /stratis/strpool/strfs2 -o UUID
-  vi /etc/fstab
-  # add line
-  # UUID=2913810d-baed-4544-aced-a6a2c21191fe /strfs2 xfs x-systemd.requires=stratisd.service 0 0
-        ```
-
-1. Asghar Ghori - Exercise 15-6: Create and Activate Swap in Partition and Logical Volume
-
- - Create 1 swap area in a new 40MB partition called *sdc3* using the *mkswap* command. Create another swap area in a 140MB logical volume called *swapvol* in *vgfs*. Add their entries to the `/etc/fstab` file for persistence. Use the UUID and priority 1 for the partition swap and the device file and priority 2 for the logical volume swap. Activate them and use appropriate tools to validate the activation:
-     ```shell
-  parted /dev/sdc
-  # enter mklabel msdos
-  # enter mkpart primary 0 40
-  parted /dev/sdd
-  # enter mklabel msdos
-  # enter mkpart primary 0 140
-  mkswap -L sdc3 /dev/sdc 40
-  vgcreate vgfs /dev/sdd1
-  lvcreate vgfs --name swapvol -L 132
-  mkswap swapvol /dev/sdd1
-  mkswap /dev/vgfs/swapvol
-  lsblk -f # get UUID
-  vi /etc/fstab
-  # add 2 lines, e.g. first line
-  # UUID=WzDb5Y-QMtj-fYeo-iW0f-sj8I-ShRu-EWRIcp swap swap pri=2 0 0
-  mount -a
-        ```
-
-1. Asghar Ghori - Exercise 16-1: Export Share on NFS Server
-
- - Create a directory called `/common` and export it to *server1* in read/write mode. Ensure that NFS traffic is allowed through the firewall. Confirm the export:
-     ```shell
-  dnf install nfs-utils -y
-  mkdir /common
-  firewall-cmd --permanent --add-service=nfs
-  firewall-cmd --reload
-  systemctl start nfs-server.service & systemctl enable nfs-server.service
-  echo "/nfs *(rw)" >> /etc/exports
-  exportfs -av
-        ```
-
-1. Asghar Ghori - Exercise 16-2: Mount Share on NFS Client
-
- - Mount the `/common` share exported above. Create a mount point called `/local`, mount the remote share manually, and confirm the mount. Add the remote share to the file system table for persistence. Remount the share and confirm the mount. Create a test file in the mount point and confirm the file creation on the NFS server:
-     ```shell
-  dnf install cifs-utils -y
-  mkdir /local
-  chmod 755 local
-  mount 10.0.2.15:/common /local
-  vi /etc/fstab
-  # add line
-  # 10.0.2.15:/common /local nfs _netdev 0 0
-  mount -a
-  touch /local/test # confirm that it appears on server in common
-        ```
-
-1. Asghar Ghori - Exercise 16-3: Access NFS Share Using Direct Map
-
- - Configure a direct map to automount the NFS share `/common` that is available from *server2*. Install the relevant software, create a local mount point `/autodir`, and set up AutoFS maps to support the automatic mounting. Note that `/common` is already mounted on the `/local` mount point on *server1* via *fstab*. Ensure there is no conflict in configuration or functionality between the 2:
-     ```shell
-  dnf install autofs -y
-  mkdir /autodir
-  vi /etc/auto.master
-  # add line
-  #/- /etc/auto.master.d/auto.dir
-  vi /etc/auto.master.d/auto.dir
-  # add line
-  #/autodir 172.25.1.4:/common
-  systemctl restart autofs
-        ```
-
-1. Asghar Ghori - Exercise 16-4: Access NFS Share Using Indirect Map
-
- - Configure an indirect map to automount the NFS share `/common` that is available from *server2*. Install the relevant software and set up AutoFS maps to support the automatic mounting. Observe that the specified mount point "autoindir" is created automatically under `/misc`. Note that `/common` is already mounted on the `/local` mount point on *server1* via *fstab*. Ensure there is no conflict in configuration or functionality between the 2:
-     ```shell
-  dnf install autofs -y
-  grep /misc /etc/auto.master # confirm entry is there
-  vi /etc/auto.misc
-  # add line
-  #autoindir 172.25.1.4:/common
-  systemctl restart autofs
-        ```
-
-1. Asghar Ghori - Exercise 16-5: Automount User Home Directories Using Indirect Map
-
- - On *server1* (NFS server), create a user account called *user30* with UID 3000. Add the `/home` directory to the list of NFS shares so that it becomes available for remote mount. On *server2* (NFS client), create a user account called *user30* with UID 3000, base directory `/nfshome`, and no user home directory. Create an umbrella mount point called `/nfshome` for mounting the user home directory from the NFS server. Install the relevent software and establish an indirect map to automount the remote home directory of *user30* under `/nfshome`. Observe that the home directory of *user30* is automounted under `/nfshome` when you sign in as *user30*:
-     ```shell
-  # on server 1 (NFS server)
-  useradd -u 3000 user30
-  echo password1 | passwd --stdin user30
-  vi /etc/exports
-  # add line
-  #/home *(rw)
-  exportfs -avr
-
-  # on server 2 (NFS client)
-  dnf install autofs -y  
-  useradd user30 -u 3000 -Mb /nfshome
-  echo password1 | passwd --stdin user30
-  mkdir /nfshome
-  vi /etc/auto.master
-  # add line
-  #/nfshome /etc/auto.master.d/auto.home
-  vi /etc/auto.master.d/auto.home
-  # add line
-  #* -rw &:/home&
-  systemctl enable autofs.service & systemctl start autofs.service
-  sudo su - user30
-  # confirm home directory is mounted
-        ```
-
-1. Asghar Ghori - Exercise 17.1: Change System Hostname
-
- - Change the hostnames of *server1* to *server10.example.com* and *server2* to *server20.example.com* by editing a file and restarting the corresponding service daemon and using a command respectively:
-     ```shell
-  # on server 1
-  vi /etc/hostname
-  # change line to server10.example.com
-  systemctl restart systemd-hostnamed
-  
-  # on server 2
-  hostnamectl set-hostname server20.example.com
-        ```
-
-1. Asghar Ghori - Exercise 17.2: Add Network Devices to server10 and server20
-
- - Add one network interface to *server10* and one to *server20* using VirtualBox:
-     ```shell
-  # A NAT Network has already been created and attached to both servers in VirtualBox to allow them to have seperate IP addresses (note that the MAC addressed had to be changed)
-  # Add a second Internal Network adapter named intnet to each server
-  nmcli conn show # observe enp0s8 added as a connection
-        ```
-
-1. Asghar Ghori - Exercise 17.3: Configure New Network Connection Manually
-
- - Create a connection profile for the new network interface on *server10* using a text editing tool. Assign the IP 172.10.10.110/24 with gateway 172.10.10.1 and set it to autoactivate at system reboots. Deactivate and reactive this interface at the command prompt:
-     ```shell
-  vi /etc/sysconfig/network-scripts/ifcfg-enp0s8
-  # add contents of file
-  #TYPE=Ethernet
-  #BOOTPROTO=static
-  #IPV4_FAILURE_FATAL=no
-  #IPV6INIT=no
-  #NAME=enp0s8
-  #DEVICE=enp0s8
-  #ONBOOT=yes
-  #IPADDR=172.10.10.110
-  #PREFIX=24
-  #GATEWAY=172.10.10.1
-  ifdown enp0s8
-  ifup enp0s8
-  ip a # verify activation
-        ```
-
-1. Asghar Ghori - Exercise 17.4: Configure New Network Connection Using nmcli
-
- - Create a connection profile using the *nmcli* command for the new network interface enp0s8 that was added to *server20*. Assign the IP 172.10.10.120/24 with gateway 172.10.10.1, and set it to autoactivate at system reboot. Deactivate and reactivate this interface at the command prompt:
-     ```shell
-  nmcli dev status # show devices with enp0s8 disconnected
-  nmcli con add type Ethernet ifname enp0s8 con-name enp0s8 ip4 172.10.10.120/24 gw4 172.10.10.1
-  nmcli conn show # verify connection added
-  nmcli con down enp0s8
-  nmcli con up enp0s8
-  ip a # confirm ip address is as specified
-        ```
-
-1. Asghar Ghori - Exercise 17.5: Update Hosts Table and Test Connectivity
-
- - Update the `/etc/hosts` file on both *server10* and *server20*. Add the IP addresses assigned to both connections and map them to hostnames *server10*, *server10s8*, *server20*, and *server20s8* appropriately. Test connectivity from *server10* to *server20* to and from *server10s8* to *server20s8* using their IP addresses and then their hostnames:
-     ```shell
-  ## on server20
-  vi /etc/hosts
-  # add lines
-  #172.10.10.120 server20.example.com server20
-  #172.10.10.120 server20s8.example.com server20s8
-  #192.168.0.110 server10.example.com server10
-  #192.168.0.110 server10s8.example.com server10s8
-
-  ## on server10
-  vi /etc/hosts
-  # add lines
-  #172.10.10.120 server20.example.com server20
-  #172.10.10.120 server20s8.example.com server20s8
-  #192.168.0.110 server10.example.com server10
-  #192.168.0.110 server10s8.example.com server10s8
-  ping server10 # confirm host name resolves
-        ```
-
-1. Asghar Ghori - Exercise 18.1: Configure NTP Client
-
- - Install the Chrony software package and activate the service without making any changes to the default configuration. Validate the binding and operation:
-     ```shell
-  dnf install chrony -y
-  vi /etc/chrony.conf # view default configuration
-  systemctl start chronyd.service & systemctl enable chronyd.service
-  chronyc sources # view time sources
-  chronyc tracking # view clock performance
-        ```
-
-1. Asghar Ghori - Exercise 19.1: Access RHEL System from Another RHEL System
-
- - Issue the *ssh* command as *user1* on *server10* to log in to *server20*. Run appropriate commands on *server20* for validation. Log off and return to the originating system:
-     ```shell
-  # on server 10
-  ssh user1@server20
-  whoami
-  pwd
-  hostname # check some basic information
-  # ctrl + D to logout
-        ```
-
-1. Asghar Ghori - Exercise 19.2: Access RHEL System from Windows
-
- - Use a program called PuTTY to access *server20* using its IP address and as *user1*. Run appropriate commands on *server20* for validation. Log off to terminate the session:
-     ```shell
-  # as above but using the server20 IP address in PuTTy
-        ```
-
-1. Asghar Ghori - Exercise 19.3: Generate, Distribute, and Use SSH Keys
-
- - Generate a password-less ssh key pair using RSA for *user1* on *server10*. Display the private and public file contents. Distribute the public key to *server20* and attempt to log on to *server20* from *server10*. Show the log file message for the login attempt:
-     ```shell
-  # on server10
-  ssh-keygen
-  # press enter to select default file names and no password
-  ssh-copy-id server20
-  ssh server20 # confirm you can login
-
-  # on server20
-  vi /var/log/secure # view login event
-        ```
-
-1. Asghar Ghori - Exercise 20.1: Add Services and Ports, and Manage Zones
-
- - Determine the current active zone. Add and activate a permanent rule to allow HTTP traffic on port 80, and then add a runtime rule for traffic intended for TCP port 443. Add a permanent rule to the *internal* zone for TCP port range 5901 to 5910. Confirm the changes and display the contents of the affected zone files. Switch the default zone to the *internal* zone and activate it:
-     ```shell
-  # on server10
-  firewall-cmd --get-active-zones # returns public with enp0s8 interface
-  firewall-cmd --add-service=http --permanent
-  firewall-cmd --add-service=https
-  firewall-cmd --add-port=80/tcp --permanent
-  firewall-cmd --add-port=443/tcp
-  firewall-cmd --zone=internal --add-port=5901-5910/tcp --permanent
-  firewall-cmd --reload
-  firewall-cmd --list-services # confirm result
-  firewall-cmd --list-ports # confirm result
-  vi /etc/firewalld/zones/public.xml # view configuration
-  vi /etc/firewalld/zones/internal.xml # view configuration
-  firewall-cmd --set-default-zone=internal
-  firewall-cmd --reload
-  firewall-cmd --get-active-zones # returns internal with enp0s8 interface
-        ```
-
-1. Asghar Ghori - Exercise 20.2: Remove Services and Ports, and Manage Zones
-
- - Remove the 2 permanent rules added above. Switch back to the *public* zone as the default zone, and confirm the changes:
-     ```shell
-  firewall-cmd --set-default-zone=public
-  firewall-cmd --remove-service=http --permanent
-  firewall-cmd --remove-port=80/tcp --permanent
-  firewall-cmd --reload
-  firewall-cmd --list-services # confirm result
-  firewall-cmd --list-ports # confirm result
-        ```
-
-1. Asghar Ghori - Exercise 20.3: Test the Effect of Firewall Rule
-
- - Remove the *sshd* service rule from the runtime configuration on *server10*, and try to access the server from *server20* using the *ssh* command:
-     ```shell
-  # on server10
-  firewall-cmd --remove-service=ssh --permanent
-  firewall-cmd --reload
-  
-  # on server20
-  ssh user1@server10
-  # no route to host message displayed
-
-  # on server10
-  firewall-cmd --add-service=ssh --permanent
-  firewall-cmd --reload
-  
-  # on server20
-  ssh user1@server10
-  # success
-        ```
-
-1. Asghar Ghori - Exercise 21.1: Modify SELinux File Context
-
- - Create a directory *sedir1* under `/tmp` and a file *sefile1* under *sedir1*. Check the context on the directory and file. Change the SELinux user and type to user_u and public_content_t on both and verify:
-     ```shell
-  mkdir /tmp/sedir1
-  touch /tmp/sedir1/sefile1
-  cd /tmp/sedir1
-  ll -Z # unconfined_u:object_r:user_tmp_t:s0 shown
-  chcon -u user_u -R sedir1
-  chcon -t public_content_t -R sedir1
-        ```
-
-1. Asghar Ghori - Exercise 21.2: Add and Apply File Context
-
- - Add the current context on *sedir1* to the SELinux policy database to ensure a relabeling will not reset it to its previous value. Next, you will change the context on the directory to some random values. Restore the default context from the policy database back to the directory recursively:
-     ```shell
-  semanage fcontext -a -t public_content_t -s user_u '/tmp/sedir1(/.*)?'
-  cat /etc/selinux/targeted/contexts/files/file_contexts.local # view recently added policies
-  restorecon -Rv sedir1 # any chcon changes are reverted with this
-        ```
-
-1. Asghar Ghori - Exercise 21.3: Add and Delete Network Ports
-
- - Add a non-standard port 8010 to the SELinux policy database for the *httpd* service and confirm the addition. Remove the port from the policy and verify the deletion:
-     ```shell
-  semanage port -a -t http_port_t -p tcp 8010
-  semanage port -l | grep http # list all port settings
-  semanage port -d -t http_port_t -p tcp 8010
-  semanage port -l | grep http
-        ```
-
-1. Asghar Ghori - Exercise 21.4: Copy Files with and without Context
-
- - Create a file called *sefile2* under `/tmp` and display its context. Copy this file to the `/etc/default` directory, and observe the change in the context. Remove *sefile2* from `/etc/default`, and copy it again to the same destination, ensuring that the target file receives the source file's context:
-     ```shell
-  cd /tmp
-  touch sefile2
-  ll -Zrt # sefile2 context is unconfined_u:object_r:user_tmp_t:s0
-  cp sefile2 /etc/default
-  cd /etc/default
-  ll -Zrt # sefile2 context is unconfined_u:object_r:etc_t:s0
-  rm /etc/default/sefile2
-  cp /tmp/sefile2 /etc/default/sefile2 --preserve=context
-  ll -Zrt # sefile2 context is unconfined_u:object_r:user_tmp_t:s0
-        ```
-
-1. Asghar Ghori - Exercise 21.5: View and Toggle SELinux Boolean Values
-
- - Display the current state of the Boolean nfs_export_all_rw. Toggle its value temporarily, and reboot the system. Flip its value persistently after the system has been back up:
-     ```shell
-  getsebool nfs_export_all_rw # nfs_export_all_rw --> on
-  sestatus -b | grep nfs_export_all_rw # also works
-  setsebool nfs_export_all_rw_off
-  reboot
-  setsebool nfs_export_all_rw_off -P
-        ```
-
-1. Prince Bajaj - Managing Containers
-
- - Download the Apache web server container image (httpd 2.4) and inspect the container image. Check the exposed ports in the container image configuration:
-     ```shell
-  # as root
-  usermod user1 -aG wheel
-  cat /etc/groups | grep wheel # confirm
-  
-  # as user1
-  podman search httpd # get connection refused
-  # this was because your VM was setup as an Internal Network and not a NAT network so it couldn't access the internet
-  # see result registry.access.redhat.com/rhscl/httpd-24-rhel7
-  skopeo inspect --creds name:password docker://registry.access.redhat.com/rhscl/httpd-24-rhel7
-  podman pull registry.access.redhat.com/rhscl/httpd-24-rhel7
-  podman inspect registry.access.redhat.com/rhscl/httpd-24-rhel7
-  # exposed ports shown as 8080 and 8443
-        ```
-
- - Run the httpd container in the background. Assign the name *myweb* to the container, verify that the container is running, stop the container and verify that it has stopped, and delete the container and the container image:
-     ```shell
-  podman run --name myweb -d registry.access.redhat.com/rhscl/httpd-24-rhel7
-  podman ps # view running containers
-  podman stop myweb
-  podman ps # view running containers
-  podman rm myweb
-  podman rmi registry.access.redhat.com/rhscl/httpd-24-rhel7
-        ```
-
- - Pull the Apache web server container image (httpd 2.4) and run the container with the name *webserver*. Configure *webserver* to display content "Welcome to container-based web server". Use port 3333 on the host machine to receive http requests. Start a bash shell in the container to verify the configuration:
-     ```shell
-  # as root
-  dnf install httpd -y
-  vi /var/www/html/index.html
-  # add row "Welcome to container-based web server"
-
-  # as user1
-  podman search httpd
-  podman pull registry.access.redhat.com/rhscl/httpd-24-rhel7
-  podman inspect registry.access.redhat.com/rhscl/httpd-24-rhel7 # shows 8080 in exposedPorts, and /opt/rh/httpd24/root/var/www is shown as HTTPD_DATA_ORIG_PATH 
-  podman run -d=true -p 3333:8080 --name=webserver -v /var/www/html:/opt/rh/httpd24/root/var/www/html registry.access.redhat.com/rhscl/httpd-24-rhel7
-  curl http://localhost:3333 # success!
-    
-  # to go into the container and (for e.g.) check the SELinux context
-  podman exec -it webserver /bin/bash
-  cd /opt/rh/httpd24/root/var/www/html
-  ls -ldZ
-
-  # you can also just go to /var/www/html/index.html in the container and change it there
-        ```
-
- - Configure the system to start the *webserver* container at boot as a systemd service. Start/enable the systemd service to make sure the container will start at book, and reboot the system to verify if the container is running as expected:
-     ```shell
-  # as root
-  podman pull registry.access.redhat.com/rhscl/httpd-24-rhel7
-  vi /var/www/html/index
-  # add row "Welcome to container-based web server"
-  podman run -d=true -p 3333:8080/tcp --name=webserver -v /var/www/html:/opt/rh/httpd24/root/var/www/html registry.access.redhat.com/rhscl/httpd-24-rhel7
-  cd /etc/systemd/system
-  podman generate systemd webserver >> httpd-container.service
-  systemctl daemon-reload
-  systemctl enable httpd-container.service --now
-  reboot
-  systemctl status httpd-container.service
-  curl http://localhost:3333 # success
-
-  # this can also be done as a non-root user
-  podman pull registry.access.redhat.com/rhscl/httpd-24-rhel7
-  sudo vi /var/www/html/index.html
-  # add row "Welcome to container-based web server"
-  sudo setsebool -P container_manage_cgroup true
-  podman run -d=true -p 3333:8080/tcp --name=webserver -v /var/www/html:/opt/rh/httpd24/root/var/www/html registry.access.redhat.com/rhscl/httpd-24-rhel7
-  podman generate systemd webserver > /home/jr/.config/systemd/user/httpd-container.service
-  cd /home/jr/.config/systemd/user
-  sudo semanage fcontext -a -t systemd_unit_file_t httpd-container.service
-  sudo restorecon httpd-container.service
-  systemctl enable --user httpd-container.service --now
-        ```
-
- - Pull the *mariadb* image to your system and run it publishing the exposed port. Set the root password for the mariadb service as *mysql*. Verify if you can login as root from local host:
-     ```shell
-  # as user1
-  sudo dnf install mysql -y
-  podman search mariadb
-  podman pull docker.io/library/mariadb
-  podman inspect docker.io/library/mariadb # ExposedPorts 3306 
-  podman run --name mariadb -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mysql docker.io/library/mariadb
-  podman inspect mariadb # IPAddress is 10.88.0.22
-  mysql -h 10.88.0.22 -u root -p
-        ```
-
-1. Linux Hint - Bash Script Examples
-
- - Create a hello world script:
-     ```shell
-  !#/bin/bash
-  echo "Hello World!"
-  exit
-        ```
-
- - Create a script that uses a while loop to count to 5:
-     ```shell
-  !#/bin/bash
-  count=0
-  while [ $count -le 5 ]
-  do
-   echo "$count"
-   count = $(($count + 1))
+```bash
+for user in $(cat /home/bob/users.txt);
+  do 
+    echo "$user is a Linux user.";
   done
-  exit
-        ```
+```
 
- - Note the formatting requirements. For example, there can be no space between the equals and the variable names, there must be a space between the "]" and the condition, and there must be 2 sets of round brackets in the variable incrementation.
+# 20. Configuring SSH
 
- - Create a script that uses a for loop to count to 5:
-     ```shell
-  !#/bin/bash
-  count=5
-  for ((i=1; i<=$count; i++))
-  do
-   echo "$i"
-  done
-  exit
-        ```
+## 20.1 Limiting user access
 
- - Create a script that uses a for loop to count to 5 printing whether the number is even or odd:
-     ```shell
-  !#/bin/bash
-  count=5
-  for ((i=1; i<=$count; i++))
-  do
-   if [ $(($i%2)) -eq 0 ]
-   then
-    echo "$i is even"
-   else
-    echo "$i is odd"
-   fi
-  done
-  exit
-        ```
+* By default root can SSH login. Disable by removing **PermitRootLogin** in `/etc/ssh/sshd_config`
+* Disable **PasswordAuthenticaton** to allow only private key logins
+* **AllowUsers** doesn't appear by default in `sshd_config`, configured to allow explicit users only. Separate multiple entries with space (check man page). If root is excluded in this, don't need to set **PermitRootLogin**
+  * Superior to **PermitRootLogin**, because can limit other non-root users
+* **MaxAuthTries** - Logs failed logins to authpriv after half this number is reached
 
- - Create a script that uses a for loop to count to a user defined number printing whether the number is even or odd:
-     ```shell
-  !#/bin/bash
-  echo "Enter a number: "
-  read count
-  for ((i=1; i<=$count; i++))
-  do
-   if [ $(($i%2)) -eq 0 ]
-   then
-    echo "$i is even"
-   else
-    echo "$i is odd"
-   fi
-  done
-  exit
-        ```
+## 20.2 Configure alt listening ports
 
- - Create a script that uses a function to multiply 2 numbers together:
-     ```shell
-  !#/bin/bash
-  Rectangle_Area() {
-   area=$(($1 * $2))
-   echo "Area is: $area"
-  }
+Change sshd listening port `/etc/ssh/sshd_config`; specify something other 22, `Port <other port>` on multiple lines
+
+1. Check if SELinux has labelled the port with `semanage port -l`
+   1. If no label for target port number 2022, set `semanage port -a -t ssh_port_t -p tcp 2022` for TCP 2022
+   2. If port 2022 is in use, relabel with `semanage -m` instead, with the rest of the command the same
+2. View command example in `man semanage port`
+
+Check options with `man sshd_config`
+
+Note: Allow port through **firewalld.service** with
+
+* `firewall-cmd --add-port=2022/tcp`
+* `firewall-cmd --add-port=2022/tcp --permanent`
+* List allowed ports with `firewall-cmd --list-all`
+
+## 20.3 Other sshd options
+
+* **GSSAPIAuthentication** - Disable if no Kerberos authentication. Minor performance penalty. Default: Enabled
+* **UseDNS** - sshd checks that DNS maps to remote host. Will cause long delays. Default: Enabled
+* **MaxSessions** - Max number of SSH sessions from 1 IP. Default: 10
+
+Keep connection alive for X seconds by setting **ClientAliveInterval** and **ClientAliveCountMax** from server end. The keepalive is sent over encrypted channels.
+
+* Max inactive period = **ClientAliveInterval** x **ClientAliveCountMax**
+
+Example, suppose we have this
+
+```text
+ClientAliveInterval 5m          # 5 minutes
+ClientAliveCountMax 2           # 2 times
+```
+
+When the client becomes inactive for 5 min, the server will send client alive messages twice, and if no response, will disconnct. If 0 times is specified, then the server will disconnect after 5m of inactivity is detected.
+
+## 20.4 SSH client options
+
+### 20.4.1 SSH public/private keys
+
+Gen public/private keys with `ssh-keygen`
+
+Copy over public key to SSH server with `ssh-copy-id -i id_rsa.pub -p 2022 ivan@192.168.92.160`
+
+Note you need to already have a way to SSH login
+
+Caching SSH passphrase for current session - Uses SSH authentication agent
+1. Run on current shell `ssh-agent /bin/bash`
+2. Cache passphrase `ssh-add id_rsa`
+3. Login SSH without providing passphrase
+
+### 20.4.2 ssh\_config file
+
+Client options in `/etc/ssh/ssh_config`, or individual settings in `~/.ssh/ssh_config`
+
+Keep server connection alive for X seconds by setting **ServerAliveInterval** and **ServerAliveCountMax** from client end
+
+* Max inactive period = **ServerAliveInterval** x **ServerAliveCountMax**
+
+## 20.5 `scp` and `rsync`
+
+### 20.5.1 `scp`
+
+* Copy multiple files from remote to local `scp -T -P 2022 ivan@192.168.92.160:'/path/to/file1 /path/to/file2 /dest/path' /target/dir/`
+* Copy directories recursively with `-r`
+
+### 20.5.2 `rsync`
+
+* Similar syntax to `scp`. Note that `-a` for archive implies `-r` which is recursive
+* Typically use `-avu`, verbose switch
+* Can use `-A` to preserve ACLs
+
+## 20.6 Skipped content
+
+* `sftp` commands
+
+# 21. Apache HTTP
+
+## 21.1 Setup
+
+1. Install with `yum module install httpd` to include common modules in addition to httpd package
+2. Enable with `systemctl enable httpd.service --now`
+3. Add exception to firewalld with `firewall-cmd --add-port=80/tcp` and again with `--permanent` switch.
+
+## 21.2 httpd config file
+
+Config file at `/etc/httpd/conf/httpd.conf`
+* **ServerRoot** - Where httpd config files are kept
+  * Additional ones at `/etc/httpd/conf.d`
+* **DocumentRoot** - Where web docs are served from. If not specified **/var/www/htdocs**
+* **Listen** - Which port Apache listens on
+* **Directory** setting:
+  * **AllowOverride** - Allows **[.htaccess](https://ithemes.com/blog/what-is-the-htaccess-file/)** file in dir to override webserver config. Typically **None**
+  * **Require** - Determines whether web visitor are restricted from viewing certain files
+
+## 21.3 Other config files
+
+* **/etc/httpd/conf.d/** - Other config files
+* **/etc/httpd/conf.modules.d/** - Other modular config files
+
+# 22. SELinux
+
+* SELinux denies all system calls unless explicitly allowed.
+* Unknown services will always need additional config to work in SELinux environment.
+
+## 22.1 Modes
+
+* Enforcing
+* Permissive
+* Disabled (requires reboot)
+
+Check status with `getenforce` or `sestatus`, set to permissive with `setenforce`
+
+Disable persistently by editing `/etc/selinux/config`, then reboot/
+
+* Once turned off, and re-enabled SELinux loses track of files it tracks for changes. So it needs to relabel them.
+
+## 22.2 Context labels
+
+List SELinux context labels with `-Z` switch and:
+
+* `ls`
+* `ps`
+* `netstat` or `ss`
+
+Context label types:
+
+* User: `_u`
+* Role: `_r`
+* Type: `_t` (Exam)
+
+## 22.3 Setting context type
+
+Use `semanage` only, never `chcon`
+
+### 22.3.1 Set file context type
+
+Here we see that /var/www/html has file context type **httpd\_sys\_content\_t**
+
+```text
+[root@localhost ~]# ls -lahZ /var/www/
+total 4.0K
+drwxr-xr-x.  4 root root system_u:object_r:httpd_sys_content_t:s0       33 Feb 26 08:44 .
+drwxr-xr-x. 23 root root system_u:object_r:var_t:s0                   4.0K Feb 26 08:44 ..
+drwxr-xr-x.  2 root root system_u:object_r:httpd_sys_script_exec_t:s0    6 Dec  2  2019 cgi-bin
+drwxr-xr-x.  2 root root system_u:object_r:httpd_sys_content_t:s0       24 May 21 16:45 html
+```
+
+To add another directory to the same file context type (here `httpd_sys_content_t`) do
+
+```bash
+semanage fcontext -a -t httpd_sys_content_t "/mydir(/.*)?"
+restorecon -R -v /mydir
+```
+
+where `semanage fcontext` changes the policy
+
+* `-a` adds a context type
+* `-t` changes context type (not user or role type)
+* `(/.*)?` regexp for everything below /mydir
+
+and `restorecon` applies to the file system
+* `-R` implies recursive
+* `-v` show verbosity (increase with more v's)
+
+## 22.4 `semanage` man pages
+
+Tip: Scroll down to bottom in `man semanage` to find the `semanage` commands, then look at their respective man pages for command examples.
+
+## 22.5 Example: Enable SELinux context for new document root dir
+Note: 
+* This example uses sealert. Install sealert if not already installed. Check `yum provides` for package name (setroubleshoot-server)
+* Without sealert, the messages are in /var/log/audit/audit.log, grep for **AVC** to find them but not useful info on resolving.
+* Before doing the below also note you can use `setenforce 0` to temporarily disable SELinux and check if everything works and SELinux is at fault for blocking.
+
+1. Edit **/etc/httpd/conf/httpd.conf** to serve new `DocumentRoot` dir at **/web** and restart httpd.service
+2. Note that visiting http://localhost:80 loads the error page instead of **index.html**
+3. Check file context label type for default document root **/var/www/html**. We see it's **httpd_sys_content_t**
+   ```text
+   [root@localhost ~]# ls -lahZ /var/www/html
+   total 4.0K
+   drwxr-xr-x. 2 root root system_u:object_r:httpd_sys_content_t:s0     24 May 21 16:45 .
+   drwxr-xr-x. 4 root root system_u:object_r:httpd_sys_content_t:s0     33 Feb 26 08:44 ..
+   -rw-r--r--. 1 root root unconfined_u:object_r:httpd_sys_content_t:s0 28 May 21 16:45 index.html
+   ```
+4. Use `grep sealert /var/log/messages` to see what SE alerts. Or alternative you can have it analyze /var/log/audit/audit.log with `sealert -a /var/log/audit/audit.log`
+   ```text
+   May 28 15:20:34 localhost setroubleshoot[4400]: SELinux is preventing httpd from getattr access on the file /web/index.html. For complete SELinux messages run: sealert -l ef6270c5-c56e-45be-a52b-7a731c1257ad
+   May 28 15:33:12 localhost dbus-daemon[1097]: [system] Activating service name='org.fedoraproject.Setroubleshootd' requested by ':1.263' (uid=0 pid=4678 comm="/usr/libexec/platform-python -Es /usr/bin/sealert " label="unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023") (using servicehelper)
+   May 28 15:40:16 localhost setroubleshoot[4924]: SELinux is preventing httpd from getattr access on the file /web/index.html. For complete SELinux messages run: sealert -l ef6270c5-c56e-45be-a52b-7a731c1257ad
+   May 28 15:40:20 localhost setroubleshoot[4924]: SELinux is preventing httpd from getattr access on the file /web/index.html. For complete SELinux messages run: sealert -l ef6270c5-c56e-45be-a52b-7a731c1257ad
+   ```
+5. Running `sealert -l ef6270c5-c56e-45be-a52b-7a731c1257ad` we see
+   ```text
+   If you want to allow httpd to have getattr access on the index.html file
+   Then you need to change the label on /web/index.html
+   Do
+   # semanage fcontext -a -t FILE_TYPE '/web/index.html'
+   ...
+   Then execute:
+   restorecon -v '/web/index.html'
+   ```
+6. Verify that /web is not on the list of dirs with file context label **httpd_sys_content_t**
+   ```text
+   [root@localhost ~]# semanage fcontext -l | grep httpd_sys_content_t
+    /etc/htdig(/.*)?                                   all files          system_u:object_r:httpd_sys_content_t:s0
+    /srv/([^/]*/)?www(/.*)?                            all files          system_u:object_r:httpd_sys_content_t:s0
+    /srv/gallery2(/.*)?                                all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/doc/ghc/html(/.*)?                      all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/drupal.*                                all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/glpi(/.*)?                              all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/htdig(/.*)?                             all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/icecast(/.*)?                           all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/nginx/html(/.*)?                        all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/ntop/html(/.*)?                         all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/openca/htdocs(/.*)?                     all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/selinux-policy[^/]*/html(/.*)?          all files          system_u:object_r:httpd_sys_content_t:s0
+    /usr/share/z-push(/.*)?                            all files          system_u:object_r:httpd_sys_content_t:s0
+    /var/lib/cacti/rra(/.*)?                           all files          system_u:object_r:httpd_sys_content_t:s0
+    /var/lib/htdig(/.*)?                               all files          system_u:object_r:httpd_sys_content_t:s0
+    /var/lib/trac(/.*)?                                all files          system_u:object_r:httpd_sys_content_t:s0
+    /var/www(/.*)?                                     all files          system_u:object_r:httpd_sys_content_t:s0
+    /var/www/icons(/.*)?                               all files          system_u:object_r:httpd_sys_content_t:s0
+    /var/www/svn/conf(/.*)?                            all files          system_u:object_r:httpd_sys_content_t:s0
+   ```
+7. Add it with `semanage fcontext -a -t FILE_TYPE /web(/.*)?` and then `restorecon -R -v /web`
+   ```text
+   [root@localhost ~]# semanage fcontext -a -t httpd_sys_content_t "/web(/.*)?"
+   [root@localhost ~]# restorecon -R -v /web
+   Relabeled /web from unconfined_u:object_r:default_t:s0 to unconfined_u:object_r:httpd_sys_content_t:s0
+   Relabeled /web/index.html from unconfined_u:object_r:default_t:s0 to unconfined_u:object_r:httpd_sys_content_t:s0
+   ```
+8. Verify it is now on the list with same file context label
+   ```text
+   [root@localhost ~]# semanage fcontext -l | grep "/web(/.*)?"
+   /etc/zabbix/web(/.*)?                              all files          system_u:object_r:httpd_sys_rw_content_t:s0
+   /web(/.*)?                                         all files          system_u:object_r:httpd_sys_content_t:s0
+   ```
+9. The web page is now visible from browser
+
+## 22.6 Installing SELinux-specific man pages
+
+How to install SELinux man pages (important for exam)
+
+1. Assume we only see one SEL man page
+   ```text
+   [root@localhost ~]# man -k _selinux
+   pam_selinux (8)      - PAM module to set the default security context
+   ```
+2. Find package **sepolicy** which is used to install manpage, amongst other things.
+   ```text
+   [root@localhost ~]# yum provides */sepolicy
+   Updating Subscription Management repositories.
+   Unable to read consumer identity
+   This system is not registered to Red Hat Subscription Management. You can use subscription-manager to register.
+   Last metadata expiration check: 0:43:03 ago on Sat 28 May 2022 03:30:35 PM +08.
+   policycoreutils-devel-2.9-9.el8.i686 : SELinux policy core policy devel utilities
+   Repo        : BaseOS
+   Matched from:
+   Filename    : /usr/bin/sepolicy
+   Filename    : /usr/share/bash-completion/completions/sepolicy
+   
+   policycoreutils-devel-2.9-9.el8.x86_64 : SELinux policy core policy devel utilities
+   Repo        : @System
+   Matched from:
+   Filename    : /usr/bin/sepolicy
+   Filename    : /usr/share/bash-completion/completions/sepolicy
+   
+   policycoreutils-devel-2.9-9.el8.x86_64 : SELinux policy core policy devel utilities
+   Repo        : BaseOS
+   Matched from:
+   Filename    : /usr/bin/sepolicy
+   Filename    : /usr/share/bash-completion/completions/sepolicy
+   
+   python3-policycoreutils-2.9-9.el8.noarch : SELinux policy core python3 interfaces
+   Repo        : @System
+   Matched from:
+   Filename    : /usr/lib/python3.6/site-packages/sepolicy
+   
+   python3-policycoreutils-2.9-9.el8.noarch : SELinux policy core python3 interfaces
+   Repo        : BaseOS
+   Matched from:
+   Filename    : /usr/lib/python3.6/site-packages/sepolicy
+   ```
+3. Package is **policycoreutils-devel**, install if not already present.
+4. Now install sepolicy man pages with `sepolicy manpage -a -p /usr/share/man/man8`. This will install all the sepolicy man pages like **/usr/share/man/man8/httpd_rotatelogs_selinux.8**. Note this takes a long time
+5. Update mandb with `mandb` You'll see `866 manual pages were added.` or simlar. Now `man -k _selinux` will list a lot more entries. Grep it to look for service-specific entries.
+
+## 22.7 Quick note on `restorecon`
+* Used to restore context settings from policy to files
+* Needed because copying or creating subdirs inherits those contexts from parent dir; might differ from SELinux policy
+* Can apply to root dir with `restorecon /` or `touch /.autorelabel` on reboot.
+
+## 22.8 SELinux Booleans
+Booleans are used to turn on/off SELinux policies
+
+For example, assume we allow FTP server anonymous writes but SELinux still blocks it. Checking Boolean we figure out why since **ftpd_anon_write** is set to off.
+```text
+[root@localhost ~]# getsebool -a | grep ftp
+ftpd_anon_write --> off
+ftpd_connect_all_unreserved --> off
+ftpd_connect_db --> off
+ftpd_full_access --> off
+ftpd_use_cifs --> off
+ftpd_use_fusefs --> off
+ftpd_use_nfs --> off
+ftpd_use_passive_mode --> off
+httpd_can_connect_ftp --> off
+httpd_enable_ftp_server --> off
+tftp_anon_write --> off
+tftp_home_dir --> off
+```
+
+Set to ON with `setsebool -PV`, check man pages for switches. P is permanent, V verbose.
+```text
+[root@localhost ~]# setsebool -PV ftpd_anon_write on
+[root@localhost ~]# getsebool -a | grep ftp
+ftpd_anon_write --> on
+ftpd_connect_all_unreserved --> off
+ftpd_connect_db --> off
+ftpd_full_access --> off
+ftpd_use_cifs --> off
+ftpd_use_fusefs --> off
+ftpd_use_nfs --> off
+ftpd_use_passive_mode --> off
+httpd_can_connect_ftp --> off
+httpd_enable_ftp_server --> off
+tftp_anon_write --> off
+tftp_home_dir --> off
+```
+
+Note you can see a brief description of what the booleans do with `sepolicy booleans -a`
+
+## 22.9 SELinux violations logging
+
+Without sealert troubleshooter the only logging is done to **/var/log/audit/audit.log**. For example this log shows that
+
+```text
+type=AVC msg=audit(1653725375.481:171): avc:  denied  { getattr } for  pid=1674 comm="httpd" path="/web/index.html" dev="nvme0n1p3" ino=34265344 scontext=system_u:system_r:httpd_t:s0 tcontext=unconfined_u:object_r:default_t:s0 tclass=file permissive=0
+```
+
+a process with context **httpd_t** tried to access one with **default_t** which isn't allowed. So the action is blocked and logged.
+
+## 22.10 Exam tips
+
+What you need to know for SELinux on the `exam`, taken from book:
+
+* Ensure that SELinux is enabled and in enforcing mode by editing **/etc/sysconfig/selinux**; never change its contents in the exam.
+* Use `restorecon` to reapply the right context to a file or directory.
+* Use `grep sealert /var/log/messages` to troubleshoot why SELinux isn’t working.
+  * The `sealert -l` will tell you what to do to enable
+* Make sure you know how to troubleshoot SELinux port-related issues.
+
+# 23. firewalld configuration
+
+* **nftables** in RHEL 8 is **iptables** to Ubuntu (iptables present in earlier RHEL versions)
+* Hard to use, so **firewalld** was created to configure it, similar to Ubuntu's **ufw**
+
+## 23.1 firewalld concepts
+Zones:
+* Collection of rules applied to incoming packets matching a source address or NIC
+* Similar to a firewalld profile to be loaded on systems with relevant characteristics ie. dmz zone for dmz servers.
+
+See default zones with `man 5 firewalld.zones`
+
+Services:
+* Unlike systemd services, this specifies ports to be opened and potential kernel modules to be loaded
+* Default XML config files in **/usr/lib/firewalld/services**
+* Custom config files can be added to **/etc/firewalld/services/**, restart service to load
+
+Services need to be added to the right zones to work.
+
+Tip: In exam work with services primarily, only add ports to firewalld if it's non-standard for service.
+
+## 23.2 `firewall-cmd`
+Though available with `--help` there are way too many commands there.
+
+Note: `get` commands tend to list, while `list` commands tend to get the current config
+
+Show what you can list `firewall-cmd --get-<TAB>`
+
+Get all current config for current zone `firewall-cmd --list-all`
+
+Get config for specified zone `firewall-cmd --list-all --zone=public`
+
+### 23.2.1 Zones
+
+* List zones with `firewall-cmd --get-zones`
+* Get current zone with `firewall-cmd --get-default-zone`
+* Change default zone to **trusted** `firewall-cmd --set-default-zone=trusted`
+    * Verify with `firewall-cmd --list-all`
+
+### 23.2.2 Services
+
+* Get current services in current zone `firewall-cmd --list-services`
+* Add service **vnc-server** to current zone
+    1. Add service `firewall-cmd --add-service=vnc-server`, run again but with switch `--permanent` to make persistent. Note both are needed to change runtime config and persist changes.
+    2. Verify it appears under **services:** with `firewall-cmd --list-all`
+    3. Alternatively do `firewall-cmd --reload` after running cmd with `--permanent` to load persistent changes into runtime config
+    4. To add to specified zone include `--zone=specified-zone`
+
+### 23.2.3 Others
+
+Add port with `firewall-cmd --add-port=2020/tcp --permanent` and `--reload`
+
+Remove port with `firewall-cmd --remove-port=2020/tcp`
+
+Note you can make runtime config permanent with `--runtime-to-permanent` switch.
+
+General technique:
+1. Instead of opening ports with firewall-cmd, look for a relevant service in **/usr/lib/firewalld/service**
+2. Add service to default zone `firewall-cmd --add-service=servicename --permanent` and `--reload`
+3. Only add ports for non-standard numbers like alternatives for SSH
+
+## 23.3 Skipped content
+
+Skipped `firewall-config` which is GUI version of `firewall-cmd`
+
+# 24. Network Storage
+Tip: Only need to know how to mount as a client, not configure as server for the exam.
+
+Install required client packages for mounting with `yum groups` **Network File System Client**. Do a list first with `--hidden` switch to see all.
+
+## 24.1 NFS
+### 24.1.1 Mount as client
+
+Mount NFS share on client:
+1. Need **nfs-utils** package
+2. Check exports with `showmount -e nfs-server-ip`
+  ```text
+  Export list for 192.168.92.160:
+  /nfs *
+  ```
+3. Mount with `mount -t nfs nfs-server-ip:/nfs /mnt/pt` 
+4. Check mount with `mount | grep nfs-server-ip`
+
+Tip: Check mount options with `man mount.nfs`
+
+### 24.1.2 Mount on `/etc/fstab`
+Very similar to block storage mount. Add this in /etc/fstab
+```text
+192.168.92.151:/nfs   /nfs  nfs sync,_netdev 0 0
+```
+* Note the `sync` option (instead of `default`) ensures data is written to network share and not to buffers where it might get lost.
+* `_netdev` (check `man mount`) is enabled to ensure the share is not mounted until network is available.
+
+Check fstab mount options with `man nfs`
+
+## 24.2 CIFS 
+
+### 24.2.1 Mount as client
+
+Mount Samba share
+
+1. First check the share name, this is needed for mounting
+  ```text
+  [root@localhost ~]# smbclient -NL 192.168.92.151
   
-  Rectangle_Area 10 20
-  exit
-        ```
-
- - Create a script that uses the output of another command to make a decision:
-     ```shell
-  !#/bin/bash
-  ping -c 1 $1 > /dev/null 2>&1
-  if [ $? -eq 0 ]
-  then
-   echo "Connectivity to $1 established"
-  else
-   echo "Connectivity to $1 unavailable"
-  fi
-  exit
-        ```
-
-1. Asghar Ghori - Sample RHCSA Exam 1
-
- - Setup a virtual machine RHEL 8 Server for GUI. Add a 10GB disk for the OS and use the default storage partitioning. Add 2 300MB disks. Add a network interface, but do not configure the hostname and network connection.
-
- - Assuming the root user password is lost, reboot the system and reset the root user password to root1234:
-     ```shell
-  # ctrl + e after reboot
-  # add rd.break after Linux line
-  # ctrl + d
-  mount -o remount, rw /sysroot
-  chroot /sysroot
-  passwd
-  # change password to root12345
-  touch /.autorelabel
-  exit
-  reboot
-        ```
-
- - Using a manual method (i.e. create/modify files by hand), configure a network connection on the primary network device with IP address 192.168.0.241/24, gateway 192.168.0.1, and nameserver 192.168.0.1:
-     ```shell
-  vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
-  systemctl restart NetworkManager.service
-  # add line IPADDR=192.168.0.241
-  # add line GATEWAY=192.168.0.1
-  # add line DNS=192.168.0.1
-  # add line PREFIX=24
-  # change BOOTPROTO from dhcp to none
-  ifup enp0s3
-  nmcli con show # validate
-        ```
-
- - Using a manual method (modify file by hand), set the system hostname to rhcsa1.example.com and alias rhcsa1. Make sure the new hostname is reflected in the command prompt:
-     ```shell
-  vi /etc/hostname
-  # replace line with rhcsa1.example.com
-  vi /etc/hosts
-  # add rhcsa1.example.com and rhcsa1 to first line
-  systemctl restart NetworkManager.service
-  vi ~/.bashrc
-  # add line export PS1 = <($hostname)>
-        ```
-
- - Set the default boot target to multi-user:
-     ```shell
-  systemctl set-default multi-user.target
-        ```
-
- - Set SELinux to permissive mode:
-     ```shell
-  setenforce permissive
-  sestatus # confirm
-  vi /etc/selinux/config
-  # change line SELINUX=permissive for permanence
-        ```
-
- - Perform a case-insensitive search for all lines in the `/usr/share/dict/linux.words` file that begin with the pattern "essential". Redirect the output to `/tmp/pattern.txt`. Make sure that empty lines are omitted:
-     ```shell
-  grep '^essential' /usr/share/dict/linux.words > /tmp/pattern.txt
-        ```
-
- - Change the primary command prompt for the root user to display the hostname, username, and current working directory information in that order. Update the per-user initialisation file for permanence:
-     ```shell
-  vi /root/.bashrc
-  # add line export PS1 = '<$(whoami) on $(hostname) in $(pwd)>'$
-        ```
-
- - Create user accounts called user10, user20, and user30. Set their passwords to Temp1234. Make accounts for user10 and user30 to expire on December 31, 2021:
-     ```shell
-  useradd user10
-  useradd user20
-  useradd user30
-  passwd user10 # enter password
-  passwd user20 # enter password
-  passwd user30 # enter password
-  chage -E 2021-12-31 user10
-  chage -E 2021-12-31 user30
-  chage -l user10 # confirm
-        ```
-
- - Create a group called group10 and add users user20 and user30 as secondary members:
-     ```shell
-  groupadd group10
-  usermod -aG group10 user20
-  usermod -aG group10 user30
-  cat /etc/group | grep "group10" # confirm
-        ```
-
- - Create a user account called user40 with UID 2929. Set the password to user1234:
-     ```shell
-  useradd -u 2929 user40
-  passwd user40 # enter password
-        ```
-
- - Create a directory called dir1 under `/tmp` with ownership and owning groups set to root. Configure default ACLs on the directory and give user user10 read, write, and execute permissions:
-     ```shell
-  mkdir /tmp/dir1
-  cd /tmp
-  # tmp already has ownership with root
-  setfacl -m u:user10:rwx dir1
-        ```
-
- - Attach the RHEL 8 ISO image to the VM and mount it persistently to `/mnt/cdrom`. Define access to both repositories and confirm:
-     ```shell
-  # add ISO to the virtualbox optical drive
-  mkdir /mnt/cdrom
-  mount /dev/sr0 /mnt/cdrom
-  vi /etc/yum.repos.d/image.repo
-  blkid /dev/sr0 >> /etc/fstab
-  vi /etc/fstab
-  # format line with UUID /mnt/cdrom iso9660 defaults 0 0
-  # contents of image.repo
-  #####
-        #[BaseOS]
-  #name=BaseOS
-  #baseurl=file:///mnt/cdrom/BaseOS
-  #enabled=1
-  #gpgenabled=1
-  #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-  #
-        #[AppStream]
-  #name=AppStream
-  #baseurl=file:///mnt/cdrom/AppStream
-  #enabled=1
-  #gpgenabled=1
-  #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-        #####
-  yum repolist # confirm
-        ```
-
- - Create a logical volume called lvol1 of size 300MB in vgtest volume group. Mount the Ext4 file system persistently to `/mnt/mnt1`:
-     ```shell
-  mkdir /mnt/mnt1
-  # /dev/sdb is already 300MB so don't need to worry about partitioning
-  vgcreate vgtest /dev/sdb
-  lvcreate --name lvol1 -L 296MB vgtest
-  lsblk # confirm
-  mkfs.ext4 /dev/mapper/vgtest-lvol1
-  vi /etc/fstab
-  # add line
-  # /dev/mapper/vgtest-lvol1 /mnt/mnt1 ext4 defaults 0 0
-  mount -a
-  lsblk # confirm
-        ```
-
- - Change group membership on `/mnt/mnt1` to group10. Set read/write/execute permissions on `/mnt/mnt1` for group members, and revoke all permissions for public:
-     ```shell
-  chgrp group10 /mnt/mnt1
-  chmod 770 /mnt/mnt1
-        ```
-
- - Create a logical volume called lvswap of size 300MB in the vgtest volume group. Initialise the logical volume for swap use. Use the UUID and place an entry for persistence:
-     ```shell
-  # /dev/sdc is already 300MB so don't need to worry about partitioning
-  vgcreate vgswap /dev/sdc
-  lvcreate --name lvswap -L 296MB vgswap /dev/sdc
-  mkswap /dev/mapper-vgswap-lvswap # UUID returned
-  blkid /dev/sdc >> /etc/fstab
-  # organise new line so that it has UUID= swp swap defaults 0 0
-  swapon -a
-  lsblk # confirm
-        ```
-
- - Use tar and bzip2 to create a compressed archive of the `/etc/sysconfig` directory. Store the archive under `/tmp` as etc.tar.bz2:
-     ```shell
-  tar -cvzf /tmp/etc.tar.bz2 /etc/sysconfig
-        ```
-
- - Create a directory hierarchy `/dir1/dir2/dir3/dir4`, and apply SELinux contexts for `/etc` on it recursively:
-     ```shell
-  mkdir -p /dir1/dir2/dir3/dir4
-  ll -Z 
-  # etc shown as system_u:object_r:etc_t:s0
-  # dir1 shown as unconfined_u:object_r:default_t:s0
-  semanage fcontext -a -t etc_t "/dir1(/.*)?"
-  restorecon -R -v /dir1
-  ll -Z # confirm
-        ```
-
- - Enable access to the atd service for user20 and deny for user30:
-     ```shell
-  echo "user30" >> /etc/at.deny
-  # just don't create at.allow
-        ```
-
- - Add a custom message "This is the RHCSA sample exam on $(date) by $LOGNAME" to the `/var/log/messages` file as the root user. Use regular expression to confirm the message entry to the log file:
-     ```shell
-  logger "This is the RHCSA sample exam on $(date) by $LOGNAME"
-  grep "This is the" /var/log/messages
-        ```
-
- - Allow user20 to use sudo without being prompted for their password:
-     ```shell
-  usermod -aG wheel user20
-  # still prompts for password, could change the wheel group behaviour or add new line to sudoers
-  visudo
-  # add line at end user20 ALL=(ALL) NOPASSWD: ALL
-        ```
-
-1. Asghar Ghori - Sample RHCSA Exam 2
-
- - Setup a virtual machine RHEL 8 Server for GUI. Add a 10GB disk for the OS and use the default storage partitioning. Add 1 400MB disk. Add a network interface, but do not configure the hostname and network connection.
-
- - Using the nmcli command, configure a network connection on the primary network device with IP address 192.168.0.242/24, gateway 192.168.0.1, and nameserver 192.168.0.1:
-     ```shell
-  nmcli con add ifname enp0s3 con-name mycon type ethernet ip4 192.168.0.242/24 gw4 192.168.0.1 ipv4.dns "192.168.0.1"
-  # man nmcli-examples can be referred to if you forget format
-  nmcli con show mycon | grep ipv4 # confirm
-        ```
- 
- - Using the hostnamectl command, set the system hostname to rhcsa2.example.com and alias rhcsa2. Make sure that the new hostname is reflected in the command prompt:
-     ```shell
-  hostnamectl set-hostname rhcsa2.example.com
-  hostnamectl set-hostname --static rhcsa2 # not necessary due to format of FQDN
-  # the hostname already appears in the command prompt
-        ```
-
- - Create a user account called user70 with UID 7000 and comments "I am user70". Set the maximum allowable inactivity for this user to 30 days:
-     ```shell
-  useradd -u 7000 -c "I am user70" user70
-  chage -I 30 user70
-        ```
-
- - Create a user account called user50 with a non-interactive shell:
-     ```shell
-  useradd user50 -s /sbin/nologin
-        ```
-
- - Create a file called testfile1 under `/tmp` with ownership and owning group set to root. Configure access ACLs on the file and give user10 read and write access. Test access by logging in as user10 and editing the file:
-     ```shell
-  useradd user10
-  passwd user10 # set password
-  touch /tmp/testfile1
-  cd /tmp
-  setfacl -m u:user10:rw testfile1
-  sudo su user10
-  vi /tmp/testfile1 # can edit the file
-        ```
-
- - Attach the RHEL 8 ISO image to the VM and mount it persistently to `/mnt/dvdrom`. Define access to both repositories and confirm:
-     ```shell
-  mkdir /mnt/dvdrom
-  lsblk # rom is at /dev/sr0
-  mount /dev/sr0 /mnt/dvdrom
-  blkid /dev/sr0 >> /etc/fstab
-  vi /etc/fstab
-  # format line with UUID /mnt/dvdrom iso9660 defaults 0 0
-  vi /etc/yum.repos.d/image.repo
-  # contents of image.repo
-  #####
-        #[BaseOS]
-  #name=BaseOS
-  #baseurl=file:///mnt/dvdrom/BaseOS
-  #enabled=1
-  #gpgenabled=1
-  #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-  #
-        #[AppStream]
-  #name=AppStream
-  #baseurl=file:///mnt/dvdrom/AppStream
-  #enabled=1
-  #gpgenabled=1
-  #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-        #####
-  yum repolist # confirm
-        ```
-
- - Create a logical volume called lv1 of size equal to 10 LEs in vg1 volume group (create vg1 with PE size 8MB in a partition on the 400MB disk). Initialise the logical volume with XFS file system type and mount it on `/mnt/lvfs1`. Create a file called lv1file1 in the mount point. Set the file system to automatically mount at each system reboot:
-     ```shell
-  parted /dev/sdb
-  mklabel msdos
-  mkpart
-  # enter primary
-  # enter xfs
-  # enter 0
-  # enter 100MB
-  vgcreate vg1 -s 8MB /dev/sdb1
-  lvcreate --name lv1 -l 10 vg1 /dev/sdb1
-  mkfs.xfs /dev/mapper/vg1-lv1
-  mkdir /mnt/lvfs1
-  vi /etc/fstab
-  # add line for /dev/mapper/vg1-lv1 /mnt/lvfs1 xfs defaults 0 0
-  mount -a
-  df -h  # confirm
-  touch /mnt/lvfs1/hi
-        ```
-
- - Add a group called group20 and change group membership on `/mnt/lvfs1` to group20. Set read/write/execute permissions on `/mnt/lvfs1` for the owner and group members, and no permissions for others:
-     ```shell
-  groupadd group20
-  chgrp group20 -R /mnt/lvfs1
-  chmod 770 -R /mnt/lvfs1
-        ```
-
- - Extend the file system in the logical volume lv1 by 64MB without unmounting it and without losing any data:
-     ```shell
-  lvextend -L +64MB vg1/lv1 /dev/sdb1
-  # realised that the partition of 100MB isn't enough
-  parted /dev/sdb
-  resizepart
-  # expand partition 1 to 200MB
-  pvresize /dev/sdb1
-  lvextend -L +64MB vg1/lv1 /dev/sdb1
-        ```
-
- - Create a swap partition of size 85MB on the 400MB disk. Use its UUID and ensure it is activated after every system reboot:
-     ```shell
-  parted /dev/sdb
-  mkpart
-  # enter primary
-  # enter linux-swap
-  # enter 200MB
-  # enter 285MB
-  mkswap /dev/sdb2
-  vi /etc/fstab
-  # add line for UUID swap swap defaults 0 0
-  swapon -a
-        ```
-
- - Create a disk partition of size 100MB on the 400MB disk and format it with Ext4 file system structures. Assign label stdlabel to the file system. Mount the file system on `/mnt/stdfs1` persistently using the label. Create file stdfile1 in the mount point:
-     ```shell
-  parted /dev/sdb
-  mkpart
-  # enter primary
-  # enter ext4
-  # enter 290MB
-  # enter 390MB
-  mkfs.ext4 -L stdlabel /dev/sdb3
-  mkdir /mnt/stdfs1
-  vi /etc/fstab
-  # add line for UUID /mnt/stdfs1 ext4 defaults 0 0
-  touch /mnt/stdfs1/hi
-        ```
-
- - Use tar and gzip to create a compressed archive of the `/usr/local` directory. Store the archive under `/tmp` using a filename of your choice:
-     ```shell
-  tar -czvf /tmp/local.tar.gz /usr/local
-        ```
-
- - Create a directory `/direct01` and apply SELinux contexts for `/root`:
-     ```shell
-  mkdir /direct01
-  ll -Z
-  # direct01 has unconfined_u:object_r:default_t:s0
-  # root has system_u:object_r:admin_home_t:s0
-  semanage fcontext -a -t admin_home_t -s system_u "/direct01(/.*)?" 
-  restorecon -R -v /direct01
-  ll -Zrt # confirm
-        ```
-
- - Set up a cron job for user70 to search for core files in the `/var` directory and copy them to the directory `/tmp/coredir1`. This job should run every Monday at 1:20 a.m:
-     ```shell
-  mkdir /tmp/coredir1
-  crontab -u user70 -e
-  20 1 * * Mon find /var -name core -type f exec cp '{}' /tmp/coredir1 \;
-  crontab -u user70 -l # confirm
-        ```
-
- - Search for all files in the entire directory structure that have been modified in the past 30 days and save the file listing in the `/var/tmp/modfiles.txt` file:
-     ```shell
-  find / -mtime -30 >> /var/tmp/modfiles.txt
-        ```
-
- - Modify the bootloader program and set the default autoboot timer value to 2 seconds:
-     ```shell
-  vi /etc/default/grub
-  # set GRUB_TIMEOUT=2
-  grub2-mkconfig -o /boot/grub2/grub.cfg
-        ```
-
- - Determine the recommended tuning profile for the system and apply it:
-     ```shell
-  tuned-adm recommend
-  # virtual-guest is returned
-  tuned-adm active
-  # virtual-guest is returned
-  # no change required
-        ```
-
- - Configure Chrony to synchronise system time with the hardware clock:
-     ```shell
-  systemctl status chronyd.service
-  vi /etc/chrony.conf
-  # everything looks alright
-        ```
-
- - Install package group called "Development Tools", and capture its information in `/tmp/systemtools.out` file:
-     ```shell
-  yum grouplist # view available groups
-  yum groupinstall "Development Tools" -y >> /tmp/systemtools.out
-        ```
-
- - Lock user account user70. Use regular expressions to capture the line that shows the lock and store the output in file `/tmp/user70.lock`:
-     ```shell
-  usermod -L user70
-  grep user70 /etc/shadow >> /tmp/user70.lock # observe !
-        ```
-
-1. Asghar Ghori - Sample RHCSA Exam 3
-
- - Build 2 virtual machines with RHEL 8 Server for GUI. Add a 10GB disk for the OS and use the default storage partitioning. Add 1 4GB disk to VM1 and 2 1GB disks to VM2. Assign a network interface, but do not configure the hostname and network connection.
-
- - The VirtualBox Network CIDR for the NAT network is 192.168.0.0/24.
-
- - On VM1, set the system hostname to rhcsa3.example.com and alias rhcsa3 using the hostnamectl command. Make sure that the new hostname is reflected in the command prompt:
-     ```shell
-  hostnamectl set-hostname rhcsa3.example.com
-        ```
-
- - On rhcsa3, configure a network connection on the primary network device with IP address 192.168.0.243/24, gateway 192.168.0.1, and nameserver 192.168.0.1 using the nmcli command:
-     ```shell
-  nmcli con add type ethernet ifname enp0s3 con-name mycon ip4 192.168.0.243/24 gw4 192.168.0.1 ipv4.dns 192.168.0.1
-        ```
-
- - On VM2, set the system hostname to rhcsa4.example.com and alias rhcsa4 using a manual method (modify file by hand). Make sure that the new hostname is reflected in the command prompt:
-     ```shell
-  vi /etc/hostname
-  # change to rhcsa4.example.com
-        ```
-
- - On rhcsa4, configure a network connection on the primary network device with IP address 192.168.0.244/24, gateway 192.168.0.1, and nameserver 192.168.0.1 using a manual method (create/modify files by hand):
-     ```shell
-  vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
-  #TYPE=Ethernet
-  #BOOTPROTO=static
-  #DEFROUTE=yes
-  #IPV4_FAILURE_FATAL=no
-  #IPV4INIT=no
-  #NAME=mycon
-  #DEVICE=enp0s3
-  #ONBOOT=yes
-  #IPADDR=192.168.0.243
-  #PREFIX=24
-  #GATEWAY=192.168.0.1
-  #DNS1=192.168.0.1
-  ifup enp0s3
-  nmcli con edit enp0s3 # play around with print ipv4 etc. to confirm settings
-        ```
-
- - Run "ping -c2 rhcsa4" on rhcsa3. Run "ping -c2 rhcsa3" on rhcsa4. You should see 0% loss in both outputs:
-     ```shell
-  # on rhcsa3
-  vi /etc/hosts
-  # add line 192.168.0.244 rhcsa4
-  ping rhcsa3 # confirm
-  
-  # on rhcsa4
-  vi /etc/hosts
-  # add line 192.168.0.243 rhcsa3
-  ping rhcsa4 # confirm
-        ```
-
- - On rhcsa3 and rhcsa4, attach the RHEL 8 ISO image to the VM and mount it persistently to `/mnt/cdrom`. Define access to both repositories and confirm:
-     ```shell
-  # attach disks in VirtualBox
-  # on rhcsa3 and rhcsa4
-  mkdir /mnt/cdrom
-  mount /dev/sr0 /mnt/cdrom
-  blkid # get UUID
-  vi /etc/fstab
-  # add line with UUID /mnt/cdrom iso9660 defaults 0 0
-  mount -a # confirm
-  vi /etc/yum.repos.d/image.repo
-  #####
-        #[BaseOS]
-  #name=BaseOS
-  #baseurl=file:///mnt/cdrom/BaseOS
-  #enabled=1
-  #gpgenabled=1
-  #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-  #
-        #[AppStream]
-  #name=AppStream
-  #baseurl=file:///mnt/cdrom/AppStream
-  #enabled=1
-  #gpgenabled=1
-  #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-        #####
-  yum repolist # confirm
-        ```
-
- - On rhcsa3, add HTTP port 8300/tcp to the SELinux policy database:
-     ```shell
-  semange port -l | grep http # 8300 not in list for http_port_t
-  semanage port -a -t http_port_t -p tcp 8300
-        ```
-
- - On rhcsa3, create VDO volume vdo1 on the 4GB disk with logical size 16GB and mounted with Ext4 structures on `/mnt/vdo1`:
-     ```shell
-  TBC
-        ```
-
- - Configure NFS service on rhcsa3 and share `/rh_share3` with rhcsa4. Configure AutoFS direct map on rhcsa4 to mount `/rh_share3` on `/mnt/rh_share4`. User user80 (create on both systems) should be able to create files under the share on the NFS server and under the mount point on the NFS client:
-     ```shell
-  # on rhcsa3
-  mkdir /rh_share3
-  chmod 777 rh_share3
-  useradd user80
-  passwd user80
-  # enter Temp1234
-  dnf install cifs-utils -y
-  systemctl enable nfs-server.service --now
-  firewall-cmd --add-service=nfs --permanent
-  firewall-cmd --reload
-  vi /etc/exports
-  # add line rh_share3 rhcsa4(rw)
-  exportfs -av
-  
-  # on rhcsa4
-  useradd user80
-  passwd user80
-  # enter Temp1234
-  mkdir /mnt/rh_share4
-  chmod 777 rh_share4
-  # mount rhcsa3:/rh_share3 /mnt/nfs
-  # mount | grep nfs # get details for /etc/fstab
-  # vi /etc/fstab
-  # add line rhcsa3:/rh_share3 /mnt/rh_share4 nfs4 _netdev 0 0
-  # above not required with AutoFS
-  dnf install autofs -y
-  vi /etc/auto.master
-  # add line /mnt/rh_rhcsa3 /etc/auto.master.d/auto.home
-  vi /etc/auto.master.d/auto.home
-  # add line * -rw rhcsa3:/rh_share3
-        ```
-
- - Configure NFS service on rhcsa4 and share the home directory for user user60 (create on both systems) with rhcsa3. Configure AutoFS indirect map on rhcsa3 to automatically mount the home directory under `/nfsdir` when user60 logs on to rhcsa3:
-     ```shell
-  # on rhcsa3
-  useradd user60
-  passwd user60
-  # enter Temp1234
-  dnf install autofs -y
-  mkdir /nfsdir
-  vi /etc/auto.master
-  # add line for /nfsdir /etc/auto.master.d/auto.home
-  vi /etc/auto.master.d/auto.home
-  # add line for * -rw rhcsa4:/home/user60
-  systemctl enable autofs.service --now
-
-  # on rhcsa4
-  useradd user60
-  passwd user60
-  # enter Temp1234
-  vi /etc/exports
-  # add line for /home rhcsa3(rw)
-  exportfs -va 
-        ```
-
- - On rhcsa4, create Stratis pool pool1 and volume str1 on a 1GB disk, and mount it to `/mnt/str1`:
-     ```shell
-  dnf provides stratis
-  dnf install stratis-cli -y
-  systemctl enable stratisd.service --now
-  stratis pool create pool1 /dev/sdc
-  stratis filesystem create pool1 vol1
-  mkdir /mnt/str1
-  mount /stratis/pool1/vol1 /mnt/str1
-  blkid # get information for /etc/fstab
-  vi /etc/fstab
-  # add line for UUID /mnt/str1 xfs defaults 0 0 
-        ```
-
- - On rhcsa4, expand Stratis pool pool1 using the other 1GB disk. Confirm that `/mnt/str1` sees the storage expansion:
-     ```shell
-  stratis pool add-data pool1 /dev/sdb
-  stratis blockdev # extra disk visible
-        ```
-
- - On rhcsa3, create a group called group30 with GID 3000, and add user60 and user80 to this group. Create a directory called `/sdata`, enable setgid bit on it, and add write permission bit for the group. Set ownership and owning group to root and group30. Create a file called file1 under `/sdata` as user user60 and modify the file as user80 successfully:
-     ```shell
-  TBC
-        ```
-
- - On rhcsa3, create directory `/dir1` with full permissions for everyone. Disallow non-owners to remove files. Test by creating file `/tmp/dir1/stkfile1` as user60 and removing it as user80:
-     ```shell
-  TBC
-        ```
-
- - On rhcsa3, search for all manual pages for the description containing the keyword "password" and redirect the output to file `/tmp/man.out`:
-     ```shell
-  man -k password >> /tmp.man.out
-  # or potentially man -wK "password" if relying on the description is not enough
-        ```
-
- - On rhcsa3, create file lnfile1 under `/tmp` and create one hard link `/tmp/lnfile2` and one soft link `/boot/file1`. Edit lnfile1 using the links and confirm:
-     ```shell
-  cd /tmp
-  touch lnfile1
-  ln lnfile1 lnfile2
-  ln -s /boot/file1 lnfile1
-        ```
-
- - On rhcsa3, install module postgresql version 9.6:
-     ```shell
-  dnf module list postgresql # stream 10 shown as default
-  dnf module install postgresql:9.6
-  dnf module list # stream 9.6 shown as installed
-        ```
-
- - On rhcsa3, add the http service to the "external" firewalld zone persistently:
-     ```shell
-  firewall-cmd --zone=external --add-service=http --permanent
-        ```
-
- - On rhcsa3, set SELinux type shadow_t on a new file testfile1 in `/usr` and ensure that the context is not affected by a SELinux relabelling:
-     ```shell
-  cd /usr
-  touch /usr/testfile1
-  ll -Zrt # type shown as unconfined_u:object_r:usr_t:s0
-  semange fcontext -a -t /usr/testfile1
-  restorecon -R -v /usr/testfile1
-        ```
-
- - Configure password-less ssh access for user60 from rhcsa3 to rhcsa4:
-     ```shell
-  sudo su - user60
-  ssh-keygen # do not provide a password
-  ssh-copy-id rhcsa4 # enter user60 pasword on rhcsa4
-        ```
-
-1. RHCSA 8 Practise Exam
-
- - Interrupt the boot process and reset the root password:
-     ```shell
-  # interrupt boot process and add rd.break at end of linux line
-  mount -o remount, rw /sysroot
-  chroot /sysroot
-  passwd 
-  # enter new passwd
-  touch /.autorelabel
-  # you could also add enforcing=0 to the end of the Linux line to avoid having to do this
-  # ctrl + D
-  reboot
-        ```
-
- - Repos are available from the repo server at <http://repo.eight.example.com/BaseOS> and <http://repo.eight.example.com/AppStream> for you to use during the exam. Setup these repos:
-     ```shell
-  vi /etc/yum.repos.d/localrepo.repo
-  #[BaseOS]
-  #name=BaseOS
-  #baseurl=http://repo.eight.example.com/BaseOS
-  #enabled=1
-  #
-  #[AppStream]
-  #name=AppStream
-  #baseurl=http://repo.eight.example.com/AppStream
-  #enabled=1
-  dnf repolist # confirm
-  # you could also use dnf config-manager --add-repo
-        ```
-
- - The system time should be set to your (or nearest to you) timezone and ensure NTP sync is configured:
-     ```shell
-  timedatectl set-timezone Australia/Sydney
-  timedatectl set-ntp true
-  timedatectl status # confirm status
-        ```
-
- - Add the following secondary IP addresses statically to your current running interface. Do this in a way that doesn’t compromise your existing settings:
-     ```shell
-  # IPV4 - 10.0.0.5/24
-  # IPV6 - fd01::100/64
-  nmcli con edit System\ eth0
-  goto ipv4.addresses 
-  add 10.0.0.5/24
-  goto ipv6.addresses 
-  add fd01::100/64
-  back
-  save
-  nmcli con edit System\ eth1
-  goto ipv4.addresses 
-  add 10.0.0.5/24
-  goto ipv6.addresses 
-  add fd01::100/64
-  back
-  save
-  nmcli con reload
-  # enter yes when asked if you want to set to manual
-        ```
-
- - Enable packet forwarding on system1. This should persist after reboot:
-     ```shell
-  vi /etc/sysctl.conf
-  # add line for net.ipv4.port_forward=1
-        ```
-
- - System1 should boot into the multiuser target by default and boot messages should be present (not silenced):
-     ```shell
-  systemctl set-default multi-user.target
-  vi /etc/default/grub
-  # remove rhgb quiet from GRUB_CMDLINE_LINUX
-  grub2-mkconfig -o /boot/grub2/grub.cfg
-  reboot
-        ```
-
- - Create a new 2GB volume group named “vgprac”:
-     ```shell
-  lsblk
-  # /dev/sdb is available with 8GB
-  # the file system already has ~36MB in use and is mounted to /extradisk1
-  umount /dev/sdb
-  parted /dev/sdb
-  mklabel
-  # enter msdos
-  mkpart
-  # enter primary
-  # enter xfs
-  # enter 0
-  # enter 2.1GB
-  set
-  # enter 1
-  # enter lvm
-  # enter on
-  vgcreate vgprac /dev/sdb1
-  # enter y to wipe 
-        ```
-
- - Create a 500MB logical volume named “lvprac” inside the “vgprac” volume group:
-     ```shell
-  lvcreate --name lvprac -L 500MB vgprac
-        ```
-
- - The “lvprac” logical volume should be formatted with the xfs filesystem and mount persistently on the `/mnt/lvprac` directory:
-     ```shell
-  mkdir /mnt/lvprac
-  mkfs.xfs /dev/mapper/vgprac-lvprac
-  vi /etc/fstab
-  # comment out line for old /dev/sdb
-  # add line for /dev/mapper/vgprac-lvprac
-  mount -a
-  df -h # confirm mounted
-        ```
-
- - Extend the xfs filesystem on “lvprac” by 500MB:
-     ```shell
-  lvextend -r -L +500MB /dev/vgprac/lvprac
-        ```
-
- - Use the appropriate utility to create a 5TiB thin provisioned volume:
-     ```shell
-  lsblk
-  # /dev/sdc is available with 8GB
-  dnf install vdo kmod-vdo -y
-  umount /extradisk2
-  vdo create --name=myvolume --device=/dev/sdc --vdoLogicalSize=5T --force
-  vi /etc/fstab
-  # comment out line for old /dev/sdc
-        ```
-
- - Configure a basic web server that displays “Welcome to the web server” once connected to it. Ensure the firewall allows the http/https services:
-     ```shell
-  vi /var/www/html/index.html
-  # add line "Welcome to the web server"
-  systemctl restart httpd.service
-  curl http://localhost
-  # success
-  # from server1
-  curl http://server2.eight.example.com
-  # no route to host shown
-  # on server2
-  firewall-cmd --add-port=80/tcp --permanent
-  firewall-cmd --reload
-  # from server1
-  curl http://server2.eight.example.com
-  # success
-        ```
-
- - Find all files that are larger than 5MB in the /etc directory and copy them to /find/largefiles:
-     ```shell
-  mkdir -p /find/largefiles
-  find /etc/ -size +5M -exec cp {} /find/largefiles \;
-  # the {} is substituted by the output of find, and the ; is mandatory for an exec but must be escaped
-        ```
-
- - Write a script named awesome.sh in the root directory on system1. If “me” is given as an argument, then the script should output “Yes, I’m awesome.” If “them” is given as an argument, then the script should output “Okay, they are awesome.” If the argument is empty or anything else is given, the script should output “Usage ./awesome.sh me|them”:
-     ```shell
-  vi /awesome.sh
-  chmod +x /awesome.sh
-  # contents of awesome.sh
-  ##!/bin/bash
-  #if [ $1 = "me" ]; then
-  # echo "Yes, I'm awesome."
-  #elif [ $1  = "them"]; then
-  # echo "Okay, they are awesome."
-  #else
-  # echo "Usage /.awesome.sh me|them"
-  #fi
-  #note that = had to be used and not -eq
-        ```
-
- - Create users phil, laura, stewart, and kevin. All new users should have a file named “Welcome” in their home folder after account creation. All user passwords should expire after 60 days and be at least 8 characters in length. Phil and laura should be part of the “accounting” group. If the group doesn’t already exist, create it. Stewart and kevin should be part of the “marketing” group. If the group doesn’t already exist, create it:
-     ```shell
-  groupadd accounting
-  groupadd marketing
-  vi /etc/security/pwquality.conf
-  # uncomment out the line that already had minlen = 8
-  mkdir /etc/skel/Welcome
-  useradd phil -G accounting
-  useradd laura -G accounting
-  useradd stewart -G marketing
-  useradd kevin -G marketing
-  chage -M 60 phil
-  chage -M 60 laura
-  chage -M 60 stewart
-  chage -M 60 kevin
-  chage -l phil # confirm
-  # can also change in /etc/login.defs
-        ```
-
- - Only members of the accounting group should have access to the `/accounting` directory. Make laura the owner of this directory. Make the accounting group the group owner of the `/accounting` directory:
-     ```shell
-  mkdir /accounting
-  chmod 770 /accounting
-  chown laura:accounting /accounting
-        ```
-
- - Only members of the marketing group should have access to the `/marketing` directory. Make stewart the owner of this directory. Make the marketing group the group owner of the `/marketing` directory:
-     ```shell
-  mkdir /marketing
-  chmod 770 /marketing
-  chown stewart:marketing /marketing
-        ```
-
- - New files should be owned by the group owner and only the file creator should have the permissions to delete their own files:
-     ```shell
-  chmod +ts /marketing
-  chmod +ts /accounting
-        ```
-
- - Create a cron job that writes “This practice exam was easy and I’m ready to ace my RHCSA” to `/var/log/messages` at 12pm only on weekdays:
-     ```shell
-  crontab -e
-  #* 12 * * 1-5 echo "This practise exam was easy and I'm ready to ace my RHCSA" >> /var/log/messagees
-  # you can look at info crontab if you forget the syntax
-        ```
-
-## RHCE
-
-- [Redhat](#redhat)
-  - [RHCSA](#rhcsa)
-    - [Understand and use essential tools](#understand-and-use-essential-tools)
-    - [Create simple shell scripts](#create-simple-shell-scripts)
-    - [Operate running systems](#operate-running-systems)
-    - [Configure local storage](#configure-local-storage)
-    - [Create and configure file systems](#create-and-configure-file-systems)
-    - [Deploy, configure, and maintain systems](#deploy-configure-and-maintain-systems)
-    - [Manage basic networking](#manage-basic-networking)
-    - [Manage users and groups](#manage-users-and-groups)
-    - [Manage security](#manage-security)
-    - [Manage containers](#manage-containers)
-    - [Exercises](#exercises)
-  - [RHCE](#rhce)
-    - [Understand core components of Ansible](#understand-core-components-of-ansible)
-    - [Install and configure an Ansible control node](#install-and-configure-an-ansible-control-node)
-    - [Configure Ansible managed nodes](#configure-ansible-managed-nodes)
-    - [Script administration tasks](#script-administration-tasks)
-    - [Create Ansible plays and playbooks](#create-ansible-plays-and-playbooks)
-    - [Use Ansible modules for system administration tasks that work with](#use-ansible-modules-for-system-administration-tasks-that-work-with)
-    - [Work with roles](#work-with-roles)
-    - [Use advanced Ansible features](#use-advanced-ansible-features)
-
-### Understand core components of Ansible
-
-1. Inventories
-
-    - Inventories are what Ansible uses to locate and run against multiple hosts. The default ansible 'hosts' file is `/etc/ansible/hosts`. The default location of the hosts file can be set in `/etc/ansible/ansible.cfg`.
-
-    - The file can contain individual hosts, groups of hosts, groups of groups, and host and group level variables. It can also contain variables that determine how you connect to a host.
-
-    - An example of an INI-based host inventory file is shown below:
-
-        ```shell
-        mail.example.com
-
-        [webservers]
-        web01.example.com
-        web02.example.com
-
-        [dbservers]
-        db[01:04].example.com
-        ```
-
-    - Note that square brackets can be used instead of writing a separate line for each host.
-
-    - An example of a YAML-based host inventory file is shown below:
-
-        ```shell
-        all:
-            hosts:
-                mail.example.com
-            children:
-                webservers:
-                    hosts:
-                        web01.example.com
-                        web02.example.com
-                dbservers:
-                    hosts:
-                        db[01:04].example.com
-        ```
-
-1. Modules
-
-    - Modules are essentially tools for particular tasks. They usually take parameters and return JSON. Modules can be run from the command line or within a playbook. Ansible ships with a significant amount of modules by default, and custom modules can also be written.
-
-1. Variables
-
-    - Variable names should only contain letters, numbers, and underscores. A variable name should also start with a letter. There are three main scopes for variables: Global, Host and Play.
-
-    - Variables are typically used for configuration values and various parameters. They can store the return value of executed commands and may also be dictionaries. Ansible provides a number of predefined variables.
-
-    - An example of INI-based based variables:
-
-        ```shell
-        [webservers]
-        host1 http_port=80 maxRequestsPerChild=500
-        host2 http_port=305 maxRequestsPerChild=600
-        ```
-
-    - An example of YAML-based based variables:
-
-        ```shell
-        webservers
-            host1:
-                http_port: 80
-                maxRequestsPerChild: 500
-            host2:
-                http_port: 305
-                maxRequestsPerChild: 600
-        ```
-
-1. Facts
-
-    - Facts provide certain information about a given target host. They are automatically discovered by Ansible when it reaches out to a host. Facts can be disabled and can be cached for use in playbook executions.
-
-1. Plays
-
- - The goal of a play is to map a group of hosts to some well-defined roles. A play can consist of one or more tasks which make calls to Ansible modules.
-
-1. Playbooks
-
- - A playbook is a series of plays. An example of a playbook:
-
-        ```shell
-  ---
-  - hosts: webservers
-    become: yes
-    tasks:
-      - name: ensure apache is at the latest version
-        yum:
-          name: httpd
-          state: latest
-      - name: write our custom apache config file
-        template:
-          src: /srv/httpd.j2
-          dest: /etc/httpd/conf/httpd.conf
-      - name: ensure that apache is started
-        service:
-          name: httpd
-          state: started
-      - hosts: dbservers
-        become: yes
-        tasks:
-        - name: ensure postgresql is at the latest version
-          yum:
-            name: postgresql
-            state: latest
-        - name: ensure that postgres is started
-          service:
-            name: postgresql
-            state: started
-        ```
-
-1. Configuration Files
-
- - The Ansible configuration files are taken from the below locations in order:
-  - ANSIBLE_CONFIG (environment variable)
-  - ansible.cfg (in the current directory)
-  - `~/.ansible.cfg` (in the home directory)
-  - `/etc/ansible/ansible.cfg`
-
- - A configuration file will not automatically load if it is in a world-writable directory.
-
- - The ansible-config command can be used to view configurations:
-  - list - Prints all configuration options
-  - dump - Dumps configuration
-  - view - View the configuration file
-
- - Commonly used settings:
-  - inventory - Specifies the default inventory file
-  - roles_path - Sets paths to search in for roles
-  - forks - Specifies the amount of hosts configured by Ansible at the same time (Parallelism)
-  - ansible_managed - Text inserted into templates which indicate that file is managed by Ansible and changes will be overwritten
-
-1. Use provided documentation to look up specific information about Ansible modules and commands
-
-### Install and configure an Ansible control node
-
-1. Install required packages
-
- - To install Ansible using dnf:
-
-        ```shell
-  subscription-manager repos --list | grep ansible
-  # find latest version
-  sudo subscription-manager repos --enable ansible-2.8-for-rhel-8-x86_64-rpms
-  dnf search ansible
-  # confirm available
-  dnf install -y ansible
-        ```
-
- - To install Ansible from disk:
-
-        ```shell
-  sudo dnf install git
-  mkdir ansible
-  mkdir git
-  cd git
-  git clone --single-branch --branch stable -2.8 https://github.com/ansible/ansible.git
-  cd ansible
-  source ./hacking/env-setup
-  # make permanent
-  vi ~/.bash_profile
-  # add line
-  source ~/git/ansible/hacking/env-setup
-  pip2.7 install --user -r ./requirements.txt
-  # test the installation
-  ansible 127.0.0.1 -m ping
-        ```
-
-1. Create a static host inventory file
-
- - An inventory is a list of hosts that Ansible manages. Inventory files may contain hosts, patterns, groups and variables. Multiple inventory files may be specified using a directory. Inventory files may be specified in INI or YAML format.
-
- - The default location is `/etc/ansible/hosts`. The location can be set in ansible.cfg or specified in the CLI using:
-     ```shell
-  ansible -i <filename>
+          Sharename       Type      Comment
+          ---------       ----      -------
+          print$          Disk      Printer Drivers
+          sambashare      Disk      /samba
+          IPC$            IPC       IPC Service (us20-04 server (Samba, Ubuntu))
+  SMB1 disabled -- no workgroup available
+  ```
+2. Mount with the username you are given with and specify the sharename, not shared folder name. Note the UNC path syntax.
+  ```text
+  [root@localhost ~]# mount -t cifs -o user=ivan //192.168.92.151/sambashare /mnt/samba
+  Password for ivan@//192.168.92.151/sambashare:  *********
+  ```
+3. Check with `mount` that it is successful
+4. Alternatively one can use credentials file in the format if the password can't be specified on the CLI easily.
+  ```text
+  user=testuser
+  password=Password1
+  domain=some-domain
+  ```
+  And option `credentials` to mount
+  ```
+  -o credentials=/path/to/creds/file
   ```
 
- - Best practices for inventory variables:
-  - Variables should be stored in YAML files located relative to the inventory file.
-  - Host and group variables should be stored in the host_vars and group_vars directories respectively (the directories need to be created).
-  - Variable files should be named after the host or group for which they contain variables (files may end in .yml or .yaml).
+Check mount options with `man mount.cifs`. Check /var/log/messages if there are errors.
 
-1. Create a configuration file
+### 24.2.2 Mount on /etc/fstab
 
- - An example of creating a custom configuration file, and updating the default configuration file:
-  ```shell
-  cd ansible
-  vi ansible.cfg
+Specify the sharename and user/password
+```text
+//192.168.92.151/sambashare   /mnt/samba  cifs  _netdev,user=ivan,password=Password1   0 0
+```
+## 24.3 Automount
 
-  ### contents of file
-  [defaults]
+* Install package **autofs**
+* Mounts on demand and not all the time.
+* For both NFS and CIFS
+* Uses **autofs.service**
+* Works with user privileges; no root privs needed. User just needs to enter directory to mount.
+* Examples for /misc mount in /etc/auto.master
 
-  interpreter_python = auto
-  inventory = /home/cloud_user/ansible/inventory/inv.ini
-  roles_path = /etc/ansible/roles:/home/cloud_user/ansible/roles
-  ###
+To configure automount for NFS
 
-  mkdir roles
-  # add property to default ansible.cfg
-  sudo vi /etc/ansible/ansible.cfg
-  # add line
-  interpreter_python = auto
+In /etc/auto.master specify the path to the file containing the config for mounting NFS
+```text
+/nfs  /etc/auto.nfs
+#/path/to/mount  /nfs/mount/config
+```
+
+Then in /etc/auto.nfs, specify the subdir mount point.
+```text
+files  -rw  server2:/nfs
+#/subdir/to/mount/  #read-write  #NFS mount target
+#Here it's /nfs/files
+```
+
+To trigger do `ls /nfs/files` and it mounts 
+
+### 24.3.1 Automount wildcards
+
+Let's say you want to mount the dir /users/tom on NFS server but you don't know it's called tom/
+
+In general `*` as the mount path will match `&` on the server NFS end
+
+In /etc/auto.master:
+```text
+/mnt/users  /etc/auto.users
+```
+
+In /etc/auto.users:
+```text
+*    -rw    192.168.92.151:/users/&
+```
+
+The mount point will be at **/mnt/users/*** where `*` matches `&` on the server end. Say the NFS server is serving **/users/tom**. After accessing /mnt/users/tom, we see the mount point is
+```text
+192.168.92.151:/users/tom   20G   13G  6.1G  68% /mnt/users/tom
+```
+
+Check `man 5 autofs` for syntax
+
+# 25. Time services
+## 25.1 Definitions
+* Hardware time (or RTC) - Maintained by motherboard clock independently of OS even when shutdown. Defaults to UTC.
+  * Show hardware clock time with `hwclock`
+  * Set system time from hardware clock `hwclock --hctosys`
+  * Set hardware time from system time `hwclock --systohc`
+* System time - Maintained by OS, independent of hardware time
+  * Despite this, system time is taken from hardware time during boot
+  * Show local time `date`
+* Epoch time - Time elapsed in seconds since Jan 1 1970 (eg. /var/log/audit/audit.log)
+  * Convert from epoch time to UTC with `date --date @1654311408.584`
+
+## 25.2 NTP  - Network time protocol
+* Lower stratum is more accurate
+  * Internet time servers use 1, 2
+  * 15 used for inaccurate clocks
+* NTP config file for Internet-connected servers at **/etc/chrony.conf**
+* Uses **chronyd.service**
+* Limitations - Can't sync if difference > 1000s.
+  * In that case, set hwclock and take system time from there then use NTP
+
+## 25.3 Commands
+### 25.3.1 `timedatectl`
+
+Used for
+* Setting timezones
+  * Note this actually sets **/etc/localtime** with a symlink
+* Turning NTP on/off
+* Show time settings with `show`
+* Set time manually; turn NTP off first
+* Successor to `date`
+
+## 25.3.2 `tzselect`
+
+Can be used to change timezone, but better off with `timedatectl`
+
+## 25.4 Configure NTP client
+To configure a server to sync NTP with a specific source:
+
+On server:
+1. Edit /etc/chrony.conf to disable default NTP server. Comment it out
+  ```text
+  #pool 2.rhel.pool.ntp.org iburst
   ```
-
-1. Create and use static inventories to define groups of hosts
-
-1. Manage parallelism
-
-### Configure Ansible managed nodes
-
-1. Create and distribute SSH keys to managed nodes
-
- - A control node is any machine with Ansible installed. You can run Ansible commands and playbooks from any control node. A managed node (also sometimes called a "host") is a network device or server you manage with Ansible. Ansible is not installed on managed nodes.
-
- - The following is an example of generating SSH keys on the control node and distributing them to managed nodes mypearson2c and mypearson3c:
-  ```shell
-  ssh-keygen
-  # enter password
-  # now we have id.rsa and id_rsa.pub in /home/cloud_user/.ssh/
-  ssh-copy-id cloud_user@mspearson2c.mylabserver.com
-  # enter password
-  ssh-copy-id cloud_user@mspearson3c.mylabserver.com
-  # enter password
+2. Set to advertise even without synchronisation with time source by setting `local stratum 5` and allow clients to poll them.
+  ```text
+  # Serve time even if not synchronized to a time source.
+  local stratum 5
+  # Allow NTP client access from local network.
+  allow 192.168.0.0/16
   ```
+3. Restart **chronyd.service**
+4. Add service **ntp** to `firewall-cmd`
 
-1. Configure privilege escalation on managed nodes
+On client:
 
- - The following is an example of configuring privilege escalation on managed nodes mypearson2c and mypearson3c:
-  ```shell
-  # perform these steps on both mypearson2c and mypearson3c
-  sudo visudo
-  # add line
-  cloud_user ALL=(ALL) NOPASSWD: ALL
-  ```
+1. Edit /etc/chrony.conf to add the line `server <server-ip> iburst` and comment out others. `iburst` makes client update from server [sooner](https://www.redhat.com/sysadmin/chrony-time-services-linux).
+2. Restart **chronyd.service**
+3. Check `chronyc sources`
+4. Run `timedatectl` and you'll see **no** for synchronised. This takes time to sync unless you have configured `iburst` on the server.
+```text
+  System clock synchronized: no
+  NTP service: active
+```
 
-1. Validate a working configuration using ad hoc Ansible commands
- 
- - An ad hoc command is used to execute one line commands. They are useful for non-routine tasks such as file transfers, package management, managing services, user and group management, fact gathering, general system information, software deployment from Git, and playbook creation testing.
+# 26. Managing containers
+## 26.1 Setup and installation
+Note that RHEL 8 uses cri-o instead of docker for containers
 
- - The syntax of an ad hoc command is shown below:
-  ```shell
-  ansible host -i inventory_file -m module -a "arguments"
-  ```
+Install module container-tools with `yum module install container-tools`. Do a `yum module list` to see all modules first.
 
- - Arguments require double quotes and are space delimited, and commands are executed as the user that is running them. The -b option can be used to execute the command as the root user. The -a option may be used without the -m command to run shell commands.
+Note: cgroups or control groups used to limit resources a process can take up.
 
- - Examples of ad hoc commands are shown below:
-  ```shell
-  # an example for the ping module
-  ansible -i inventory/inv.ini all -m ping
+If when running containers or pulling images you get this error
+```text
+Trying to pull registry.access.redhat.com/nginx...
+  unsupported: This repo requires terms acceptance and is only available on registry.redhat.io
+Trying to pull registry.redhat.io/nginx...
+  unable to retrieve auth token: invalid username/password: unauthorized: Please login to the Red Hat Registry using your Customer Portal credentials. Further instructions can be found here: https://access.redhat.com/RegistryAuthentication
+Error: unable to pull nginx: 2 errors occurred:
+        * Error initializing source docker://registry.access.redhat.com/nginx:latest: Error reading manifest latest in registry.access.redhat.com/nginx: unsupported: This repo requires terms acceptance and is only available on registry.redhat.io
+        * Error initializing source docker://registry.redhat.io/nginx:latest: unable to retrieve auth token: invalid username/password: unauthorized: Please login to the Red Hat Registry using your Customer Portal credentials. Further instructions can be found here: https://access.redhat.com/RegistryAuthentication
+```
 
-  # an example for the setup module against the mypearson2 host
-  ansible mypearson2 -i inventory/inv.ini all -m setup
+Login to registry.redhat.io with `podman login registry.redhat.io` with the credentials. Registry authentication [procedure here](https://access.redhat.com/RegistryAuthentication).
 
-  # an example of a shell command against the mypearson2 host
-  ansible mspearson2 -a "ls -l /tmp"
+If still can't work edit **/etc/containers/registries.conf** to include docker.io as a registry
 
-  # an example of a shell command against the labservers group
-  ansible labservers -a "ls -l /tmp"
-  ```
+Note: Unlike docker, Cri-O, managed by `podman` can run rootless containers by default.
 
-### Script administration tasks
+## 26.2 `podman` commands
+Very similar to `docker` command
 
-1. Create simple shell scripts
+Run container `podman run -d nginx`
 
- - The first line of a shell script must include `#!/bin/bash`. Comments can be added by using the # symbol. Execute permissions are required on the script before it can be executed. The script can be executed using the absolute or relative path.
+Run in interactive mode `podman run -it nginx`
 
- - A sample shell script is shown below:
- ```shell
- #!/bin/bash
- # hello world script
- echo "Hello world!"
- ```
+List containers `podman ps -a`
+* Note even as root this doesn't list containers started by other users. [No way](https://unix.stackexchange.com/questions/680171/list-containers-from-other-users) to do that.
 
- - A sample shell script using a for loop is shown below:
- ```shell
- #!/bin/bash
- # for loop
- for i in {1..5}
- do
-  echo "Hello $i times!"
- done
- ```
+If you started the container with a non-persistent process, detach from interactive mode without shutting down with Ctrl-P, Ctrl-Q
 
-1. Create simple shell scripts that run ad hoc Ansible commands
+Difference between `podman stop` and `podman kill` is that stop sends SIGTERM while kill sends SIGKILL to the container process
 
- - A script containing adhoc commands is shown below:
-  ```shell
-  #!/bin/bash
-  
-  # Create the user matt
-  ansible mcpearson3c.mylabserver.com -i /home/cloud_user/ansible/inventory/inv.ini -b -m user -a "name=matt"
+Once stopped, containers retain files in their filesystem. To restart it and recover files, do `podman start containername`
 
-  # Create the demo directory in matt's home directory
-  ansible mspearson3c.mylabserver.com -i /home/cloud_user/ansible/inventory/inv.ini -b -m file -a "path=/home/matt/demo state=directory owner=matt group=matt mode=0755"
+Restart currently running containers with `podman restart containername`
 
-  # Copy testFile to matt's home directory
-  ansible mspearson3c.mylabserver.com -i /home/cloud_user/ansible/inventory/inv.ini -b -m copy -a "src=/home/cloud_user/ansible/testFile dest=/home/matt/testFile mode=0644 owner=matt group=matt"
+Exec commands with `podman exec -it containername command`
 
-  # Install httpd to the webservers group and start and enable the httpd service
-  ansible webservers -i /home/cloud_user/ansible/inventory/inv.ini -b -m yum -a "name=httpd state=latest"
-  ansible webservers -i /home/cloud_user/ansible/inventory/inv.ini -b -m service -a "name=httpd state=started enabled=yes"
-  ```
+To see PID 1 process in a container do `cat /proc/1/cmdline`
 
- - Ad hoc commands can be a powerful tool for running commands across an inventory and getting the desired results. The following example can be run on a host to retrieve log files from multiple managed nodes:
-  ```shell
-  #!/bin/bash
+View container logs with `podman logs containername`
 
-  for i in webserver1 dbserver1 adminserver1;
-     do ssh ansible@$i "sudo tar -czf messages.tar.gz /var/log/messages";
-  done
-  ansible -m fetch -a "src=/home/ansible/messages.tar.gz dest=/tmp/messages" all
-  ```
+### 26.2.2 Searching for images
 
-### Create Ansible plays and playbooks
+Search for images in all registries configured with `podman search image-name`, specify `--filter` to narrow down results eg `--filter is-official=true`. Consult `man podman-search` for available filter options.
 
-1. Know how to work with commonly used Ansible modules
+List image tags with `podman search image-name --list-tags`. Note this works on later `podman` versions only.
 
- - Commonly used modules include:
-  - Ping
-   - Validates a server is running and reachable.
-   - No required parameters.
-  - Setup
-   - Gather Ansible facts.
-   - No required parameters.
-  - Yum
-   - Manage packages with the YUM package manager.
-   - Common parameters are name and state.
-  - Service
-   - Control services on remote hosts:
-   - Common parameters are name (required), state and enabled.
-  - User
-   - Manage user accounts and attributes.
-   - Common parameters are name (required), state, group and groups.
-  - Copy
-   - Copy files to a remote host.
-   - Common parameters are src, dest (required), owner, group and mode.
-  - File
-   - Manage files and directories.
-   - Common parameters are path (required), state, owner, group and mode.
-  - Git
-   - Interact with git repositories.
-   - Common parameters are repo (required), dest (required) and clone.
+Search specific registry with exact image name **ubi8** with `podman search registry.access.redhat.com/ubi8`
 
-1. Use variables to retrieve the results of running a command
+## 26.3 Registries config
+Global config at **/etc/containers/registries.conf**
 
- - The register keyword is used to store the results of running a command as a variable. Variables can then be referenced by other tasks in the playbook. Registered variables are only valid on the host for the current playbook run. The return values differ from module to module.
+Overridden by user config at **~/.config/containers/registries.conf** for rootless containers
 
- - A sample playbook register.yml is shown below:
-  ```shell
-  ---
-  - hosts: mspearson2
-    tasks:
-      - name: create a file
-        file:
-          path: /tmp/testFile
-          state: touch
-        register: var
-      - name: display debug msg
-        debug: msg="Register output is {{ var }}"
-      - name: edit file
-        lineinfile:
-          path: /tmp/testFile
-          line: "The uid is {{ var.uid }} and gid is {{ var.gid }}"
-  ```
+Config settings
+* \[registries.search] - Default registries used in order specified here
+* \[registries.insecure] - Registries that are not TLS-secure
+* \[registries.block] - Blocks `podman` from pulling from these registries
 
- - This playbook is run using:
-  ```shell
-  ansible-playbook playbooks/register.yml
-  ```
+Run `podman info` to see which registries are used, then use `podman login registry.address` to authenticate
 
- - The result stored in `/tmp/testFile` shows the variables for uid and gid.
+## 26.4 Inspecting images
 
-1. Use conditionals to control play execution
+Inspect images locally with `podman inspect imagename:tag`. 
+* Look for **Cmd** to see what it runs when booted up.
 
-1. Configure error handling
+Inspect image remotely without pulling down with `skopeo inspect docker://docker.io/library/websphere-liberty`
+* Note that unlike `podman inspect` locally, it doesn't show details like Cmd run
 
-1. Create playbooks to configure systems to a specified state
+Note: `podman inspect | grep usage` might reveal help on how to run the image as container
 
-### Use Ansible modules for system administration tasks that work with
+## 26.5 Port mappings and env variables
 
-1. Software packages and repositories
+Note: In general specify the image name and its tags at the end of `podman run` because anything after that is treated as the ENTRYPOINT.
 
-1. Services
+### 26.5.1 Mapping ports from container to host
 
-1. Firewall rules
+Non-root users can run containers too, just can't map to ports below 1024.
 
-1. File systems
+Run nginx, exposing port 8080 on host to container `podman run -d -p 8080:80 --name nginx-port -t localhost/local/nginx:redhat`
+* Consult `man podman-run` for the `-p` syntax
+* Also add port to `firewall-cmd`
 
-1. Storage devices
+View mapped ports on host with `podman port -a`
 
-1. File content
+Only root containers have IP addresses.
+* Check IP of container with `podman inspect container-name | grep -i address`
 
-1. Archiving
+### 26.5.2 Setting env variables in containers
 
-1. Scheduled tasks
+Set env variable $TESTING ` podman run -d -e TESTING="hello nurse" --name nginx-nurse localhost/local/nginx:redhat`
+* Search "environment" in `man podman-run`
+* To check env is set, don't `echo $TESTING` in `podman exec` but rather do `env | grep TESTING`. [ref](https://stackoverflow.com/questions/34051747/get-environment-variable-from-docker-container)
 
-1. Security
+## 26.6 Container storage
+* Writable, non-persistent layer added to container on launch.
+* Mount with switch `-v /host/dir:/container/dir:Z`
 
-1. Users and groups
+### 26.6.1 Persistent storage by non-root users
+Two conditions before container can be mounted
+* Host directory writable by user running container, *and* writable by everyone else. Set `chmod o+w /path/to/dir`
+* SELinux context label set to **container_file_t**
+  * This is set if mounted with `-v /hostdir:/containerdir:Z`  if the user owns the directory; not enough for user to just have write permissions
+  * Set manually with `semanage fcontext -a -t container_file_t "/host-dir(/.*)?"; restorecon -R -F -v /host-dir`
 
-### Work with roles
+## 26.7 Running containers as systemd services
 
-1. Create roles
+* Run services not as systemd services but as containers ie. essentially running containers on boot with systemd.
+* systemd user unit files for rootless containers so systemd can start them
+* `systemctl --user` commands work only on SSH or console logins, not `sudo` or `su`
 
-1. Download roles from an Ansible Galaxy and use them
+By default systemd user services start when user session is opened, closed when user session is stopped. 
 
-### Use advanced Ansible features
+**Steps:**
+1. Enable linger with `sudo loginctl enable-linger username`
+    * Verify with `loginctl show-user username`. Disable with `loginctl disable-linger`.
+2. Create dir **~/.config/systemd/user/**, by default non-existent.
+    * Check `man podman generate systemd` for the dir path needed.
+    * Also note that `XDG_RUNTIME_DIR=/run/user/$(id -u)` needs to be set, also check man page for that.
+3. Run pod with specific name eg. **my-nginx**
+4. Create systemd user files `podman generate systemd --name my-nginx --files`
+    * Add `-new` so podman creates container when service starts and removes when service stops. Available on later versions of `podman` only.
+    * Note that for `--new` to work the pod must be created **but not** running
+    * Might need to copy to **~/.config/systemd/user** dir
+5. Edit container-name.service file to change to **WantedBy=default.target**
+    * Not required for later podman versions
+6. Reload systemd with `--user` switch
+7. Enable with `systemctl --user enable container-name.service`, verify with `status`
+8. Reboot and verify if working
 
-1. Create and use templates to create customized configuration files
+To generate service file for root containers, do it from working dir **/etc/systemd/system**
 
-1. Use Ansible Vault in playbooks to protect sensitive data
+Troubleshoot if required with `journalctl --user -u container-name.service -xe`
+
+## podman tips
+
+* If a container fails to run, use `podman logs container-name` to figure out why
+* Check SELinux settings
