@@ -1,7 +1,7 @@
 ---
-title: walkthough of a world war 2
+title: Receipt of a spicy miso ramen
 layout: post
-description: this page describes about walkthough of a world war 2
+description: this page describes about Receipt of a spicy miso ramen
 tags:
 - TEST
 ---
