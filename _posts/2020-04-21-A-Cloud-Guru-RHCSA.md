@@ -6,3 +6,5 @@ description: A Cloud Guru RHCSA
 tags:
 - RHCSA
 ---
+
+{% include links.html %}

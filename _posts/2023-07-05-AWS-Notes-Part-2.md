@@ -351,3 +351,5 @@ The purpose of AWS CloudFormation StackSets includes:
 - **Resource Management**: StackSets provide visibility into the status and events of stacks across multiple accounts and regions. You can monitor the progress of deployments, view the output values of stacks, and easily track changes and updates made to the infrastructure.
 
 AWS CloudFormation StackSets are particularly useful for large organizations or enterprises with multiple AWS accounts and regions. They streamline the management and deployment of infrastructure resources, enforce consistent configurations, and simplify the process of scaling and updating infrastructure at scale.
+
+{% include links.html %}

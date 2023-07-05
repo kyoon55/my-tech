@@ -179,3 +179,5 @@ with open("output.txt", "w") as file:
 ```
 
 This concludes our basic Python tutorial. Python offers much more functionality and features, but this tutorial should give you a solid foundation to start exploring further. Happy coding!
+
+{% include links.html %}

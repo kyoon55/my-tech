@@ -101,3 +101,5 @@ Refer to the following references for further reading and exploration in the fie
 - [Website] Coursera: "Financial Engineering and Risk Management" by Columbia University
 
 Note: This document has removed credits and conclusion sections as per the given requirements.
+
+{% include links.html %}

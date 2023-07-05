@@ -1743,3 +1743,5 @@ Containers are essentially namespaces, designed to be secure and prevent process
 
 ### Aside: Kubernetes 
 If you are new to containers and just trying to pass your RHCSA, don't bother with Kubernetes right now. Check it out afterwards, though.
+
+{% include links.html %}

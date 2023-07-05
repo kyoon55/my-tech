@@ -42,3 +42,5 @@ Upon running the playbook, Ansible will automate the deployment of Tyk on the sp
 ## Conclusion
 
 API Gateways play a crucial role in managing and securing API traffic. In this article, we explored the deployment process of two popular API Gateway solutions, Kong and Tyk, using Ansible. By automating the deployment with Ansible, organizations can streamline their API management workflows and ensure consistent and scalable setups. With Ansible's declarative language and extensive collection of roles and playbooks, deploying API Gateways becomes a more manageable and efficient task.
+
+{% include links.html %}

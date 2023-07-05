@@ -90,3 +90,5 @@ In this tutorial, you learned how to use Ansible to automate the configuration o
 Feel free to explore more Ansible modules and playbooks to further customize and enhance your web server setup.
 
 Happy automating!
+
+{% include links.html %}

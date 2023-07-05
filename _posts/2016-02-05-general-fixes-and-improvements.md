@@ -14,3 +14,5 @@ This release fixes a few minor issues reported by users. We've also made a few q
 
 * Input sometimes getting stuck
 * One more memory leak obliterated
+
+{% include links.html %}

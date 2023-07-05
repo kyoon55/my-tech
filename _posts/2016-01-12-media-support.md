@@ -15,3 +15,5 @@ ChatApp introduces media support! Send images, videos and documents to your cont
 
 * Edge case contact syncing issue
 * All memory leaks obliterated
+
+{% include links.html %}

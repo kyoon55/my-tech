@@ -152,3 +152,5 @@ Ansible will connect to the respective hosts and execute the tasks defined in th
 ## Conclusion
 
 In this document, you learned how to use Ansible to deploy API gateways such as Kong and Tyk. We covered the steps from setting up the Ansible inventory to creating playbooks and configuring the gateways. Ansible simplifies the deployment process and allows for easily managing multiple hosts and configurations. With this knowledge, you can efficiently deploy and manage API gateways in your infrastructure.
+
+{% include links.html %}
