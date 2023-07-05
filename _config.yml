@@ -1,97 +1,79 @@
-# WhatATheme
-markdown: kramdown
+# ----
+# Site
 
-# URL of the Site
-url: ''
-# Base URL of the Site (i.e., Name of the Repository in which the Site is hosted)
-baseurl: 
+title: Edition Template
+url: "https://long-pig.cloudvent.net"
+baseurl:
+google_analytics_key:
+show_full_navigation: true
 
-# Title of the Site
-title: Welcome!
-# Description of the Site
-description: Your First Page to Find Your Ways to Deploy Your Solutions
-# URL of Image of the Site
-site-image: /WhatATheme/assets/images/meta.jpg
-# Keywords of the Site
-site-keywords: Site, Template, Theme
-# URL for the Image of custom Favicon
-favicon-url: 
+# Values for the jekyll-seo-tag gem (https://github.com/jekyll/jekyll-seo-tag)
+logo: /siteicon.png
+description: Product documentation template for Jekyll.
+author:
+  name:
+  email:
+  twitter: # twitter username without the @ symbol
+social:
+  name: Edition Template
+  links:
+    - https://github.com/CloudCannon/edition-jekyll-template
 
-# URL of the Image of Custom Hero Image (i.e., the image in the background of the very first section of the Homepage)
-#heroimage: https://images.pexels.com/photos/220444/pexels-photo-220444.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940
+# -----
+# Build
 
-# Social Media and Contact
-# If you don't want to use any icon, you can leave them blank.
-email: thedevslot@gmail.com
-facebook_username: thedevslot
-twitter_username: thedevslot
-instagram_username: thedevslot
-linkedin_username: thedevslot
-github_username:  thedevslot
-youtube_channel_id: UCk_93NXYP-U_AOB5GfWlOow
-reddit_username: /
-behance_username: /
-dribbble_username: /
-spotify_username: /
+timezone: Etc/UTC
 
-# Google Analytics
-google-analytics: UA-163806439-1
+permalink: pretty
 
-# Disqus
-disqus-shortname: thedevslot
-
-# Name of the Author
-author-name: kyoon55
-# URL for the Image of the Author
-author-image: https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png
-# 60 Words About the Author
-author-about: Kyoon55 is my username
-# URL to the Author's Profile (i.e., Github, Twitter, Stackoverflow, etc)
-author-url: https://github.com/kyoon55
-
-# SASS
-sass:
-  sass_dir: _sass
-  style: compressed
-
-# Build settings
 plugins:
-  - jekyll-admin
+  - jekyll-sitemap
+  - jekyll-seo-tag
   - jekyll-feed
 
-# Permalink
-permalink: "blog/:title"
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENCE
 
-# Compress
-compress_html:
-  clippings: all
+collections:
+  docs:
+    title: Documentation
+    permalink: /:path/
+    output: true
 
-# Defaults
 defaults:
   -
     scope:
-      type: 'posts'
+      path: ""
     values:
-      layout: post
-      post-image: ""
-      description: ""
-      tags:
-        - ""
+      layout: default
   -
     scope:
-      type: 'pages'
+      path: ""
+      type: "docs"
     values:
-      layout: page
+      seo:
+        type: Article
+      _comments:
+        category: Group navigation links with this field
+        order: Used to sort links in the navigation
+      _options:
+        content:
+          width: 800
+          height: 2000
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      _comments:
+        type: Marks the impact of this release
 
-# Exclude
-exclude:
-  - .sass-cache/
-  - .jekyll-cache/
-  - gemfiles/
-  - Gemfile
-  - Gemfile.lock
-  - node_modules/
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
+# -----------
+# CloudCannon
+
+types:
+  - minor
+  - major
