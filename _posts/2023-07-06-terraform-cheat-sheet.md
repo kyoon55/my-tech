@@ -43,11 +43,14 @@ tags: [news]
 ## Terraform state manipulation
 
 1. Show details stored in Terraform state for the resource
+   - ```terraform state show aws_instance.my_ec2```
 2. Download and output terraform state to a file
-3. Move a resource tracked via state to different module
-4. Replace existing provider with another
-5. List all the resources tracked in the current state file
-6. Unmanage a resource, delete it from Terraform state file
+3. - ```terraform state pull terraform.tfstate```
+4. Move a resource tracked via state to different module
+   - `terraform state my aws_iam_role.my_ssm_role module.custom_mopdule`
+5. Replace existing provider with another
+6. List all the resources tracked in the current state file
+7. Unmanage a resource, delete it from Terraform state file
 
 ## Terraform import and Outputs
 
