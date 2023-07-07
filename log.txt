@@ -1,0 +1,6 @@
+2020-02-03 11:03:23 WARN My warning message repeated 3 times
+2020-02-03 11:03:23 ERR oops,  error message repeated 8 times
+2020-02-03 11:03:26 ERR this is my error message repeated 1 times
+2020-02-03 11:03:26 WARN MY warning , so scary, repeated 1 times
+2020-02-03 11:03:26 WARN cpu utilization high,  repeated 1 times
+2020-02-03 11:03:29 INFO this is for test repeated 2 times
