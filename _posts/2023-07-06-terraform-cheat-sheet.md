@@ -7,35 +7,38 @@ tags: [news]
 ## Plan, deploy, and cleanup infrastructure
 
 1. Apply changes without being prompted to enter 'yes'
-   ``` terraform apply --auto-approve ```
+   - ``` terraform apply --auto-approve ```
 2. Destroy/cleanup deployment without being prompted 'yes'
-    ``` terraform destroy --auto-approve ```
+   - ``` terraform destroy --auto-approve ```
 3. Output the deployment plan to plan.out
-   ``` terraform plan -out plan.out ```
+   - ``` terraform plan -out plan.out ```
 4. Use the plan.out plan file to deploy infrastructure
-   ``` terraform plan -destroy ```
+   - ``` terraform plan -destroy ```
 5. Outputs a destroy plan
-   ``` terraform apply -target=aws_instance.my_ec2 ```
+   - ``` terraform apply -target=aws_instance.my_ec2 ```
 6. Only apply/deploy changes to the targeted resource
-   ``` terraform apply -var my_region_variable=us-east-1 ```
+   - ``` terraform apply -var my_region_variable=us-east-1 ```
 7. Pass a variable via command-line while applying a configuration
-   ``` terraform apply -var my_region_variable=us-east-1 ```
+   - ``` terraform apply -var my_region_variable=us-east-1 ```
 8. Lock the state file so it can't be modified by any other Terraform apply or modification action (Possible only where backend allows locking)
-   ``` terraform apply -lock=true ```
+   - ``` terraform apply -lock=true ```
 9. Do not reconsolie state file with real-world resources (helpful with large complex deployments for saving deployment time)
-    ``` terraform apply refresh=false ```
+    - ``` terraform apply refresh=false ```
 10. Number of simultaneous resource operations
-    ``` terraform apply --parallelism=5 ```
+    - ``` terraform apply --parallelism=5 ```
 11. Reconsile the state in Terraform state file with real-world resources
-    ``` terraform refresh ```
+    - ``` terraform refresh ```
 12. Get information about providers used in current configuration
-    ``` terraform providers ```
+    - ``` terraform providers ```
 
 ## Terraform Workspaces
 
 1. Create a new workspace
+   - ``` terraform workspace new mynewworkspace ```
 2. Change to the selected workspace
+   - ``` terraform workspace select default ```
 3. List out all workspaces
+   - ``` terraform workspace list ```
 
 ## Terraform state manipulation
 
