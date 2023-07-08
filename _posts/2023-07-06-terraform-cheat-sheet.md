@@ -1,7 +1,7 @@
 ---
-title:  "Test post from last year"
+title:  "Terraform Cheat Sheet"
 categories: jekyll update
-permalink: test-post-from-last-year.html
+permalink: terraform-cheat-sheet.html
 tags: [news]
 ---
 ## Plan, deploy, and cleanup infrastructure
