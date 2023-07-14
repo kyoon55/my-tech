@@ -2,8 +2,8 @@
 
 entries:
 - title: sidebar
-  product: Jekyll Doc Theme
-  version: 6.0
+  product: 
+  version: 
   folders:
 
   - title:
@@ -309,6 +309,15 @@ entries:
 
         - title: CloudFormation
           url: /aws_cloudFormation.html
+          output: web
+
+      subfolders:
+      - title: RedHat
+        output: web
+        subfolderitems:
+
+        - title: RHCSA
+          url: /redhat_rhcsa.html
           output: web
 
 # Copyright 2021 Google LLC
