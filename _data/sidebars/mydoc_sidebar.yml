@@ -294,4 +294,16 @@ entries:
           url: /tag_troubleshooting.html
           output: web
 
+  - title: Tech Documentation
+    output: web
+    folderitems:
+
+      subfolders:
+      - title: AWS
+        output: web
+        subfolderitems:
+
+        - title: CloudFormation
+          url: /tag_formatting.html
+          output: web
 # Copyright 2021 Google LLC
