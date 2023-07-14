@@ -294,21 +294,21 @@ entries:
           url: /tag_troubleshooting.html
           output: web
 
-  - title: Tag archives
+  - title: Tech Documentation
     output: web
     folderitems:
 
-    - title: Tag archives overview
-      url: /mydoc_tag_archives_overview.html
+    - title: Documentation Overview
+      url: /documentation_overview.html
       output: web
 
       subfolders:
-      - title: Tag archive pages
+      - title: AWS
         output: web
         subfolderitems:
 
-        - title: Formatting pages
-          url: /tag_formatting.html
+        - title: CloudFormation
+          url: /aws_cloudFormation.html
           output: web
 
 # Copyright 2021 Google LLC
