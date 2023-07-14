@@ -310,14 +310,12 @@ entries:
         - title: CloudFormation
           url: /aws_cloudFormation.html
           output: web
-
-      subfolders:
-      - title: RedHat
+          
+      - title: Linux
         output: web
         subfolderitems:
 
         - title: RHCSA
-          url: /redhat_rhcsa.html
+          url: /linux_rhcsa.html
           output: web
-
 # Copyright 2021 Google LLC
