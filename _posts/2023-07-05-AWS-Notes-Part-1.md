@@ -1,9 +1,9 @@
 ---
 title:  "AWS Related Questions"
 sidebar: news
-categories: jekyll update
-permalink: aws-related-questions.html
 tags: [news]
+permalink: aws-related-questions.html
+#categories: jekyll update
 ---
 # AWS Related Questions
 
