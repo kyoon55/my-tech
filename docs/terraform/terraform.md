@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Tewrraform
+title: Terraform
 has_children: true
 permalink: /docs/terraform
 ---

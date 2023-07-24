@@ -1,8 +1,7 @@
 ---
 layout: default
 title: Terraform Cheat Sheet
-nav_order: 
-has_children: true
+parent: terraform
 permalink: /docs/terraform
 ---
 # Terraform Cheat Sheet
