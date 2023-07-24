@@ -7,5 +7,5 @@ permalink: /docs/terraform
 
 # Terraform
 
-THis is the introductory page for Terrafrom Documentation.
+This is the introductory page for Terrafrom Documentation.
 {: .fs-6 .fw-300 }
