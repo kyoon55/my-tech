@@ -1,7 +1,6 @@
 source "https://rubygems.org"
+gemspec
 
-# to publish on github page
-gem 'github-pages', group: :jekyll_plugins
+gem "jekyll-github-metadata", ">= 2.15"
 
-# to publich without github page
-#gem "jekyll"
+gem "webrick", "~> 1.7"
