@@ -1,6 +1,6 @@
 title: my tech
 description: YOUR DESCRIPTION
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs@v0.3.3
 
 url: https://kyoon55.github.io/my-tech/
 
