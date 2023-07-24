@@ -44,6 +44,33 @@ entries:
       url: /mydoc_support.html
       output: web, pdf
 
+  - title: Terraform
+    output: web, pdf
+    folderitems:
+
+    - title: Terraform Cheat Sheet
+      url: /terraform-cheat-sheet.md
+      output: web, pdf
+      type: homepage
+
+  - title: Ansible
+    output: web, pdf
+    folderitems:
+
+    - title: Ansible Cheat Sheet
+      url: /terraform-cheat-sheet.md
+      output: web, pdf
+      type: homepage  
+
+  - title: Docker
+    output: web, pdf
+    folderitems:
+
+    - title: Docker Cheat Sheet
+      url: /terraform-cheat-sheet.md
+      output: web, pdf
+      type: homepage  
+
   - title: Release Notes
     output: web, pdf
     folderitems:
