@@ -1,9 +1,8 @@
 ---
 title: how to deploy API gateways (Kong,Tyk) using ansible
-layout: post
-description: this page describes about how to deploy API gateways (Kong,Tyk) using ansible
-tags:
-- TEST
+sidebar: news
+tags: [news]
+permalink: how-to-deploy-API-gateways-(Kong,Tyk)-using-ansible.html
 ---
 # Deploying API Gateways (Kong, Tyk) Using Ansible
 

@@ -1,8 +1,8 @@
 ---
 title:  "Terraform Cheat Sheet"
-categories: jekyll update
-permalink: terraform-cheat-sheet.html
+sidebar: news
 tags: [news]
+permalink: terraform-cheat-sheet.html
 ---
 ## Plan, deploy, and cleanup infrastructure
 

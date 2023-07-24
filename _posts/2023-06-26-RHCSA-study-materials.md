@@ -1,10 +1,8 @@
 ---
 title: RHCSA Study Materials
-layout: post
-#post-image: "https://raw.githubusercontent.com/thedevslot/WhatATheme/master/assets/images/What%20is%20Jekyll%20and%20How%20to%20use%20it.png?token=AHMQUELVG36IDSA4SZEZ5P26Z64IW"
-description: RHCSA Study Guide
-tags:
-- RHCSA
+sidebar: news
+tags: [news]
+permalink: rhcsa-study-materials.html
 ---
 # Companion notes to the RHCSA syllabus
 My own notes written while going over the RHCSA course outline. Though the [list of requirements](https://www.redhat.com/en/services/training/ex200-red-hat-certified-system-administrator-rhcsa-exam?section=objectives) may look daunting, give yourself a few weeks and many of these concepts trickle into your brain through practice.

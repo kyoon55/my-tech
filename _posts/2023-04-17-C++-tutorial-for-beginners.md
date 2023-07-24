@@ -1,9 +1,8 @@
 ---
 title: C++ tutorial for beginners
-layout: post
-description: this page describes about C++ tutorial for beginners
-tags:
-- TEST
+sidebar: news
+tags: [news]
+permalink: c++-tutorial-for-beginners.html
 ---
 # C++ Tutorial for Beginners
 

@@ -1,9 +1,8 @@
 ---
 title: tutorial about building Web servers (Apache, Nginx) using ansible
-layout: post
-description: this page describes about tutorial about building Web servers (Apache, Nginx) using ansible
-tags:
-- TEST
+sidebar: news
+tags: [news]
+permalink: tutorial-about-building-Web-servers-(Apache,-Nginx)-using-ansible.html
 ---
 # Building Web Servers (Apache, Nginx) using Ansible
 
