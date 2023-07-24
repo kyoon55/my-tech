@@ -1,13 +1,12 @@
 ---
 title:  "Terraform Cheat Sheet"
-toc: false
-folder: news
-
+sidebar: home_sidebar
+keywords: news, blog, updates, release notes, announcements
 keywords: terraform
-tags: [terraform-cheat-sheet]
 sidebar: mydoc_sidebar
 permalink: terraform-cheat-sheet.md
 summary: Terraform cheat sheet.
+folder: mydoc
 ---
 ## Plan, deploy, and cleanup infrastructure
 
