@@ -6,7 +6,7 @@ tags: [news]
 ---
 # AWS Related Questions
 
-- [AWS Related Questions](#aws-related-questions)
+- [Table of Contents]
   - [1. Amazon Virtual Private Cloud (Amazon VPC)](#1-amazon-virtual-private-cloud-amazon-vpc)
   - [2. Elastic Load Balancing (ELB) in AWS](#2-elastic-load-balancing-elb-in-aws)
   - [3. AWS Identity and Access Management (IAM)](#3-aws-identity-and-access-management-iam)
