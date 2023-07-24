@@ -2,7 +2,6 @@
 layout: default
 title: Terraform Cheat Sheet
 parent: Terraform
-permalink: /docs/terraform
 nav_order: 1
 ---
 # Terraform Cheat Sheet
