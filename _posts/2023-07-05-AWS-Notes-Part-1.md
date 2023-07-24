@@ -3,7 +3,7 @@ title:  "AWS Related Questions"
 sidebar: news
 tags: [news]
 permalink: aws-related-questions.html
-#categories: jekyll update
+categories: jekyll update
 ---
 # AWS Related Questions
 
