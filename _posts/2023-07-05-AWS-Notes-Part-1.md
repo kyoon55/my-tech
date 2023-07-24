@@ -1,7 +1,7 @@
 ---
-title:  "Test post from last year"
+title:  "AWS Related Questions"
 categories: jekyll update
-permalink: test-post-from-last-year.html
+permalink: aws-related-questions.html
 tags: [news]
 ---
 # AWS Related Questions
