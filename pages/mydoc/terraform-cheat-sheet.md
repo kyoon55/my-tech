@@ -1,17 +1,13 @@
 ---
 title:  "Terraform Cheat Sheet"
-tags: [news]
-permalink: terraform-cheat-sheet.html
-sidebar: home_sidebar
-keywords: news, blog, updates, release notes, announcements
 toc: false
 folder: news
 
-keywords: sample homepage
-tags: [getting_started]
+keywords: terraform
+tags: [terraform-cheat-sheet]
 sidebar: mydoc_sidebar
-permalink: index.html
-summary: These brief instructions will help you get started quickly with the theme. The other topics in this help provide additional information and detail about working with other aspects of this theme and Jekyll.
+permalink: terraform-cheat-sheet.md
+summary: Terraform cheat sheet.
 ---
 ## Plan, deploy, and cleanup infrastructure
 
