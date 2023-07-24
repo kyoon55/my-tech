@@ -17,7 +17,8 @@ title: My Page
 description: A Jekyll theme for documentation
 theme: just-the-docs
 url: "https://kyoon55.github.io/my-tech/index.html" # the base hostname & protocol for your site, e.g. http://example.com
-#repository: just-the-docs/just-the-docs # for github-metadata
+aux_links:
+  Template Repository: https://github.com/kyoon55/my-tech # for github-metadata
 
 permalink: pretty
 
