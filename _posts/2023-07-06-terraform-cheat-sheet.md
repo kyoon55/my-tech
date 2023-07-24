@@ -2,7 +2,7 @@
 title:  "Terraform Cheat Sheet"
 tags: [news]
 permalink: terraform-cheat-sheet.html
-sidebar: mydoc_sidebar
+sidebar: home_sidebar
 keywords: news, blog, updates, release notes, announcements
 toc: false
 folder: news
