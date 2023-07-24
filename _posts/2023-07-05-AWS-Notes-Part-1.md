@@ -1,5 +1,6 @@
 ---
 title:  "AWS Related Questions"
+sidebar: news
 categories: jekyll update
 permalink: aws-related-questions.html
 tags: [news]
