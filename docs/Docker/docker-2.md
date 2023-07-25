@@ -12,18 +12,11 @@ time: 2016-06-12 11:04 +0200
 </title>
 
 {{ post.excerpt }}
-site time
-{{ site.time | date: "%Y %m %d" }}
-post time
-{{ post.time | date: "%Y %m %d" }}
-page time
-{{ page.time | date: "%Y %m %d" }}
-site date
-{{ site.date | date: "%Y %m %d" }}
-post date
-{{ post.date | date: "%Y %m %d" }}
-page date
-{{ page.date | date: "%Y %m %d" }}
+page excerpt:
+{{ page.excerpt }}
+
+page time: {{ page.time | date: "%Y %m %d" }}
+
 
 ## Installing Docker
 
