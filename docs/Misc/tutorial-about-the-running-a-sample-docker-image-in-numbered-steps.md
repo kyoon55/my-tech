@@ -1,8 +1,9 @@
 ---
-title: tutorial about the running a sample docker image in numbered steps
 layout: default
+title: tutorial about the running a sample docker image in numbered steps
 excerpt: this page describes about tutorial about the running a sample docker image in numbered steps
 parent: Misc
+nav_order: 1
 time: 2023-03-29
 ---
 <h1>{{ page.title }}</h1>
