@@ -1,14 +1,11 @@
 ---
 layout: default
-title: DOcker 
+title: Docker 
 has_children: true
 permalink: /docs/Ansible
 ---
 
-# Docker Introduction
-
-# The Ultimate Docker Cheat Sheet
-
+# Docker Cheat Sheet
 
 ![docker_cheatsheet](https://user-images.githubusercontent.com/313480/210130087-62a755f7-499c-4f5a-a91c-9151ac82417e.png)
 
@@ -619,10 +616,3 @@ Feel free to raise PR and get your favorite Cheat Sheet added to the list via [P
 
 - [Kubectl Cheat Sheet](https://collabnix.com/kubectl-cheatsheet/)
 - [Docker Compose Cheat Sheet](https://dockerlabs.collabnix.com/intermediate/docker-compose/compose-cheatsheet.html)
-
-
-
-
-
-
-
