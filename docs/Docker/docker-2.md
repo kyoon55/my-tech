@@ -7,9 +7,7 @@ excerpt: This is the way to initialize the docker environment.
 date: 2016-06-12 11:04 +0200
 time: 2016-06-12 11:04 +0200
 ---
-<title>
-  {{ page.title }}
-</title>
+<h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
 <h3>{{ page.time | date: "%Y %m %d" }}</h3>
 
