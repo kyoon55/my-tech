@@ -4,6 +4,8 @@ title: Initializing the Docker Environment
 parent: Docker
 nav_order: 1
 ---
+{: .no_toc }
+---
 
 # Initializing the Docker Environment
 
