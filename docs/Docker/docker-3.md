@@ -38,9 +38,8 @@ docker ps
 
 ## Run a Copy of the Website in httpd
 
-## Clone the Widget Factory Inc repository
-
 ```bash
+## Clone the Widget Factory Inc repository
 git clone https://github.com/linuxacademy/content-widget-factory-inc
 ## Change to the content-widget-factory-inc directory:
 cd content-widget-factory-inc
