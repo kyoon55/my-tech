@@ -31,7 +31,7 @@ This document contains instructions on how to migrate and upgrade Just the Docs 
 {: .warning }
 > If your configuration states `remote_theme: just-the-docs/just-the-docs`, your
 > website is built using the current `main` branch of the theme, which may include
-> changes made after the latest release; see the [CHANGELOG].
+
 >
 > If your configuration states `theme: just_the_docs` and your `Gemfile` specifies
 > `gem "just-the-docs"`, your website is always built using the latest release.
@@ -41,7 +41,6 @@ This document contains instructions on how to migrate and upgrade Just the Docs 
 > and pull the changes of a new release to your clone,
 > you may need to resolve merge conflicts.
 
-[CHANGELOG]: {{ site.baseurl }}{% link CHANGELOG.md %}
 
 ## v0.4.x - v0.5.0
 
