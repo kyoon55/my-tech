@@ -10,13 +10,8 @@ time: 2016-06-12 11:04 +0200
 <title>
   {{ page.title }}
 </title>
-
-{{ post.excerpt }}
-page excerpt:
-{{ page.excerpt }}
-
-page time: {{ page.time | date: "%Y %m %d" }}
-
+<h2>{{ page.excerpt }}</h2>
+<h3>{{ page.time | date: "%Y %m %d" }}</h3>
 
 ## Installing Docker
 
