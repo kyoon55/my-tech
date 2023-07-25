@@ -254,9 +254,6 @@ The theme home page now focuses on the simplest ways of using the theme.
 It also notes the different behaviour of `theme` and `remote_theme` in connection
 with interim versions of the theme, such as pre-releases.
 
-#### CHANGELOG
-
-The CHANGELOG page lists the changes made in all previous releases and pre-releases of new versions of the theme gem.
 
 It also lists changes made to the `main` branch of the theme since the latest release or pre-release.
 
