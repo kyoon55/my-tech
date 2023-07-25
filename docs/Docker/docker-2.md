@@ -3,10 +3,7 @@ layout: default
 title: Initializing the Docker Environment
 parent: Docker
 nav_order: 1
----
-{: .no_toc }
-
-{: .fs-6 .fw-300 }
+excerpt: This is the way to initialize the docker environment.
 ---
 
 # Initializing the Docker Environment
