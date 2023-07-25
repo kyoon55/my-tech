@@ -1,16 +1,15 @@
 ---
 layout: default
-title: Terraform Cheat Sheet
-parent: Terraform
-nav_order: 1
+title: Terraform Introduction
+has_children: true
+permalink: /docs/Terraform
 ---
-# Terraform Cheat Sheet
 
-I created this Terraform Cheat Sheet for all Developers that want to learn and remember some of the key functions and concepts of Terraform, and have a quick reference guide to the basics of Terraform.
-
+# This covers the basic Cheat Sheet of Terraform
 
 ## Table of Contents
-- [Terraform Cheat Sheet](#terraform-cheat-sheet)
+
+- [This covers the basic Cheat Sheet of Terraform](#this-covers-the-basic-cheat-sheet-of-terraform)
   - [Table of Contents](#table-of-contents)
   - [Terraform Architecture](#terraform-architecture)
   - [Installation](#installation)
@@ -34,7 +33,7 @@ I created this Terraform Cheat Sheet for all Developers that want to learn and r
     - [terraform refresh](#terraform-refresh)
     - [terraform workspace](#terraform-workspace)
     - [terraform state](#terraform-state)
-      - [Examples:](#examples-1)
+      - [Examples](#examples-1)
     - [terraform output](#terraform-output)
     - [terraform graph](#terraform-graph)
     - [terraform import](#terraform-import)
@@ -72,7 +71,7 @@ I created this Terraform Cheat Sheet for all Developers that want to learn and r
     - [Built-in Functions](#built-in-functions)
     - [Backends and Remote State](#backends-and-remote-state)
       - [Backends](#backends)
-      - [Configure Terraform to use the remote state from within the S3 bucket.](#configure-terraform-to-use-the-remote-state-from-within-the-s3-bucket)
+      - [Configure Terraform to use the remote state from within the S3 bucket](#configure-terraform-to-use-the-remote-state-from-within-the-s3-bucket)
     - [Terraform Modules](#terraform-modules)
     - [Troubleshooting and Logging](#troubleshooting-and-logging)
 
@@ -84,19 +83,22 @@ I created this Terraform Cheat Sheet for all Developers that want to learn and r
 
 ### Windows
 
-1. Download the Windows binary for 32 or 64-bit CPUs from https://www.terraform.io/downloads.
+1. Download the Windows binary for 32 or 64-bit CPUs from <https://www.terraform.io/downloads>.
 2. Unzip the package.
 3. Move the Terraform binary to the Windows PATH.
 
 ### Linux (Ubuntu) Package Manager
 
 1. Run the following commands at the terminal:
+
     ```
     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
     sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
     sudo apt-get update && sudo apt-get install terraform
     ```
+
 2. Install Terraform using the package manager:
+
     ```
     sudo apt update && sudo apt install terraform -y
     ```
@@ -104,6 +106,7 @@ I created this Terraform Cheat Sheet for all Developers that want to learn and r
 ### macOS Package Manager
 
 1. Run the following commands at the terminal:
+
     ```
     brew tap hashicorp/tap
     brew install hashicorp/tap/terraform
@@ -139,6 +142,7 @@ Validates the configuration files for errors. It refers only to the configuratio
 Prints out a tree of modules in the referenced configuration annotated with their provider requirements.
 
 ### terraform init
+
 Initializes a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
 
 This is the first command that should be run for any new or existing Terraform configuration per machine. This sets up all the local data necessary to run Terraform that is typically not committed to version control.
@@ -151,8 +155,6 @@ Option | Description
 `-reconfigure` | Reconfigure a backend, ignoring any saved configuration.
 `-migrate-state` | Reconfigure a backend and attempt to migrate any existing state.
 `-upgrade` | Install the latest module and provider versions allowed within configured constraints, overriding the default behavior of selecting exactly the version recorded in the dependency lockfile.
-
-
 
 ### terraform plan
 
@@ -189,8 +191,6 @@ terraform apply -replace="aws_instance.web"
 
 ### terraform destroy
 
-
-
 Destroys `Terraform-managed` infrastructure and is an alias for `terraform apply -destroy`.
 
 Option | Description
@@ -200,17 +200,13 @@ Option | Description
 
 Example: `terraform destroy -target aws_vpc.my_vpc -auto-approve`
 
-
-
 ### terraform taint
 
 Describes a resource instance that may not be fully functional, either because its creation partially failed or because you've manually marked it as such using this command. Subsequent Terraform plans will include actions to destroy the remote object and create a new object to replace it.
 
-
 ### terraform untaint
 
 Removes that state from a resource instance, causing Terraform to see it as fully-functional and not in need of replacement.
-
 
 ### terraform refresh
 
@@ -238,9 +234,7 @@ mv     | Move an item in the state.
 rm     | Remove instances from the state.
 pull   | Pull current state and output to stdout.
 
-
-
-#### Examples:
+#### Examples
 
 ```hcl
 terraform state show aws_instance.web 
@@ -278,11 +272,9 @@ Example: `terraform import aws_instance.new_server i-123abc`
 
 Imports EC2 instance with id i-abc123 into the Terraform resource named "new_server" of type "aws_instance".
 
-
 ### terraform login [hostname]
 
 Retrieves an authentication token for the given hostname, if it supports automatic login, and saves it in a credentials file in your home directory. If no hostname is provided, the default hostname is app.terraform.io, to log in to Terraform Cloud.
-
 
 ### terraform logout [hostname]
 
@@ -327,6 +319,7 @@ Resources are the most important element in the Terraform language. It describes
 Together the resource type and local name serve as an identifier for a given resource and must be unique within a module. Example: aws_vpc.main
 
 Creating resources:
+
 ```hcl
 resource "<provider>_<resource_type>" "local_name"{
     argument1 = value
@@ -345,8 +338,6 @@ resource "aws_vpc" "main" {
 }
 ```
 
-
-
 ### Terraform Variables
 
 Input variables allow you customize aspects of Terraform without using hard-coded values in the source.
@@ -354,6 +345,7 @@ Input variables allow you customize aspects of Terraform without using hard-code
 #### Declaring Variables
 
 Variable declarations can appear anywhere in your configuration files. However, it's recommended to put them into a separate file called `variables.tf`.
+
 ```hcl
 # variable declaration
 variable "vpc_cidr_block" {
@@ -391,13 +383,13 @@ The interpolation syntax is powerful and allows you to reference `variables`, `a
 
 You can escape interpolation with double dollar signs: `$${foo}` will be rendered as a literal `${foo}`.
 
-
 ### Variable Types
 
 - **Simple types** a. number b. string c. bool d. null
 - **Complex types** a. Collection types i. list ii. map iii. set b. Structural types i. tuple object
 
 #### type number
+
 ```hcl
 variable "web_port" {
     description = "Web Port"
@@ -405,7 +397,9 @@ variable "web_port" {
     type = number
 }
 ```
+
 #### type string
+
 ```hcl
 variable "aws_region" {
   description = "AWS Region"
@@ -440,6 +434,7 @@ variable "azs" {
 ```
 
 #### type map
+
 ```hcl
 variable "amis" {
   type = map(string)
@@ -449,7 +444,9 @@ variable "amis" {
   }
 }
 ```
+
 #### type tuple
+
 ```hcl
 variable "my_instance" {
     type = tuple([string, number, bool])  
@@ -458,6 +455,7 @@ variable "my_instance" {
 ```
 
 #### type object
+
 ```hcl
 variable "egress_dsg" {
     type = object({
@@ -474,16 +472,19 @@ variable "egress_dsg" {
     }
 }
 ```
+
 ### Data Sources
 
 Data sources in Terraform are used to get information about resources external to Terraform. For example, the public IP address of an EC2 instance. Data sources are provided by providers.
 
 #### Use Data Sources
+
 A data block requests that Terraform read from a given data source ("aws_ami") and export the result under the given local name ("ubuntu").
 
 The data source and name together serve as an identifier for a given resource and therefore must be unique within a module.
 
 Within the block body (between { and }) are query constraints defined by the data source.
+
 ```hcl
 data "aws_ami" "ubuntu" {
  most_recent = true
@@ -495,17 +496,23 @@ data "aws_ami" "ubuntu" {
  }
 }
 ```
+
 ### Output Values
+
 Output values print out information about your infrastructure at the terminal, and can expose information for other Terraform configurations (e.g. modules) to use.
 
 #### Declare an Output Value
+
 Each output value exported by a module must be declared using an output block. The label immediately after the output keyword is the name.
+
 ```hcl
 output "instance_ip_addr" {
  value = aws_instance.server.private_ip 
 }
 ```
+
 ### Loops
+
 Terraform offers the following looping constructs, each intended to be used in a slightly different scenario:
 
 - `count` meta-argument: loop over resources.
@@ -513,6 +520,7 @@ Terraform offers the following looping constructs, each intended to be used in a
 - `for` expressions: loop over lists and maps.
 
 #### count
+
 The **count** meta-argument is defined by the Terraform language and can be used to manage similar resources.
 
 `count` is a looping technique and can be used with modules and with every resource type.
@@ -525,11 +533,13 @@ resource "aws_instance" "web" {
   count = 3  
 }
 ```
+
 In blocks where count is set, an additional count object is available.
 
 `count.index` represents the distinct index number (starting with 0) corresponding to the current object.
 
 #### for_each
+
 `for_each` is another meta-argument used to duplicate resources that are similar but need to be configured differently.
 
 `for_each` was introduced more recently to overcome the downsides of count.
@@ -551,6 +561,7 @@ resource "aws_iam_user" "user" {
 ```
 
 Second example
+
 ```hcl
 variable "example_map" {
   type = map(string)
@@ -569,7 +580,9 @@ resource "aws_s3_bucket" "example" {
 }
 
 ```
+
 #### For Expressions
+
 A `for` expression creates a complex type value by transforming another complex type value.
 
 ```hcl
@@ -584,6 +597,7 @@ output "short_upper_names" {
 ```
 
 If you run **terraform apply -auto-approve** you'll get:
+
 ```hcl
 Outputs:
 
@@ -591,15 +605,18 @@ short_upper_names = [
   "JOHN WICK",
 ]
 ```
+
 #### Splat Expressions
+
 A `splat` expression provides a more concise way to express a common operation that could otherwise be performed with a for expression.
 
 #### Dynamic Blocks
+
 Dynamic blocks act much like a for expression, but produce nested blocks instead of a complex typed value. They iterate over a given complex value, and generate a nested block for each element of that complex value.
 
 They are supported inside resource, data, provider, and provisioner blocks.
 
-A dynamic block produces nested blocks instead of a complex typed value. 
+A dynamic block produces nested blocks instead of a complex typed value.
 
 ```terraform
 # Declaring a variable of type list
@@ -627,6 +644,7 @@ resource "aws_default_security_group" "default_sec_group" {
 ```
 
 A second example
+
 ```terraform
 variable "security_group_rules" {
   type = map(object({
@@ -673,6 +691,7 @@ resource "aws_security_group" "example" {
 ```
 
 ### Conditional Expressions
+
 A `conditional expression` uses the value of a boolean expression to select one of two values.
 
 Syntax: **condition ? true_val : false_val**
@@ -746,6 +765,7 @@ resource "aws_internet_gateway" "dev_igw" {
   }
 }
 ```
+
 **Note:** Local values are created by a locals block (plural), but you reference them as attributes on an object named local (singular).
 
 ### Terraform provisioners
@@ -755,6 +775,7 @@ Terraform Provisioners are used to execute scripts or commands on a resource aft
 `Local-exec Provisioner`: This provisioner is used to execute commands on the machine running Terraform.
 
 Example
+
 ```hcl
 resource "aws_instance" "example" {
   ami           = "ami-0c55b159cbfafe1f0"
@@ -767,6 +788,7 @@ resource "aws_instance" "example" {
 ```
 
 `Remote-exec Provisioner`: This provisioner is used to execute commands on the newly created resource.
+
 ```hcl
 resource "aws_instance" "example" {
   ami           = "ami-0c55b159cbfafe1f0"
@@ -791,7 +813,6 @@ resource "aws_instance" "example" {
 }
 
 ```
-
 
 ### Built-in Functions
 
@@ -858,8 +879,11 @@ what?
 > cidrhost("10.1.2.240/28", 14)
 10.1.2.254
 ```
+
 ### Backends and Remote State
+
 #### Backends
+
 Each Terraform configuration has an associated backend that defines how operations are executed and where the Terraform state is stored.
 
 The default backend is local, and it stores the state as a plain file in the current working directory.
@@ -875,12 +899,13 @@ remote backends stores state remotely. Examples of remote backends are AzureRM, 
 Configure Remote State on Amazon S3
 On the AWS console go to Amazon S3 and create a bucket.
 
-#### Configure Terraform to use the remote state from within the S3 bucket.
+#### Configure Terraform to use the remote state from within the S3 bucket
 
 - On the AWS console go to `Amazon S3` and `create a bucket`.
 
 - Configure Terraform to use the **remote state** from within the S3 bucket.
-- 
+-
+
 ```hcl
 terraform {
  backend "s3" {
@@ -890,9 +915,11 @@ terraform {
  }
 }
 ```
+
 - Run `terraform init` to initialize the backend.
 
 ### Terraform Modules
+
 Terraform modules are a powerful way to reuse code and stick to the **DRY principle**, which stands for `Do Not Repeat Yourself`. Think of modules as functions in a programming language.
 
 **Modules** will help you organize configuration, encapsulate configuration, re-use configuration and provide consistency and ensure best-practices.
@@ -945,3 +972,4 @@ terraform apply
 
 You can generate logs from the core application and the Terraform provider separately.
 To enable core logging, set the **TF_LOG_CORE** environment variable, and to generate provider logs set the `TF_LOG_PROVIDER` to the appropriate log level.
+{: .fs-6 .fw-300 }
