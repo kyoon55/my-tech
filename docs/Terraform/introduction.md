@@ -4,12 +4,18 @@ title: Terraform
 has_children: true
 permalink: /docs/Terraform
 ---
+# Utilities
+{: .no_toc }
 
-# This covers the basic Cheat Sheet of Terraform
+CSS utility classes come in handy when you to want to override default styles to create additional whitespace (margins/padding), correct unexpected shifts in font size or weight, add color, or hide (or show) something at a specific screen size.
+{: .fs-6 .fw-300 }
+
+# Cheat Sheet
 
 ## Table of Contents
 
-- [This covers the basic Cheat Sheet of Terraform](#this-covers-the-basic-cheat-sheet-of-terraform)
+- [Utilities](#utilities)
+- [Cheat Sheet](#cheat-sheet)
   - [Table of Contents](#table-of-contents)
   - [Terraform Architecture](#terraform-architecture)
   - [Installation](#installation)
