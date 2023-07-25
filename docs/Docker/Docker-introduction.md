@@ -12,23 +12,17 @@ permalink: /docs/Docker
 ## Table of Contents
 
 - [Categories](#categories)
-  - 🐳 [Basic Docker CLIs](#basic-docker-clis)
-  - 🧰 [Container Management CLIs](#container-management-clis)
-  - 🧑‍💻 [Inspecting the Container](#inspecting-the-container)
-  - 🧑‍💻 [Interacting with Container](#interacting-with-container)
-  - 🫙 [Image Management Commands ](#image-management-commands)
-  - 🧪 [Image Transfer Commands](#image-transfer-commands)
+  - [Basic Docker CLIs](#basic-docker-clis)
+  - [Container Management CLIs](#container-management-clis)
+  - [Inspecting the Container](#inspecting-the-container)
+  - [Interacting with Container](#interacting-with-container)
+  - [Image Management Commands ](#image-management-commands)
+  - [Image Transfer Commands](#image-transfer-commands)
   - 🏗️ [Builder Main Commands](#builder-main-commands)
-  - ⚙️ [The Docker CLI](#the-docker-cli)
-  - 🧰 [Docker Security](#docker-security)
--  🧑‍🤝‍🧑 [Contributors](#contributors)
-- 💬 [Support and Community](#support-and-community)
-- 👉 [References](#references)
+  - [The Docker CLI](#the-docker-cli)
+  - [Docker Security](#docker-security)
 
-
-## Basic Docker CLIs 
-
-Here's the list of the basic Docker commands that works on both Docker Desktop as well as Docker Engine:
+## Basic Docker CLIs in a table
 
 
 ![full](https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheatsheet8.png)
@@ -47,22 +41,15 @@ Here's the list of the Docker commands that manages Docker images and containers
 
 ## Inspecting The Container 
 
-Here's the list of the basic Docker commands that helps you inspect the containers seamlessly:
-
 <br>
 
 ![Inspecting The Container](https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheatsheet3.png)
 
 ## Interacting with Container
 
-Do you want to know how to access the containers? Check out these fundamental commands:
-
-
 ![Interacting with Container1](https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheatsheet4.png)
 
 ## Image Management Commands 
-
-Here's the list of Docker commands that helps you manage the Docker Images:
 
 <br>
 
@@ -70,28 +57,18 @@ Here's the list of Docker commands that helps you manage the Docker Images:
  
 ## Image Transfer Commands 
 
-Here's the list of Docker image transfer commands:
+<br>
 
- <br>
- 
  ![Image Transfer Comnands](https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheatsheet6.png)
 
 
 ## Builder Main Commands
 
-Want to know how to build Docker Image? Do check out the list of Image Build Commands:
-
-
 <br>
 
 ![Builder Main Commands](https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheatsheet7.png)
 
-
-
-
-
 ## The Docker CLI 
-
 
 Manage images
 -------------
@@ -202,8 +179,8 @@ Images
 ```sh
 $ docker images
   REPOSITORY   TAG        ID
-  ubuntu       12.10      b750fe78269d
-  me/myapp     latest     7b2431a8d968
+  ubuntu       12.10      abcd1234abcd
+  me/myapp     latest     1234abcd1234
 ```
 
 ```sh
