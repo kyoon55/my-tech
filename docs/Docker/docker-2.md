@@ -9,11 +9,9 @@ excerpt: This is the way to initialize the docker environment.
   {{ page.title }}
 </title>
 
-{% if post.excerpt %}
-    {{ post.excerpt }}
-{% endif %}
+{{ post.excerpt }}
 
-{{ page.date | date: "%b %d, %Y" }}
+{{ site.time | date: "%Y %m %d" }}
 
 ## Installing Docker
 
