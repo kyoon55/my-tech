@@ -1,6 +1,9 @@
 ---
 layout: default
-title: Ansible Introduction
+title: Ansible 
 has_children: true
 permalink: /docs/Ansible
 ---
+
+# Ansible Introduction
+

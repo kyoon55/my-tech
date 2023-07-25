@@ -1,6 +1,9 @@
 ---
 layout: default
-title: Kubernetes Introduction
+title: Kubernetes 
 has_children: true
 permalink: /docs/Kubernetes
 ---
+
+# Kubernetes Introduction
+
