@@ -1,8 +1,1 @@
-title: my tech
-description: YOUR DESCRIPTION
 remote_theme: just-the-docs/just-the-docs@v0.3.3
-
-url: https://kyoon55.github.io/my-tech/
-
-aux_links: # remove if you don't want this link to appear on your pages
-  Template Repository: https://github.com/kyoon55/my-tech
