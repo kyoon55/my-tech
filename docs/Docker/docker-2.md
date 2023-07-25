@@ -5,8 +5,15 @@ parent: Docker
 nav_order: 1
 excerpt: This is the way to initialize the docker environment.
 ---
+<title>
+  {{ page.title }}
+</title>
 
-# Initializing the Docker Environment
+{% if post.excerpt %}
+    {{ post.excerpt }}
+{% endif %}
+
+{{ page.date | date: "%b %d, %Y" }}
 
 ## Installing Docker
 
