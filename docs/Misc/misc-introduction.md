@@ -9,4 +9,8 @@ permalink: /docs/Misc
 <h2>{{ page.excerpt }}</h2>
 <h3>Date Posted: {{ page.time | date: "%Y %m %d" }}</h3>
 
-## List of Uncategorized Documents
+## Kubernetes Introduction
+
+{: .no_toc }
+
+{: .fs-6 .fw-300 }

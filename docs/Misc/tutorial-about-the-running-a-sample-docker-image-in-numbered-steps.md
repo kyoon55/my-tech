@@ -6,6 +6,8 @@ parent: Misc
 nav_order: 1
 time: 2023-03-29
 ---
+
+
 <h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
 <h3>Date Posted: {{ page.time | date: "%Y %m %d" }}</h3>
