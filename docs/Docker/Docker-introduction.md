@@ -18,7 +18,7 @@ permalink: /docs/Docker
   - [Interacting with Container](#interacting-with-container)
   - [Image Management Commands ](#image-management-commands)
   - [Image Transfer Commands](#image-transfer-commands)
-  - 🏗️ [Builder Main Commands](#builder-main-commands)
+  - [Builder Main Commands](#builder-main-commands)
   - [The Docker CLI](#the-docker-cli)
   - [Docker Security](#docker-security)
 
