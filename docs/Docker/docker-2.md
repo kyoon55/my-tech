@@ -4,6 +4,7 @@ title: Initializing the Docker Environment
 parent: Docker
 nav_order: 1
 excerpt: This is the way to initialize the docker environment.
+date: 2016-06-12 11:04 +0200
 ---
 <title>
   {{ page.title }}
@@ -11,7 +12,7 @@ excerpt: This is the way to initialize the docker environment.
 
 {{ post.excerpt }}
 
-{{ site.time | date: "%Y %m %d" }}
+{{ site.date | date: "%Y %m %d" }}
 
 ## Installing Docker
 
