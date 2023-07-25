@@ -4,12 +4,11 @@ title: Initializing the Docker Environment
 parent: Docker
 nav_order: 1
 excerpt: This is the way to initialize the docker environment.
-date: 2016-06-12 11:04 +0200
-time: 2016-06-12 11:04 +0200
+time: 2016-06-12 11:04
 ---
 <h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
-<h3>{{ page.time | date: "%Y %m %d" }}</h3>
+<h3>Date Posted: {{ page.time | date: "%Y %m %d" }}</h3>
 
 ## Installing Docker
 
