@@ -175,3 +175,6 @@ compress_html:
   profile: false
   # ignore:
   #   envs: all
+
+paginate: 5
+paginate_path: "/docs/page:num/"
