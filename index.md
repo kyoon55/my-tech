@@ -39,3 +39,22 @@ Main Page
     <span class="next ">Next</span>
   {% endif %}
 </div>
+
+<h1>Welcome to my Blog</h1>
+
+{% for post in paginator.posts %}
+  <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+  <p>{{ post.date | date: "%B %-d, %Y" }}</p>
+  <p>{{ post.excerpt }}</p>
+{% endfor %}
+
+<!-- Pagination links -->
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
+  {% endif %}
+  
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}" class="next">Next</a>
+  {% endif %}
+</div>
