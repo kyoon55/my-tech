@@ -11,4 +11,4 @@ permalink: /
 Main Page
 <h1>Welcome to my Blog</h1>
 
-[customize]: {% link docs/Docker/docker-1.md %}
+This website documents the features of the current `main` branch of the Just the Docs theme. 
