@@ -11,10 +11,10 @@ description: "Main Page."
 Main Page
 <h1>Welcome to my Blog</h1>
 
-{% for post in site.posts %}
-  {% if post.path contains '/docs/' %}
-    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-    <p>{{ post.date | date: "%B %-d, %Y" }}</p>
-    <p>{{ post.excerpt }}</p>
+{% for page in site.page %}
+  {% if page.path contains '/docs/' %}
+    <h2><a href="{{ page.url }}">{{ page.title }}</a></h2>
+    <p>{{ page.date | date: "%B %-d, %Y" }}</p>
+    <p>{{ page.excerpt }}</p>
   {% endif %}
 {% endfor %}
