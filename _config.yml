@@ -177,4 +177,4 @@ compress_html:
   #   envs: all
 
 paginate: 10
-paginate_path: "/page:num/"
+paginate_path: "/docs/page:num/"
