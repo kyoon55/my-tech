@@ -11,4 +11,6 @@ description: "Main Page."
 Main Page
 <h1>Welcome to my Blog</h1>
 
-[the Ansible Documentation]({% link /docs/Ansible/ansible-1.md %})
+This website documents the features of the current `main` branch of the Just the Docs theme. See [the CHANGELOG]({% link CHANGELOG.md %}) for a list of releases, new features, and bug fixes.
+
+[customize]: {% link docs/customization.md %}
