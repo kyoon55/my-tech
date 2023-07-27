@@ -11,6 +11,4 @@ permalink: /
 Main Page
 <h1>Welcome to my Blog</h1>
 
-This website documents the features of the current `main` branch of the Just the Docs theme. 
-
-See [the CHANGELOG]({% link my-tech/docs/AWS/doc-1.md %}) for a list of releases, new features, and bug fixes.
+[customize]: {% link docs/Terraform/doc-1.md %}
