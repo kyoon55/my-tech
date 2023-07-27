@@ -13,7 +13,7 @@ Main Page
 <div class="home" id="home">
 	<h1 class="pageTitle">Recent Posts</h1>
 	<div class="posts noList">
-		{%- for post in paginator.posts -%}
+		{%- for docs in paginator.docs -%}
 		<article>
 			<span class="date">{{ post.date | date: '%B %d, %Y' }}</span>
 			<h3>
