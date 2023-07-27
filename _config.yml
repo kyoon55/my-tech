@@ -17,7 +17,7 @@ title: My SRE Stuff
 description: This page is full of articles for my SRE knowledge
 remote_theme: just-the-docs/just-the-docs@v0.3.3
 
-permalink: /my-tech/
+permalink: /
 
 exclude:
  # from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
