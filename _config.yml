@@ -17,11 +17,6 @@ title: My SRE Stuff
 description: This page is full of articles for my SRE knowledge
 remote_theme: just-the-docs/just-the-docs@v0.3.3
 
-paginate_path: "blog/page:num/"
-permalink: blog/:title/
-plugins: [jekyll-paginate]
-paginate: 5
-
 exclude:
  # from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
    - .sass-cache/
@@ -135,7 +130,7 @@ last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https:/
 # Footer "Edit this page on GitHub" link text
 gh_edit_link: true # show or hide edit this page link
 gh_edit_link_text: "Edit this page on GitHub"
-gh_edit_repository: "https://github.com/just-the-docs/just-the-docs" # the github URL for your repo
+gh_edit_repository: "https://github.com/kyoon55/my-tech" # the github URL for your repo
 gh_edit_branch: "main" # the branch that your docs is served from
 # gh_edit_source: docs # the source that your files originate from
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
