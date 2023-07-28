@@ -11,6 +11,8 @@ permalink: /
 Main Page
 <h1>Welcome to my Blog</h1>
 
-*[customize]*
+test
 
-[customize]: {% link /Terraform/doc-1.md %}
+<!-- 
+*[customize]*
+#[customize]: {% link /doc/Terraform/doc-1.md %} -->
