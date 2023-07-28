@@ -14,4 +14,4 @@ Main Page
 test
 test22
 
-[the CHANGELOG]({% link docs/Terraform/introduction.md %}) 
+[the CHANGELOG]({% link my-tech/docs/Terraform/introduction.md %}) 
