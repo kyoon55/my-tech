@@ -13,6 +13,4 @@ Main Page
 
 test
 
-<!-- 
-*[customize]*
-#[customize]: {% link /doc/Terraform/doc-1.md %} -->
+[the CHANGELOG]({% link docs/Terraform/introduction.md %}) 
