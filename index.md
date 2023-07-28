@@ -13,5 +13,8 @@ Main Page
 
 test
 test22
+*[customize]*
 
-[the CHANGELOG]({% link docs/Terraform/doc-1.md %})
+<!-- [customize]: {% link docs/customization.md %} -->
+
+[customize]: {% link docs/Terraform/doc-1.md %}
