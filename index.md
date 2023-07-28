@@ -13,4 +13,4 @@ Main Page
 
 *[customize]*
 
-[customize]: {% link docs/Terraform/doc-1.md %}
+[customize]: {% link /my-tech/docs/Terraform/doc-1.md %}
