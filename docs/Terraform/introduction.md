@@ -2,7 +2,7 @@
 layout: default
 title: Terraform 
 has_children: true
-permalink: /docs/Terraform
+permalink: /my-tech/docs/Terraform
 ---
 # Terraform Introduction 
 {: .no_toc }
