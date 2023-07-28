@@ -15,6 +15,5 @@ test
 test22
 *[customize]*
 
-<!-- [customize]: {% link docs/customization.md %} -->
 
 [customize]: {% link docs/Terraform/doc-1.md %}
