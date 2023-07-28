@@ -1,7 +1,22 @@
 ---
 layout: default
-title: Long Haul
+title: Home
+nav_order: 1
+description: "Main Page."
+#permalink: /
 ---
+
+# Focus on writing good documentation
+
+Main Page
+<h1>Welcome to my Blog</h1>
+
+test
+test22
+*[customize]*
+
+
+[customize]: {% link docs/Terraform/doc-1.md %}
 
 <div class="home" id="home">
 	<h1 class="pageTitle">Recent Posts</h1>
