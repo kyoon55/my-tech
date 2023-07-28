@@ -3,7 +3,7 @@ layout: default
 title: Home
 nav_order: 1
 description: "Main Page."
-permalink: /
+permalink: /my-tech/
 ---
 
 # Focus on writing good documentation
@@ -12,5 +12,6 @@ Main Page
 <h1>Welcome to my Blog</h1>
 
 test
+test22
 
-[the CHANGELOG]({% link my-tech/docs/Terraform/introduction.md %}) 
+[the CHANGELOG]({% link docs/Terraform/introduction.md %}) 
