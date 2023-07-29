@@ -28,7 +28,7 @@ paginate: 5
 
 domain: kyoon55.github.io
 url: https://kyoon55.github.io
-#baseurl: "/my-tech/"
+baseurl: "/my-tech/"
 
 exclude:
  # from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
