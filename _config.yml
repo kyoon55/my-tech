@@ -19,6 +19,10 @@ remote_theme: just-the-docs/just-the-docs@v0.3.3
 
 permalink: "/:title"
 
+domain: kyoon55.github.io
+url: https://kyoon55.github.io
+baseurl: "/my-tech/"
+
 exclude:
  # from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
    - .sass-cache/
@@ -110,9 +114,9 @@ aux_links_new_tab: false
 nav_sort: case_sensitive # Capital letters sorted before lowercase
 
 # External navigation links
-nav_external_links:
-  - title: My Github
-    url: https://github.com/kyoon55
+#nav_external_links:
+#  - title: My Github
+#    url: https://github.com/kyoon55
 
 # Footer content
 # appears at the bottom of every page's main content

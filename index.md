@@ -16,6 +16,6 @@ test22
 *[customize]*
 
 
-[customize]: {% link https://kyoon55.github.io/my-tech/docs/Terraform/doc-1/ %}
+[customize]: {% link docs/Terraform/doc-1.md %}
 
 {{ site.github_repo }}
