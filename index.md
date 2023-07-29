@@ -134,7 +134,6 @@ description: "Main Page."
         <div class="featureText">
             <h3>Docker</h3>
             <li>I create and operate images and containers that are quickly deployable.</li>
-   <li>I troubleshoot common issues of Kubernetes</li>
         </div>
     </div>
 </div>
