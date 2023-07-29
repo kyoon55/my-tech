@@ -27,6 +27,8 @@ domain: kyoon55.github.io
 url: https://kyoon55.github.io
 baseurl: "/my-tech/"
 
+favicon_ico: "/assets/images/favicon.ico"
+
 exclude:
  # from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
    - .sass-cache/
@@ -185,3 +187,5 @@ compress_html:
   #   envs: all
 
 
+github_username: kyoon55
+email_address: kyoon5@gwu.edu

@@ -12,6 +12,14 @@ description: "Main Page."
    padding-bottom : 1em;
 }
 
+.socialIconBack {
+ color: $social-icons-background-color;
+}
+
+.socialIconTop {
+ color: $social-icons-foreground-color;
+}
+
 .features {
  grid-area: c;
  display: flex;
@@ -81,6 +89,7 @@ description: "Main Page."
  }
 
 }
+
 
 </style>
 
@@ -154,3 +163,5 @@ description: "Main Page."
  </div>
  </div>
 {% endfor %}
+
+{% include icons/icons.html %}
