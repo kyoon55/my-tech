@@ -1,7 +1,7 @@
 ---
-title: a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql
+title: a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql
 layout: default
-excerpt: this page describes about a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql
+excerpt: this page describes about a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql
 parent: Misc
 date: 2023-04-16
 ---
@@ -70,7 +70,3 @@ By the end of this tutorial, you will have a better understanding of how to conf
 
 ## 8. Summary
 Congratulations! You have successfully created a basic infrastructure on AWS. You have set up a VPC with public and private subnets, configured routing and gateways, established security groups, and launched EC2 instances and an RDS instance running PostgreSQL.
-
-Feel free to explore and expand on this basic infrastructure to meet your specific requirements. AWS offers a wide range of services and features to enhance your infrastructure's capabilities. Happy building!
-
-Note: Kindly remove the credits and conclusion section if required.
