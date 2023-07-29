@@ -4,13 +4,13 @@ title: tutorial about the running a sample docker image in numbered steps
 excerpt: this page describes about tutorial about the running a sample docker image in numbered steps
 parent: Misc
 nav_order: 1
-time: 2023-03-29
+date: 2023-03-29
 ---
 
 
 <h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
-<h3>Date Posted: {{ page.time | date: "%Y %m %d" }}</h3>
+<h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 # Tutorial: Running a Sample Docker Image
 
 In this tutorial, we will guide you through the process of running a sample Docker image. Docker allows you to package an application and its dependencies into a standardized unit called a container, which can be easily deployed and run on any platform.

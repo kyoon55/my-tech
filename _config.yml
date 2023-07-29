@@ -17,14 +17,11 @@ title: My SRE Stuff
 description: This page is full of articles for my SRE knowledge
 remote_theme: just-the-docs/just-the-docs@v0.3.3
 
-paginate_path: "/page:num"
 permalink: /:title/
 
 #paginate_path: "my-tech/page:num"
 #permalink: my-tech/:title/
 #permalink: /:categories/:year/:month/:day/:title:output_ext
-
-paginate: 5
 
 domain: kyoon55.github.io
 url: https://kyoon55.github.io

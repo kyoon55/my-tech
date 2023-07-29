@@ -4,11 +4,11 @@ title: Working With Prebuilt Docker Images
 parent: Docker
 nav_order: 1
 excerpt: This article is to migrate a website, from a traditional server to containers by using Dockers
-time: 2023-05-10
+date: 2023-02-01
 ---
 <h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
-<h3>Date Posted: {{ page.time | date: "%Y %m %d" }}</h3>
+<h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 
 ## Explore Docker Hub
 

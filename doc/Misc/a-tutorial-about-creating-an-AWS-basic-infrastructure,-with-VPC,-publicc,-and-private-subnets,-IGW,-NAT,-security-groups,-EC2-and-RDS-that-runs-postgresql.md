@@ -3,11 +3,11 @@ title: a tutorial about creating an AWS basic infrastructure, with VPC, publicc,
 layout: default
 excerpt: this page describes about a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql
 parent: Misc
-time: 2023-04-16
+date: 2023-04-16
 ---
 <h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
-<h3>Date Posted: {{ page.time | date: "%Y %m %d" }}</h3>
+<h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 # Tutorial: Creating a Basic Infrastructure on AWS
 
 In this tutorial, we will walk you through the process of setting up a basic infrastructure on AWS. This infrastructure will consist of a Virtual Private Cloud (VPC) with public and private subnets, an Internet Gateway (IGW), Network Address Translation (NAT) gateway, security groups, and instances of Amazon Elastic Compute Cloud (EC2) and Amazon RDS running PostgreSQL.

@@ -5,42 +5,22 @@ nav_order: 1
 description: "Main Page."
 ---
 
-Welcome to My Page
-
-{% assign date = '2020-04-13T10:20:00Z' %}
-
-- Original date - {{ date }}
-- With timeago filter - {{ date | timeago }}
-
+<h2>Welcome to My Page, Here is a list of my posts</h2>
 <ul>
-  {% for post in site.posts %}
-    <li>
-      <a href="/my-tech{{ post.url }}">{{ post.title }}</a>
-      {{ post.excerpt }}
-    </li>
-  {% endfor %}
-</ul>
-
-<h1>Test 2</h1>
-
-<ul>
-  {% for post in site.pages %}
+	{% assign postdocs = site.pages | sort: 'date' | reverse %}
+	{% for post in postdocs limit:8%}
     {% if post.path contains "doc" %}
-    <li>
-      <a href="/my-tech{{ post.url }}">{{ post.title }}</a>
-    </li>
+		<article>
+			<h3>
+				<a class="post-link" href="/my-tech{{ post.url }}">{{ post.title }}</a>
+				
+			</h3>
+			<h5><span class="date">{{ post.date | date_to_string }}</span></h5>
+			<p>
+				{%- if post.description -%}{{ post.description }}{%- else -%}{{
+				post.excerpt | strip_html }}{%- endif -%}
+			</p>
+		</article>
     {% endif %}
-  {% endfor %}
+		{% endfor %}
 </ul>
-
-{% include title.html %}
-
-{% include nav.html pages=site.html_pages key=nil %}
-
-{% include nav.html pages=collection key=collection_key %}
-
-
-
-
-{% for post in site.html_pages %}
-{% endfor %}

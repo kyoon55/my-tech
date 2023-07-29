@@ -4,11 +4,11 @@ title: Initializing the Docker Environment
 parent: Docker
 nav_order: 1
 excerpt: This is the way to initialize the docker environment. This will need to 1. install the docker prerequisites, 2. CentOs-specific Docker Repo, 3. install Docker, 4. Enable Docker daemon, 5. add a user and 6. run a test.
-time: 2023-06-12
+date: 2023-02-17
 ---
 <h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
-<h3>Date Posted: {{ page.time | date: "%Y %m %d" }}</h3>
+<h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 
 ## Installing Docker
 
