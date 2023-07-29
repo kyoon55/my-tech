@@ -286,328 +286,335 @@
     
     "relUrl": "/docs/CICD"
   },"41": {
-    "doc": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
-    "title": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
+    "doc": "Create a Basic Infrastructure",
+    "title": "Create a Basic Infrastructure",
     "content": " ",
-    "url": "/my-tech/doc/AWS/doc-1/",
+    "url": "/my-tech/doc/AWS/creation-of-basic-infra/",
     
-    "relUrl": "/doc/AWS/doc-1/"
+    "relUrl": "/doc/AWS/creation-of-basic-infra/"
   },"42": {
-    "doc": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
-    "title": "",
-    "content": "Date Posted: 2023 02 21 . ",
-    "url": "/my-tech/doc/AWS/doc-1/",
+    "doc": "Create a Basic Infrastructure",
+    "title": "List of CloudFormation Stack Deployments for AWS resources",
+    "content": "Date Posted: 2023 05 03 . ",
+    "url": "/my-tech/doc/AWS/creation-of-basic-infra/",
     
-    "relUrl": "/doc/AWS/doc-1/"
+    "relUrl": "/doc/AWS/creation-of-basic-infra/"
   },"43": {
-    "doc": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
-    "title": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
-    "content": " ",
-    "url": "/my-tech/doc/AWS/doc-1/",
+    "doc": "Create a Basic Infrastructure",
+    "title": "Basic Infrastructure CloudFormation Template with EC2 Instance",
+    "content": "Provisioing the Basic Infrastructure by Creating a CloudFormation Stack AWSTemplateFormatVersion: 2010-09-09 Description: Basic Infrastructure CloudFormation Template with EC2 Instance Parameters: KeyName: Description: Name of an existing EC2 KeyPair to enable SSH access to the instance Type: AWS::EC2::KeyPair::KeyName Default: Dev Resources: MyVPC: Type: AWS::EC2::VPC Properties: CidrBlock: \"10.0.0.0/16\" EnableDnsSupport: true EnableDnsHostnames: true MySubnet: Type: AWS::EC2::Subnet Properties: VpcId: !Ref MyVPC CidrBlock: \"10.0.0.0/24\" AvailabilityZone: \"us-east-1a\" MyInternetGateway: Type: AWS::EC2::InternetGateway MyVPCGatewayAttachment: Type: AWS::EC2::VPCGatewayAttachment Properties: VpcId: !Ref MyVPC InternetGatewayId: !Ref MyInternetGateway MyRouteTable: Type: AWS::EC2::RouteTable Properties: VpcId: !Ref MyVPC MyRoute: Type: AWS::EC2::Route DependsOn: MyVPCGatewayAttachment Properties: RouteTableId: !Ref MyRouteTable DestinationCidrBlock: \"0.0.0.0/0\" GatewayId: !Ref MyInternetGateway MySubnetRouteTableAssociation: Type: AWS::EC2::SubnetRouteTableAssociation Properties: SubnetId: !Ref MySubnet RouteTableId: !Ref MyRouteTable MySecurityGroup: Type: AWS::EC2::SecurityGroup Properties: GroupDescription: \"My Security Group\" VpcId: !Ref MyVPC SecurityGroupIngress: - IpProtocol: tcp FromPort: 22 ToPort: 22 CidrIp: \"0.0.0.0/0\" MyInstance: Type: AWS::EC2::Instance Properties: InstanceType: t2.micro NetworkInterfaces: - GroupSet: - !Ref MySecurityGroup AssociatePublicIpAddress: true DeviceIndex: 0 DeleteOnTermination: true SubnetId: !Ref MySubnet KeyName: !Ref KeyName ImageId: \"ami-97785bed\" Tags: - Key: Name Value: \"instance-1\" MyEIP: Type: AWS::EC2::EIP MyInstanceEIPAssociation: Type: AWS::EC2::EIPAssociation Properties: InstanceId: !Ref MyInstance EIP: !Ref MyEIP Outputs: Instance1PublicIP: Description: Public IP Address of instance-1 Value: !GetAtt MyInstance.PublicIp . ",
+    "url": "/my-tech/doc/AWS/creation-of-basic-infra/#basic-infrastructure-cloudformation-template-with-ec2-instance",
     
-    "relUrl": "/doc/AWS/doc-1/"
+    "relUrl": "/doc/AWS/creation-of-basic-infra/#basic-infrastructure-cloudformation-template-with-ec2-instance"
   },"44": {
-    "doc": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
-    "title": "Table of contents",
-    "content": ". | This deploys basic infrastructure as well as EC2 instances that deploy WordPress | . ",
-    "url": "/my-tech/doc/AWS/doc-1/#table-of-contents",
+    "doc": "Create a Basic Infrastructure",
+    "title": "Parameters",
+    "content": ". | KeyName: This parameter allows you to specify the name of an existing EC2 KeyPair to enable SSH access to the instance. The default value is set to Dev. | . ",
+    "url": "/my-tech/doc/AWS/creation-of-basic-infra/#parameters",
     
-    "relUrl": "/doc/AWS/doc-1/#table-of-contents"
+    "relUrl": "/doc/AWS/creation-of-basic-infra/#parameters"
   },"45": {
-    "doc": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
-    "title": "This deploys basic infrastructure as well as EC2 instances that deploy WordPress",
-    "content": "AWSTemplateFormatVersion: '2010-09-09' Description: CloudFormation Blog Activity Parameters: WebServerKeyName: Description: The key pair to establish a SSH connection to the web servers. Type: 'AWS::EC2::KeyPair::KeyName' Resources: VPC: Type: 'AWS::EC2::VPC' Properties: CidrBlock: 10.99.0.0/16 EnableDnsHostnames: 'true' EnableDnsSupport: 'true' Tags: - Key: Name Value: BlogVPC InternetGateway: Type: 'AWS::EC2::InternetGateway' Properties: {} VPCGatewayAttachment: Type: 'AWS::EC2::VPCGatewayAttachment' Properties: VpcId: Ref: VPC InternetGatewayId: Ref: InternetGateway DMZ1public: Type: 'AWS::EC2::Subnet' Properties: AvailabilityZone: 'Fn::Select': - '0' - 'Fn::GetAZs': '' CidrBlock: 10.99.1.0/24 VpcId: Ref: VPC Tags: - Key: Name Value: DMZ1public DMZ2public: Type: 'AWS::EC2::Subnet' Properties: AvailabilityZone: 'Fn::Select': - '1' - 'Fn::GetAZs': '' CidrBlock: 10.99.2.0/24 VpcId: Ref: VPC Tags: - Key: Name Value: DMZ2public AppLayer1private: Type: 'AWS::EC2::Subnet' Properties: AvailabilityZone: 'Fn::Select': - '0' - 'Fn::GetAZs': '' CidrBlock: 10.99.11.0/24 VpcId: Ref: VPC Tags: - Key: Name Value: AppLayer1private AppLayer2private: Type: 'AWS::EC2::Subnet' Properties: AvailabilityZone: 'Fn::Select': - '1' - 'Fn::GetAZs': '' CidrBlock: 10.99.12.0/24 VpcId: Ref: VPC Tags: - Key: Name Value: AppLayer2private PublicRT: Type: 'AWS::EC2::RouteTable' Properties: VpcId: Ref: VPC Tags: - Key: Name Value: PublicRT RouteTableAssociationA: Type: 'AWS::EC2::SubnetRouteTableAssociation' Properties: SubnetId: Ref: DMZ1public RouteTableId: Ref: PublicRT RouteTableAssociationB: Type: 'AWS::EC2::SubnetRouteTableAssociation' Properties: SubnetId: Ref: DMZ2public RouteTableId: Ref: PublicRT RoutePublicNATToInternet: Type: 'AWS::EC2::Route' Properties: RouteTableId: Ref: PublicRT DestinationCidrBlock: 0.0.0.0/0 GatewayId: Ref: InternetGateway DependsOn: VPCGatewayAttachment NATElasticIP: Type: 'AWS::EC2::EIP' Properties: Domain: vpc DependsOn: VPCGatewayAttachment NATGateway: Type: 'AWS::EC2::NatGateway' DependsOn: NATElasticIP Properties: AllocationId: 'Fn::GetAtt': - NATElasticIP - AllocationId SubnetId: Ref: DMZ2public NATGatewayRoute: Type: 'AWS::EC2::Route' Properties: RouteTableId: Ref: PrivateRT DestinationCidrBlock: 0.0.0.0/0 NatGatewayId: Ref: NATGateway PrivateRT: Type: 'AWS::EC2::RouteTable' Properties: VpcId: Ref: VPC Tags: - Key: Name Value: PrivateRT RouteTableAssociationC: Type: 'AWS::EC2::SubnetRouteTableAssociation' Properties: SubnetId: Ref: AppLayer1private RouteTableId: Ref: PrivateRT RouteTableAssociationD: Type: 'AWS::EC2::SubnetRouteTableAssociation' Properties: SubnetId: Ref: AppLayer2private RouteTableId: Ref: PrivateRT DMZNACL: Type: 'AWS::EC2::NetworkAcl' Properties: VpcId: Ref: VPC Tags: - Key: Name Value: DMZNACL SubnetNetworkAclAssociationA: Type: 'AWS::EC2::SubnetNetworkAclAssociation' Properties: SubnetId: Ref: DMZ1public NetworkAclId: Ref: DMZNACL SubnetNetworkAclAssociationB: Type: 'AWS::EC2::SubnetNetworkAclAssociation' Properties: SubnetId: Ref: DMZ2public NetworkAclId: Ref: DMZNACL DMZNACLEntryIngress100: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '100' Protocol: '6' PortRange: From: '22' To: '22' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 DMZNACLEntryIngress110: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '110' Protocol: '6' PortRange: From: '80' To: '80' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 DMZNACLEntryIngress120: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '120' Protocol: '6' PortRange: From: '443' To: '443' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 DMZNACLEntryIngress130: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '130' Protocol: '6' PortRange: From: '1024' To: '65535' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 DMZNACLEntryEgress100: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '100' Protocol: '6' PortRange: From: '22' To: '22' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 DMZNACLEntryEgress110: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '110' Protocol: '6' PortRange: From: '80' To: '80' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 DMZNACLEntryEgress120: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '120' Protocol: '6' PortRange: From: '443' To: '443' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 DMZNACLEntryEgress130: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '130' Protocol: '6' PortRange: From: '1024' To: '65535' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 AppNACL: Type: 'AWS::EC2::NetworkAcl' Properties: VpcId: Ref: VPC Tags: - Key: Name Value: AppNACL SubnetNetworkAclAssociationC: Type: 'AWS::EC2::SubnetNetworkAclAssociation' Properties: SubnetId: Ref: AppLayer1private NetworkAclId: Ref: AppNACL SubnetNetworkAclAssociationD: Type: 'AWS::EC2::SubnetNetworkAclAssociation' Properties: SubnetId: Ref: AppLayer2private NetworkAclId: Ref: AppNACL AppNACLEntryIngress100: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '100' Protocol: '6' PortRange: From: '22' To: '22' RuleAction: allow Egress: 'false' CidrBlock: 10.99.0.0/16 AppNACLEntryIngress110: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '110' Protocol: '6' PortRange: From: '80' To: '80' RuleAction: allow Egress: 'false' CidrBlock: 10.99.0.0/16 AppNACLEntryIngress120: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '120' Protocol: '6' PortRange: From: '443' To: '443' RuleAction: allow Egress: 'false' CidrBlock: 10.99.0.0/16 AppNACLEntryIngress130: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '130' Protocol: '6' PortRange: From: '1024' To: '65535' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 AppNACLEntryEgress110: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '110' Protocol: '6' PortRange: From: '80' To: '80' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 AppNACLEntryEgress120: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '120' Protocol: '6' PortRange: From: '443' To: '443' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 AppNACLEntryEgress130: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '130' Protocol: '6' PortRange: From: '1024' To: '65535' RuleAction: allow Egress: 'true' CidrBlock: 10.99.0.0/16 LoadBalancer: Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer' Properties: Subnets: - Ref: DMZ1public - Ref: DMZ2public Name: load-balancer Type: application Scheme: internet-facing SecurityGroups: - Ref: LoadBalancerSecurityGroup IpAddressType: ipv4 Listener: Type: 'AWS::ElasticLoadBalancingV2::Listener' Properties: DefaultActions: - Type: forward TargetGroupArn: Ref: TargetGroup LoadBalancerArn: Ref: LoadBalancer Port: '80' Protocol: HTTP TargetGroup: Type: 'AWS::ElasticLoadBalancingV2::TargetGroup' Properties: HealthCheckIntervalSeconds: '10' HealthCheckPath: /phpinfo.php HealthCheckPort: '80' HealthCheckProtocol: HTTP HealthyThresholdCount: '2' Name: TG1 Port: '80' Protocol: HTTP UnhealthyThresholdCount: '2' VpcId: Ref: VPC BastionSecurityGroup: Type: 'AWS::EC2::SecurityGroup' Properties: GroupDescription: wordpress-bastion VpcId: Ref: VPC Tags: - Key: Name Value: BastionSG SecurityGroupIngress: - CidrIp: 0.0.0.0/0 FromPort: 22 IpProtocol: tcp ToPort: 22 LoadBalancerSecurityGroup: Type: 'AWS::EC2::SecurityGroup' Properties: GroupDescription: wordpress-elb VpcId: Ref: VPC Tags: - Key: Name Value: LoadBalancerSG SecurityGroupIngress: - CidrIp: 0.0.0.0/0 FromPort: 80 IpProtocol: tcp ToPort: 80 - CidrIp: 0.0.0.0/0 FromPort: 443 IpProtocol: tcp ToPort: 443 WebServerSecurityGroup: Type: 'AWS::EC2::SecurityGroup' Properties: GroupDescription: wordpress-ec2 VpcId: Ref: VPC Tags: - Key: Name Value: WebServerSG SecurityGroupIngress: - FromPort: 22 IpProtocol: tcp SourceSecurityGroupId: Ref: BastionSecurityGroup ToPort: 22 - FromPort: 80 IpProtocol: tcp SourceSecurityGroupId: Ref: LoadBalancerSecurityGroup ToPort: 80 LaunchConfiguration: Type: 'AWS::AutoScaling::LaunchConfiguration' DependsOn: VPCGatewayAttachment Properties: ImageId: ami-97785bed InstanceType: t2.micro SecurityGroups: - Ref: WebServerSecurityGroup KeyName: Ref: WebServerKeyName AssociatePublicIpAddress: 'false' UserData: 'Fn::Base64': 'Fn::Join': - '' - - | #!/bin/bash - | yum update -y - | yum install -y httpd24 php70 mysql56-server php70-mysqlnd git - | cd /var/www/html - | wget https://wordpress.org/latest.tar.gz - | tar -xzf latest.tar.gz - | cp wp-config-sample.php wp-config.php - | groupadd www - | usermod -a -G www ec2-user - | chown -R root:www /var/www - | chmod -R 2775 /var/www - | echo '&lt;?php phpinfo(); ?&gt;' &gt; /var/www/html/phpinfo.php - | service httpd start - | chkconfig httpd on - | service mysqld start - | chkconfig mysqld on InstanceMonitoring: 'true' AutoScalingGroup: Type: 'AWS::AutoScaling::AutoScalingGroup' Properties: TargetGroupARNs: - Ref: TargetGroup LaunchConfigurationName: Ref: LaunchConfiguration MinSize: '2' MaxSize: '2' DesiredCapacity: '2' Cooldown: '300' HealthCheckGracePeriod: '300' HealthCheckType: ELB VPCZoneIdentifier: - Ref: AppLayer1private - Ref: AppLayer2private Tags: - PropagateAtLaunch: 'true' Value: instance-wordpress Key: Name BastionInstance: Type: 'AWS::EC2::Instance' Properties: InstanceType: t2.micro ImageId: ami-97785bed KeyName: Ref: WebServerKeyName NetworkInterfaces: - GroupSet: - Ref: BastionSecurityGroup AssociatePublicIpAddress: 'true' DeviceIndex: '0' DeleteOnTermination: 'true' SubnetId: Ref: DMZ1public Tags: - Value: bastion-host Key: Name Outputs: pubIpAddress1: Description: Public ip address of bastion instance Value: 'Fn::GetAtt': - BastionInstance - PublicIp privIpAddress1: Description: Private ip address of bastion instance Value: 'Fn::GetAtt': - BastionInstance - PrivateIp . ",
-    "url": "/my-tech/doc/AWS/doc-1/#this-deploys-basic-infrastructure-as-well-as-ec2-instances-that-deploy-wordpress",
+    "doc": "Create a Basic Infrastructure",
+    "title": "Resources",
+    "content": "VPC (MyVPC) . | Creates a Virtual Private Cloud (VPC) with the CIDR block 10.0.0.0/16. | . Subnet (MySubnet) . | Creates a subnet within the VPC with the CIDR block 10.0.0.0/24. The subnet is associated with the availability zone us-east-1a. | . Internet Gateway (MyInternetGateway) . | Creates an Internet Gateway that enables internet connectivity for instances within the VPC. | . VPC Gateway Attachment (MyVPCGatewayAttachment) . | Attaches the Internet Gateway created above to the VPC. | . Route Table (MyRouteTable) . | Creates a route table associated with the VPC. | . Route (MyRoute) . | Adds a default route to the route table, directing all traffic (0.0.0.0/0) to the Internet Gateway. | . Subnet Route Table Association (MySubnetRouteTableAssociation) . | Associates the subnet with the route table, enabling internet access for instances in the subnet. | . Security Group (MySecurityGroup) . | Creates a security group allowing SSH (TCP port 22) traffic from any IP (0.0.0.0/0). It is associated with the VPC. | . EC2 Instance (MyInstance) . | Creates an EC2 instance of type t2.micro, associated with the specified KeyPair and placed in the subnet created earlier. The instance uses the specified Amazon Machine Image (AMI) ID. It is also tagged with the name “instance-1”. | . Elastic IP (MyEIP) . | Allocates an Elastic IP address to associate with the EC2 instance. | . EIP Association (MyInstanceEIPAssociation) . | Associates the Elastic IP with the EC2 instance, making it accessible with a static public IP address. | . ",
+    "url": "/my-tech/doc/AWS/creation-of-basic-infra/#resources",
     
-    "relUrl": "/doc/AWS/doc-1/#this-deploys-basic-infrastructure-as-well-as-ec2-instances-that-deploy-wordpress"
+    "relUrl": "/doc/AWS/creation-of-basic-infra/#resources"
   },"46": {
-    "doc": "Misc Doc 1",
-    "title": "Misc Doc 1",
-    "content": " ",
-    "url": "/my-tech/doc/Misc/doc-1/",
+    "doc": "Create a Basic Infrastructure",
+    "title": "Outputs",
+    "content": ". | Instance1PublicIP: This output displays the public IP address of the “instance-1” EC2 instance, allowing you to easily identify and connect to the instance via SSH. | . ",
+    "url": "/my-tech/doc/AWS/creation-of-basic-infra/#outputs",
     
-    "relUrl": "/doc/Misc/doc-1/"
+    "relUrl": "/doc/AWS/creation-of-basic-infra/#outputs"
   },"47": {
-    "doc": "Misc Doc 1",
-    "title": "",
-    "content": "Date Posted: 2023 01 16 . ",
-    "url": "/my-tech/doc/Misc/doc-1/",
-    
-    "relUrl": "/doc/Misc/doc-1/"
-  },"48": {
-    "doc": "Terraform Deployment of basic infrastructure on AWS",
-    "title": "Terraform Deployment of basic infrastructure on AWS",
-    "content": " ",
-    "url": "/my-tech/docs/Terraform/doc-1/",
-    
-    "relUrl": "/docs/Terraform/doc-1/"
-  },"49": {
-    "doc": "Terraform Deployment of basic infrastructure on AWS",
-    "title": "",
-    "content": "Date Posted: 2023 03 05 . ",
-    "url": "/my-tech/docs/Terraform/doc-1/",
-    
-    "relUrl": "/docs/Terraform/doc-1/"
-  },"50": {
     "doc": "Kubernetes Tutorial",
     "title": "Kubernetes Tutorial",
     "content": " ",
     "url": "/my-tech/doc/Kubernetes/doc-1/",
     
     "relUrl": "/doc/Kubernetes/doc-1/"
-  },"51": {
+  },"48": {
     "doc": "Kubernetes Tutorial",
     "title": "",
     "content": "Date Posted: 2023 02 05 . ",
     "url": "/my-tech/doc/Kubernetes/doc-1/",
     
     "relUrl": "/doc/Kubernetes/doc-1/"
+  },"49": {
+    "doc": "Terraform Deployment of basic infrastructure on AWS",
+    "title": "Terraform Deployment of basic infrastructure on AWS",
+    "content": " ",
+    "url": "/my-tech/docs/Terraform/doc-1/",
+    
+    "relUrl": "/docs/Terraform/doc-1/"
+  },"50": {
+    "doc": "Terraform Deployment of basic infrastructure on AWS",
+    "title": "",
+    "content": "Date Posted: 2023 03 05 . ",
+    "url": "/my-tech/docs/Terraform/doc-1/",
+    
+    "relUrl": "/docs/Terraform/doc-1/"
+  },"51": {
+    "doc": "Misc Doc 1",
+    "title": "Misc Doc 1",
+    "content": " ",
+    "url": "/my-tech/doc/Misc/doc-1/",
+    
+    "relUrl": "/doc/Misc/doc-1/"
   },"52": {
+    "doc": "Misc Doc 1",
+    "title": "",
+    "content": "Date Posted: 2023 01 16 . ",
+    "url": "/my-tech/doc/Misc/doc-1/",
+    
+    "relUrl": "/doc/Misc/doc-1/"
+  },"53": {
     "doc": "Docker Tutorial",
     "title": "Docker Tutorial",
     "content": " ",
     "url": "/my-tech/doc/Docker/docker-1/",
     
     "relUrl": "/doc/Docker/docker-1/"
-  },"53": {
+  },"54": {
     "doc": "Docker Tutorial",
     "title": "",
     "content": "Date Posted: 2023 02 19 . ",
     "url": "/my-tech/doc/Docker/docker-1/",
     
     "relUrl": "/doc/Docker/docker-1/"
-  },"54": {
+  },"55": {
     "doc": "Initializing the Docker Environment",
     "title": "Initializing the Docker Environment",
     "content": " ",
     "url": "/my-tech/doc/Docker/docker-2/",
     
     "relUrl": "/doc/Docker/docker-2/"
-  },"55": {
+  },"56": {
     "doc": "Initializing the Docker Environment",
     "title": "This is the way to initialize the docker environment. This will need to 1. install the docker prerequisites, 2. CentOs-specific Docker Repo, 3. install Docker, 4. Enable Docker daemon, 5. add a user and 6. run a test.",
     "content": "Date Posted: 2023 02 17 . ",
     "url": "/my-tech/doc/Docker/docker-2/",
     
     "relUrl": "/doc/Docker/docker-2/"
-  },"56": {
+  },"57": {
     "doc": "Initializing the Docker Environment",
     "title": "Installing Docker",
     "content": ". | Install the Docker prerequisites: | . | sudo yum install -y yum-utils device-mapper-persistent-data lvm2 | . | Using yum-config-manager, add the CentOS-specific Docker repo: | . | sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo | . | Install Docker: | . | sudo yum -y install docker-ce | . ",
     "url": "/my-tech/doc/Docker/docker-2/#installing-docker",
     
     "relUrl": "/doc/Docker/docker-2/#installing-docker"
-  },"57": {
+  },"58": {
     "doc": "Initializing the Docker Environment",
     "title": "Enable the Docker Daemon",
     "content": ". | Enable the Docker daemon: | . | sudo systemctl enable --now docker | . ",
     "url": "/my-tech/doc/Docker/docker-2/#enable-the-docker-daemon",
     
     "relUrl": "/doc/Docker/docker-2/#enable-the-docker-daemon"
-  },"58": {
+  },"59": {
     "doc": "Initializing the Docker Environment",
     "title": "Configure User Permissions",
     "content": ". | Add the lab user to the docker group: | . | sudo usermod -aG docker cloud_user . | Caution: You will need to exit the server for the change to take effect. | . | . ",
     "url": "/my-tech/doc/Docker/docker-2/#configure-user-permissions",
     
     "relUrl": "/doc/Docker/docker-2/#configure-user-permissions"
-  },"59": {
+  },"60": {
     "doc": "Initializing the Docker Environment",
     "title": "Run a Test Image",
     "content": ". | Using docker, run the hello-world image to verify that the environment is set up properly: | . | docker run hello-world | . ",
     "url": "/my-tech/doc/Docker/docker-2/#run-a-test-image",
     
     "relUrl": "/doc/Docker/docker-2/#run-a-test-image"
-  },"60": {
+  },"61": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Working With Prebuilt Docker Images",
     "content": " ",
     "url": "/my-tech/doc/Docker/docker-3/",
     
     "relUrl": "/doc/Docker/docker-3/"
-  },"61": {
+  },"62": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "This article is to migrate a website, from a traditional server to containers by using Dockers",
     "content": "Date Posted: 2023 02 01 . ",
     "url": "/my-tech/doc/Docker/docker-3/",
     
     "relUrl": "/doc/Docker/docker-3/"
-  },"62": {
+  },"63": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Explore Docker Hub",
     "content": ". | Sign in to Docker Hub. | At the top of the page, search for “httpd”. | In the left-hand menu, filter for Application Infrastructure, and Official Images. | Select the httpd project. | At the top of the page, click the Tags tab. | Under latest, select linux/amd64. | Back in the list of available images, select nginx | Review the How to use this image section. | . ",
     "url": "/my-tech/doc/Docker/docker-3/#explore-docker-hub",
     
     "relUrl": "/doc/Docker/docker-3/#explore-docker-hub"
-  },"63": {
+  },"64": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Get and View httpd",
     "content": "## In the Docker Instance, verify that docker is installed: docker ps ## Using docker, pull the httpd:2.4 image: docker pull httpd:2.4 ## Run the image: docker run --name httpd -p 8080:80 -d httpd:2.4 ## Check the status of the container: docker ps ## In a web browser, test connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8080 . ",
     "url": "/my-tech/doc/Docker/docker-3/#get-and-view-httpd",
     
     "relUrl": "/doc/Docker/docker-3/#get-and-view-httpd"
-  },"64": {
+  },"65": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Run a Copy of the Website in httpd",
     "content": "## Clone the Widget Factory Inc repository git clone https://github.com/linuxacademy/content-widget-factory-inc ## Change to the content-widget-factory-inc directory: cd content-widget-factory-inc ## Check the files: ll ## Move to the web directory: cd web ## Check the files: ll ## Stop the httpd container: docker stop httpd ## Remove the httpd container: docker rm httpd ## Verify that the container has been removed: docker ps -a ## Run the container with the website data: docker run --name httpd -p 8080:80 -v $(pwd):/usr/local/apache2/htdocs:ro -d httpd:2.4 ## Check the status of the container: docker ps ## In a web browser, check connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8080 . ",
     "url": "/my-tech/doc/Docker/docker-3/#run-a-copy-of-the-website-in-httpd",
     
     "relUrl": "/doc/Docker/docker-3/#run-a-copy-of-the-website-in-httpd"
-  },"65": {
+  },"66": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Get and View Nginx",
     "content": "## Using docker, pull the latest version of nginx: docker pull nginx ## Verify that the image was pulled successfully: docker images ## Run the container using the nginx image: docker run --name nginx -p 8081:80 -d nginx ## Check the status of the container: docker ps ## Verify connectivity to the nginx container: &lt;PUBLIC_IP_ADDRESS&gt;:8081 . ",
     "url": "/my-tech/doc/Docker/docker-3/#get-and-view-nginx",
     
     "relUrl": "/doc/Docker/docker-3/#get-and-view-nginx"
-  },"66": {
+  },"67": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Run a Copy of the Website in Nginx",
     "content": "## Stop the nginx container: docker stop nginx ## Remove the nginx container: docker rm nginx ## Verify that the container has been removed: docker ps -a ## Run the nginx container, and mount the website data: docker run --name nginx -v $(pwd):/usr/share/nginx/html:ro -p 8081:80 -d nginx ## Check the status of the container: docker ps ## In a web browser, verify connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8081 ## Stop the nginx container: docker stop nginx ## Remove the nginx container: docker rm nginx ## Verify that the container has been removed: docker ps -a . ",
     "url": "/my-tech/doc/Docker/docker-3/#run-a-copy-of-the-website-in-nginx",
     
     "relUrl": "/doc/Docker/docker-3/#run-a-copy-of-the-website-in-nginx"
-  },"67": {
+  },"68": {
     "doc": "My Page",
     "title": " Welcome to my SRE Page ",
     "content": "I am a seasoned Infrastructure and Platform Engineer with over 8 years of experience in the IT industry, catering to diverse clients. My primary responsibility revolves around ensuring the constant availability and reliability of the infrastructure that hosts our clients' IT solutions. Through extensive hands-on experience in managing IT infrastructure and platforms, I have consistently succeeded in maintaining a reliable and secure environment. To achieve my goal of delivering top-notch services, I am committed to staying updated with the latest technologies. I regularly conduct intensive research to incorporate cutting-edge solutions into our infrastructure. Moreover, I actively maintain a robust set of tools and resources that contribute to the dependability and efficiency of the systems. As a leader in my field, I not only strive for excellence in my work but also inspire and guide my team members to perform at their best. My passion for this profession drives me to constantly seek new challenges and opportunities for growth, ensuring that our clients receive the highest level of service and satisfaction. ",
     "url": "/my-tech/",
     
     "relUrl": "/"
-  },"68": {
+  },"69": {
     "doc": "My Page",
     "title": " My Duties and Responsibilities ",
     "content": "AWS . | I build Infrastructure on AWS | I deploy several AWS resources and services | I use CloudFormation to deploy and update resources | Terraform . | I build and update multi-plaform infrastructure using Terraform | Jenkins . | I run scheduled, triggered, or manual jobs on Jenkins | I create and manage automated scripts inside Jenkins Jobs | Kubernetes . | I create, operate, and update Openshift and EKS distributions of Kubernetes | I troubleshoot common issues of Kubernetes | Performance Monitoring . | I manage creation of logging, monitoring, and alerting tools such as Prometheus, Grafana, Splunk, etc. | Docker . | I create and operate images and containers that are quickly deployable. | ",
     "url": "/my-tech/",
     
     "relUrl": "/"
-  },"69": {
+  },"70": {
     "doc": "My Page",
     "title": " Posts ",
-    "content": "a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql this page describes about a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql . 16 Apr 2023 . tutorial about the running a sample docker image in numbered steps this page describes about tutorial about the running a sample docker image in numbered steps . 29 Mar 2023 . Terraform Deployment of basic infrastructure on AWS . 05 Mar 2023 . Misc . 01 Mar 2023 . CICD . 01 Mar 2023 . Terraform . 25 Feb 2023 . Deploy a basic infrastructure plus EC2 that deploys Wordpress . 21 Feb 2023 . Docker Tutorial . 19 Feb 2023 . Link . Menu | | | Expand . (external link) . | Document . Search | Copy Copied ",
+    "content": "Create a Basic Infrastructure List of CloudFormation Stack Deployments for AWS resources . 03 May 2023 . a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql this page describes about a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql . 16 Apr 2023 . tutorial about the running a sample docker image in numbered steps this page describes about tutorial about the running a sample docker image in numbered steps . 29 Mar 2023 . Terraform Deployment of basic infrastructure on AWS . 05 Mar 2023 . CICD . 01 Mar 2023 . Misc . 01 Mar 2023 . Terraform . 25 Feb 2023 . Docker Tutorial . 19 Feb 2023 . Link . Menu | | | Expand . (external link) . | Document . Search | Copy Copied ",
     "url": "/my-tech/",
     
     "relUrl": "/"
-  },"70": {
+  },"71": {
     "doc": "My Page",
     "title": "My Page",
     "content": " ",
     "url": "/my-tech/",
     
     "relUrl": "/"
-  },"71": {
+  },"72": {
     "doc": "Terraform",
     "title": "Terraform",
     "content": " ",
     "url": "/my-tech/docs/Terraform",
     
     "relUrl": "/docs/Terraform"
-  },"72": {
+  },"73": {
     "doc": "Terraform",
     "title": "",
     "content": "Date Posted: 2023 02 25 . ",
     "url": "/my-tech/docs/Terraform",
     
     "relUrl": "/docs/Terraform"
-  },"73": {
+  },"74": {
     "doc": "Terraform",
     "title": "Table of Contents",
     "content": ". | Table of Contents | Terraform Architecture | Installation . | Windows | Linux (Ubuntu) Package Manager | macOS Package Manager | . | Terraform CLI . | terraform version | terraform -install-autocomplete | terraform fmt . | Options | . | terraform validate | terraform providers | terraform init | terraform plan | terraform apply . | Examples | . | terraform destroy | terraform taint | terraform untaint | terraform refresh | terraform workspace | terraform state . | Examples | . | terraform output | terraform graph | terraform import | terraform login [hostname] | terraform logout [hostname] | HCL Comment Styles | Terraform Providers (Plugins) | Provider Configuration | Terraform Resources | Terraform Variables . | Declaring Variables | Assigning values to variables | String Interpolation | . | Variable Types . | type number | type string | type bool | type list (of strings) | type map | type tuple | type object | . | Data Sources . | Use Data Sources | . | Output Values . | Declare an Output Value | . | Loops . | count | for_each | For Expressions | Splat Expressions | Dynamic Blocks | . | Conditional Expressions | Terraform Locals | Terraform provisioners | Built-in Functions | Backends and Remote State . | Backends | Configure Terraform to use the remote state from within the S3 bucket | . | Terraform Modules | Troubleshooting and Logging | . | . ",
     "url": "/my-tech/docs/Terraform#table-of-contents",
     
     "relUrl": "/docs/Terraform#table-of-contents"
-  },"74": {
+  },"75": {
     "doc": "Terraform",
     "title": "Terraform Architecture",
     "content": ". ",
     "url": "/my-tech/docs/Terraform#terraform-architecture",
     
     "relUrl": "/docs/Terraform#terraform-architecture"
-  },"75": {
+  },"76": {
     "doc": "Terraform",
     "title": "Installation",
     "content": "Windows . | Download the Windows binary for 32 or 64-bit CPUs from https://www.terraform.io/downloads. | Unzip the package. | Move the Terraform binary to the Windows PATH. | . Linux (Ubuntu) Package Manager . | Run the following commands at the terminal: . curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - sudo apt-add-repository \"deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main\" sudo apt-get update &amp;&amp; sudo apt-get install terraform . | Install Terraform using the package manager: . sudo apt update &amp;&amp; sudo apt install terraform -y . | . macOS Package Manager . | Run the following commands at the terminal: . brew tap hashicorp/tap brew install hashicorp/tap/terraform . | . ",
     "url": "/my-tech/docs/Terraform#installation",
     
     "relUrl": "/docs/Terraform#installation"
-  },"76": {
+  },"77": {
     "doc": "Terraform",
     "title": "Terraform CLI",
     "content": "The Terraform CLI provides a variety of commands to interact with and manage Terraform configurations. Here are some commonly used commands: . terraform version . Displays the version of Terraform and all installed plugins. terraform -install-autocomplete . Sets up tab auto-completion, requires logging back in. terraform fmt . Rewrites all Terraform configuration files to a canonical format. Both configuration files (.tf) and variable files (.tfvars) are updated. Options . | -check : Check if the input is formatted. It does not overwrite the file. | -recursive : Also process files in subdirectories. By default, only the given directory (or current directory) is processed. | . terraform validate . Validates the configuration files for errors. It refers only to the configuration and not accessing any remote services such as remote state, or provider APIs. terraform providers . Prints out a tree of modules in the referenced configuration annotated with their provider requirements. terraform init . Initializes a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc. This is the first command that should be run for any new or existing Terraform configuration per machine. This sets up all the local data necessary to run Terraform that is typically not committed to version control. This command is always safe to run multiple times. | Option | Description | . | -backend=false | Disable backend or Terraform Cloud initialization for this configuration and use what was previously initialized instead. | . | -reconfigure | Reconfigure a backend, ignoring any saved configuration. | . | -migrate-state | Reconfigure a backend and attempt to migrate any existing state. | . | -upgrade | Install the latest module and provider versions allowed within configured constraints, overriding the default behavior of selecting exactly the version recorded in the dependency lockfile. | . terraform plan . Generates an execution plan, showing what actions will Terraform take to apply the current configuration. This command will not actually perform the planned actions. | Option | Description | . | -out=path | Write a plan file to the given path. This can be used as input to the “apply” command. | . | -input=true | Ask for input for variables if not directly set. | . | -var 'foo=bar' | Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable. | . | -var-file=filename | Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variable file. | . | -destroy | Select the “destroy” planning mode, which creates a plan to destroy all objects currently managed by this Terraform configuration instead of the usual behavior. | . | -refresh-only | Select the “refresh only” planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform. | . | -target=resource | Limit the planning operation to only the given module, resource, or resource instance and all of its dependencies. You can use this option multiple times to include more than one object. This is for exceptional use only. | . terraform apply . Creates or updates infrastructure according to Terraform configuration files in the current directory. | Option | Description | . | -auto-approve | Skip interactive approval of plan before applying. | . | -replace | Force replacement of a particular resource instance using its resource address. | . | -var ‘foo=bar’ | Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable. | . | -var-file=filename | Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variable file. | . | -parallelism=n | Limit the number of concurrent operations. Defaults to 10. | . Examples . terraform apply -auto-approve -var-file=ec2.tfvars terraform apply -replace=\"aws_instance.web\" . terraform destroy . Destroys Terraform-managed infrastructure and is an alias for terraform apply -destroy. | Option | Description | . | -auto-approve | Skip interactive approval before destroying. | . | -target | Limit the destroying operation to only the given resource and all of its dependencies. You can use this option multiple times to include more than one object. | . Example: terraform destroy -target aws_vpc.my_vpc -auto-approve . terraform taint . Describes a resource instance that may not be fully functional, either because its creation partially failed or because you’ve manually marked it as such using this command. Subsequent Terraform plans will include actions to destroy the remote object and create a new object to replace it. terraform untaint . Removes that state from a resource instance, causing Terraform to see it as fully-functional and not in need of replacement. terraform refresh . Updates the state file of your infrastructure with metadata that matches the physical resources they are tracking. This will not modify your infrastructure, but it can modify your state file to update metadata. terraform workspace . | Option | Description | . | delete | Delete a workspace. | . | list | List workspaces. | . | new | Create a new workspace. | . | select | Select a workspace. | . | show | Show the name of the current workspace. | . terraform state . This does advanced state management. The state is stored by default in a local file named “terraform.tfstate”, but it can also be stored remotely, which works better in a team environment. | Option | Description | . | list | List resources in the state. | . | show | Show a resource in the state. | . | mv | Move an item in the state. | . | rm | Remove instances from the state. | . | pull | Pull current state and output to stdout. | . Examples . terraform state show aws_instance.web terraform state pull &gt; my_terraform.tfstate terraform state mv aws_iam_role.my_instance_role terraform state list terraform state rm aws_instance.web . terraform output . Reads an output variable from a Terraform state file and prints the value. With no additional arguments, output will display all the outputs for the root module. Examples: . | terraform output [-json]: Lists all outputs in the state file. | terraform output instance_public_ip: Lists a specific output value. | . terraform graph . Produces a representation of the dependency graph between different objects in the current configuration and state. The graph is presented in the DOT language. The typical program that can read this format is GraphViz, but many web services are also available to read this format. Linux Example: . sudo apt install graphviz terraform graph | dot -Tpng &gt; graph.png . terraform import . Import existing infrastructure into your Terraform state. This will find and import the specified resource into your Terraform state, allowing existing infrastructure to come under Terraform management without having to be initially created by Terraform. Example: terraform import aws_instance.new_server i-123abc . Imports EC2 instance with id i-abc123 into the Terraform resource named “new_server” of type “aws_instance”. terraform login [hostname] . Retrieves an authentication token for the given hostname, if it supports automatic login, and saves it in a credentials file in your home directory. If no hostname is provided, the default hostname is app.terraform.io, to log in to Terraform Cloud. terraform logout [hostname] . Removes locally-stored credentials for the specified hostname. If no hostname is provided, the default hostname is app.terraform.io. HCL Comment Styles . | #: single-line comment. | //: single-line comment (alternative to #). | /* ... */: multi-line comment (block comment). | . Terraform Providers (Plugins) . A provider is a Terraform plugin that allows users to manage an external API. A provider usually provides resources to manage a cloud or infrastructure platform, such as AWS or Azure, or technology (for example Kubernetes). There are providers for Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS). Provider Configuration . terraform { required_providers { aws = { source = \"hashicorp/aws\" # global and unique source address version = \"~&gt; 3.0\" # version constraint } } } # Configure the AWS Provider provider \"aws\" { region = \"eu-west-1\" # provider configuration options } . Terraform Resources . Resources are the most important element in the Terraform language. It describes one or more infrastructure objects to manage. Together the resource type and local name serve as an identifier for a given resource and must be unique within a module. Example: aws_vpc.main . Creating resources: . resource \"&lt;provider&gt;_&lt;resource_type&gt;\" \"local_name\"{ argument1 = value argument2 = value … } # Example: resource \"aws_vpc\" \"main\" { cidr_block = \"10.0.0.0/16\" enable_dns_support = true tags = { \"Name\" = \"Main VPC\" } } . Terraform Variables . Input variables allow you customize aspects of Terraform without using hard-coded values in the source. Declaring Variables . Variable declarations can appear anywhere in your configuration files. However, it’s recommended to put them into a separate file called variables.tf. # variable declaration variable \"vpc_cidr_block\" { description = \"CIDR block for VPC\". default = \"192.168.0.0/16\" type = string } . Assigning values to variables . | Using the default argument in the variable declaration block. | Assign a value to the variable in the variable definition file which by default is terraform.tfvars. Example: vpc_cidr_block = “172.16.0.0/16” . | Using -var command-line option. Example: terraform apply -var=”vpc_cidr_block=10.0.10.0/24” . | Using -var-file command-line option. Example: terraform apply -auto-approve -var-file=web-prod.tfvars . | Exporting the variable at the terminal. Example: export TF_VAR_vpc_cidr_block=”192.168.100.0/24” . | . Variable definition precedence (from highest to lowest): . | Variables specified at the terminal using -var and -var-file options. | Variables defined in terraform.tfvars. | Variables defined as environment variables using TF_VAR prefix. | . String Interpolation . You can interpolate other values in strings by these values in ${}, such as ${var.foo}. The interpolation syntax is powerful and allows you to reference variables, attributes of resources, call functions, etc. You can escape interpolation with double dollar signs: $${foo} will be rendered as a literal ${foo}. Variable Types . | Simple types a. number b. string c. bool d. null | Complex types a. Collection types i. list ii. map iii. set b. Structural types i. tuple object | . type number . variable \"web_port\" { description = \"Web Port\" default = 80 type = number } . type string . variable \"aws_region\" { description = \"AWS Region\" type = string default = \"eu-west-1\" } . type bool . variable \"enable_dns\" { description = \"DNS Support for the VPC\" type = bool default = true } . type list (of strings) . type list (of strings) variable \"azs\" { description = \"AZs in the Region\" type = list(string) default = [ \"eu-west-1a\", \"eu-west-1b\", \"eu-west-1c\" ] } . type map . variable \"amis\" { type = map(string) default = { \"eu-central-1\" = \"ami-0dcc0ebde7b2e00db\", \"us-west-1\" = \"ami-04a50faf2a2ec1901\" } } . type tuple . variable \"my_instance\" { type = tuple([string, number, bool]) default = [\"t2.micro\", 1, true ] } . type object . variable \"egress_dsg\" { type = object({ from_port = number to_port = number protocol = string cidr_blocks = list(string) }) default = { from_port = 0, to_port = 65365, protocol = \"tcp\", cidr_blocks = [\"100.0.0.0/16\", \"200.0.0.0/16\", \"0.0.0.0/0\"] } } . Data Sources . Data sources in Terraform are used to get information about resources external to Terraform. For example, the public IP address of an EC2 instance. Data sources are provided by providers. Use Data Sources . A data block requests that Terraform read from a given data source (“aws_ami”) and export the result under the given local name (“ubuntu”). The data source and name together serve as an identifier for a given resource and therefore must be unique within a module. Within the block body (between { and }) are query constraints defined by the data source. data \"aws_ami\" \"ubuntu\" { most_recent = true owners = [\"self\"] tags = { Name = \"app-server\" Tested = \"true\" } } . Output Values . Output values print out information about your infrastructure at the terminal, and can expose information for other Terraform configurations (e.g. modules) to use. Declare an Output Value . Each output value exported by a module must be declared using an output block. The label immediately after the output keyword is the name. output \"instance_ip_addr\" { value = aws_instance.server.private_ip } . Loops . Terraform offers the following looping constructs, each intended to be used in a slightly different scenario: . | count meta-argument: loop over resources. | for_each meta-argument: loop over resources and inline blocks within a resource. | for expressions: loop over lists and maps. | . count . The count meta-argument is defined by the Terraform language and can be used to manage similar resources. count is a looping technique and can be used with modules and with every resource type. # creating 3 EC2 instances using count resource \"aws_instance\" \"web\" { ami = \"ami-06ec8443c2a35b0ba\" instance_type = \"t2.micro\" count = 3 } . In blocks where count is set, an additional count object is available. count.index represents the distinct index number (starting with 0) corresponding to the current object. for_each . for_each is another meta-argument used to duplicate resources that are similar but need to be configured differently. for_each was introduced more recently to overcome the downsides of count. If your resources are almost identical, count is appropriate. If some of their arguments need distinct values that can’t be directly derived from an integer, it’s safer to use for_each. # declaring a variable variable \"users\" { type = list(string) default = [\"demo\", \"test\", \"john\"] } # creating IAM users resource \"aws_iam_user\" \"user\" { for_each = toset(var.users) # converts a list to a set name = each.key } . Second example . variable \"example_map\" { type = map(string) default = { \"key1\" = \"value1\" \"key2\" = \"value2\" \"key3\" = \"value3\" } } #use the var resource \"aws_s3_bucket\" \"example\" { for_each = var.example_map bucket = each.key } . For Expressions . A for expression creates a complex type value by transforming another complex type value. variable \"names\" { type = list default = [\"daniel\", \"ada'\", \"john wick\"] } output \"short_upper_names\" { # filter the resulting list by specifying a condition: value = [for name in var.names : upper(name) if length(name) &gt; 7] } . If you run terraform apply -auto-approve you’ll get: . Outputs: short_upper_names = [ \"JOHN WICK\", ] . Splat Expressions . A splat expression provides a more concise way to express a common operation that could otherwise be performed with a for expression. Dynamic Blocks . Dynamic blocks act much like a for expression, but produce nested blocks instead of a complex typed value. They iterate over a given complex value, and generate a nested block for each element of that complex value. They are supported inside resource, data, provider, and provisioner blocks. A dynamic block produces nested blocks instead of a complex typed value. # Declaring a variable of type list variable \"ingress_ports\" { description = \"List Of Ingress Ports\" type = list(number) default = [22, 80, 110, 143] } resource \"aws_default_security_group\" \"default_sec_group\" { vpc_id = aws_vpc.main.id # Creating the ingress rules using dynamic blocks dynamic \"ingress\"{ # it produces ingress nested blocks for_each = var.ingress_ports # iterating over the list variable iterator = iport content { from_port = iport.value to_port = iport.value protocol = \"tcp\" cidr_blocks = [\"0.0.0.0/0\"] } } } . A second example . variable \"security_group_rules\" { type = map(object({ type = string from_port = number to_port = number protocol = string cidr_blocks = list(string) })) default = { \"ssh\" = { type = \"ssh\" from_port = 22 to_port = 22 protocol = \"tcp\" cidr_blocks = [\"0.0.0.0/0\"] }, \"http\" = { type = \"http\" from_port = 80 to_port = 80 protocol = \"tcp\" cidr_blocks = [\"0.0.0.0/0\"] } } } #use it now resource \"aws_security_group\" \"example\" { dynamic \"ingress\" { for_each = var.security_group_rules content { type = ingress.value.type from_port = ingress.value.from_port to_port = ingress.value.to_port protocol = ingress.value.protocol cidr_blocks = ingress.value.cidr_blocks } } } . Conditional Expressions . A conditional expression uses the value of a boolean expression to select one of two values. Syntax: condition ? true_val : false_val . If condition is true then the result is true_val. If condition is false then the result is false_val. The condition can be any expression that resolves to a boolean value. This will usually be an expression that uses the equality, comparison, or logical operators. variable \"iscreate\" { type = bool default = true } # Creating the test-server instance if `iscreate` equals true resource \"aws_instance\" \"test-server\" { ami = \"ami-05cafdf7c9f772ad2\" instance_type = \"t2.micro\" count = var.iscreate == true ? 1:0 # conditional expression } # Creating the prod-server instance if `iscreate` equals false resource \"aws_instance\" \"prod-server\" { ami = \"ami-05cafdf7c9f772ad2\" instance_type = \"t2.large\" # it's not free tier eligible count = var.iscreate == false ? 1:0 # conditional expression } . Terraform Locals . Terraform local values are named values that you can refer to in your configuration. Compared to variables, Terraform locals do not change values during or between Terraform runs and unlike input variables, locals are not submitted by users but calculated inside the configuration. Locals are available only in the current module. They are locally scoped. # the local values are declared in a single `locals` block locals { owner = \"Saif\" cidr_blocks = [\"172.16.10.0/24\", \"172.16.20.0/24\", \"172.16.30.0/24\"] common-tags = { Name = \"dev\" Environment = \"development\" Version = 1.10 } } # Create a VPC. resource \"aws_vpc\" \"dev_vpc\" { cidr_block = \"172.16.0.0/16\" tags = local.common-tags } # Create a subnet in the VPC resource \"aws_subnet\" \"dev_subnets\" { vpc_id = aws_vpc.dev_vpc.id cidr_block = local.cidr_blocks[0] availability_zone = \"eu-west-1a\" tags = local.common-tags } # Create an Internet Gateway Resource resource \"aws_internet_gateway\" \"dev_igw\" { vpc_id = aws_vpc.dev_vpc.id tags = { \"Name\" = \"${local.common-tags[\"Name\"]}-igw\" \"Version\" = \"${local.common-tags[\"Version\"]}\" } } . Note: Local values are created by a locals block (plural), but you reference them as attributes on an object named local (singular). Terraform provisioners . Terraform Provisioners are used to execute scripts or commands on a resource after it has been created or destroyed. Provisioners are typically used to configure a newly created resource, such as installing software or executing a post-creation script. In Terraform, there are two types of provisioners: . Local-exec Provisioner: This provisioner is used to execute commands on the machine running Terraform. Example . resource \"aws_instance\" \"example\" { ami = \"ami-0c55b159cbfafe1f0\" instance_type = \"t2.micro\" provisioner \"local-exec\" { command = \"echo ${aws_instance.example.private_ip} &gt; private_ip.txt\" } } . Remote-exec Provisioner: This provisioner is used to execute commands on the newly created resource. resource \"aws_instance\" \"example\" { ami = \"ami-0c55b159cbfafe1f0\" instance_type = \"t2.micro\" key_name = \"my_key_pair\" provisioner \"remote-exec\" { inline = [ \"sudo apt-get update\", \"sudo apt-get install -y nginx\", \"sudo service nginx start\" ] connection { type = \"ssh\" user = \"ubuntu\" private_key = file(\"~/.ssh/my_key_pair.pem\") host = aws_instance.example.public_ip } } } . Built-in Functions . Terraform includes a number of built-in functions that can be called from within expressions to transform and combine values. Examples of functions: min, max, file, concat, element, index, lookup. Terraform does not support user-defined functions. There are functions for numbers, strings, collections, file system, date and time, IP Network, Type Conversions and more. You can experiment with the behavior of Terraform’s built-in functions from the Terraform console, by running the terraform console command. Examples: . &gt; max(1, 12, 10) 12 &gt; min(12, 54, 9) 9 &gt; format(\"There are %d lights\", 4) There are 4 lights &gt; join(\", \", [\"foo\", \"bar\"]) foo, bar &gt; split(\",\", \"foo,bar\") [ \"foo\", \"bar\" ] &gt; replace(\"hello world\", \"/w.*d/\", \"everybody\") hello everybody &gt; substr(\"hello world\", 1, 4) ello &gt; element([\"a\", \"b\", \"c\"], 1) b &gt; lookup({a=\"ay\", b=\"bee\"}, \"a\", \"what?\") ay &gt; lookup({a=\"ay\", b=\"bee\"}, \"c\", \"what?\") what? &gt; slice([\"a\", \"b\", \"c\", \"d\"], 1, 3) [ \"b\", \"c\", ] &gt; timestamp() \"2023-25-02T13:52:18Z\" &gt; formatdate(\"DD MMM YYYY hh:mm ZZZ\", \"2023-25-02T13:52:18Z\") 25 Feb 2023 13:52 UTC &gt; cidrhost(\"10.1.2.240/28\", 1) 10.1.2.241 &gt; cidrhost(\"10.1.2.240/28\", 14) 10.1.2.254 . Backends and Remote State . Backends . Each Terraform configuration has an associated backend that defines how operations are executed and where the Terraform state is stored. The default backend is local, and it stores the state as a plain file in the current working directory. The backend needs to be initialized by running terraform init. If you switch the backend, Terraform provides a migration option which is terraform init -migrate-state. Terraform supports both local and remote backends: . local (default) backend stores state in a local JSON file on disk. remote backends stores state remotely. Examples of remote backends are AzureRM, Consul, GCS, Amazon S3, and Terraform Cloud. They can support features like remote operation, state locking, encryption, and versioning. Configure Remote State on Amazon S3 On the AWS console go to Amazon S3 and create a bucket. Configure Terraform to use the remote state from within the S3 bucket . | On the AWS console go to Amazon S3 and create a bucket. | ",
     "url": "/my-tech/docs/Terraform#terraform-cli",
     
     "relUrl": "/docs/Terraform#terraform-cli"
-  },"77": {
+  },"78": {
     "doc": "Terraform",
     "title": "Configure Terraform to use the remote state from within the S3 bucket.",
     "content": "| . terraform { backend \"s3\" { bucket = \"terraform-state\" key = \"s3-backend.tfstate\" region = \"eu-west-1\" } } . | Run terraform init to initialize the backend. | . Terraform Modules . Terraform modules are a powerful way to reuse code and stick to the DRY principle, which stands for Do Not Repeat Yourself. Think of modules as functions in a programming language. Modules will help you organize configuration, encapsulate configuration, re-use configuration and provide consistency and ensure best-practices. Terraform supports Local and Remote modules: . | Local modules are stored locally, in a separate directory, outside of the root environment and have the source path prefixed with ./ or ../ . | Remote modules are stored externally in a separate repository, and support versioning. External Terraform modules are found on the Terraform Registry. | . A Terraform module is a set of Terraform configuration files in a single directory. When you run Terraform commands like terraform plan or terraform apply directly from such a directory, then that directory will be considered the root module. The modules that are imported from other directories into the root module are called child modules. Calling a child module from within the root module: . module \"myec2\" { # path to the module's directory # the source argument is mandatory for all modules. source = \"../modules/ec2\" # module inputs ami_id = var.ami_id instance_type = var.instance_type servers = var.servers } . It’s good practice to start building everything as a module, create a library of modules to share with your team and from the very beginning to start thinking of your entire infrastructure as a collection of reusable modules. After adding or removing a module, you must re-run terraform init to install the module. Troubleshooting and Logging . The TF_LOG enables logging and can be set to one of the following log levels: TRACE, DEBUG, INFO, WARN or ERROR. Once you have configured your logging you can save the output to a file. This is useful for further inspection. The TF_LOG_PATH variable will create the specified file and append the logs generated by Terraform. Example: . export TF_LOG_PATH=terraform.log terraform apply . You can generate logs from the core application and the Terraform provider separately. To enable core logging, set the TF_LOG_CORE environment variable, and to generate provider logs set the TF_LOG_PROVIDER to the appropriate log level. ",
     "url": "/my-tech/docs/Terraform#configure-terraform-to-use-the-remote-state-from-within-the-s3-bucket-1",
     
     "relUrl": "/docs/Terraform#configure-terraform-to-use-the-remote-state-from-within-the-s3-bucket-1"
-  },"78": {
+  },"79": {
     "doc": "AWS",
     "title": "AWS",
     "content": " ",
     "url": "/my-tech/docs/AWS",
     
     "relUrl": "/docs/AWS"
-  },"79": {
+  },"80": {
     "doc": "AWS",
     "title": "",
     "content": "Date Posted: 2023 02 01 . ",
     "url": "/my-tech/docs/AWS",
     
     "relUrl": "/docs/AWS"
-  },"80": {
-    "doc": "AWS",
-    "title": "This is the first page",
-    "content": " ",
-    "url": "/my-tech/docs/AWS#this-is-the-first-page",
-    
-    "relUrl": "/docs/AWS#this-is-the-first-page"
   },"81": {
+    "doc": "AWS",
+    "title": "This is the first page of deploying AWS resources",
+    "content": " ",
+    "url": "/my-tech/docs/AWS#this-is-the-first-page-of-deploying-aws-resources",
+    
+    "relUrl": "/docs/AWS#this-is-the-first-page-of-deploying-aws-resources"
+  },"82": {
     "doc": "Kubernetes",
     "title": "Kubernetes",
     "content": " ",
     "url": "/my-tech/docs/Kubernetes",
     
     "relUrl": "/docs/Kubernetes"
-  },"82": {
+  },"83": {
     "doc": "Kubernetes",
     "title": "",
     "content": "Date Posted: 2023 02 04 . ",
     "url": "/my-tech/docs/Kubernetes",
     
     "relUrl": "/docs/Kubernetes"
-  },"83": {
+  },"84": {
     "doc": "Misc",
     "title": "Misc",
     "content": " ",
     "url": "/my-tech/docs/Misc",
     
     "relUrl": "/docs/Misc"
-  },"84": {
+  },"85": {
     "doc": "Misc",
     "title": "",
     "content": "Date Posted: 2023 03 01 . ",
     "url": "/my-tech/docs/Misc",
     
     "relUrl": "/docs/Misc"
-  },"85": {
+  },"86": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "tutorial about the running a sample docker image in numbered steps",
     "content": " ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/"
-  },"86": {
+  },"87": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "this page describes about tutorial about the running a sample docker image in numbered steps",
     "content": "Date Posted: 2023 03 29 . ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/"
-  },"87": {
+  },"88": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Tutorial: Running a Sample Docker Image",
     "content": "In this tutorial, we will guide you through the process of running a sample Docker image. Docker allows you to package an application and its dependencies into a standardized unit called a container, which can be easily deployed and run on any platform. Follow the numbered steps below to get started: . | Install Docker: Before you can run a Docker image, ensure Docker is installed on your system. Visit the Docker website and follow the installation instructions for your operating system. | Pull the Docker Image: Docker images are hosted in repositories, and you need to pull the desired image to your local system. Open a terminal or command prompt and enter the following command: docker pull IMAGE_NAME . Replace IMAGE_NAME with the name of the Docker image you want to use. This command will download the image from the repository. | Verify Image Pull: To verify that the image has been successfully pulled, use the following command: docker images . You should see the pulled image listed among the available images. | Run the Docker Image: Now it’s time to run the Docker image as a container. Execute the following command: docker run IMAGE_NAME . Replace IMAGE_NAME with the name of the image you pulled in the previous step. Docker will create a new container based on this image. | Access Container Output: If the containerized application produces any output, you can access it using the Docker logs. Run the following command to view the logs: docker logs CONTAINER_ID . Replace CONTAINER_ID with the ID of the running container, which you can find using the command docker ps. | Interact with the Container: Sometimes, you may need to interact with the running container, such as executing commands or modifying files. Use the following command to access the container’s shell: docker exec -it CONTAINER_ID bash . This will open a shell inside the running container, allowing you to execute commands as if you were on the host system. | Stop the Container: Once you are done with the container, you can stop it using the command: docker stop CONTAINER_ID . Replace CONTAINER_ID with the ID of the running container. | Remove the Container: If you no longer need the container, you can remove it using the following command: docker rm CONTAINER_ID . Remember to replace CONTAINER_ID with the ID of the container you want to remove. | Remove the Docker Image: If you no longer need the Docker image, you can remove it from your system using the command: docker rmi IMAGE_NAME . Replace IMAGE_NAME with the name of the image you want to remove. | . That’s it! You have successfully run a sample Docker image as a container. Docker provides a powerful and flexible platform for deploying and managing applications. Explore further by experimenting with other Docker images and building your own containers. Remember to check the official Docker documentation for more detailed information and advanced topics. ",

@@ -9,5 +9,4 @@ date: 2023-02-01
 <h2>{{ page.excerpt }}</h2>
 <h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 
-
-## This is the first page 
+## This is the first page of deploying AWS resources
