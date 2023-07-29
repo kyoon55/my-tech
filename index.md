@@ -3,7 +3,6 @@ layout: default
 title: Home
 nav_order: 1
 description: "Main Page."
-#permalink: /
 ---
 
 Welcome to My Home Page
@@ -12,3 +11,20 @@ Welcome to My Home Page
 
 - Original date - {{ date }}
 - With timeago filter - {{ date | timeago }}
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      {{ post.excerpt }}
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      {{ post.excerpt }}
+    </li>
+  {% endfor %}
+</ul>
+
+
+{% for post in site.posts %}
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.excerpt }}</p>
+{% endfor %}
