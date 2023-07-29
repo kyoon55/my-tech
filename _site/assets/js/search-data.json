@@ -163,135 +163,135 @@
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "content": " ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/"
   },"24": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "this page describes about a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "content": "Date Posted: 2023 04 16 . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/"
   },"25": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "Tutorial: Creating a Basic Infrastructure on AWS",
     "content": "In this tutorial, we will walk you through the process of setting up a basic infrastructure on AWS. This infrastructure will consist of a Virtual Private Cloud (VPC) with public and private subnets, an Internet Gateway (IGW), Network Address Translation (NAT) gateway, security groups, and instances of Amazon Elastic Compute Cloud (EC2) and Amazon RDS running PostgreSQL. By the end of this tutorial, you will have a better understanding of how to configure these essential components on AWS. Let’s get started! . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#tutorial-creating-a-basic-infrastructure-on-aws",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#tutorial-creating-a-basic-infrastructure-on-aws",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#tutorial-creating-a-basic-infrastructure-on-aws"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#tutorial-creating-a-basic-infrastructure-on-aws"
   },"26": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "Table of Contents",
     "content": ". | Prerequisites | Set Up a VPC | Create Subnets | Configure Routing and Gateways | Set Up Security Groups | Launch EC2 Instances | Provision RDS Instance with PostgreSQL | Summary | . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#table-of-contents",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#table-of-contents",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#table-of-contents"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#table-of-contents"
   },"27": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "1. Prerequisites",
     "content": ". | An AWS account with appropriate permissions | Basic knowledge of AWS services and concepts | . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#1-prerequisites",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#1-prerequisites",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#1-prerequisites"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#1-prerequisites"
   },"28": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "2. Set Up a VPC",
     "content": ". | Log in to your AWS Management Console. | Go to the AWS VPC service. | Click on “Create VPC.” | Enter a name for your VPC and specify an IPv4 CIDR block. | Leave the rest of the settings as default and click on “Create.” | . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#2-set-up-a-vpc",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#2-set-up-a-vpc",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#2-set-up-a-vpc"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#2-set-up-a-vpc"
   },"29": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "3. Create Subnets",
     "content": ". | Within your new VPC, go to the “Subnets” section. | Click on “Create subnet.” | Provide a name for your subnet, select your VPC, and specify an IPv4 CIDR block. | Repeat these steps to create both a public and private subnet. | . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#3-create-subnets",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#3-create-subnets",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#3-create-subnets"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#3-create-subnets"
   },"30": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "4. Configure Routing and Gateways",
     "content": ". | Go to the “Internet Gateways” section within VPC. | Click on “Create internet gateway.” | Attach the internet gateway to your VPC. | Navigate to the “Route Tables” section and select your VPC’s main route table. | Edit the route table by adding a route 0.0.0.0/0 to your internet gateway. | . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#4-configure-routing-and-gateways",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#4-configure-routing-and-gateways",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#4-configure-routing-and-gateways"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#4-configure-routing-and-gateways"
   },"31": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "5. Set Up Security Groups",
     "content": ". | Move to the EC2 service within your chosen region. | Go to the “Security Groups” section in the left-hand menu. | Create a new security group for your EC2 instances, allowing inbound SSH (port 22) access from your IP. | Create another security group for your RDS instance, allowing inbound PostgreSQL (port 5432) access from your EC2 security group. | . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#5-set-up-security-groups",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#5-set-up-security-groups",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#5-set-up-security-groups"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#5-set-up-security-groups"
   },"32": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "6. Launch EC2 Instances",
     "content": ". | Within the EC2 service, navigate to “Instances” in the left-hand menu. | Click on “Launch Instances” and choose an Amazon Machine Image (AMI) of your preference. | Select your VPC and public subnet. | Configure the EC2 instance as per your needs (instance type, storage, security group, etc.). | Launch the instance and repeat these steps to launch a second instance in your private subnet. | . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#6-launch-ec2-instances",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#6-launch-ec2-instances",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#6-launch-ec2-instances"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#6-launch-ec2-instances"
   },"33": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "7. Provision RDS Instance with PostgreSQL",
     "content": ". | Go to the Amazon RDS service. | Click on “Create database” and select PostgreSQL as the engine. | Specify the details for your RDS instance (instance size, storage, username, etc.). | Choose your VPC, private subnet, and security group created for RDS. | Complete the remaining steps to provision your RDS instance. | . ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#7-provision-rds-instance-with-postgresql",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#7-provision-rds-instance-with-postgresql",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#7-provision-rds-instance-with-postgresql"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#7-provision-rds-instance-with-postgresql"
   },"34": {
     "doc": "a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql",
     "title": "8. Summary",
     "content": "Congratulations! You have successfully created a basic infrastructure on AWS. You have set up a VPC with public and private subnets, configured routing and gateways, established security groups, and launched EC2 instances and an RDS instance running PostgreSQL. Feel free to explore and expand on this basic infrastructure to meet your specific requirements. AWS offers a wide range of services and features to enhance your infrastructure’s capabilities. Happy building! . Note: Kindly remove the credits and conclusion section if required. ",
-    "url": "/my-tech/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#8-summary",
+    "url": "/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#8-summary",
     
-    "relUrl": "/docs/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#8-summary"
+    "relUrl": "/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/#8-summary"
   },"35": {
     "doc": "Ansible",
     "title": "Document 1",
     "content": " ",
-    "url": "/my-tech/docs/Ansible/ansible-1/#document-1",
+    "url": "/my-tech/doc/Ansible/ansible-1/#document-1",
     
-    "relUrl": "/docs/Ansible/ansible-1/#document-1"
+    "relUrl": "/doc/Ansible/ansible-1/#document-1"
   },"36": {
     "doc": "Ansible",
     "title": "Ansible",
     "content": " ",
-    "url": "/my-tech/docs/Ansible/ansible-1/",
+    "url": "/my-tech/doc/Ansible/ansible-1/",
     
-    "relUrl": "/docs/Ansible/ansible-1/"
+    "relUrl": "/doc/Ansible/ansible-1/"
   },"37": {
     "doc": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
     "title": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
     "content": " ",
-    "url": "/my-tech/docs/AWS/doc-1/",
+    "url": "/my-tech/doc/AWS/doc-1/",
     
-    "relUrl": "/docs/AWS/doc-1/"
+    "relUrl": "/doc/AWS/doc-1/"
   },"38": {
     "doc": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
     "title": "Table of contents",
     "content": ". | This deploys basic infrastructure as well as EC2 instances that deploy WordPress | . ",
-    "url": "/my-tech/docs/AWS/doc-1/#table-of-contents",
+    "url": "/my-tech/doc/AWS/doc-1/#table-of-contents",
     
-    "relUrl": "/docs/AWS/doc-1/#table-of-contents"
+    "relUrl": "/doc/AWS/doc-1/#table-of-contents"
   },"39": {
     "doc": "Deploy a basic infrastructure plus EC2 that deploys Wordpress",
     "title": "This deploys basic infrastructure as well as EC2 instances that deploy WordPress",
     "content": "AWSTemplateFormatVersion: '2010-09-09' Description: CloudFormation Blog Activity Parameters: WebServerKeyName: Description: The key pair to establish a SSH connection to the web servers. Type: 'AWS::EC2::KeyPair::KeyName' Resources: VPC: Type: 'AWS::EC2::VPC' Properties: CidrBlock: 10.99.0.0/16 EnableDnsHostnames: 'true' EnableDnsSupport: 'true' Tags: - Key: Name Value: BlogVPC InternetGateway: Type: 'AWS::EC2::InternetGateway' Properties: {} VPCGatewayAttachment: Type: 'AWS::EC2::VPCGatewayAttachment' Properties: VpcId: Ref: VPC InternetGatewayId: Ref: InternetGateway DMZ1public: Type: 'AWS::EC2::Subnet' Properties: AvailabilityZone: 'Fn::Select': - '0' - 'Fn::GetAZs': '' CidrBlock: 10.99.1.0/24 VpcId: Ref: VPC Tags: - Key: Name Value: DMZ1public DMZ2public: Type: 'AWS::EC2::Subnet' Properties: AvailabilityZone: 'Fn::Select': - '1' - 'Fn::GetAZs': '' CidrBlock: 10.99.2.0/24 VpcId: Ref: VPC Tags: - Key: Name Value: DMZ2public AppLayer1private: Type: 'AWS::EC2::Subnet' Properties: AvailabilityZone: 'Fn::Select': - '0' - 'Fn::GetAZs': '' CidrBlock: 10.99.11.0/24 VpcId: Ref: VPC Tags: - Key: Name Value: AppLayer1private AppLayer2private: Type: 'AWS::EC2::Subnet' Properties: AvailabilityZone: 'Fn::Select': - '1' - 'Fn::GetAZs': '' CidrBlock: 10.99.12.0/24 VpcId: Ref: VPC Tags: - Key: Name Value: AppLayer2private PublicRT: Type: 'AWS::EC2::RouteTable' Properties: VpcId: Ref: VPC Tags: - Key: Name Value: PublicRT RouteTableAssociationA: Type: 'AWS::EC2::SubnetRouteTableAssociation' Properties: SubnetId: Ref: DMZ1public RouteTableId: Ref: PublicRT RouteTableAssociationB: Type: 'AWS::EC2::SubnetRouteTableAssociation' Properties: SubnetId: Ref: DMZ2public RouteTableId: Ref: PublicRT RoutePublicNATToInternet: Type: 'AWS::EC2::Route' Properties: RouteTableId: Ref: PublicRT DestinationCidrBlock: 0.0.0.0/0 GatewayId: Ref: InternetGateway DependsOn: VPCGatewayAttachment NATElasticIP: Type: 'AWS::EC2::EIP' Properties: Domain: vpc DependsOn: VPCGatewayAttachment NATGateway: Type: 'AWS::EC2::NatGateway' DependsOn: NATElasticIP Properties: AllocationId: 'Fn::GetAtt': - NATElasticIP - AllocationId SubnetId: Ref: DMZ2public NATGatewayRoute: Type: 'AWS::EC2::Route' Properties: RouteTableId: Ref: PrivateRT DestinationCidrBlock: 0.0.0.0/0 NatGatewayId: Ref: NATGateway PrivateRT: Type: 'AWS::EC2::RouteTable' Properties: VpcId: Ref: VPC Tags: - Key: Name Value: PrivateRT RouteTableAssociationC: Type: 'AWS::EC2::SubnetRouteTableAssociation' Properties: SubnetId: Ref: AppLayer1private RouteTableId: Ref: PrivateRT RouteTableAssociationD: Type: 'AWS::EC2::SubnetRouteTableAssociation' Properties: SubnetId: Ref: AppLayer2private RouteTableId: Ref: PrivateRT DMZNACL: Type: 'AWS::EC2::NetworkAcl' Properties: VpcId: Ref: VPC Tags: - Key: Name Value: DMZNACL SubnetNetworkAclAssociationA: Type: 'AWS::EC2::SubnetNetworkAclAssociation' Properties: SubnetId: Ref: DMZ1public NetworkAclId: Ref: DMZNACL SubnetNetworkAclAssociationB: Type: 'AWS::EC2::SubnetNetworkAclAssociation' Properties: SubnetId: Ref: DMZ2public NetworkAclId: Ref: DMZNACL DMZNACLEntryIngress100: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '100' Protocol: '6' PortRange: From: '22' To: '22' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 DMZNACLEntryIngress110: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '110' Protocol: '6' PortRange: From: '80' To: '80' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 DMZNACLEntryIngress120: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '120' Protocol: '6' PortRange: From: '443' To: '443' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 DMZNACLEntryIngress130: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '130' Protocol: '6' PortRange: From: '1024' To: '65535' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 DMZNACLEntryEgress100: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '100' Protocol: '6' PortRange: From: '22' To: '22' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 DMZNACLEntryEgress110: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '110' Protocol: '6' PortRange: From: '80' To: '80' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 DMZNACLEntryEgress120: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '120' Protocol: '6' PortRange: From: '443' To: '443' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 DMZNACLEntryEgress130: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: DMZNACL Properties: NetworkAclId: Ref: DMZNACL RuleNumber: '130' Protocol: '6' PortRange: From: '1024' To: '65535' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 AppNACL: Type: 'AWS::EC2::NetworkAcl' Properties: VpcId: Ref: VPC Tags: - Key: Name Value: AppNACL SubnetNetworkAclAssociationC: Type: 'AWS::EC2::SubnetNetworkAclAssociation' Properties: SubnetId: Ref: AppLayer1private NetworkAclId: Ref: AppNACL SubnetNetworkAclAssociationD: Type: 'AWS::EC2::SubnetNetworkAclAssociation' Properties: SubnetId: Ref: AppLayer2private NetworkAclId: Ref: AppNACL AppNACLEntryIngress100: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '100' Protocol: '6' PortRange: From: '22' To: '22' RuleAction: allow Egress: 'false' CidrBlock: 10.99.0.0/16 AppNACLEntryIngress110: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '110' Protocol: '6' PortRange: From: '80' To: '80' RuleAction: allow Egress: 'false' CidrBlock: 10.99.0.0/16 AppNACLEntryIngress120: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '120' Protocol: '6' PortRange: From: '443' To: '443' RuleAction: allow Egress: 'false' CidrBlock: 10.99.0.0/16 AppNACLEntryIngress130: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '130' Protocol: '6' PortRange: From: '1024' To: '65535' RuleAction: allow Egress: 'false' CidrBlock: 0.0.0.0/0 AppNACLEntryEgress110: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '110' Protocol: '6' PortRange: From: '80' To: '80' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 AppNACLEntryEgress120: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '120' Protocol: '6' PortRange: From: '443' To: '443' RuleAction: allow Egress: 'true' CidrBlock: 0.0.0.0/0 AppNACLEntryEgress130: Type: 'AWS::EC2::NetworkAclEntry' DependsOn: AppNACL Properties: NetworkAclId: Ref: AppNACL RuleNumber: '130' Protocol: '6' PortRange: From: '1024' To: '65535' RuleAction: allow Egress: 'true' CidrBlock: 10.99.0.0/16 LoadBalancer: Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer' Properties: Subnets: - Ref: DMZ1public - Ref: DMZ2public Name: load-balancer Type: application Scheme: internet-facing SecurityGroups: - Ref: LoadBalancerSecurityGroup IpAddressType: ipv4 Listener: Type: 'AWS::ElasticLoadBalancingV2::Listener' Properties: DefaultActions: - Type: forward TargetGroupArn: Ref: TargetGroup LoadBalancerArn: Ref: LoadBalancer Port: '80' Protocol: HTTP TargetGroup: Type: 'AWS::ElasticLoadBalancingV2::TargetGroup' Properties: HealthCheckIntervalSeconds: '10' HealthCheckPath: /phpinfo.php HealthCheckPort: '80' HealthCheckProtocol: HTTP HealthyThresholdCount: '2' Name: TG1 Port: '80' Protocol: HTTP UnhealthyThresholdCount: '2' VpcId: Ref: VPC BastionSecurityGroup: Type: 'AWS::EC2::SecurityGroup' Properties: GroupDescription: wordpress-bastion VpcId: Ref: VPC Tags: - Key: Name Value: BastionSG SecurityGroupIngress: - CidrIp: 0.0.0.0/0 FromPort: 22 IpProtocol: tcp ToPort: 22 LoadBalancerSecurityGroup: Type: 'AWS::EC2::SecurityGroup' Properties: GroupDescription: wordpress-elb VpcId: Ref: VPC Tags: - Key: Name Value: LoadBalancerSG SecurityGroupIngress: - CidrIp: 0.0.0.0/0 FromPort: 80 IpProtocol: tcp ToPort: 80 - CidrIp: 0.0.0.0/0 FromPort: 443 IpProtocol: tcp ToPort: 443 WebServerSecurityGroup: Type: 'AWS::EC2::SecurityGroup' Properties: GroupDescription: wordpress-ec2 VpcId: Ref: VPC Tags: - Key: Name Value: WebServerSG SecurityGroupIngress: - FromPort: 22 IpProtocol: tcp SourceSecurityGroupId: Ref: BastionSecurityGroup ToPort: 22 - FromPort: 80 IpProtocol: tcp SourceSecurityGroupId: Ref: LoadBalancerSecurityGroup ToPort: 80 LaunchConfiguration: Type: 'AWS::AutoScaling::LaunchConfiguration' DependsOn: VPCGatewayAttachment Properties: ImageId: ami-97785bed InstanceType: t2.micro SecurityGroups: - Ref: WebServerSecurityGroup KeyName: Ref: WebServerKeyName AssociatePublicIpAddress: 'false' UserData: 'Fn::Base64': 'Fn::Join': - '' - - | #!/bin/bash - | yum update -y - | yum install -y httpd24 php70 mysql56-server php70-mysqlnd git - | cd /var/www/html - | wget https://wordpress.org/latest.tar.gz - | tar -xzf latest.tar.gz - | cp wp-config-sample.php wp-config.php - | groupadd www - | usermod -a -G www ec2-user - | chown -R root:www /var/www - | chmod -R 2775 /var/www - | echo '&lt;?php phpinfo(); ?&gt;' &gt; /var/www/html/phpinfo.php - | service httpd start - | chkconfig httpd on - | service mysqld start - | chkconfig mysqld on InstanceMonitoring: 'true' AutoScalingGroup: Type: 'AWS::AutoScaling::AutoScalingGroup' Properties: TargetGroupARNs: - Ref: TargetGroup LaunchConfigurationName: Ref: LaunchConfiguration MinSize: '2' MaxSize: '2' DesiredCapacity: '2' Cooldown: '300' HealthCheckGracePeriod: '300' HealthCheckType: ELB VPCZoneIdentifier: - Ref: AppLayer1private - Ref: AppLayer2private Tags: - PropagateAtLaunch: 'true' Value: instance-wordpress Key: Name BastionInstance: Type: 'AWS::EC2::Instance' Properties: InstanceType: t2.micro ImageId: ami-97785bed KeyName: Ref: WebServerKeyName NetworkInterfaces: - GroupSet: - Ref: BastionSecurityGroup AssociatePublicIpAddress: 'true' DeviceIndex: '0' DeleteOnTermination: 'true' SubnetId: Ref: DMZ1public Tags: - Value: bastion-host Key: Name Outputs: pubIpAddress1: Description: Public ip address of bastion instance Value: 'Fn::GetAtt': - BastionInstance - PublicIp privIpAddress1: Description: Private ip address of bastion instance Value: 'Fn::GetAtt': - BastionInstance - PrivateIp . ",
-    "url": "/my-tech/docs/AWS/doc-1/#this-deploys-basic-infrastructure-as-well-as-ec2-instances-that-deploy-wordpress",
+    "url": "/my-tech/doc/AWS/doc-1/#this-deploys-basic-infrastructure-as-well-as-ec2-instances-that-deploy-wordpress",
     
-    "relUrl": "/docs/AWS/doc-1/#this-deploys-basic-infrastructure-as-well-as-ec2-instances-that-deploy-wordpress"
+    "relUrl": "/doc/AWS/doc-1/#this-deploys-basic-infrastructure-as-well-as-ec2-instances-that-deploy-wordpress"
   },"40": {
     "doc": "Misc Doc 1",
     "title": "Document 1code",
     "content": " ",
-    "url": "/my-tech/docs/Misc/doc-1/#document-1code",
+    "url": "/my-tech/doc/Misc/doc-1/#document-1code",
     
-    "relUrl": "/docs/Misc/doc-1/#document-1code"
+    "relUrl": "/doc/Misc/doc-1/#document-1code"
   },"41": {
     "doc": "Misc Doc 1",
     "title": "Misc Doc 1",
     "content": " ",
-    "url": "/my-tech/docs/Misc/doc-1/",
+    "url": "/my-tech/doc/Misc/doc-1/",
     
-    "relUrl": "/docs/Misc/doc-1/"
+    "relUrl": "/doc/Misc/doc-1/"
   },"42": {
     "doc": "Terraform Deployment of basic infrastructure on AWS",
     "title": "Document 1",
@@ -310,132 +310,132 @@
     "doc": "Kubernetes Tutorial",
     "title": "Document 1",
     "content": " ",
-    "url": "/my-tech/docs/Kubernetes/doc-1/#document-1",
+    "url": "/my-tech/doc/Kubernetes/doc-1/#document-1",
     
-    "relUrl": "/docs/Kubernetes/doc-1/#document-1"
+    "relUrl": "/doc/Kubernetes/doc-1/#document-1"
   },"45": {
     "doc": "Kubernetes Tutorial",
     "title": "Kubernetes Tutorial",
     "content": " ",
-    "url": "/my-tech/docs/Kubernetes/doc-1/",
+    "url": "/my-tech/doc/Kubernetes/doc-1/",
     
-    "relUrl": "/docs/Kubernetes/doc-1/"
+    "relUrl": "/doc/Kubernetes/doc-1/"
   },"46": {
     "doc": "Docker Tutorial",
     "title": "Document 1",
     "content": " ",
-    "url": "/my-tech/docs/Docker/docker-1/#document-1",
+    "url": "/my-tech/doc/Docker/docker-1/#document-1",
     
-    "relUrl": "/docs/Docker/docker-1/#document-1"
+    "relUrl": "/doc/Docker/docker-1/#document-1"
   },"47": {
     "doc": "Docker Tutorial",
     "title": "Docker Tutorial",
     "content": " ",
-    "url": "/my-tech/docs/Docker/docker-1/",
+    "url": "/my-tech/doc/Docker/docker-1/",
     
-    "relUrl": "/docs/Docker/docker-1/"
+    "relUrl": "/doc/Docker/docker-1/"
   },"48": {
     "doc": "Initializing the Docker Environment",
     "title": "Initializing the Docker Environment",
     "content": " ",
-    "url": "/my-tech/docs/Docker/docker-2/",
+    "url": "/my-tech/doc/Docker/docker-2/",
     
-    "relUrl": "/docs/Docker/docker-2/"
+    "relUrl": "/doc/Docker/docker-2/"
   },"49": {
     "doc": "Initializing the Docker Environment",
     "title": "This is the way to initialize the docker environment. This will need to 1. install the docker prerequisites, 2. CentOs-specific Docker Repo, 3. install Docker, 4. Enable Docker daemon, 5. add a user and 6. run a test.",
     "content": "Date Posted: 2023 06 12 . ",
-    "url": "/my-tech/docs/Docker/docker-2/",
+    "url": "/my-tech/doc/Docker/docker-2/",
     
-    "relUrl": "/docs/Docker/docker-2/"
+    "relUrl": "/doc/Docker/docker-2/"
   },"50": {
     "doc": "Initializing the Docker Environment",
     "title": "Installing Docker",
     "content": ". | Install the Docker prerequisites: | . | sudo yum install -y yum-utils device-mapper-persistent-data lvm2 | . | Using yum-config-manager, add the CentOS-specific Docker repo: | . | sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo | . | Install Docker: | . | sudo yum -y install docker-ce | . ",
-    "url": "/my-tech/docs/Docker/docker-2/#installing-docker",
+    "url": "/my-tech/doc/Docker/docker-2/#installing-docker",
     
-    "relUrl": "/docs/Docker/docker-2/#installing-docker"
+    "relUrl": "/doc/Docker/docker-2/#installing-docker"
   },"51": {
     "doc": "Initializing the Docker Environment",
     "title": "Enable the Docker Daemon",
     "content": ". | Enable the Docker daemon: | . | sudo systemctl enable --now docker | . ",
-    "url": "/my-tech/docs/Docker/docker-2/#enable-the-docker-daemon",
+    "url": "/my-tech/doc/Docker/docker-2/#enable-the-docker-daemon",
     
-    "relUrl": "/docs/Docker/docker-2/#enable-the-docker-daemon"
+    "relUrl": "/doc/Docker/docker-2/#enable-the-docker-daemon"
   },"52": {
     "doc": "Initializing the Docker Environment",
     "title": "Configure User Permissions",
     "content": ". | Add the lab user to the docker group: | . | sudo usermod -aG docker cloud_user . | Caution: You will need to exit the server for the change to take effect. | . | . ",
-    "url": "/my-tech/docs/Docker/docker-2/#configure-user-permissions",
+    "url": "/my-tech/doc/Docker/docker-2/#configure-user-permissions",
     
-    "relUrl": "/docs/Docker/docker-2/#configure-user-permissions"
+    "relUrl": "/doc/Docker/docker-2/#configure-user-permissions"
   },"53": {
     "doc": "Initializing the Docker Environment",
     "title": "Run a Test Image",
     "content": ". | Using docker, run the hello-world image to verify that the environment is set up properly: | . | docker run hello-world | . ",
-    "url": "/my-tech/docs/Docker/docker-2/#run-a-test-image",
+    "url": "/my-tech/doc/Docker/docker-2/#run-a-test-image",
     
-    "relUrl": "/docs/Docker/docker-2/#run-a-test-image"
+    "relUrl": "/doc/Docker/docker-2/#run-a-test-image"
   },"54": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Working With Prebuilt Docker Images",
     "content": " ",
-    "url": "/my-tech/docs/Docker/docker-3/",
+    "url": "/my-tech/doc/Docker/docker-3/",
     
-    "relUrl": "/docs/Docker/docker-3/"
+    "relUrl": "/doc/Docker/docker-3/"
   },"55": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "This article is to migrate a website, from a traditional server to containers by using Dockers",
     "content": "Date Posted: 2023 05 10 . ",
-    "url": "/my-tech/docs/Docker/docker-3/",
+    "url": "/my-tech/doc/Docker/docker-3/",
     
-    "relUrl": "/docs/Docker/docker-3/"
+    "relUrl": "/doc/Docker/docker-3/"
   },"56": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Explore Docker Hub",
     "content": ". | Sign in to Docker Hub. | At the top of the page, search for “httpd”. | In the left-hand menu, filter for Application Infrastructure, and Official Images. | Select the httpd project. | At the top of the page, click the Tags tab. | Under latest, select linux/amd64. | Back in the list of available images, select nginx | Review the How to use this image section. | . ",
-    "url": "/my-tech/docs/Docker/docker-3/#explore-docker-hub",
+    "url": "/my-tech/doc/Docker/docker-3/#explore-docker-hub",
     
-    "relUrl": "/docs/Docker/docker-3/#explore-docker-hub"
+    "relUrl": "/doc/Docker/docker-3/#explore-docker-hub"
   },"57": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Get and View httpd",
     "content": "## In the Docker Instance, verify that docker is installed: docker ps ## Using docker, pull the httpd:2.4 image: docker pull httpd:2.4 ## Run the image: docker run --name httpd -p 8080:80 -d httpd:2.4 ## Check the status of the container: docker ps ## In a web browser, test connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8080 . ",
-    "url": "/my-tech/docs/Docker/docker-3/#get-and-view-httpd",
+    "url": "/my-tech/doc/Docker/docker-3/#get-and-view-httpd",
     
-    "relUrl": "/docs/Docker/docker-3/#get-and-view-httpd"
+    "relUrl": "/doc/Docker/docker-3/#get-and-view-httpd"
   },"58": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Run a Copy of the Website in httpd",
     "content": "## Clone the Widget Factory Inc repository git clone https://github.com/linuxacademy/content-widget-factory-inc ## Change to the content-widget-factory-inc directory: cd content-widget-factory-inc ## Check the files: ll ## Move to the web directory: cd web ## Check the files: ll ## Stop the httpd container: docker stop httpd ## Remove the httpd container: docker rm httpd ## Verify that the container has been removed: docker ps -a ## Run the container with the website data: docker run --name httpd -p 8080:80 -v $(pwd):/usr/local/apache2/htdocs:ro -d httpd:2.4 ## Check the status of the container: docker ps ## In a web browser, check connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8080 . ",
-    "url": "/my-tech/docs/Docker/docker-3/#run-a-copy-of-the-website-in-httpd",
+    "url": "/my-tech/doc/Docker/docker-3/#run-a-copy-of-the-website-in-httpd",
     
-    "relUrl": "/docs/Docker/docker-3/#run-a-copy-of-the-website-in-httpd"
+    "relUrl": "/doc/Docker/docker-3/#run-a-copy-of-the-website-in-httpd"
   },"59": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Get and View Nginx",
     "content": "## Using docker, pull the latest version of nginx: docker pull nginx ## Verify that the image was pulled successfully: docker images ## Run the container using the nginx image: docker run --name nginx -p 8081:80 -d nginx ## Check the status of the container: docker ps ## Verify connectivity to the nginx container: &lt;PUBLIC_IP_ADDRESS&gt;:8081 . ",
-    "url": "/my-tech/docs/Docker/docker-3/#get-and-view-nginx",
+    "url": "/my-tech/doc/Docker/docker-3/#get-and-view-nginx",
     
-    "relUrl": "/docs/Docker/docker-3/#get-and-view-nginx"
+    "relUrl": "/doc/Docker/docker-3/#get-and-view-nginx"
   },"60": {
     "doc": "Working With Prebuilt Docker Images",
     "title": "Run a Copy of the Website in Nginx",
     "content": "## Stop the nginx container: docker stop nginx ## Remove the nginx container: docker rm nginx ## Verify that the container has been removed: docker ps -a ## Run the nginx container, and mount the website data: docker run --name nginx -v $(pwd):/usr/share/nginx/html:ro -p 8081:80 -d nginx ## Check the status of the container: docker ps ## In a web browser, verify connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8081 ## Stop the nginx container: docker stop nginx ## Remove the nginx container: docker rm nginx ## Verify that the container has been removed: docker ps -a . ",
-    "url": "/my-tech/docs/Docker/docker-3/#run-a-copy-of-the-website-in-nginx",
+    "url": "/my-tech/doc/Docker/docker-3/#run-a-copy-of-the-website-in-nginx",
     
-    "relUrl": "/docs/Docker/docker-3/#run-a-copy-of-the-website-in-nginx"
+    "relUrl": "/doc/Docker/docker-3/#run-a-copy-of-the-website-in-nginx"
   },"61": {
-    "doc": "Home",
-    "title": "Test Post",
-    "content": "Lorem ipsum thor smash liege-bastogne-liege landbouwkrediet ombregt krabbe, rouleur derby is for lovers bonk giro gilbert bidon. Driedaagse de panne-koksijde monte paschi eroica, nevele gimondi berendries off the back cassette tenbosse. ",
+    "doc": "My Page",
+    "title": "Test 2",
+    "content": ". | Ansible | Docker | a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql | Ansible | Deploy a basic infrastructure plus EC2 that deploys Wordpress | Misc Doc 1 | Terraform Deployment of basic infrastructure on AWS | Kubernetes Tutorial | Docker Tutorial | Initializing the Docker Environment | Working With Prebuilt Docker Images | Terraform | AWS | | | | | Kubernetes | Misc | tutorial about the running a sample docker image in numbered steps | . My SRE Stuff . | My Page | AWS . | Deploy a basic infrastructure plus EC2 that deploys Wordpress | . | Ansible . | Ansible | . | Docker . | Docker Tutorial | Initializing the Docker Environment | Working With Prebuilt Docker Images | . | Kubernetes . | Kubernetes Tutorial | . | Misc . | tutorial about the running a sample docker image in numbered steps | Misc Doc 1 | a tutorial about creating an AWS basic infrastructure, with VPC, publicc, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql | . | Terraform . | Terraform Deployment of basic infrastructure on AWS | . | . ",
     "url": "/my-tech/",
     
     "relUrl": "/"
   },"62": {
-    "doc": "Home",
-    "title": "Home",
-    "content": "Welcome to My Home Page . | Original date - 2020-04-13T10:20:00Z | With timeago filter - 3 years and 3 months ago | . | Test Post Lorem ipsum thor smash liege-bastogne-liege landbouwkrediet ombregt krabbe, rouleur derby is for lovers bonk giro gilbert bidon. Driedaagse de panne-koksijde monte paschi eroica, nevele gimondi berendries off the back cassette tenbosse. Test Post Lorem ipsum thor smash liege-bastogne-liege landbouwkrediet ombregt krabbe, rouleur derby is for lovers bonk giro gilbert bidon. Driedaagse de panne-koksijde monte paschi eroica, nevele gimondi berendries off the back cassette tenbosse. | . ",
+    "doc": "My Page",
+    "title": "My Page",
+    "content": "Welcome to My Page . | Original date - 2020-04-13T10:20:00Z | With timeago filter - 3 years and 3 months ago | . ",
     "url": "/my-tech/",
     
     "relUrl": "/"
@@ -541,22 +541,22 @@
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "tutorial about the running a sample docker image in numbered steps",
     "content": " ",
-    "url": "/my-tech/docs/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/",
+    "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/",
     
-    "relUrl": "/docs/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/"
+    "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/"
   },"78": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "this page describes about tutorial about the running a sample docker image in numbered steps",
     "content": "Date Posted: 2023 03 29 . ",
-    "url": "/my-tech/docs/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/",
+    "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/",
     
-    "relUrl": "/docs/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/"
+    "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/"
   },"79": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Tutorial: Running a Sample Docker Image",
     "content": "In this tutorial, we will guide you through the process of running a sample Docker image. Docker allows you to package an application and its dependencies into a standardized unit called a container, which can be easily deployed and run on any platform. Follow the numbered steps below to get started: . | Install Docker: Before you can run a Docker image, ensure Docker is installed on your system. Visit the Docker website and follow the installation instructions for your operating system. | Pull the Docker Image: Docker images are hosted in repositories, and you need to pull the desired image to your local system. Open a terminal or command prompt and enter the following command: docker pull IMAGE_NAME . Replace IMAGE_NAME with the name of the Docker image you want to use. This command will download the image from the repository. | Verify Image Pull: To verify that the image has been successfully pulled, use the following command: docker images . You should see the pulled image listed among the available images. | Run the Docker Image: Now it’s time to run the Docker image as a container. Execute the following command: docker run IMAGE_NAME . Replace IMAGE_NAME with the name of the image you pulled in the previous step. Docker will create a new container based on this image. | Access Container Output: If the containerized application produces any output, you can access it using the Docker logs. Run the following command to view the logs: docker logs CONTAINER_ID . Replace CONTAINER_ID with the ID of the running container, which you can find using the command docker ps. | Interact with the Container: Sometimes, you may need to interact with the running container, such as executing commands or modifying files. Use the following command to access the container’s shell: docker exec -it CONTAINER_ID bash . This will open a shell inside the running container, allowing you to execute commands as if you were on the host system. | Stop the Container: Once you are done with the container, you can stop it using the command: docker stop CONTAINER_ID . Replace CONTAINER_ID with the ID of the running container. | Remove the Container: If you no longer need the container, you can remove it using the following command: docker rm CONTAINER_ID . Remember to replace CONTAINER_ID with the ID of the container you want to remove. | Remove the Docker Image: If you no longer need the Docker image, you can remove it from your system using the command: docker rmi IMAGE_NAME . Replace IMAGE_NAME with the name of the image you want to remove. | . That’s it! You have successfully run a sample Docker image as a container. Docker provides a powerful and flexible platform for deploying and managing applications. Explore further by experimenting with other Docker images and building your own containers. Remember to check the official Docker documentation for more detailed information and advanced topics. ",
-    "url": "/my-tech/docs/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/#tutorial-running-a-sample-docker-image",
+    "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/#tutorial-running-a-sample-docker-image",
     
-    "relUrl": "/docs/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/#tutorial-running-a-sample-docker-image"
+    "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/#tutorial-running-a-sample-docker-image"
   }
 }
