@@ -6,16 +6,9 @@ description: "Main Page."
 #permalink: /
 ---
 
-# Focus on writing good documentation
+Welcome to My Home Page
 
-Main Page
-<h1>Welcome to my Blog</h1>
+{% assign date = '2020-04-13T10:20:00Z' %}
 
-test
-test22
-*[customize]*
-
-
-[customize]: {% link docs/Terraform/doc-1.md %}
-
-{{ site.github_repo }}
+- Original date - {{ date }}
+- With timeago filter - {{ date | timeago }}
