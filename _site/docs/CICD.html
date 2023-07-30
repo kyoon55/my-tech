@@ -1,1 +1,578 @@
-<!DOCTYPE html><html lang="en-US"><body> <script> var elements = document.querySelectorAll('p'); Array.prototype.forEach.call(elements, function(el, i){ if(el.innerHTML=='[expand]') { var parentcontent = el.parentNode.innerHTML.replace('<p>[expand]</p>','<div class="expand" style="display: none; height: 0; overflow: hidden;">').replace('<p>[/expand]</p>','</div>'); el.parentNode.innerHTML = parentcontent; } }); var elements = document.querySelectorAll('div.expand'); Array.prototype.forEach.call(elements, function(el, i){ el.previousElementSibling.innerHTML = el.previousElementSibling.innerHTML + '<span>..&nbsp; <a href="#" style="cursor: pointer;" onclick="this.parentNode.parentNode.nextElementSibling.style.display = \'block\'; this.parentNode.parentNode.nextElementSibling.style.height = \'auto\'; this.parentNode.style.display = \'none\';">read&nbsp;more&nbsp;&rarr;</a></span>'; }); </script> <a class="skip-to-main" href="#main-content">Skip to main content</a> <svg xmlns="http://www.w3.org/2000/svg" class="d-none"> <symbol id="svg-link" viewBox="0 0 24 24"><title>Link</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path> </svg> </symbol> <symbol id="svg-menu" viewBox="0 0 24 24"><title>Menu</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line> </svg> </symbol> <symbol id="svg-arrow-right" viewBox="0 0 24 24"><title>Expand</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline> </svg> </symbol> <symbol id="svg-external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link"><title id="svg-external-link-title">(external link)</title><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line> </symbol> <symbol id="svg-doc" viewBox="0 0 24 24"><title>Document</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline> </svg> </symbol> <symbol id="svg-search" viewBox="0 0 24 24"><title>Search</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"> <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line> </svg> </symbol> <symbol id="svg-copy" viewBox="0 0 16 16"><title>Copy</title><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/> </svg> </symbol> <symbol id="svg-copied" viewBox="0 0 16 16"><title>Copied</title><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16"><path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708Z"/> </svg> </symbol> </svg><div class="side-bar"><div class="site-header" role="banner"> <a href="/my-tech/" class="site-title lh-tight"> My SRE Stuff </a> <button id="menu-button" class="site-button btn-reset" aria-label="Toggle menu" aria-pressed="false"> <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><use xlink:href="#svg-menu"></use></svg> </a></div><nav aria-label="Main" id="site-nav" class="site-nav"><ul class="nav-list"><li class="nav-list-item"><a href="/my-tech/" class="nav-list-link">My Page</a><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in AWS category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/AWS" class="nav-list-link">AWS</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/AWS/creation-of-basic-infra/" class="nav-list-link">CloudFormation Stack Deployment Examples</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Ansible category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Ansible" class="nav-list-link">Ansible</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Ansible/ansible-1/" class="nav-list-link">Ansible</a></ul><li class="nav-list-item active"><button class="nav-list-expander btn-reset" aria-label="toggle items in CICD category" aria-pressed="true"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/CICD" class="nav-list-link active">CICD</a><ul class="nav-list"></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Docker category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Docker" class="nav-list-link">Docker</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-1/" class="nav-list-link">Docker Tutorial</a><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-2/" class="nav-list-link">Initializing the Docker Environment</a><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-3/" class="nav-list-link">Working With Prebuilt Docker Images</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Kubernetes category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Kubernetes" class="nav-list-link">Kubernetes</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Kubernetes/doc-1/" class="nav-list-link">Kubernetes Tutorial</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Misc category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Misc" class="nav-list-link">Misc</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Misc/doc-1/" class="nav-list-link">Misc Doc 1</a><li class="nav-list-item "><a href="/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/" class="nav-list-link">tutorial about the running a sample docker image in numbered steps</a><li class="nav-list-item "><a href="/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/" class="nav-list-link">a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Terraform category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Terraform" class="nav-list-link">Terraform</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/docs/Terraform/doc-1/" class="nav-list-link">Terraform Deployment of basic infrastructure on AWS</a></ul></ul></nav></div><div class="main" id="top"><div id="main-header" class="main-header"><div class="search" role="search"><div class="search-input-wrap"> <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search My SRE Stuff" aria-label="Search My SRE Stuff" autocomplete="off"> <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label></div><div id="search-results" class="search-results"></div></div></div><div id="main-content-wrap" class="main-content-wrap"><div id="main-content" class="main-content"><main><h1> CICD</h1><h2></h2><h3> Date Posted: 2023 03 01</h3><hr><h2 class="text-delta">Table of contents</h2><ul></ul></main><hr><footer><p><a href="#top" id="back-to-top">Back to top</a></p><span>[ <a href="https://github.com/kyoon55">Github</a> ]</span> <span>[ <a href="mailto:kyoon5@gwu.edu">Click here to email me</a> ]</span><div class="d-flex mt-2"></div></footer></div></div><div class="search-overlay"></div></div><script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script> <script> var config = {} ; mermaid.initialize(config); window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid')); </script><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><link rel="stylesheet" href="/my-tech/assets/css/just-the-docs-default.css"> <script src="/my-tech/assets/js/vendor/lunr.min.js"></script> <script src="/my-tech/assets/js/just-the-docs.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/my-tech/assets/images/favicon.ico" type="image/x-icon"><title>CICD | My SRE Stuff</title><meta name="generator" content="Jekyll v4.3.2" /><meta property="og:title" content="CICD" /><meta property="og:locale" content="en_US" /><meta name="description" content="This page is full of articles for my SRE knowledge" /><meta property="og:description" content="This page is full of articles for my SRE knowledge" /><link rel="canonical" href="http://localhost:4000/my-tech/docs/CICD" /><meta property="og:url" content="http://localhost:4000/my-tech/docs/CICD" /><meta property="og:site_name" content="My SRE Stuff" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2023-03-01T00:00:00-05:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="CICD" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-03-01T00:00:00-05:00","datePublished":"2023-03-01T00:00:00-05:00","description":"This page is full of articles for my SRE knowledge","headline":"CICD","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/my-tech/docs/CICD"},"url":"http://localhost:4000/my-tech/docs/CICD"}</script>
+<!DOCTYPE html><html lang="en-US"><body> <script> var elements = document.querySelectorAll('p'); Array.prototype.forEach.call(elements, function(el, i){ if(el.innerHTML=='[expand]') { var parentcontent = el.parentNode.innerHTML.replace('<p>[expand]</p>','<div class="expand" style="display: none; height: 0; overflow: hidden;">').replace('<p>[/expand]</p>','</div>'); el.parentNode.innerHTML = parentcontent; } }); var elements = document.querySelectorAll('div.expand'); Array.prototype.forEach.call(elements, function(el, i){ el.previousElementSibling.innerHTML = el.previousElementSibling.innerHTML + '<span>..&nbsp; <a href="#" style="cursor: pointer;" onclick="this.parentNode.parentNode.nextElementSibling.style.display = \'block\'; this.parentNode.parentNode.nextElementSibling.style.height = \'auto\'; this.parentNode.style.display = \'none\';">read&nbsp;more&nbsp;&rarr;</a></span>'; }); </script> <a class="skip-to-main" href="#main-content">Skip to main content</a> <svg xmlns="http://www.w3.org/2000/svg" class="d-none"> <symbol id="svg-link" viewBox="0 0 24 24"><title>Link</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path> </svg> </symbol> <symbol id="svg-menu" viewBox="0 0 24 24"><title>Menu</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line> </svg> </symbol> <symbol id="svg-arrow-right" viewBox="0 0 24 24"><title>Expand</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline> </svg> </symbol> <symbol id="svg-external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link"><title id="svg-external-link-title">(external link)</title><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line> </symbol> <symbol id="svg-doc" viewBox="0 0 24 24"><title>Document</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline> </svg> </symbol> <symbol id="svg-search" viewBox="0 0 24 24"><title>Search</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"> <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line> </svg> </symbol> <symbol id="svg-copy" viewBox="0 0 16 16"><title>Copy</title><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/> </svg> </symbol> <symbol id="svg-copied" viewBox="0 0 16 16"><title>Copied</title><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16"><path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708Z"/> </svg> </symbol> </svg><div class="side-bar"><div class="site-header" role="banner"> <a href="/my-tech/" class="site-title lh-tight"> My SRE Stuff </a> <button id="menu-button" class="site-button btn-reset" aria-label="Toggle menu" aria-pressed="false"> <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><use xlink:href="#svg-menu"></use></svg> </a></div><nav aria-label="Main" id="site-nav" class="site-nav"><ul class="nav-list"><li class="nav-list-item"><a href="/my-tech/" class="nav-list-link">My Page</a><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in AWS category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/AWS" class="nav-list-link">AWS</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/AWS/creation-of-basic-infra/" class="nav-list-link">CloudFormation Stack Deployment Examples</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Ansible category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Ansible" class="nav-list-link">Ansible</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Ansible/ansible-1/" class="nav-list-link">Create a host, ssh into the public EC2 instnace</a></ul><li class="nav-list-item active"><button class="nav-list-expander btn-reset" aria-label="toggle items in CICD category" aria-pressed="true"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/CICD" class="nav-list-link active">CICD</a><ul class="nav-list"></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Docker category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Docker" class="nav-list-link">Docker</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-1/" class="nav-list-link">Docker Tutorial</a><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-2/" class="nav-list-link">Initializing the Docker Environment</a><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-3/" class="nav-list-link">Working With Prebuilt Docker Images</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Kubernetes category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Kubernetes" class="nav-list-link">Kubernetes</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Kubernetes/doc-1/" class="nav-list-link">Kubernetes 1.24 Installation</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Misc category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Misc" class="nav-list-link">Misc</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/" class="nav-list-link">tutorial about the running a sample docker image in numbered steps</a><li class="nav-list-item "><a href="/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/" class="nav-list-link">a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Terraform category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Terraform" class="nav-list-link">Terraform</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/docs/Terraform/doc-1/" class="nav-list-link">Terraform Deployment of basic infrastructure on AWS</a></ul></ul></nav></div><div class="main" id="top"><div id="main-header" class="main-header"><div class="search" role="search"><div class="search-input-wrap"> <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search My SRE Stuff" aria-label="Search My SRE Stuff" autocomplete="off"> <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label></div><div id="search-results" class="search-results"></div></div></div><div id="main-content-wrap" class="main-content-wrap"><div id="main-content" class="main-content"><main><h1> CICD</h1><h2></h2><h3> Date Posted: 2023 03 01</h3><h1 id="tutorial-deploy-self-hosted-cicd-runners-and-agents-with-azure-container-apps-jobs"> <a href="#tutorial-deploy-self-hosted-cicd-runners-and-agents-with-azure-container-apps-jobs" class="anchor-heading" aria-labelledby="tutorial-deploy-self-hosted-cicd-runners-and-agents-with-azure-container-apps-jobs"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Tutorial: Deploy self-hosted CI/CD runners and agents with Azure Container Apps jobs</h1><p>GitHub Actions and Azure Pipelines allow you to run CI/CD workflows with self-hosted runners and agents. You can run self-hosted runners and agents using event-driven Azure Container Apps <a href="./jobs.md">jobs</a>.</p><p>Self-hosted runners are useful when you need to run workflows that require access to local resources or tools that aren’t available to a cloud-hosted runner. For example, a self-hosted runner in a Container Apps job allows your workflow to access resources inside the job’s virtual network that isn’t accessible to a cloud-hosted runner.</p><p>Running self-hosted runners as event-driven jobs allows you to take advantage of the serverless nature of Azure Container Apps. Jobs execute automatically when a workflow is triggered and exit when the job completes.</p><p>You only pay for the time that the job is running.</p><p>::: zone pivot=”container-apps-jobs-self-hosted-ci-cd-github-actions”</p><p>In this tutorial, you learn how to run GitHub Actions runners as an <a href="jobs.md#event-driven-jobs">event-driven Container Apps job</a>.</p><blockquote><p>[!div class=”checklist”]</p><ul><li>Create a Container Apps environment to deploy your self-hosted runner<li>Create a GitHub repository for running a workflow that uses a self-hosted runner<li>Build a container image that runs a GitHub Actions runner<li>Deploy the runner as a job to the Container Apps environment<li>Create a workflow that uses the self-hosted runner and verify that it runs</ul></blockquote><blockquote><p>[!IMPORTANT] Self-hosted runners are only recommended for <em>private</em> repositories. Using them with public repositories can allow dangerous code to execute on your self-hosted runner. For more information, see <a href="https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners#self-hosted-runner-security">Self-hosted runner security</a>.</p></blockquote><p>::: zone-end</p><p>::: zone pivot=”container-apps-jobs-self-hosted-ci-cd-azure-pipelines”</p><p>In this tutorial, you learn how to run Azure Pipelines agents as an <a href="jobs.md#event-driven-jobs">event-driven Container Apps job</a>.</p><blockquote><p>[!div class=”checklist”]</p><ul><li>Create a Container Apps environment to deploy your self-hosted agent<li>Create an Azure DevOps organization and project<li>Build a container image that runs an Azure Pipelines agent<li>Use a manual job to create a placeholder agent in the Container Apps environment<li>Deploy the agent as a job to the Container Apps environment<li>Create a pipeline that uses the self-hosted agent and verify that it runs</ul></blockquote><blockquote><p>[!IMPORTANT] Self-hosted agents are only recommended for <em>private</em> projects. Using them with public projects can allow dangerous code to execute on your self-hosted agent. For more information, see <a href="/azure/devops/pipelines/agents/linux-agent#permissions">Self-hosted agent security</a>.</p></blockquote><p>::: zone-end</p><blockquote><p>[!NOTE] Container apps and jobs don’t support running Docker in containers. Any steps in your workflows that use Docker commands will fail when run on a self-hosted runner or agent in a Container Apps job.</p></blockquote><h2 id="prerequisites"> <a href="#prerequisites" class="anchor-heading" aria-labelledby="prerequisites"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Prerequisites</h2><ul><li><p><strong>Azure account</strong>: If you don’t have one, you <a href="https://azure.microsoft.com/free/">can create one for free</a>.</p><li><strong>Azure CLI</strong>: Install the <a href="/cli/azure/install-azure-cli">Azure CLI</a>. ::: zone pivot=”container-apps-jobs-self-hosted-ci-cd-azure-pipelines”<li><strong>Azure DevOps organization</strong>: If you don’t have a DevOps organization with an active subscription, you <a href="https://azure.microsoft.com/services/devops/">can create one for free</a>. ::: zone-end</ul><p>Refer to <a href="jobs.md#jobs-preview-restrictions">jobs preview limitations</a> for a list of limitations.</p><h2 id="setup"> <a href="#setup" class="anchor-heading" aria-labelledby="setup"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Setup</h2><h1 id="to-sign-in-to-azure-from-the-cli-run-the-following-command-and-follow-the-prompts-to-complete-the-authentication-process"> <a href="#to-sign-in-to-azure-from-the-cli-run-the-following-command-and-follow-the-prompts-to-complete-the-authentication-process" class="anchor-heading" aria-labelledby="to-sign-in-to-azure-from-the-cli-run-the-following-command-and-follow-the-prompts-to-complete-the-authentication-process"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> To sign in to Azure from the CLI, run the following command and follow the prompts to complete the authentication process.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az login
+```
+
+- PowerShell
+```powershell
+az login
+```
+
+---
+</code></pre></div></div><h1 id="ensure-youre-running-the-latest-version-of-the-cli-via-the-upgrade-command"> <a href="#ensure-youre-running-the-latest-version-of-the-cli-via-the-upgrade-command" class="anchor-heading" aria-labelledby="ensure-youre-running-the-latest-version-of-the-cli-via-the-upgrade-command"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Ensure you’re running the latest version of the CLI via the <code class="language-plaintext highlighter-rouge">upgrade</code> command.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az upgrade
+```
+
+- PowerShell
+```powershell
+az upgrade
+```
+
+---
+</code></pre></div></div><h1 id="install-the-latest-version-of-the-azure-container-apps-cli-extension"> <a href="#install-the-latest-version-of-the-azure-container-apps-cli-extension" class="anchor-heading" aria-labelledby="install-the-latest-version-of-the-azure-container-apps-cli-extension"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Install the latest version of the Azure Container Apps CLI extension.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az extension add --name containerapp --upgrade
+```
+
+- PowerShell
+```powershell
+az extension add --name containerapp --upgrade
+```
+
+---
+</code></pre></div></div><h1 id="register-the-microsoftapp-and-microsoftoperationalinsights-namespaces-if-you-havent-already-registered-them-in-your-azure-subscription"> <a href="#register-the-microsoftapp-and-microsoftoperationalinsights-namespaces-if-you-havent-already-registered-them-in-your-azure-subscription" class="anchor-heading" aria-labelledby="register-the-microsoftapp-and-microsoftoperationalinsights-namespaces-if-you-havent-already-registered-them-in-your-azure-subscription"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Register the <code class="language-plaintext highlighter-rouge">Microsoft.App</code> and <code class="language-plaintext highlighter-rouge">Microsoft.OperationalInsights</code> namespaces if you haven’t already registered them in your Azure subscription.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az provider register --namespace Microsoft.App
+az provider register --namespace Microsoft.OperationalInsights
+```
+
+- PowerShell
+```powershell
+az provider register --namespace Microsoft.App
+az provider register --namespace Microsoft.OperationalInsights
+```
+
+---
+</code></pre></div></div><h1 id="define-the-environment-variables-that-are-used-throughout-this-article"> <a href="#define-the-environment-variables-that-are-used-throughout-this-article" class="anchor-heading" aria-labelledby="define-the-environment-variables-that-are-used-throughout-this-article"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Define the environment variables that are used throughout this article.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>::: zone pivot="container-apps-jobs-self-hosted-ci-cd-github-actions"
+
+- Bash
+```bash
+RESOURCE_GROUP="jobs-sample"
+LOCATION="northcentralus"
+ENVIRONMENT="env-jobs-sample"
+JOB_NAME="github-actions-runner-job"
+```
+
+- PowerShell
+```powershell
+$RESOURCE_GROUP="jobs-sample"
+$LOCATION="northcentralus"
+$ENVIRONMENT="env-jobs-sample"
+$JOB_NAME="github-actions-runner-job"
+```
+
+---
+
+::: zone-end
+
+::: zone pivot="container-apps-jobs-self-hosted-ci-cd-azure-pipelines"
+
+- Bash
+```bash
+RESOURCE_GROUP="jobs-sample"
+LOCATION="northcentralus"
+ENVIRONMENT="env-jobs-sample"
+JOB_NAME="azure-pipelines-agent-job"
+PLACEHOLDER_JOB_NAME="placeholder-agent-job"
+```
+
+- PowerShell
+```powershell
+$RESOURCE_GROUP="jobs-sample"
+$LOCATION="northcentralus"
+$ENVIRONMENT="env-jobs-sample"
+$JOB_NAME="azure-pipelines-agent-job"
+$PLACEHOLDER_JOB_NAME="placeholder-agent-job"
+```
+
+---
+
+::: zone-end
+</code></pre></div></div><h2 id="create-a-container-apps-environment"> <a href="#create-a-container-apps-environment" class="anchor-heading" aria-labelledby="create-a-container-apps-environment"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a Container Apps environment</h2><p>The Azure Container Apps environment acts as a secure boundary around container apps and jobs so they can share the same network and communicate with each other.</p><blockquote><p>[!NOTE] To create a Container Apps environment that’s integrated with an existing virtual network, see <a href="vnet-custom-internal.md?tabs=bash">Provide a virtual network to an internal Azure Container Apps environment</a>.</p></blockquote><h1 id="create-a-resource-group-using-the-following-command"> <a href="#create-a-resource-group-using-the-following-command" class="anchor-heading" aria-labelledby="create-a-resource-group-using-the-following-command"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a resource group using the following command.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az group create \
+    --name "$RESOURCE_GROUP" \
+    --location "$LOCATION"
+```
+
+- PowerShell
+```powershell
+az group create `
+    --name "$RESOURCE_GROUP" `
+    --location "$LOCATION"
+```
+
+---
+</code></pre></div></div><h1 id="create-the-container-apps-environment-using-the-following-command"> <a href="#create-the-container-apps-environment-using-the-following-command" class="anchor-heading" aria-labelledby="create-the-container-apps-environment-using-the-following-command"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create the Container Apps environment using the following command.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az containerapp env create \
+    --name "$ENVIRONMENT" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION"
+```
+
+- PowerShell
+```powershell
+az containerapp env create `
+    --name "$ENVIRONMENT" `
+    --resource-group "$RESOURCE_GROUP" `
+    --location "$LOCATION"
+```
+
+---
+</code></pre></div></div><p>::: zone pivot=”container-apps-jobs-self-hosted-ci-cd-github-actions”</p><h2 id="create-a-github-repository-for-running-a-workflow"> <a href="#create-a-github-repository-for-running-a-workflow" class="anchor-heading" aria-labelledby="create-a-github-repository-for-running-a-workflow"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a GitHub repository for running a workflow</h2><p>To execute a workflow, you need to create a GitHub repository that contains the workflow definition.</p><h1 id="navigate-to-github-and-sign-in"> <a href="#navigate-to-github-and-sign-in" class="anchor-heading" aria-labelledby="navigate-to-github-and-sign-in"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Navigate to <a href="https://github.com/new">GitHub</a> and sign in.</h1><h1 id="create-a-new-repository-by-entering-the-following-values"> <a href="#create-a-new-repository-by-entering-the-following-values" class="anchor-heading" aria-labelledby="create-a-new-repository-by-entering-the-following-values"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a new repository by entering the following values.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Setting | Value |
+|---|---|
+| Owner | Select your GitHub username. |
+| Repository name | Enter a name for your repository. |
+| Visibility | Select **Private**. |
+| Initialize this repository with | Select **Add a README file**. |
+
+Leave the rest of the values as their default selection.
+</code></pre></div></div><h1 id="select-create-repository"> <a href="#select-create-repository" class="anchor-heading" aria-labelledby="select-create-repository"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Create repository</strong>.</h1><h1 id="in-your-new-repository-select-actions"> <a href="#in-your-new-repository-select-actions" class="anchor-heading" aria-labelledby="in-your-new-repository-select-actions"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In your new repository, select <strong>Actions</strong>.</h1><h1 id="search-for-the-simple-workflow-template-and-select-configure"> <a href="#search-for-the-simple-workflow-template-and-select-configure" class="anchor-heading" aria-labelledby="search-for-the-simple-workflow-template-and-select-configure"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Search for the <em>Simple workflow</em> template and select <strong>Configure</strong>.</h1><h1 id="select-commit-changes-to-add-the-workflow-to-your-repository"> <a href="#select-commit-changes-to-add-the-workflow-to-your-repository" class="anchor-heading" aria-labelledby="select-commit-changes-to-add-the-workflow-to-your-repository"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Commit changes</strong> to add the workflow to your repository.</h1><p>The workflow runs on the <code class="language-plaintext highlighter-rouge">ubuntu-latest</code> GitHub-hosted runner and prints a message to the console. Later, you replace the GitHub-hosted runner with a self-hosted runner.</p><h2 id="get-a-github-personal-access-token"> <a href="#get-a-github-personal-access-token" class="anchor-heading" aria-labelledby="get-a-github-personal-access-token"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Get a GitHub personal access token</h2><p>To run a self-hosted runner, you need to create a personal access token (PAT) in GitHub. Each time a runner starts, the PAT is used to generate a token to register the runner with GitHub. The PAT is also used by the GitHub Actions runner scale rule to monitor the repository’s workflow queue and start runners as needed.</p><h1 id="in-github-select-your-profile-picture-in-the-upper-right-corner-and-select-settings"> <a href="#in-github-select-your-profile-picture-in-the-upper-right-corner-and-select-settings" class="anchor-heading" aria-labelledby="in-github-select-your-profile-picture-in-the-upper-right-corner-and-select-settings"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In GitHub, select your profile picture in the upper-right corner and select <strong>Settings</strong>.</h1><h1 id="select-developer-settings"> <a href="#select-developer-settings" class="anchor-heading" aria-labelledby="select-developer-settings"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Developer settings</strong>.</h1><h1 id="under-personal-access-tokens-select-fine-grained-tokens"> <a href="#under-personal-access-tokens-select-fine-grained-tokens" class="anchor-heading" aria-labelledby="under-personal-access-tokens-select-fine-grained-tokens"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Under <em>Personal access tokens</em>, select <strong>Fine-grained tokens</strong>.</h1><h1 id="select-generate-new-token"> <a href="#select-generate-new-token" class="anchor-heading" aria-labelledby="select-generate-new-token"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Generate new token</strong>.</h1><h1 id="in-the-new-fine-grained-personal-access-token-screen-enter-the-following-values"> <a href="#in-the-new-fine-grained-personal-access-token-screen-enter-the-following-values" class="anchor-heading" aria-labelledby="in-the-new-fine-grained-personal-access-token-screen-enter-the-following-values"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In the <em>New fine-grained personal access token</em> screen, enter the following values.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Setting | Value |
+|---|---|
+| Token name | Enter a name for your token. |
+| Expiration | Select **30 days**. |
+| Repository access | Select **Only select repositories** and select the repository you created. |
+
+Enter the following values for *Repository permissions*.
+
+| Setting | Value |
+|---|---|
+| Actions | Select **Read-only**. |
+| Administration | Select **Read and write**. |
+| Metadata | Select **Read-only**. |
+</code></pre></div></div><h1 id="select-generate-token"> <a href="#select-generate-token" class="anchor-heading" aria-labelledby="select-generate-token"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Generate token</strong>.</h1><h1 id="copy-the-token-value"> <a href="#copy-the-token-value" class="anchor-heading" aria-labelledby="copy-the-token-value"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Copy the token value.</h1><h1 id="define-variables-that-are-used-to-configure-the-runner-and-scale-rule-later"> <a href="#define-variables-that-are-used-to-configure-the-runner-and-scale-rule-later" class="anchor-heading" aria-labelledby="define-variables-that-are-used-to-configure-the-runner-and-scale-rule-later"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Define variables that are used to configure the runner and scale rule later.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+GITHUB_PAT="&lt;GITHUB_PAT&gt;"
+REPO_OWNER="&lt;REPO_OWNER&gt;"
+REPO_NAME="&lt;REPO_NAME&gt;"
+```
+
+- PowerShell
+```powershell
+$GITHUB_PAT="&lt;GITHUB_PAT&gt;"
+$REPO_OWNER="&lt;REPO_OWNER&gt;"
+$REPO_NAME="&lt;REPO_NAME&gt;"
+```
+
+---
+
+Replace the placeholders with the following values:
+
+| Placeholder | Value |
+|---|---|
+| `&lt;GITHUB_PAT&gt;` | The GitHub PAT you generated. |
+| `&lt;REPO_OWNER&gt;` | The owner of the repository you created earlier. This value is usually your GitHub username. |
+| `&lt;REPO_NAME&gt;` | The name of the repository you created earlier. This value is the same name you entered in the *Repository name* field. |
+</code></pre></div></div><h2 id="build-the-github-actions-runner-container-image"> <a href="#build-the-github-actions-runner-container-image" class="anchor-heading" aria-labelledby="build-the-github-actions-runner-container-image"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Build the GitHub Actions runner container image</h2><p>To create a self-hosted runner, you need to build a container image that executes the runner. In this section, you build the container image and push it to a container registry.</p><blockquote><p>[!NOTE] The image you build in this tutorial contains a basic self-hosted runner that’s suitable for running as a Container Apps job. You can customize it to include additional tools or dependencies that your workflows require.</p></blockquote><h1 id="define-a-name-for-your-container-image-and-registry"> <a href="#define-a-name-for-your-container-image-and-registry" class="anchor-heading" aria-labelledby="define-a-name-for-your-container-image-and-registry"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Define a name for your container image and registry.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+CONTAINER_IMAGE_NAME="github-actions-runner:1.0"
+CONTAINER_REGISTRY_NAME="&lt;CONTAINER_REGISTRY_NAME&gt;"
+```
+
+- PowerShell
+```powershell
+$CONTAINER_IMAGE_NAME="github-actions-runner:1.0"
+$CONTAINER_REGISTRY_NAME="&lt;CONTAINER_REGISTRY_NAME&gt;"
+```
+
+---
+
+Replace `&lt;CONTAINER_REGISTRY_NAME&gt;` with a unique name for creating a container registry. Container registry names must be *unique within Azure* and be from 5 to 50 characters in length containing numbers and lowercase letters only.
+</code></pre></div></div><h1 id="create-a-container-registry"> <a href="#create-a-container-registry" class="anchor-heading" aria-labelledby="create-a-container-registry"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a container registry.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az acr create \
+    --name "$CONTAINER_REGISTRY_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --sku Basic \
+    --admin-enabled true
+```
+
+- PowerShell
+```powershell
+az acr create `
+    --name "$CONTAINER_REGISTRY_NAME" `
+    --resource-group "$RESOURCE_GROUP" `
+    --location "$LOCATION" `
+    --sku Basic `
+    --admin-enabled true
+```
+
+---
+</code></pre></div></div><h1 id="the-dockerfile-for-creating-the-runner-image-is-available-on-github-run-the-following-command-to-clone-the-repository-and-build-the-container-image-in-the-cloud-using-the-az-acr-build-command"> <a href="#the-dockerfile-for-creating-the-runner-image-is-available-on-github-run-the-following-command-to-clone-the-repository-and-build-the-container-image-in-the-cloud-using-the-az-acr-build-command" class="anchor-heading" aria-labelledby="the-dockerfile-for-creating-the-runner-image-is-available-on-github-run-the-following-command-to-clone-the-repository-and-build-the-container-image-in-the-cloud-using-the-az-acr-build-command"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> The Dockerfile for creating the runner image is available on <a href="https://github.com/Azure-Samples/container-apps-ci-cd-runner-tutorial/tree/main/github-actions-runner">GitHub</a>. Run the following command to clone the repository and build the container image in the cloud using the <code class="language-plaintext highlighter-rouge">az acr build</code> command.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az acr build \
+    --registry "$CONTAINER_REGISTRY_NAME" \
+    --image "$CONTAINER_IMAGE_NAME" \
+    --file "Dockerfile.github" \
+    "https://github.com/Azure-Samples/container-apps-ci-cd-runner-tutorial.git"
+```
+
+- PowerShell
+```powershell
+az acr build `
+    --registry "$CONTAINER_REGISTRY_NAME" `
+    --image "$CONTAINER_IMAGE_NAME" `
+    --file "Dockerfile.github" `
+    "https://github.com/Azure-Samples/container-apps-ci-cd-runner-tutorial.git"
+```
+
+---
+
+The image is now available in the container registry.
+</code></pre></div></div><h2 id="deploy-a-self-hosted-runner-as-a-job"> <a href="#deploy-a-self-hosted-runner-as-a-job" class="anchor-heading" aria-labelledby="deploy-a-self-hosted-runner-as-a-job"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Deploy a self-hosted runner as a job</h2><p>You can now create a job that uses to use the container image. In this section, you create a job that executes the self-hosted runner and authenticates with GitHub using the PAT you generated earlier. The job uses the <a href="https://keda.sh/docs/latest/scalers/github-runner/"><code class="language-plaintext highlighter-rouge">github-runner</code> scale rule</a> to create job executions based on the number of pending workflow runs.</p><h1 id="create-a-job-in-the-container-apps-environment"> <a href="#create-a-job-in-the-container-apps-environment" class="anchor-heading" aria-labelledby="create-a-job-in-the-container-apps-environment"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a job in the Container Apps environment.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az containerapp job create -n "$JOB_NAME" -g "$RESOURCE_GROUP" --environment "$ENVIRONMENT" \
+    --trigger-type Event \
+    --replica-timeout 1800 \
+    --replica-retry-limit 1 \
+    --replica-completion-count 1 \
+    --parallelism 1 \
+    --image "$CONTAINER_REGISTRY_NAME.azurecr.io/$CONTAINER_IMAGE_NAME" \
+    --min-executions 0 \
+    --max-executions 10 \
+    --polling-interval 30 \
+    --scale-rule-name "github-runner" \
+    --scale-rule-type "github-runner" \
+    --scale-rule-metadata "github-runner=https://api.github.com" "owner=$REPO_OWNER" "runnerScope=repo" "repos=$REPO_NAME" "targetWorkflowQueueLength=1" \
+    --scale-rule-auth "personalAccessToken=personal-access-token" \
+    --cpu "2.0" \
+    --memory "4Gi" \
+    --secrets "personal-access-token=$GITHUB_PAT" \
+    --env-vars "GITHUB_PAT=secretref:personal-access-token" "REPO_URL=https://github.com/$REPO_OWNER/$REPO_NAME" "REGISTRATION_TOKEN_API_URL=https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/actions/runners/registration-token" \
+    --registry-server "$CONTAINER_REGISTRY_NAME.azurecr.io"
+```
+
+- PowerShell
+```powershell
+az containerapp job create -n "$JOB_NAME" -g "$RESOURCE_GROUP" --environment "$ENVIRONMENT" `
+    --trigger-type Event `
+    --replica-timeout 1800 `
+    --replica-retry-limit 1 `
+    --replica-completion-count 1 `
+    --parallelism 1 `
+    --image "$CONTAINER_REGISTRY_NAME.azurecr.io/$CONTAINER_IMAGE_NAME" `
+    --min-executions 0 `
+    --max-executions 10 `
+    --polling-interval 30 `
+    --scale-rule-name "github-runner" `
+    --scale-rule-type "github-runner" `
+    --scale-rule-metadata "github-runner=https://api.github.com" "owner=$REPO_OWNER" "runnerScope=repo" "repos=$REPO_NAME" "targetWorkflowQueueLength=1" `
+    --scale-rule-auth "personalAccessToken=personal-access-token" `
+    --cpu "2.0" `
+    --memory "4Gi" `
+    --secrets "personal-access-token=$GITHUB_PAT" `
+    --env-vars "GITHUB_PAT=secretref:personal-access-token" "REPO_URL=https://github.com/$REPO_OWNER/$REPO_NAME" "REGISTRATION_TOKEN_API_URL=https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/actions/runners/registration-token" `
+    --registry-server "$CONTAINER_REGISTRY_NAME.azurecr.io"
+```
+
+---
+
+The following table describes the key parameters used in the command.
+
+| Parameter | Description |
+| --- | --- |
+| `--replica-timeout` | The maximum duration a replica can execute. |
+| `--replica-retry-limit` | The number of times to retry a failed replica. |
+| `--replica-completion-count` | The number of replicas to complete successfully before a job execution is considered successful. |
+| `--parallelism` | The number of replicas to start per job execution. |
+| `--min-executions` | The minimum number of job executions to run per polling interval. |
+| `--max-executions` | The maximum number of job executions to run per polling interval. |
+| `--polling-interval` | The polling interval at which to evaluate the scale rule. |
+| `--scale-rule-name` | The name of the scale rule. |
+| `--scale-rule-type` | The type of scale rule to use. To learn more about the GitHub runner scaler, see the KEDA [documentation](https://keda.sh/docs/latest/scalers/github-runner/). |
+| `--scale-rule-metadata` | The metadata for the scale rule. |
+| `--scale-rule-auth` | The authentication for the scale rule. |
+| `--secrets` | The secrets to use for the job. |
+| `--env-vars` | The environment variables to use for the job. |
+| `--registry-server` | The container registry server to use for the job. For an Azure Container Registry, the command automatically configures authentication. |
+
+The scale rule configuration defines the event source to monitor. It's evaluated on each polling interval and determines how many job executions to trigger. To learn more, see [Set scaling rules](scale-app.md).
+</code></pre></div></div><p>The event-driven job is now created in the Container Apps environment.</p><h2 id="run-a-workflow-and-verify-the-job"> <a href="#run-a-workflow-and-verify-the-job" class="anchor-heading" aria-labelledby="run-a-workflow-and-verify-the-job"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Run a workflow and verify the job</h2><p>The job is configured to evaluate the scale rule every 30 seconds. During each evaluation, it checks the number of pending workflow runs that require a self-hosted runner and starts a new job execution for pending workflow, up to a configured maximum of 10 executions.</p><p>To verify the job was configured correctly, you modify the workflow to use a self-hosted runner and trigger a workflow run. You can then view the job execution logs to see the workflow run.</p><h1 id="in-the-github-repository-navigate-to-the-workflow-you-generated-earlier-its-a-yaml-file-in-the-githubworkflows-directory"> <a href="#in-the-github-repository-navigate-to-the-workflow-you-generated-earlier-its-a-yaml-file-in-the-githubworkflows-directory" class="anchor-heading" aria-labelledby="in-the-github-repository-navigate-to-the-workflow-you-generated-earlier-its-a-yaml-file-in-the-githubworkflows-directory"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In the GitHub repository, navigate to the workflow you generated earlier. It’s a YAML file in the <code class="language-plaintext highlighter-rouge">.github/workflows</code> directory.</h1><h1 id="select-edit-in-place"> <a href="#select-edit-in-place" class="anchor-heading" aria-labelledby="select-edit-in-place"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Edit in place</strong>.</h1><h1 id="update-the-runs-on-property-to-self-hosted"> <a href="#update-the-runs-on-property-to-self-hosted" class="anchor-heading" aria-labelledby="update-the-runs-on-property-to-self-hosted"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Update the <code class="language-plaintext highlighter-rouge">runs-on</code> property to <code class="language-plaintext highlighter-rouge">self-hosted</code>:</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```yaml
+runs-on: self-hosted
+```
+</code></pre></div></div><h1 id="select-commit-changes"> <a href="#select-commit-changes" class="anchor-heading" aria-labelledby="select-commit-changes"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Commit changes…</strong>.</h1><h1 id="select-commit-changes-1"> <a href="#select-commit-changes-1" class="anchor-heading" aria-labelledby="select-commit-changes-1"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Commit changes</strong>.</h1><h1 id="navigate-to-the-actions-tab"> <a href="#navigate-to-the-actions-tab" class="anchor-heading" aria-labelledby="navigate-to-the-actions-tab"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Navigate to the <strong>Actions</strong> tab.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A new workflow is now queued. Within 30 seconds, the job execution will start and the workflow will complete soon after.
+
+Wait for the action to complete before going on the next step.
+</code></pre></div></div><h1 id="list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully"> <a href="#list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully" class="anchor-heading" aria-labelledby="list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> List the executions of the job to confirm a job execution was created and completed successfully.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az containerapp job execution list \
+    --name "$JOB_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --output table \
+    --query '[].{Status: properties.status, Name: name, StartTime: properties.startTime}'
+```
+
+- PowerShell
+```powershell
+az containerapp job execution list `
+    --name "$JOB_NAME" `
+    --resource-group "$RESOURCE_GROUP" `
+    --output table `
+    --query '[].{Status: properties.status, Name: name, StartTime: properties.startTime}'
+```
+
+---
+</code></pre></div></div><p>::: zone-end</p><p>::: zone pivot=”container-apps-jobs-self-hosted-ci-cd-azure-pipelines”</p><h2 id="create-an-azure-devops-project-and-repository"> <a href="#create-an-azure-devops-project-and-repository" class="anchor-heading" aria-labelledby="create-an-azure-devops-project-and-repository"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create an Azure DevOps project and repository</h2><p>To execute a pipeline, you need an Azure DevOps project and repository.</p><h1 id="navigate-to-azure-devops-and-sign-in-to-your-account"> <a href="#navigate-to-azure-devops-and-sign-in-to-your-account" class="anchor-heading" aria-labelledby="navigate-to-azure-devops-and-sign-in-to-your-account"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Navigate to <a href="https://aex.dev.azure.com/">Azure DevOps</a> and sign in to your account.</h1><h1 id="select-an-existing-organization-or-create-a-new-one"> <a href="#select-an-existing-organization-or-create-a-new-one" class="anchor-heading" aria-labelledby="select-an-existing-organization-or-create-a-new-one"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select an existing organization or create a new one.</h1><h1 id="in-the-organization-overview-page-select-new-project-and-enter-the-following-values"> <a href="#in-the-organization-overview-page-select-new-project-and-enter-the-following-values" class="anchor-heading" aria-labelledby="in-the-organization-overview-page-select-new-project-and-enter-the-following-values"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In the organization overview page, select <strong>New project</strong> and enter the following values.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Setting | Value |
+|---|---|
+| *Project name* | Enter a name for your project. |
+| *Visibility* | Select **Private**. |
+</code></pre></div></div><h1 id="select-create"> <a href="#select-create" class="anchor-heading" aria-labelledby="select-create"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Create</strong>.</h1><h1 id="from-the-side-navigation-select-repos"> <a href="#from-the-side-navigation-select-repos" class="anchor-heading" aria-labelledby="from-the-side-navigation-select-repos"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> From the side navigation, select <strong>Repos</strong>.</h1><h1 id="under-initialize-main-branch-with-a-readme-or-gitignore-select-add-a-readme"> <a href="#under-initialize-main-branch-with-a-readme-or-gitignore-select-add-a-readme" class="anchor-heading" aria-labelledby="under-initialize-main-branch-with-a-readme-or-gitignore-select-add-a-readme"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Under <em>Initialize main branch with a README or .gitignore</em>, select <strong>Add a README</strong>.</h1><h1 id="leave-the-rest-of-the-values-as-defaults-and-select-initialize"> <a href="#leave-the-rest-of-the-values-as-defaults-and-select-initialize" class="anchor-heading" aria-labelledby="leave-the-rest-of-the-values-as-defaults-and-select-initialize"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Leave the rest of the values as defaults and select <strong>Initialize</strong>.</h1><h2 id="create-a-new-agent-pool"> <a href="#create-a-new-agent-pool" class="anchor-heading" aria-labelledby="create-a-new-agent-pool"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a new agent pool</h2><p>Create a new agent pool to run the self-hosted runner.</p><h1 id="in-your-azure-devops-project-expand-the-left-navigation-bar-and-select-project-settings"> <a href="#in-your-azure-devops-project-expand-the-left-navigation-bar-and-select-project-settings" class="anchor-heading" aria-labelledby="in-your-azure-devops-project-expand-the-left-navigation-bar-and-select-project-settings"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In your Azure DevOps project, expand the left navigation bar and select <strong>Project settings</strong>.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:::image type="content" source="media/runners/azure-devops-project-settings.png" alt-text="Screenshot of the Azure DevOps project settings button.":::
+</code></pre></div></div><h1 id="under-the-pipelines-section-in-the-project-settings-navigation-menu-select-agent-pools"> <a href="#under-the-pipelines-section-in-the-project-settings-navigation-menu-select-agent-pools" class="anchor-heading" aria-labelledby="under-the-pipelines-section-in-the-project-settings-navigation-menu-select-agent-pools"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Under the <em>Pipelines</em> section in the <em>Project settings</em> navigation menu, select <strong>Agent pools</strong>.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:::image type="content" source="media/runners/azure-devops-agent-pools.png" alt-text="Screenshot of Azure DevOps agent pools button.":::
+</code></pre></div></div><h1 id="select-add-pool-and-enter-the-following-values"> <a href="#select-add-pool-and-enter-the-following-values" class="anchor-heading" aria-labelledby="select-add-pool-and-enter-the-following-values"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Add pool</strong> and enter the following values.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Setting | Value |
+|---|---|
+| *Pool to link* | Select **New**. |
+| *Pool type* | Select **Self-hosted**. |
+| *Name* | Enter **container-apps**. |
+| *Grant access permission to all pipelines* | Select this checkbox. |
+</code></pre></div></div><h1 id="select-create-1"> <a href="#select-create-1" class="anchor-heading" aria-labelledby="select-create-1"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Create</strong>.</h1><h2 id="get-an-azure-devops-personal-access-token"> <a href="#get-an-azure-devops-personal-access-token" class="anchor-heading" aria-labelledby="get-an-azure-devops-personal-access-token"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Get an Azure DevOps personal access token</h2><p>To run a self-hosted runner, you need to create a personal access token (PAT) in Azure DevOps. The PAT is used to authenticate the runner with Azure DevOps. It’s also used by the scale rule to determine the number of pending pipeline runs and trigger new job executions.</p><h1 id="in-azure-devops-select-user-settings-next-to-your-profile-picture-in-the-upper-right-corner"> <a href="#in-azure-devops-select-user-settings-next-to-your-profile-picture-in-the-upper-right-corner" class="anchor-heading" aria-labelledby="in-azure-devops-select-user-settings-next-to-your-profile-picture-in-the-upper-right-corner"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In Azure DevOps, select <em>User settings</em> next to your profile picture in the upper-right corner.</h1><h1 id="select-personal-access-tokens"> <a href="#select-personal-access-tokens" class="anchor-heading" aria-labelledby="select-personal-access-tokens"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Personal access tokens</strong>.</h1><h1 id="in-the-personal-access-tokens-page-select-new-token-and-enter-the-following-values"> <a href="#in-the-personal-access-tokens-page-select-new-token-and-enter-the-following-values" class="anchor-heading" aria-labelledby="in-the-personal-access-tokens-page-select-new-token-and-enter-the-following-values"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In the <em>Personal access tokens</em> page, select <strong>New Token</strong> and enter the following values.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Setting | Value |
+|---|---|
+| *Name* | Enter a name for your token. |
+| *Organization* | Select the organization you chose or created earlier. |
+| *Scopes* | Select **Custom defined**. |
+| *Show all scopes* | Select **Show all scopes**.  |
+| *Agent Pools (Read &amp; manage)* | Select **Agent Pools (Read &amp; manage)**. |
+
+Leave all other scopes unselected.
+</code></pre></div></div><h1 id="select-create-2"> <a href="#select-create-2" class="anchor-heading" aria-labelledby="select-create-2"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Create</strong>.</h1><h1 id="copy-the-token-value-to-a-secure-location"> <a href="#copy-the-token-value-to-a-secure-location" class="anchor-heading" aria-labelledby="copy-the-token-value-to-a-secure-location"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Copy the token value to a secure location.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You can't retrieve the token after you leave the page.
+</code></pre></div></div><h1 id="define-variables-that-are-used-to-configure-the-container-apps-jobs-later"> <a href="#define-variables-that-are-used-to-configure-the-container-apps-jobs-later" class="anchor-heading" aria-labelledby="define-variables-that-are-used-to-configure-the-container-apps-jobs-later"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Define variables that are used to configure the Container Apps jobs later.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+AZP_TOKEN="&lt;AZP_TOKEN&gt;"
+ORGANIZATION_URL="&lt;ORGANIZATION_URL&gt;"
+AZP_POOL="container-apps"
+```
+
+- PowerShell
+```powershell
+$AZP_TOKEN="&lt;AZP_TOKEN&gt;"
+$ORGANIZATION_URL="&lt;ORGANIZATION_URL&gt;"
+$AZP_POOL="container-apps"
+```
+
+---
+
+Replace the placeholders with the following values:
+
+| Placeholder | Value | Comments |
+|---|---|---|
+| `&lt;AZP_TOKEN&gt;` | The Azure DevOps PAT you generated. | |
+| `&lt;ORGANIZATION_URL&gt;` | The URL of your Azure DevOps organization. | For example, `https://dev.azure.com/myorg` or `https://myorg.visualstudio.com`. |
+</code></pre></div></div><h2 id="build-the-azure-pipelines-agent-container-image"> <a href="#build-the-azure-pipelines-agent-container-image" class="anchor-heading" aria-labelledby="build-the-azure-pipelines-agent-container-image"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Build the Azure Pipelines agent container image</h2><p>To create a self-hosted agent, you need to build a container image that runs the agent. In this section, you build the container image and push it to a container registry.</p><blockquote><p>[!NOTE] The image you build in this tutorial contains a basic self-hosted agent that’s suitable for running as a Container Apps job. You can customize it to include additional tools or dependencies that your pipelines require.</p></blockquote><h1 id="back-in-your-terminal-define-a-name-for-your-container-image-and-registry"> <a href="#back-in-your-terminal-define-a-name-for-your-container-image-and-registry" class="anchor-heading" aria-labelledby="back-in-your-terminal-define-a-name-for-your-container-image-and-registry"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Back in your terminal, define a name for your container image and registry.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+CONTAINER_IMAGE_NAME="azure-pipelines-agent:1.0"
+CONTAINER_REGISTRY_NAME="&lt;CONTAINER_REGISTRY_NAME&gt;"
+```
+
+- PowerShell
+```powershell
+$CONTAINER_IMAGE_NAME="azure-pipelines-agent:1.0"
+$CONTAINER_REGISTRY_NAME="&lt;CONTAINER_REGISTRY_NAME&gt;"
+```
+
+---
+
+Replace `&lt;CONTAINER_REGISTRY_NAME&gt;` with a unique name for creating a container registry.
+
+Container registry names must be *unique within Azure* and be from 5 to 50 characters in length containing numbers and lowercase letters only.
+</code></pre></div></div><h1 id="create-a-container-registry-1"> <a href="#create-a-container-registry-1" class="anchor-heading" aria-labelledby="create-a-container-registry-1"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a container registry.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az acr create \
+    --name "$CONTAINER_REGISTRY_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --sku Basic \
+    --admin-enabled true
+```
+
+- PowerShell
+```powershell
+az acr create `
+    --name "$CONTAINER_REGISTRY_NAME" `
+    --resource-group "$RESOURCE_GROUP" `
+    --location "$LOCATION" `
+    --sku Basic `
+    --admin-enabled true
+```
+
+---
+</code></pre></div></div><h1 id="the-dockerfile-for-creating-the-runner-image-is-available-on-github-run-the-following-command-to-clone-the-repository-and-build-the-container-image-in-the-cloud-using-the-az-acr-build-command-1"> <a href="#the-dockerfile-for-creating-the-runner-image-is-available-on-github-run-the-following-command-to-clone-the-repository-and-build-the-container-image-in-the-cloud-using-the-az-acr-build-command-1" class="anchor-heading" aria-labelledby="the-dockerfile-for-creating-the-runner-image-is-available-on-github-run-the-following-command-to-clone-the-repository-and-build-the-container-image-in-the-cloud-using-the-az-acr-build-command-1"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> The Dockerfile for creating the runner image is available on <a href="https://github.com/Azure-Samples/container-apps-ci-cd-runner-tutorial/tree/main/azure-pipelines-agent">GitHub</a>. Run the following command to clone the repository and build the container image in the cloud using the <code class="language-plaintext highlighter-rouge">az acr build</code> command.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az acr build \
+    --registry "$CONTAINER_REGISTRY_NAME" \
+    --image "$CONTAINER_IMAGE_NAME" \
+    --file "Dockerfile.azure-pipelines" \
+    "https://github.com/Azure-Samples/container-apps-ci-cd-runner-tutorial.git"
+```
+
+- PowerShell
+```powershell
+az acr build `
+    --registry "$CONTAINER_REGISTRY_NAME" `
+    --image "$CONTAINER_IMAGE_NAME" `
+    --file "Dockerfile.azure-pipelines" `
+    "https://github.com/Azure-Samples/container-apps-ci-cd-runner-tutorial.git"
+```
+
+---
+
+The image is now available in the container registry.
+</code></pre></div></div><h2 id="create-a-placeholder-self-hosted-agent"> <a href="#create-a-placeholder-self-hosted-agent" class="anchor-heading" aria-labelledby="create-a-placeholder-self-hosted-agent"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a placeholder self-hosted agent</h2><p>Before you can run a self-hosted agent in your new agent pool, you need to create a placeholder agent. The placeholder agent ensures the agent pool is available. Pipelines that use the agent pool fail when there’s no placeholder agent.</p><p>You can run a manual job to register an offline placeholder agent. The job runs once and can be deleted. The placeholder agent doesn’t consume any resources in Azure Container Apps or Azure DevOps.</p><h1 id="create-a-manual-job-in-the-container-apps-environment-that-creates-the-placeholder-agent"> <a href="#create-a-manual-job-in-the-container-apps-environment-that-creates-the-placeholder-agent" class="anchor-heading" aria-labelledby="create-a-manual-job-in-the-container-apps-environment-that-creates-the-placeholder-agent"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a manual job in the Container Apps environment that creates the placeholder agent.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az containerapp job create -n "$PLACEHOLDER_JOB_NAME" -g "$RESOURCE_GROUP" --environment "$ENVIRONMENT" \
+    --trigger-type Manual \
+    --replica-timeout 300 \
+    --replica-retry-limit 1 \
+    --replica-completion-count 1 \
+    --parallelism 1 \
+    --image "$CONTAINER_REGISTRY_NAME.azurecr.io/$CONTAINER_IMAGE_NAME" \
+    --cpu "2.0" \
+    --memory "4Gi" \
+    --secrets "personal-access-token=$AZP_TOKEN" "organization-url=$ORGANIZATION_URL" \
+    --env-vars "AZP_TOKEN=secretref:personal-access-token" "AZP_URL=secretref:organization-url" "AZP_POOL=$AZP_POOL" "AZP_PLACEHOLDER=1" "AZP_AGENT_NAME=placeholder-agent" \
+    --registry-server "$CONTAINER_REGISTRY_NAME.azurecr.io"
+```
+
+- PowerShell
+```powershell
+    az containerapp job create -n "$PLACEHOLDER_JOB_NAME" -g "$RESOURCE_GROUP" --environment "$ENVIRONMENT" `
+    --trigger-type Manual `
+    --replica-timeout 300 `
+    --replica-retry-limit 1 `
+    --replica-completion-count 1 `
+    --parallelism 1 `
+    --image "$CONTAINER_REGISTRY_NAME.azurecr.io/$CONTAINER_IMAGE_NAME" `
+    --cpu "2.0" `
+    --memory "4Gi" `
+    --secrets "personal-access-token=$AZP_TOKEN" "organization-url=$ORGANIZATION_URL" `
+    --env-vars "AZP_TOKEN=secretref:personal-access-token" "AZP_URL=secretref:organization-url" "AZP_POOL=$AZP_POOL" "AZP_PLACEHOLDER=1" "AZP_AGENT_NAME=placeholder-agent" `
+    --registry-server "$CONTAINER_REGISTRY_NAME.azurecr.io"
+```
+
+---
+
+The following table describes the key parameters used in the command.
+
+| Parameter | Description |
+| --- | --- |
+| `--replica-timeout` | The maximum duration a replica can execute. |
+| `--replica-retry-limit` | The number of times to retry a failed replica. |
+| `--replica-completion-count` | The number of replicas to complete successfully before a job execution is considered successful. |
+| `--parallelism` | The number of replicas to start per job execution. |
+| `--secrets` | The secrets to use for the job. |
+| `--env-vars` | The environment variables to use for the job. |
+| `--registry-server` | The container registry server to use for the job. For an Azure Container Registry, the command automatically configures authentication. |
+
+Setting the `AZP_PLACEHOLDER` environment variable configures the agent container to register as an offline placeholder agent without running a job.
+</code></pre></div></div><h1 id="execute-the-manual-job-to-create-the-placeholder-agent"> <a href="#execute-the-manual-job-to-create-the-placeholder-agent" class="anchor-heading" aria-labelledby="execute-the-manual-job-to-create-the-placeholder-agent"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Execute the manual job to create the placeholder agent.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az containerapp job start -n "$PLACEHOLDER_JOB_NAME" -g "$RESOURCE_GROUP"
+```
+
+- PowerShell
+```powershell
+az containerapp job start -n "$PLACEHOLDER_JOB_NAME" -g "$RESOURCE_GROUP"
+```
+
+---
+</code></pre></div></div><h1 id="list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully-1"> <a href="#list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully-1" class="anchor-heading" aria-labelledby="list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully-1"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> List the executions of the job to confirm a job execution was created and completed successfully.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az containerapp job execution list \
+    --name "$PLACEHOLDER_JOB_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --output table \
+    --query '[].{Status: properties.status, Name: name, StartTime: properties.startTime}'
+```
+
+- PowerShell
+```powershell
+az containerapp job execution list `
+    --name "$PLACEHOLDER_JOB_NAME" `
+    --resource-group "$RESOURCE_GROUP" `
+    --output table `
+    --query '[].{Status: properties.status, Name: name, StartTime: properties.startTime}'
+```
+
+---
+</code></pre></div></div><h1 id="verify-the-placeholder-agent-was-created-in-azure-devops"> <a href="#verify-the-placeholder-agent-was-created-in-azure-devops" class="anchor-heading" aria-labelledby="verify-the-placeholder-agent-was-created-in-azure-devops"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Verify the placeholder agent was created in Azure DevOps.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># In Azure DevOps, navigate to your project. 
+# Select **Project settings** &gt; **Agent pools** &gt; **container-apps** &gt; **Agents**.
+# Confirm that a placeholder agent named `placeholder-agent` is listed and its status is offline.
+</code></pre></div></div><h1 id="the-job-isnt-needed-again-you-can-delete-it"> <a href="#the-job-isnt-needed-again-you-can-delete-it" class="anchor-heading" aria-labelledby="the-job-isnt-needed-again-you-can-delete-it"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> The job isn’t needed again. You can delete it.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az containerapp job delete -n "$PLACEHOLDER_JOB_NAME" -g "$RESOURCE_GROUP"
+```
+
+- PowerShell
+```powershell
+az containerapp job delete -n "$PLACEHOLDER_JOB_NAME" -g "$RESOURCE_GROUP"
+```
+
+---
+</code></pre></div></div><h2 id="create-a-self-hosted-agent-as-an-event-driven-job"> <a href="#create-a-self-hosted-agent-as-an-event-driven-job" class="anchor-heading" aria-labelledby="create-a-self-hosted-agent-as-an-event-driven-job"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Create a self-hosted agent as an event-driven job</h2><p>Now that you have a placeholder agent, you can create a self-hosted agent. In this section, you create an event-driven job that runs a self-hosted agent when a pipeline is triggered.</p><ul><li>Bash<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az containerapp job create <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$JOB_NAME</span><span class="s2">"</span> <span class="nt">-g</span> <span class="s2">"</span><span class="nv">$RESOURCE_GROUP</span><span class="s2">"</span> <span class="nt">--environment</span> <span class="s2">"</span><span class="nv">$ENVIRONMENT</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--trigger-type</span> Event <span class="se">\</span>
+  <span class="nt">--replica-timeout</span> 1800 <span class="se">\</span>
+  <span class="nt">--replica-retry-limit</span> 1 <span class="se">\</span>
+  <span class="nt">--replica-completion-count</span> 1 <span class="se">\</span>
+  <span class="nt">--parallelism</span> 1 <span class="se">\</span>
+  <span class="nt">--image</span> <span class="s2">"</span><span class="nv">$CONTAINER_REGISTRY_NAME</span><span class="s2">.azurecr.io/</span><span class="nv">$CONTAINER_IMAGE_NAME</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--min-executions</span> 0 <span class="se">\</span>
+  <span class="nt">--max-executions</span> 10 <span class="se">\</span>
+  <span class="nt">--polling-interval</span> 30 <span class="se">\</span>
+  <span class="nt">--scale-rule-name</span> <span class="s2">"azure-pipelines"</span> <span class="se">\</span>
+  <span class="nt">--scale-rule-type</span> <span class="s2">"azure-pipelines"</span> <span class="se">\</span>
+  <span class="nt">--scale-rule-metadata</span> <span class="s2">"poolName=container-apps"</span> <span class="s2">"targetPipelinesQueueLength=1"</span> <span class="se">\</span>
+  <span class="nt">--scale-rule-auth</span> <span class="s2">"personalAccessToken=personal-access-token"</span> <span class="s2">"organizationURL=organization-url"</span> <span class="se">\</span>
+  <span class="nt">--cpu</span> <span class="s2">"2.0"</span> <span class="se">\</span>
+  <span class="nt">--memory</span> <span class="s2">"4Gi"</span> <span class="se">\</span>
+  <span class="nt">--secrets</span> <span class="s2">"personal-access-token=</span><span class="nv">$AZP_TOKEN</span><span class="s2">"</span> <span class="s2">"organization-url=</span><span class="nv">$ORGANIZATION_URL</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--env-vars</span> <span class="s2">"AZP_TOKEN=secretref:personal-access-token"</span> <span class="s2">"AZP_URL=secretref:organization-url"</span> <span class="s2">"AZP_POOL=</span><span class="nv">$AZP_POOL</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--registry-server</span> <span class="s2">"</span><span class="nv">$CONTAINER_REGISTRY_NAME</span><span class="s2">.azurecr.io"</span>
+</code></pre></div></div><li>PowerShell<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="w"> </span><span class="nx">containerapp</span><span class="w"> </span><span class="nx">job</span><span class="w"> </span><span class="nx">create</span><span class="w"> </span><span class="nt">-n</span><span class="w"> </span><span class="s2">"</span><span class="nv">$JOB_NAME</span><span class="s2">"</span><span class="w"> </span><span class="nt">-g</span><span class="w"> </span><span class="s2">"</span><span class="nv">$RESOURCE_GROUP</span><span class="s2">"</span><span class="w"> </span><span class="nt">--environment</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ENVIRONMENT</span><span class="s2">"</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--trigger-type</span><span class="w"> </span><span class="n">Event</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--replica-timeout</span><span class="w"> </span><span class="mi">1800</span><span class="w"> </span><span class="n">\</span><span class="w">
+  </span><span class="nt">--replica-retry-limit</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--replica-completion-count</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">\</span><span class="w">
+  </span><span class="nt">--parallelism</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--image</span><span class="w"> </span><span class="s2">"</span><span class="nv">$CONTAINER_REGISTRY_NAME</span><span class="s2">.azurecr.io/</span><span class="nv">$CONTAINER_IMAGE_NAME</span><span class="s2">"</span><span class="w"> </span><span class="n">\</span><span class="w">
+  </span><span class="nt">--min-executions</span><span class="w"> </span><span class="nx">0</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--max-executions</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">\</span><span class="w">
+  </span><span class="nt">--polling-interval</span><span class="w"> </span><span class="nx">30</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--scale-rule-name</span><span class="w"> </span><span class="s2">"azure-pipelines"</span><span class="w"> </span><span class="n">\</span><span class="w">
+  </span><span class="nt">--scale-rule-type</span><span class="w"> </span><span class="s2">"azure-pipelines"</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--scale-rule-metadata</span><span class="w"> </span><span class="s2">"poolName=container-apps"</span><span class="w"> </span><span class="s2">"targetPipelinesQueueLength=1"</span><span class="w"> </span><span class="n">\</span><span class="w">
+  </span><span class="nt">--scale-rule-auth</span><span class="w"> </span><span class="s2">"personalAccessToken=personal-access-token"</span><span class="w"> </span><span class="s2">"organizationURL=organization-url"</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--cpu</span><span class="w"> </span><span class="s2">"2.0"</span><span class="w"> </span><span class="n">\</span><span class="w">
+  </span><span class="nt">--memory</span><span class="w"> </span><span class="s2">"4Gi"</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--secrets</span><span class="w"> </span><span class="s2">"personal-access-token=</span><span class="nv">$AZP_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="s2">"organization-url=</span><span class="nv">$ORGANIZATION_URL</span><span class="s2">"</span><span class="w"> </span><span class="n">\</span><span class="w">
+  </span><span class="nt">--env-vars</span><span class="w"> </span><span class="s2">"AZP_TOKEN=secretref:personal-access-token"</span><span class="w"> </span><span class="s2">"AZP_URL=secretref:organization-url"</span><span class="w"> </span><span class="s2">"AZP_POOL=</span><span class="nv">$AZP_POOL</span><span class="s2">"</span><span class="w"> </span><span class="nx">\</span><span class="w">
+  </span><span class="nt">--registry-server</span><span class="w"> </span><span class="s2">"</span><span class="nv">$CONTAINER_REGISTRY_NAME</span><span class="s2">.azurecr.io"</span><span class="w">
+</span></code></pre></div></div></ul><hr /><p>The following table describes the scale rule parameters used in the command.</p><div class="table-wrapper"><table><thead><tr><th>Parameter<th>Description<tbody><tr><td><code class="language-plaintext highlighter-rouge">--min-executions</code><td>The minimum number of job executions to run per polling interval.<tr><td><code class="language-plaintext highlighter-rouge">--max-executions</code><td>The maximum number of job executions to run per polling interval.<tr><td><code class="language-plaintext highlighter-rouge">--polling-interval</code><td>The polling interval at which to evaluate the scale rule.<tr><td><code class="language-plaintext highlighter-rouge">--scale-rule-name</code><td>The name of the scale rule.<tr><td><code class="language-plaintext highlighter-rouge">--scale-rule-type</code><td>The type of scale rule to use. To learn more about the Azure Pipelines scaler, see the KEDA <a href="https://keda.sh/docs/latest/scalers/azure-pipelines/">documentation</a>.<tr><td><code class="language-plaintext highlighter-rouge">--scale-rule-metadata</code><td>The metadata for the scale rule.<tr><td><code class="language-plaintext highlighter-rouge">--scale-rule-auth</code><td>The authentication for the scale rule.</table></div><p>The scale rule configuration defines the event source to monitor. It’s evaluated on each polling interval and determines how many job executions to trigger. To learn more, see <a href="scale-app.md">Set scaling rules</a>.</p><p>The event-driven job is now created in the Container Apps environment.</p><h2 id="run-a-pipeline-and-verify-the-job"> <a href="#run-a-pipeline-and-verify-the-job" class="anchor-heading" aria-labelledby="run-a-pipeline-and-verify-the-job"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Run a pipeline and verify the job</h2><p>Now that you’ve configured a self-hosted agent job, you can run a pipeline and verify it’s working correctly.</p><h1 id="in-the-left-hand-navigation-of-your-azure-devops-project-navigate-to-pipelines"> <a href="#in-the-left-hand-navigation-of-your-azure-devops-project-navigate-to-pipelines" class="anchor-heading" aria-labelledby="in-the-left-hand-navigation-of-your-azure-devops-project-navigate-to-pipelines"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In the left-hand navigation of your Azure DevOps project, navigate to <strong>Pipelines</strong>.</h1><h1 id="select-create-pipeline"> <a href="#select-create-pipeline" class="anchor-heading" aria-labelledby="select-create-pipeline"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Create pipeline</strong>.</h1><h1 id="select-azure-repos-git-as-the-location-of-your-code"> <a href="#select-azure-repos-git-as-the-location-of-your-code" class="anchor-heading" aria-labelledby="select-azure-repos-git-as-the-location-of-your-code"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Azure Repos Git</strong> as the location of your code.</h1><h1 id="select-the-repository-you-created-earlier"> <a href="#select-the-repository-you-created-earlier" class="anchor-heading" aria-labelledby="select-the-repository-you-created-earlier"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select the repository you created earlier.</h1><h1 id="select-starter-pipeline"> <a href="#select-starter-pipeline" class="anchor-heading" aria-labelledby="select-starter-pipeline"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Starter pipeline</strong>.</h1><h1 id="in-the-pipeline-yaml-change-the-pool-from-vmimage-ubuntu-latest-to-name-container-apps"> <a href="#in-the-pipeline-yaml-change-the-pool-from-vmimage-ubuntu-latest-to-name-container-apps" class="anchor-heading" aria-labelledby="in-the-pipeline-yaml-change-the-pool-from-vmimage-ubuntu-latest-to-name-container-apps"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> In the pipeline YAML, change the <code class="language-plaintext highlighter-rouge">pool</code> from <code class="language-plaintext highlighter-rouge">vmImage: ubuntu-latest</code> to <code class="language-plaintext highlighter-rouge">name: container-apps</code>.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```yaml
+pool:
+  name: container-apps
+```
+</code></pre></div></div><h1 id="select-save-and-run"> <a href="#select-save-and-run" class="anchor-heading" aria-labelledby="select-save-and-run"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Select <strong>Save and run</strong>.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The pipeline runs and uses the self-hosted agent job you created in the Container Apps environment.
+</code></pre></div></div><h1 id="list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully-2"> <a href="#list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully-2" class="anchor-heading" aria-labelledby="list-the-executions-of-the-job-to-confirm-a-job-execution-was-created-and-completed-successfully-2"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> List the executions of the job to confirm a job execution was created and completed successfully.</h1><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- Bash
+```bash
+az containerapp job execution list \
+    --name "$JOB_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --output table \
+    --query '[].{Status: properties.status, Name: name, StartTime: properties.startTime}'
+```
+
+- PowerShell
+```powershell
+az containerapp job execution list `
+    --name "$JOB_NAME" `
+    --resource-group "$RESOURCE_GROUP" `
+    --output table `
+    --query '[].{Status: properties.status, Name: name, StartTime: properties.startTime}'
+```
+
+---
+</code></pre></div></div><p>::: zone-end</p><blockquote><p>[!TIP] Having issues? Let us know on GitHub by opening an issue in the <a href="https://github.com/microsoft/azure-container-apps">Azure Container Apps repo</a>.</p></blockquote><h2 id="clean-up-resources"> <a href="#clean-up-resources" class="anchor-heading" aria-labelledby="clean-up-resources"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Clean up resources</h2><p>Once you’re done, run the following command to delete the resource group that contains your Container Apps resources.</p><blockquote><p>[!CAUTION] The following command deletes the specified resource group and all resources contained within it. If resources outside the scope of this tutorial exist in the specified resource group, they will also be deleted.</p></blockquote><ul><li>Bash<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az group delete <span class="se">\</span>
+  <span class="nt">--resource-group</span> <span class="nv">$RESOURCE_GROUP</span>
+</code></pre></div></div><li>PowerShell<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">delete</span><span class="w"> </span><span class="se">`
+</span><span class="w">  </span><span class="nt">--resource-group</span><span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w">
+</span></code></pre></div></div></ul><hr /><p>To delete your GitHub repository, see <a href="https://docs.github.com/en/github/administering-a-repository/managing-repository-settings/deleting-a-repository">Deleting a repository</a>.</p><hr><h2 class="text-delta">Table of contents</h2><ul></ul></main><hr><footer><p><a href="#top" id="back-to-top">Back to top</a></p><span>[ <a href="https://github.com/kyoon55">Github</a> ]</span> <span>[ <a href="mailto:kyoon5@gwu.edu">Click here to email me</a> ]</span><div class="d-flex mt-2"></div></footer></div></div><div class="search-overlay"></div></div><script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script> <script> var config = {} ; mermaid.initialize(config); window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid')); </script><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><link rel="stylesheet" href="/my-tech/assets/css/just-the-docs-default.css"> <script src="/my-tech/assets/js/vendor/lunr.min.js"></script> <script src="/my-tech/assets/js/just-the-docs.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/my-tech/assets/images/favicon.ico" type="image/x-icon"><title>CICD | My SRE Stuff</title><meta name="generator" content="Jekyll v4.3.2" /><meta property="og:title" content="CICD" /><meta property="og:locale" content="en_US" /><meta name="description" content="This page is full of articles for my SRE knowledge" /><meta property="og:description" content="This page is full of articles for my SRE knowledge" /><link rel="canonical" href="http://localhost:4000/my-tech/docs/CICD" /><meta property="og:url" content="http://localhost:4000/my-tech/docs/CICD" /><meta property="og:site_name" content="My SRE Stuff" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2023-03-01T00:00:00-05:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="CICD" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-03-01T00:00:00-05:00","datePublished":"2023-03-01T00:00:00-05:00","description":"This page is full of articles for my SRE knowledge","headline":"CICD","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/my-tech/docs/CICD"},"url":"http://localhost:4000/my-tech/docs/CICD"}</script>

@@ -454,3 +454,214 @@ chmod 400 Dev.pem
 
 ssh -i "Dev.pem" ec2-user@private-IP-address
 ```
+
+# Create 2 More Private EC2 Insntaces
+
+<details>
+<summary>This CloudFormation Stack provisions basic infrastructure, with public and private subnets, along with public and private EC2 instances, Plus two more private EC2 instancesqqus</summary>
+
+{% highlight yaml %}
+AWSTemplateFormatVersion: 2010-09-09
+Description: Infrastructure CloudFormation Template with Bastion (Public), Private Subnets, NAT Gateway, and EC2 Instance
+
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: Dev
+
+Resources:
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+
+  MyPublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: "10.0.0.0/24"
+      AvailabilityZone: "us-east-1a"
+
+  MyPrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: "10.0.1.0/24"
+      AvailabilityZone: "us-east-1b"
+
+  MyPrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: "10.0.2.0/24"
+      AvailabilityZone: "us-east-1c"
+
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  MyVPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref MyVPC
+      InternetGatewayId: !Ref MyInternetGateway
+
+  MyPublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+
+  MyPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: MyVPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref MyPublicRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref MyInternetGateway
+
+  MyPublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref MyPublicSubnet
+      RouteTableId: !Ref MyPublicRouteTable
+
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "My Security Group"
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: "0.0.0.0/0"
+
+  MyBastionInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref MySecurityGroup
+          AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          DeleteOnTermination: true
+          SubnetId: !Ref MyPublicSubnet
+      ImageId: "ami-97785bed"
+      Tags:
+        - Key: Name
+          Value: "bastion-instance"
+
+  MyPrivateRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+
+  MyPrivateRoute1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MyPrivateRouteTable1
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId: !Ref MyNatGateway1
+
+  MyPrivateSubnetRouteTableAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref MyPrivateSubnet1
+      RouteTableId: !Ref MyPrivateRouteTable1
+
+  MyPrivateRouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+
+  MyPrivateRoute2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MyPrivateRouteTable2
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId: !Ref MyNatGateway2
+
+  MyPrivateSubnetRouteTableAssociation2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref MyPrivateSubnet2
+      RouteTableId: !Ref MyPrivateRouteTable2
+
+  MyNatGateway1:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt MyEIP1.AllocationId
+      SubnetId: !Ref MyPublicSubnet
+
+  MyNatGateway2:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt MyEIP2.AllocationId
+      SubnetId: !Ref MyPublicSubnet
+
+  MyEIP1:
+    Type: AWS::EC2::EIP
+
+  MyEIP2:
+    Type: AWS::EC2::EIP
+
+  MyPrivateSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Private Security Group"
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: "0.0.0.0/0"
+
+  MyPrivateEC2Instance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref MyPrivateSecurityGroup
+          DeviceIndex: 0
+          DeleteOnTermination: true
+          SubnetId: !Ref MyPrivateSubnet1
+      ImageId: "ami-97785bed"
+      Tags:
+        - Key: Name
+          Value: "private-instance-1"
+
+  MyPrivateEC2Instance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref MyPrivateSecurityGroup
+          DeviceIndex: 0
+          DeleteOnTermination: true
+          SubnetId: !Ref MyPrivateSubnet2
+      ImageId: "ami-97785bed"
+      Tags:
+        - Key: Name
+          Value: "private-instance-2"
+Outputs:
+  Instance1PublicIP:
+    Description: Public IP Address of bastion-instance (instance-1)
+    Value: !GetAtt MyBastionInstance.PublicIp
+
+  PrivateInstance1PrivateIP:
+    Description: Private IP Address of private-instance-1
+    Value: !GetAtt MyPrivateEC2Instance1.PrivateIp
+
+  PrivateInstance2PrivateIP:
+    Description: Private IP Address of private-instance-2
+    Value: !GetAtt MyPrivateEC2Instance2.PrivateIp
+{% endhighlight %}
+</details>

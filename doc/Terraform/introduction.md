@@ -84,13 +84,13 @@ date: 2023-02-25
 
 ### Windows
 
-1. Download the Windows binary for 32 or 64-bit CPUs from <https://www.terraform.io/downloads>.
-2. Unzip the package.
-3. Move the Terraform binary to the Windows PATH.
+# Download the Windows binary for 32 or 64-bit CPUs from <https://www.terraform.io/downloads>.
+# Unzip the package.
+# Move the Terraform binary to the Windows PATH.
 
 ### Linux (Ubuntu) Package Manager
 
-1. Run the following commands at the terminal:
+# Run the following commands at the terminal:
 
     ```
     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -98,7 +98,7 @@ date: 2023-02-25
     sudo apt-get update && sudo apt-get install terraform
     ```
 
-2. Install Terraform using the package manager:
+# Install Terraform using the package manager:
 
     ```
     sudo apt update && sudo apt install terraform -y
@@ -106,7 +106,7 @@ date: 2023-02-25
 
 ### macOS Package Manager
 
-1. Run the following commands at the terminal:
+# Run the following commands at the terminal:
 
     ```
     brew tap hashicorp/tap
@@ -358,23 +358,23 @@ variable "vpc_cidr_block" {
 
 #### Assigning values to variables
 
-1. Using the default argument in the variable declaration block.
+# Using the default argument in the variable declaration block.
 
-2. Assign a value to the variable in the variable definition file which by default is terraform.tfvars. Example: **vpc_cidr_block = "172.16.0.0/16"**
+# Assign a value to the variable in the variable definition file which by default is terraform.tfvars. Example: **vpc_cidr_block = "172.16.0.0/16"**
 
-3. Using `-var` command-line option. Example: **terraform apply -var="vpc_cidr_block=10.0.10.0/24"**
+# Using `-var` command-line option. Example: **terraform apply -var="vpc_cidr_block=10.0.10.0/24"**
 
-4. Using `-var-file` command-line option. Example: **terraform apply -auto-approve -var-file=web-prod.tfvars**
+# Using `-var-file` command-line option. Example: **terraform apply -auto-approve -var-file=web-prod.tfvars**
 
-5. Exporting the variable at the terminal. Example: **export TF_VAR_vpc_cidr_block="192.168.100.0/24"**
+# Exporting the variable at the terminal. Example: **export TF_VAR_vpc_cidr_block="192.168.100.0/24"**
 
 Variable definition precedence `(from highest to lowest)`:
 
-1. Variables specified at the terminal using **-var** and **-var-file** options.
+# Variables specified at the terminal using **-var** and **-var-file** options.
 
-2. Variables defined in **terraform.tfvars**.
+# Variables defined in **terraform.tfvars**.
 
-3. Variables defined as environment variables using TF_VAR prefix.
+# Variables defined as environment variables using TF_VAR prefix.
 
 #### String Interpolation
 

@@ -12,14 +12,14 @@ date: 2023-02-01
 
 ## Explore Docker Hub
 
-1. Sign in to Docker Hub.
-2. At the top of the page, search for "httpd".
-3. In the left-hand menu, filter for Application Infrastructure, and Official Images.
-4. Select the httpd project.
-5. At the top of the page, click the Tags tab.
-6. Under latest, select linux/amd64.
-7. Back in the list of available images, select nginx
-8. Review the How to use this image section.
+# Sign in to Docker Hub.
+# At the top of the page, search for "httpd".
+# In the left-hand menu, filter for Application Infrastructure, and Official Images.
+# Select the httpd project.
+# At the top of the page, click the Tags tab.
+# Under latest, select linux/amd64.
+# Back in the list of available images, select nginx
+# Review the How to use this image section.
 
 ## Get and View httpd
 
