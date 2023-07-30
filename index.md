@@ -102,47 +102,50 @@ description: "Main Page."
 <p style="text-align:center">As a leader in my field, I not only strive for excellence in my work but also inspire and guide my team members to perform at their best. My passion for this profession drives me to constantly seek new challenges and opportunities for growth, ensuring that our clients receive the highest level of service and satisfaction.</p>
 </div>
 
+![](assets/images/architecture.png)
+*From: Containerd: https://containerd.io/*
+
 <h2 style="text-align:center"> My Duties and Responsibilities </h2>
 
 <div class="features">
     <div class="feature">
         <div class="featureText">
             <h3>AWS</h3>
-            <li>I build Infrastructure on AWS</li>
-      <li>I deploy several AWS resources and services</li>
-      <li>I use CloudFormation to deploy and update resources</li>
+            <li>build Infrastructure on AWS</li>
+      <li>Deploy several AWS resources and services</li>
+      <li>Use CloudFormation to deploy and update resources</li>
         </div>
     </div>
     <div class="feature">
         <div class="featureText">
             <h3>Terraform</h3>
-            <li>I build and update multi-plaform infrastructure using Terraform</li>
+            <li>Build and update multi-plaform infrastructure using Terraform</li>
         </div>
     </div>
     <div class="feature">
         <div class="featureText">
             <h3>Jenkins</h3>
-            <li>I run scheduled, triggered, or manual jobs on Jenkins</li>
-   <li>I create and manage automated scripts inside Jenkins Jobs</li>
+            <li>Run scheduled, triggered, or manual jobs on Jenkins</li>
+   <li>Create and manage automated scripts inside Jenkins Jobs</li>
         </div>
     </div>
     <div class="feature">
         <div class="featureText">
             <h3>Kubernetes</h3>
-            <li>I create, operate, and update Openshift and EKS distributions of Kubernetes</li>
-   <li>I troubleshoot common issues of Kubernetes</li>
+            <li>Create, operate, and update Openshift and EKS distributions of Kubernetes</li>
+   <li>Troubleshoot common issues of Kubernetes</li>
         </div>
     </div>
     <div class="feature">
         <div class="featureText">
             <h3>Performance Monitoring</h3>
-            <li>I manage creation of logging, monitoring, and alerting tools such as Prometheus, Grafana, Splunk, etc.</li>
+            <li>Manage creation of logging, monitoring, and alerting tools such as Prometheus, Grafana, Splunk, etc.</li>
         </div>
     </div>
     <div class="feature">
         <div class="featureText">
             <h3>Docker</h3>
-            <li>I create and operate images and containers that are quickly deployable.</li>
+            <li>Create and operate images and containers that are quickly deployable.</li>
         </div>
     </div>
 </div>
