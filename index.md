@@ -95,7 +95,7 @@ description: "Main Page."
 
 <h2 style="text-align:center"> Welcome to my SRE Page </h2>
 <div class="introduction">
-<p style="text-align:center">I am a seasoned Infrastructure and Platform Engineer with over 8 years of experience in the IT industry, catering to diverse clients. My primary responsibility revolves around ensuring the constant availability and reliability of the infrastructure that hosts our clients' IT solutions. Through extensive hands-on experience in managing IT infrastructure and platforms, I have consistently succeeded in maintaining a reliable and secure environment.</p>
+<p style="text-align:center">I am an infrastructure and platform engineer with over 8 years of experience in the IT industry, catering to diverse clients. My primary responsibility revolves around ensuring the constant availability and reliability of the infrastructure that hosts our clients' IT solutions. Through extensive hands-on experience in managing IT infrastructure and platforms, I have consistently succeeded in maintaining a reliable and secure environment.</p>
 
 <p style="text-align:center">To achieve my goal of delivering top-notch services, I am committed to staying updated with the latest technologies. I regularly conduct intensive research to incorporate cutting-edge solutions into our infrastructure. Moreover, I actively maintain a robust set of tools and resources that contribute to the dependability and efficiency of the systems.</p>
 
