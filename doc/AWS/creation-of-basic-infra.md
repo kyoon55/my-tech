@@ -1,6 +1,6 @@
 ---
 layout: default
-title: CloudFormation Stack Deployment Examples
+title: CloudFormation Stack Deployment Examples Part 1
 excerpt: List of CloudFormation Stack Deployments for AWS resources
 parent: AWS
 nav_order: 2
@@ -164,6 +164,127 @@ Outputs:
 ```bash
 ssh -i "Dev.pem" ec2-user@public-IP-Address
 ```
+
+# Basic Infrastructure that provisions a Nginx Server
+
+<details>
+<summary>Provisioing the Basic Infrastructure by Creating a CloudFormation Stack</summary>
+
+{% highlight yaml %}
+
+# Stack-4.yml
+AWSTemplateFormatVersion: 2010-09-09
+Description: Basic Infrastructure CloudFormation Template with EC2 Instance
+
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: Dev
+    
+Resources:
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+
+  MySubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: "10.0.0.0/24"
+      AvailabilityZone: "us-east-1a"
+
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  MyVPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref MyVPC
+      InternetGatewayId: !Ref MyInternetGateway
+
+  MyRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+
+  MyRoute:
+    Type: AWS::EC2::Route
+    DependsOn: MyVPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref MyRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref MyInternetGateway
+
+  MySubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref MySubnet
+      RouteTableId: !Ref MyRouteTable
+
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "My Security Group"
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref MySecurityGroup
+          AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          DeleteOnTermination: true
+          SubnetId: !Ref MySubnet
+      KeyName: !Ref KeyName
+      ImageId: "ami-97785bed"
+      Tags:
+        - Key: Name
+          Value: "instance-1"
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y nginx
+
+          echo "<html><body><h1>Welcome to My Website</h1></body></html>" >> /var/www/html/index.html
+          echo "<html><body><h1>This is my Second Page</h1></body></html>" >> /var/www/html/second_page.html
+          service nginx start
+
+  MyEIP:
+    Type: AWS::EC2::EIP
+
+  MyInstanceEIPAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      InstanceId: !Ref MyInstance
+      EIP: !Ref MyEIP
+
+Outputs:
+  Instance1PublicIP:
+    Description: Public IP Address of instance-1
+    Value: !GetAtt MyInstance.PublicIp
+{% endhighlight %}
+
+</details>
+
+- Test:
+  - Wait for a few minutes, go to the browser, enter public IP address 
 
 # Basic Infrastructure CloudFormation Template with Public and Private Subnet with Public Bastion and Private EC2 Instance
 
@@ -665,3 +786,169 @@ Outputs:
     Value: !GetAtt MyPrivateEC2Instance2.PrivateIp
 {% endhighlight %}
 </details>
+
+## Building Smailler Images with Multi-stage builds
+
+### Containers are made of layers. Compile and install operations performed in the image, add to the layers, increasing the size of the container.Instead of keeping all of those layers into the final image, you can split those steps off, and only use the finished product. Docker provides this capability through multi-stage builds
+
+#### Key Points
+- docker inspect "-f" parameter gives format (parses) the value from the inspect of the docker containers
+- "numfmt --to=iec" converts bytes to gigabytes
+- From Dockerfile, certain pieces of lines of scripts are pulled to the side (layer) and added into the image, producing fewer layers (outputs) in the images 
+- Beginning of the Dockerfile: FROM python:3 AS BASE
+- "FROM base AS builder"
+- Then the new layer of the image begins
+
+<details>
+<summary>Script Example</summary>
+
+{% highlight bash %}
+{% raw %}
+
+# Do Prep Work in the Image
+
+## Change to the notes directory:
+cd notes
+
+## Check the Dockerfile:
+cat Dockerfile
+
+## Build an image using the file:
+docker build -t notesapp:default .
+
+## Set a variable to view the layers of the image:
+## Formats the output of a docker inspect to give the hashes of the layers used for the image.
+export showLayers='{{ range .RootFS.Layers }}{{ println . }}{{end}}'
+
+## Set a variable to show the size of the image:
+export showSize='{{ .Size }}'
+
+## Show the image layers:
+docker inspect -f "$showLayers" notesapp:default
+
+## Count the number of layers:
+docker inspect -f "$showLayers" notesapp:default | wc -l
+
+## Show the size of the image:
+docker inspect -f "$showSize" notesapp:default | numfmt --to=iec
+
+# Add a Build Stage
+
+## Open the Dockerfile:
+vim Dockerfile
+Add a build stage by adding the following:
+FROM python:3 AS base
+ENV PYBASE /pybase
+ENV PYTHONUSERBASE $PYBASE
+ENV PATH $PYBASE/bin:$PATH
+
+FROM base AS builder
+RUN pip install pipenv
+WORKDIR /tmp
+COPY Pipfile .
+RUN pipenv lock
+RUN PIP_USER=1 PIP_IGNORE_INSTALLED=1 pipenv install -d --system --ignore-pipfile
+
+FROM base
+COPY --from=builder /pybase /pybase
+COPY . /app/notes
+WORKDIR /app/notes
+EXPOSE 80
+CMD [ "flask", "run", "--port=80", "--host=0.0.0.0" ]
+
+## Save the file:
+ESC
+:wq
+
+# Create a Smaller Image
+
+## Build the image:
+docker build -t notesapp:multistage .
+
+## Show the multistage image layers:
+docker inspect -f "$showLayers" notesapp:multistage
+
+## Count the layers:
+docker inspect -f "$showLayers" notesapp:multistage | wc -l
+
+## Show the size of the image:
+docker inspect -f "$showSize" notesapp:multistage | numfmt --to=iec
+
+{% endraw %}
+{% endhighlight %}
+</details>
+<hr style="3px solid #bbb">
+
+## Container Logging
+
+### Congifure syslog to use UDP and then configure Docker to use the syslog logging driver by default
+
+<details>
+<summary>Script Example</summary>
+
+{% highlight bash %}
+{% raw %}
+#  Configure Docker to Use Syslog
+## Open the rsyslog.conf file.
+vim /etc/rsyslog.conf
+
+## In the file editor, uncomment the two lines under Provides UDP syslog reception by removing #.
+
+$ModLoad imudp
+$UDPServerRun 514
+
+## Then, start the syslog service.
+
+systemctl start rsyslog
+
+## Now that syslog is running, let's configure Docker to use syslog as the default logging driver. We'll do this by creating a file called daemon.json.
+
+mkdir /etc/docker
+vi /etc/docker/daemon.json
+
+## In the vi editor, enter the following, making sure to replace <PRIVATE_IP> with the private IP of your cloud server:
+
+{
+  "log-driver": "syslog",
+  "log-opts": {
+    "syslog-address": "udp://<PRIVATE_IP>:514"
+  }
+}
+
+## Next, save and quit. Then, start the Docker service.
+
+systemctl start docker
+
+## The next step is to see if there are any logs coming in from Docker.
+
+tail /var/log/messages
+
+## The output of this command tells us that there are. Now let's test our setup.
+
+## We're going to create two new containers using the httpd image. The first one will be called syslog-logging and will use none for the log driver. The second will be called json-logging and will use the JSON file for the log driver.
+
+## Create a container.
+
+docker container run -d --name syslog-logging --log-driver none httpd
+
+## Then run docker ps to make sure our container is up and running correctly. Then, execute the docker logs command to see what logs we have.
+
+docker logs syslog-logging
+
+## To confirm that we are logging to syslog, we can check the content of /var/log/messages. Verify that the syslog-logging container is sending its logs to syslog by running tail on the message log file.
+
+tail /var/log/messages
+
+## The output shows us the logs that are being input to syslog.Create our second test container. This time, we'll specify the log driver as the JSON file.
+
+docker container run -d --name json-logging --log-driver json-file httpd
+
+## Run the docker ps command again. This time, we should see two containers running. Verify that the json-logging container is sending its logs to the JSON file. Execute the docker logs command on the json-logging container.
+
+docker logs json-logging
+This time, the logs do not appear in /var/log/messages because they are being sent to a JSON file instead.
+
+{% endraw %}
+{% endhighlight %}
+</details>
+<hr style="3px solid #bbb">

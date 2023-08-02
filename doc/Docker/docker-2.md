@@ -1,44 +1,62 @@
 ---
 layout: default
-title: Initializing the Docker Environment
+title: Docker First Setup From A Cloud Guru Part 3
+excerpt: This is a page for deploying several resources on Docker, from A Cloud Guru
 parent: Docker
 nav_order: 1
-excerpt: This is the way to initialize the docker environment. This will need to # install the docker prerequisites, # CentOs-specific Docker Repo, # install Docker, # Enable Docker daemon, # add a user and # run a test.
-date: 2023-02-17
+date: 2023-02-19
 ---
 <h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
 <h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 
-## Installing Docker
 
-# Install the Docker prerequisites:
+<h1>{{ page.title }}</h1>
+<h2>{{ page.excerpt }}</h2>
+<h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
+# Tutorial: Running a Sample Docker Image
 
-- `sudo yum install -y yum-utils device-mapper-persistent-data lvm2`
+## Dockerize a Flask Applicaiton
 
-# Using yum-config-manager, add the CentOS-specific Docker repo:
+### Deployment of a Flask Applicaiton
 
-- `sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
+#### Key Points
+- Dockerfile starts with "FROM python3 AS base
+- Then it creates another layer to ahorten # of layers: "FROM base AS builder"
 
-# Install Docker:
+<details>
+<summary>Script Example</summary>
 
-- `sudo yum -y install docker-ce`
+{% highlight bash %}
+{% raw %}
 
-## Enable the Docker Daemon
+# Do Prep Work in the Image
 
-# Enable the Docker daemon:
+## Change to the notes directory:
+cd notes
 
-- `sudo systemctl enable --now docker`
+## Check the Dockerfile:
+cat Dockerfile
 
-## Configure User Permissions
+## Build an image using the file:
+docker build -t notesapp:default .
 
-# Add the lab user to the docker group:
+## Set a variable to view the layers of the image:
+export showLayers='{{ range .RootFS.Layers }}{{ println . }}{{end}}'
 
-- `sudo usermod -aG docker cloud_user`
-  - Caution: You will need to exit the server for the change to take effect.
+## Set a variable to show the size of the image:
+export showSize='{{ .Size }}'
 
-## Run a Test Image
+## Show the image layers:
+docker inspect -f "$showLayers" notesapp:default
 
-# Using docker, run the hello-world image to verify that the environment is set up properly:
+## Count the number of layers:
+docker inspect -f "$showLayers" notesapp:default | wc -l
 
-- `docker run hello-world`
+## Show the size of the image:
+docker inspect -f "$showSize" notesapp:default | numfmt --to=iec
+
+{% endraw %}
+{% endhighlight %}
+</details>
+<hr style="3px solid #bbb">

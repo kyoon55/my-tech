@@ -13,8 +13,21 @@ date: 2015-12-29
 <h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 # Tutorial: Running a Sample Docker Image
 
+## Dockerize a Flask Applicaiton
+
+### Deployment of a Flask Applicaiton
+
+#### Key Points
+- 1
+- 2
+
 <details>
-<summary>Summary</summary>
-{% highlight python3 %}
-Code
+<summary>Script Example</summary>
+
+{% highlight bash %}
+{% raw %}
+
+{% endraw %}
 {% endhighlight %}
+</details>
+<hr style="3px solid #bbb">

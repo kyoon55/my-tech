@@ -1,1 +1,830 @@
-<!DOCTYPE html><html lang="en-US"><body> <script> var elements = document.querySelectorAll('p'); Array.prototype.forEach.call(elements, function(el, i){ if(el.innerHTML=='[expand]') { var parentcontent = el.parentNode.innerHTML.replace('<p>[expand]</p>','<div class="expand" style="display: none; height: 0; overflow: hidden;">').replace('<p>[/expand]</p>','</div>'); el.parentNode.innerHTML = parentcontent; } }); var elements = document.querySelectorAll('div.expand'); Array.prototype.forEach.call(elements, function(el, i){ el.previousElementSibling.innerHTML = el.previousElementSibling.innerHTML + '<span>..&nbsp; <a href="#" style="cursor: pointer;" onclick="this.parentNode.parentNode.nextElementSibling.style.display = \'block\'; this.parentNode.parentNode.nextElementSibling.style.height = \'auto\'; this.parentNode.style.display = \'none\';">read&nbsp;more&nbsp;&rarr;</a></span>'; }); </script> <a class="skip-to-main" href="#main-content">Skip to main content</a> <svg xmlns="http://www.w3.org/2000/svg" class="d-none"> <symbol id="svg-link" viewBox="0 0 24 24"><title>Link</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path> </svg> </symbol> <symbol id="svg-menu" viewBox="0 0 24 24"><title>Menu</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line> </svg> </symbol> <symbol id="svg-arrow-right" viewBox="0 0 24 24"><title>Expand</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline> </svg> </symbol> <symbol id="svg-external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link"><title id="svg-external-link-title">(external link)</title><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line> </symbol> <symbol id="svg-doc" viewBox="0 0 24 24"><title>Document</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline> </svg> </symbol> <symbol id="svg-search" viewBox="0 0 24 24"><title>Search</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"> <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line> </svg> </symbol> <symbol id="svg-copy" viewBox="0 0 16 16"><title>Copy</title><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/> </svg> </symbol> <symbol id="svg-copied" viewBox="0 0 16 16"><title>Copied</title><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16"><path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708Z"/> </svg> </symbol> </svg><div class="side-bar"><div class="site-header" role="banner"> <a href="/my-tech/" class="site-title lh-tight"> My SRE Stuff </a> <button id="menu-button" class="site-button btn-reset" aria-label="Toggle menu" aria-pressed="false"> <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><use xlink:href="#svg-menu"></use></svg> </a></div><nav aria-label="Main" id="site-nav" class="site-nav"><ul class="nav-list"><li class="nav-list-item"><a href="/my-tech/" class="nav-list-link">My Page</a><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in AWS category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/AWS" class="nav-list-link">AWS</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/AWS/creation-of-basic-infra/" class="nav-list-link">CloudFormation Stack Deployment Examples</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Ansible category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Ansible" class="nav-list-link">Ansible</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Ansible/ansible-1/" class="nav-list-link">Create a host, ssh into the public EC2 instnace</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in CICD category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/CICD" class="nav-list-link">CICD</a><ul class="nav-list"></ul><li class="nav-list-item active"><button class="nav-list-expander btn-reset" aria-label="toggle items in Docker category" aria-pressed="true"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Docker" class="nav-list-link">Docker</a><ul class="nav-list"><li class="nav-list-item active"><a href="/my-tech/doc/Docker/docker-1/" class="nav-list-link active">Docker Tutorial</a><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-2/" class="nav-list-link">Initializing the Docker Environment</a><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-3/" class="nav-list-link">Working With Prebuilt Docker Images</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Kubernetes category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Kubernetes" class="nav-list-link">Kubernetes</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Kubernetes/doc-1/" class="nav-list-link">Kubernetes 1.24 Installation</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Misc category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Misc" class="nav-list-link">Misc</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps/" class="nav-list-link">tutorial about the running a sample docker image in numbered steps</a><li class="nav-list-item "><a href="/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/" class="nav-list-link">a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Terraform category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Terraform" class="nav-list-link">Terraform</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/docs/Terraform/doc-1/" class="nav-list-link">Terraform Deployment of basic infrastructure on AWS</a></ul></ul></nav></div><div class="main" id="top"><div id="main-header" class="main-header"><div class="search" role="search"><div class="search-input-wrap"> <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search My SRE Stuff" aria-label="Search My SRE Stuff" autocomplete="off"> <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label></div><div id="search-results" class="search-results"></div></div></div><div id="main-content-wrap" class="main-content-wrap"><nav aria-label="Breadcrumb" class="breadcrumb-nav"><ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="/my-tech/docs/Docker">Docker</a><li class="breadcrumb-nav-list-item"><span>Docker Tutorial</span></ol></nav><div id="main-content" class="main-content"><main><h1> Docker Tutorial</h1><h2></h2><h3> Date Posted: 2023 02 19</h3></main><hr><footer><p><a href="#top" id="back-to-top">Back to top</a></p><span>[ <a href="https://github.com/kyoon55">Github</a> ]</span> <span>[ <a href="mailto:kyoon5@gwu.edu">Click here to email me</a> ]</span><div class="d-flex mt-2"></div></footer></div></div><div class="search-overlay"></div></div><script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script> <script> var config = {} ; mermaid.initialize(config); window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid')); </script><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><link rel="stylesheet" href="/my-tech/assets/css/just-the-docs-default.css"> <script src="/my-tech/assets/js/vendor/lunr.min.js"></script> <script src="/my-tech/assets/js/just-the-docs.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/my-tech/assets/images/favicon.ico" type="image/x-icon"><title>Docker Tutorial | My SRE Stuff</title><meta name="generator" content="Jekyll v4.3.2" /><meta property="og:title" content="Docker Tutorial" /><meta property="og:locale" content="en_US" /><meta name="description" content="This page is full of articles for my SRE knowledge" /><meta property="og:description" content="This page is full of articles for my SRE knowledge" /><link rel="canonical" href="http://localhost:4000/my-tech/doc/Docker/docker-1/" /><meta property="og:url" content="http://localhost:4000/my-tech/doc/Docker/docker-1/" /><meta property="og:site_name" content="My SRE Stuff" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2023-02-19T00:00:00-05:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="Docker Tutorial" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-19T00:00:00-05:00","datePublished":"2023-02-19T00:00:00-05:00","description":"This page is full of articles for my SRE knowledge","headline":"Docker Tutorial","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/my-tech/doc/Docker/docker-1/"},"url":"http://localhost:4000/my-tech/doc/Docker/docker-1/"}</script>
+<!DOCTYPE html><html lang="en-US"><body> <script> var elements = document.querySelectorAll('p'); Array.prototype.forEach.call(elements, function(el, i){ if(el.innerHTML=='[expand]') { var parentcontent = el.parentNode.innerHTML.replace('<p>[expand]</p>','<div class="expand" style="display: none; height: 0; overflow: hidden;">').replace('<p>[/expand]</p>','</div>'); el.parentNode.innerHTML = parentcontent; } }); var elements = document.querySelectorAll('div.expand'); Array.prototype.forEach.call(elements, function(el, i){ el.previousElementSibling.innerHTML = el.previousElementSibling.innerHTML + '<span>..&nbsp; <a href="#" style="cursor: pointer;" onclick="this.parentNode.parentNode.nextElementSibling.style.display = \'block\'; this.parentNode.parentNode.nextElementSibling.style.height = \'auto\'; this.parentNode.style.display = \'none\';">read&nbsp;more&nbsp;&rarr;</a></span>'; }); </script> <a class="skip-to-main" href="#main-content">Skip to main content</a> <svg xmlns="http://www.w3.org/2000/svg" class="d-none"> <symbol id="svg-link" viewBox="0 0 24 24"><title>Link</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path> </svg> </symbol> <symbol id="svg-menu" viewBox="0 0 24 24"><title>Menu</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line> </svg> </symbol> <symbol id="svg-arrow-right" viewBox="0 0 24 24"><title>Expand</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline> </svg> </symbol> <symbol id="svg-external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link"><title id="svg-external-link-title">(external link)</title><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line> </symbol> <symbol id="svg-doc" viewBox="0 0 24 24"><title>Document</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline> </svg> </symbol> <symbol id="svg-search" viewBox="0 0 24 24"><title>Search</title><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"> <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line> </svg> </symbol> <symbol id="svg-copy" viewBox="0 0 16 16"><title>Copy</title><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/> </svg> </symbol> <symbol id="svg-copied" viewBox="0 0 16 16"><title>Copied</title><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16"><path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708Z"/> </svg> </symbol> </svg><div class="side-bar"><div class="site-header" role="banner"> <a href="/my-tech/" class="site-title lh-tight"> My SRE Stuff </a> <button id="menu-button" class="site-button btn-reset" aria-label="Toggle menu" aria-pressed="false"> <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><use xlink:href="#svg-menu"></use></svg> </a></div><nav aria-label="Main" id="site-nav" class="site-nav"><ul class="nav-list"><li class="nav-list-item"><a href="/my-tech/" class="nav-list-link">My Page</a><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in AWS category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/AWS" class="nav-list-link">AWS</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/AWS/creation-of-basic-infra/" class="nav-list-link">CloudFormation Stack Deployment Examples Part 1</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Ansible category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Ansible" class="nav-list-link">Ansible</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Ansible/ansible-1/" class="nav-list-link">Create a host, ssh into the public EC2 instnace</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in CICD category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/CICD" class="nav-list-link">CICD</a><ul class="nav-list"></ul><li class="nav-list-item active"><button class="nav-list-expander btn-reset" aria-label="toggle items in Docker category" aria-pressed="true"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Docker" class="nav-list-link">Docker</a><ul class="nav-list"><li class="nav-list-item active"><a href="/my-tech/doc/Docker/docker-1/" class="nav-list-link active">Docker First Setup From A Cloud Guru Part 1</a><li class="nav-list-item "><a href="/my-tech/doc/Docker/docker-2/" class="nav-list-link">Docker First Setup From A Cloud Guru Part 3</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Kubernetes category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Kubernetes" class="nav-list-link">Kubernetes</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Kubernetes/doc-1/" class="nav-list-link">Kubernetes 1.24 Installation</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Misc category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Misc" class="nav-list-link">Misc</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/doc/Misc/template/" class="nav-list-link">tutorial about the running a sample docker image in numbered steps</a><li class="nav-list-item "><a href="/my-tech/template/" class="nav-list-link">Title</a><li class="nav-list-item "><a href="/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/" class="nav-list-link">tutorial about the running a sample docker image in numbered steps</a><li class="nav-list-item "><a href="/my-tech/doc/Misc/a-tutorial-about-creating-an-AWS-basic-infrastructure,-with-VPC,-publicc,-and-private-subnets,-IGW,-NAT,-security-groups,-EC2-and-RDS-that-runs-postgresql/" class="nav-list-link">a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql</a></ul><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in Terraform category" aria-pressed="false"> <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg> </button><a href="/my-tech/docs/Terraform" class="nav-list-link">Terraform</a><ul class="nav-list"><li class="nav-list-item "><a href="/my-tech/docs/Terraform/doc-1/" class="nav-list-link">Terraform Deployment of basic infrastructure on AWS</a></ul></ul></nav></div><div class="main" id="top"><div id="main-header" class="main-header"><div class="search" role="search"><div class="search-input-wrap"> <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search My SRE Stuff" aria-label="Search My SRE Stuff" autocomplete="off"> <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label></div><div id="search-results" class="search-results"></div></div></div><div id="main-content-wrap" class="main-content-wrap"><nav aria-label="Breadcrumb" class="breadcrumb-nav"><ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="/my-tech/docs/Docker">Docker</a><li class="breadcrumb-nav-list-item"><span>Docker First Setup From A Cloud Guru Part 1</span></ol></nav><div id="main-content" class="main-content"><main><h1> Docker First Setup From A Cloud Guru Part 1</h1><h2> This is a page for deploying several resources on Docker, from A Cloud Guru</h2><h3> Date Posted: 2023 02 19</h3><h2 id="initializing-the-docker-environment"> <a href="#initializing-the-docker-environment" class="anchor-heading" aria-labelledby="initializing-the-docker-environment"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Initializing the Docker Environment</h2><h3 id="ths-deployment-creates-a-new-docker-environment"> <a href="#ths-deployment-creates-a-new-docker-environment" class="anchor-heading" aria-labelledby="ths-deployment-creates-a-new-docker-environment"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Ths deployment creates a new docker environment</h3><h4 id="key-points"> <a href="#key-points" class="anchor-heading" aria-labelledby="key-points"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Key Points</h4><ul><li>Packages needed: yum-utils, device-mapper-presistent-data, lvm2<li>Once docker-ce is installed, enable it and create a docker user</ul><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">## Installing Docker</span>
+
+<span class="c"># Install the Docker prerequisites:</span>
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> yum-utils device-mapper-persistent-data lvm2
+
+<span class="c"># Using yum-config-manager, add the CentOS-specific Docker repo:</span>
+<span class="nb">sudo </span>yum-config-manager <span class="nt">--add-repo</span> https://download.docker.com/linux/centos/docker-ce.repo
+
+<span class="c"># Install Docker:</span>
+<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>docker-ce
+
+<span class="c">## Enable the Docker Daemon</span>
+
+<span class="c"># Enable the Docker daemon:</span>
+<span class="nb">sudo </span>systemctl <span class="nb">enable</span> <span class="nt">--now</span> docker
+
+<span class="c">## Configure User Permissions</span>
+
+<span class="c"># Add the lab user to the docker group:</span>
+<span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker cloud_user
+
+<span class="c">## Caution: You will need to exit the server for the change to take effect.</span>
+
+<span class="c">## Run a Test Image</span>
+
+<span class="c"># Using docker, run the hello-world image to verify that the environment is set up properly:</span>
+docker run hello-world</code></pre></figure></details><hr style="3px solid #bbb" /><h2 id="working-with-prebuild-docker-images"> <a href="#working-with-prebuild-docker-images" class="anchor-heading" aria-labelledby="working-with-prebuild-docker-images"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Working with Prebuild Docker Images</h2><h3 id="this-docker-deployment-is-to-migrate-a-website-from-a-traditional-server-to-containers-by-using-dockers"> <a href="#this-docker-deployment-is-to-migrate-a-website-from-a-traditional-server-to-containers-by-using-dockers" class="anchor-heading" aria-labelledby="this-docker-deployment-is-to-migrate-a-website-from-a-traditional-server-to-containers-by-using-dockers"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> This Docker deployment is to migrate a website, from a traditional server to containers by using Dockers</h3><h4 id="key-points-1"> <a href="#key-points-1" class="anchor-heading" aria-labelledby="key-points-1"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Key Points</h4><ul><li>Once Docker is installed, Docker commands are used, such as<li>docker ps<li>docker run –name container-name -p Port:Port -d detech-background<li>docker stop<li>docker rm<li>docker pull</ul><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">## Explore Docker Hub</span>
+
+<span class="c">### Sign in to Docker Hub.</span>
+<span class="c">## At the top of the page, search for "httpd".In the left-hand menu, filter for Application Infrastructure, and Official Images. Select the httpd project. At the top of the page, click the Tags tab. Under latest, select linux/amd64. Back in the list of available images, select nginx. Finally, Review the How to use this image section.</span>
+
+<span class="c">## Get and View httpd</span>
+
+<span class="sb">```</span>bash
+<span class="c">## In the Docker Instance, verify that docker is installed:</span>
+docker ps
+<span class="c">## Using docker, pull the httpd:2.4 image:</span>
+docker pull httpd:2.4
+<span class="c">## Run the image:</span>
+docker run <span class="nt">--name</span> httpd <span class="nt">-p</span> 8080:80 <span class="nt">-d</span> httpd:2.4
+<span class="c">## Check the status of the container:</span>
+docker ps
+<span class="c">## In a web browser, test connectivity to the container:</span>
+&lt;PUBLIC_IP_ADDRESS&gt;:8080
+<span class="sb">```</span>
+
+<span class="c">## Run a Copy of the Website in httpd</span>
+
+<span class="sb">```</span>bash
+<span class="c">## Clone the Widget Factory Inc repository</span>
+git clone https://github.com/linuxacademy/content-widget-factory-inc
+<span class="c">## Change to the content-widget-factory-inc directory:</span>
+<span class="nb">cd </span>content-widget-factory-inc
+<span class="c">## Check the files:</span>
+ll
+<span class="c">## Move to the web directory:</span>
+<span class="nb">cd </span>web
+<span class="c">## Check the files:</span>
+ll
+<span class="c">## Stop the httpd container:</span>
+docker stop httpd
+<span class="c">## Remove the httpd container:</span>
+docker <span class="nb">rm </span>httpd
+<span class="c">## Verify that the container has been removed:</span>
+docker ps <span class="nt">-a</span>
+<span class="c">## Run the container with the website data:</span>
+docker run <span class="nt">--name</span> httpd <span class="nt">-p</span> 8080:80 <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/usr/local/apache2/htdocs:ro <span class="nt">-d</span> httpd:2.4
+<span class="c">## Check the status of the container:</span>
+docker ps
+<span class="c">## In a web browser, check connectivity to the container:</span>
+&lt;PUBLIC_IP_ADDRESS&gt;:8080
+<span class="sb">```</span>
+
+<span class="c">## Get and View Nginx</span>
+
+<span class="sb">```</span>bash
+<span class="c">## Using docker, pull the latest version of nginx:</span>
+docker pull nginx
+<span class="c">## Verify that the image was pulled successfully:</span>
+docker images
+<span class="c">## Run the container using the nginx image:</span>
+docker run <span class="nt">--name</span> nginx <span class="nt">-p</span> 8081:80 <span class="nt">-d</span> nginx 
+<span class="c">## Check the status of the container:</span>
+docker ps
+<span class="c">## Verify connectivity to the nginx container:</span>
+&lt;PUBLIC_IP_ADDRESS&gt;:8081
+<span class="sb">```</span>
+
+<span class="c">## Run a Copy of the Website in Nginx</span>
+
+<span class="sb">```</span>bash
+<span class="c">## Stop the nginx container:</span>
+docker stop nginx
+<span class="c">## Remove the nginx container:</span>
+docker <span class="nb">rm </span>nginx
+<span class="c">## Verify that the container has been removed:</span>
+docker ps <span class="nt">-a</span>
+<span class="c">## Run the nginx container, and mount the website data:</span>
+docker run <span class="nt">--name</span> nginx <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/usr/share/nginx/html:ro <span class="nt">-p</span> 8081:80 <span class="nt">-d</span> nginx
+<span class="c">## Check the status of the container:</span>
+docker ps
+<span class="c">## In a web browser, verify connectivity to the container:</span>
+&lt;PUBLIC_IP_ADDRESS&gt;:8081
+<span class="c">## Stop the nginx container:</span>
+docker stop nginx
+<span class="c">## Remove the nginx container:</span>
+docker <span class="nb">rm </span>nginx
+<span class="c">## Verify that the container has been removed:</span>
+docker ps <span class="nt">-a</span>
+<span class="sb">```</span></code></pre></figure></details><hr style="3px solid #bbb" /><h2 id="handcrafting-a-container-image"> <a href="#handcrafting-a-container-image" class="anchor-heading" aria-labelledby="handcrafting-a-container-image"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Handcrafting a Container Image</h2><h3 id="manually-mounting-volumes-for-each-new-container-isnt-a-scalable-solution-this-deployment-guides-you-to-creating-a-new-image-from-an-existing-container"> <a href="#manually-mounting-volumes-for-each-new-container-isnt-a-scalable-solution-this-deployment-guides-you-to-creating-a-new-image-from-an-existing-container" class="anchor-heading" aria-labelledby="manually-mounting-volumes-for-each-new-container-isnt-a-scalable-solution-this-deployment-guides-you-to-creating-a-new-image-from-an-existing-container"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Manually mounting volumes for each new container isn’t a scalable solution. This deployment guides you to creating a new image from an existing container.</h3><h4 id="key-points-2"> <a href="#key-points-2" class="anchor-heading" aria-labelledby="key-points-2"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Key Points</h4><ul><li>Some commands:<ul><li>docker exec -t container-name bash</ul></ul><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Get and Run the Base Image</span>
+<span class="c">## Retrieve the httpd image:</span>
+docker pull httpd:2.4
+
+<span class="c">## Run the image:</span>
+docker run <span class="nt">--name</span> webtemplate <span class="nt">-d</span> httpd:2.4
+
+<span class="c">## Check the status of the webtemplate container:</span>
+docker ps
+
+<span class="c"># Install Tools and Code in the Container</span>
+<span class="c">## Log in to the container:</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> webtemplate bash
+
+<span class="c">## Run apt update and install git</span>
+apt update <span class="o">&amp;&amp;</span> apt <span class="nb">install </span>git <span class="nt">-y</span>
+
+<span class="c">## Clone the website code from GitHub:</span>
+git clone  https://github.com/linuxacademy/content-widget-factory-inc.git /tmp/widget-factory-inc
+
+<span class="c">## Verify that the code was cloned successfully:</span>
+<span class="nb">ls</span> <span class="nt">-l</span> /tmp/widget-factory-inc/
+
+<span class="c">## List the files in the htdocs/ directory:</span>
+<span class="nb">ls</span> <span class="nt">-l</span> htdocs/
+
+<span class="c">## Remove the index.html file:</span>
+<span class="nb">rm </span>htdocs/index.html
+
+<span class="c">## Copy the webcode from /tmp/ to the htdocs/ folder:</span>
+<span class="nb">cp</span> <span class="nt">-r</span> /tmp/widget-factory-inc/web/<span class="k">*</span> htdocs/
+
+<span class="c">## Verify that they were copied over successfully:</span>
+<span class="nb">ls</span> <span class="nt">-l</span> htdocs/
+
+<span class="c">## Exit the container:</span>
+<span class="nb">exit</span>
+
+<span class="c"># Create an Image from the Container</span>
+<span class="c">## Copy the Container ID:</span>
+docker ps
+
+<span class="c">## Create an image from the container:</span>
+docker commit &lt;CONTAINER_ID&gt; example/widgetfactory:v1
+
+<span class="c">## Verify that the image was created successfully:</span>
+docker images
+
+<span class="c">## Take note of the image size. Then clean up the Template for a Second Version</span>
+
+<span class="c">## Log in to the container:</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> webtemplate bash
+
+<span class="c">## Remove the cloned code from the /tmp/ directory:</span>
+<span class="nb">rm</span> <span class="nt">-rf</span> /tmp/widget-factory-inc/
+
+<span class="c">## Use apt to uninstall git and clean the cache:</span>
+apt remove git <span class="nt">-y</span> <span class="o">&amp;&amp;</span> apt autoremove <span class="nt">-y</span> <span class="o">&amp;&amp;</span> apt clean 
+
+<span class="c">## Exit the container:</span>
+<span class="nb">exit</span>
+
+<span class="c">## Check the status of the container:</span>
+docker ps
+
+<span class="c">## Create an image from the updated container:</span>
+docker commit &lt;CONTAINER_ID&gt; example/widgetfactory:v2
+
+<span class="c">## Verify that both images are now running:</span>
+docker images  
+
+<span class="c">## Delete the v1 image:</span>
+docker rmi example/widgetfactory:v1
+
+<span class="c"># Run Multiple Containers from the Image</span>
+
+<span class="c">## Run multiple containers using the new image:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web1 <span class="nt">-p</span> 8081:80 example/
+widgetfactory:v2
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web2 <span class="nt">-p</span> 8082:80 example/widgetfactory:v2
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web3 <span class="nt">-p</span> 8083:80 example/widgetfactory:v2
+
+<span class="c">## Check the status of the containers:</span>
+docker ps
+
+<span class="c">## Stop the base webtemplate image:</span>
+docker stop webtemplate
+
+<span class="c">## Verify that only the created containers are running:</span>
+docker ps
+
+<span class="c">## Using a web browser, verify that the containers are running successfully:</span>
+&lt;SERVER_PUBLIC_IP_ADDRESS&gt;:8081
+&lt;SERVER_PUBLIC_IP_ADDRESS&gt;:8082
+&lt;SERVER_PUBLIC_IP_ADDRESS&gt;:8083</code></pre></figure></details><hr style="3px solid #bbb" /><h2 id="storing-container-data-in-docker-volumes"> <a href="#storing-container-data-in-docker-volumes" class="anchor-heading" aria-labelledby="storing-container-data-in-docker-volumes"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Storing Container Data In Docker Volumes</h2><h3 id="another-way-to-back-up-the-data-thats-stored-in-he-docker-containers"> <a href="#another-way-to-back-up-the-data-thats-stored-in-he-docker-containers" class="anchor-heading" aria-labelledby="another-way-to-back-up-the-data-thats-stored-in-he-docker-containers"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Another way to back up the data that’s stored in he docker containers</h3><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">## Discover Aonoymous Docker Volumes</span>
+docker images
+
+<span class="c">## Run a container "postgress:12.1"</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> db1 postgres:12.1
+docker run <span class="nt">-d</span> <span class="nt">--name</span> db2 postgres:12.1
+
+<span class="c">## Check the status</span>
+<span class="c">## Check the Docker volumes, creates an anonymous volume</span>
+docker ps
+docker volume <span class="nb">ls</span>
+
+<span class="c">## inspect the db1 and db2 containers</span>
+docker inspect db1 <span class="nt">-f</span> <span class="s1">''</span> | python <span class="nt">-m</span> json.tool
+docker inspect db2 <span class="nt">-f</span> <span class="s1">''</span> | python <span class="nt">-m</span> json.tool
+
+<span class="c">## Create a third container using the --rm flag</span>
+docker run <span class="nt">-d</span> <span class="nt">--rm</span> <span class="nt">--name</span> dbTemp postgres:12.1
+
+<span class="c">## check the status</span>
+docker ps <span class="nt">-a</span>
+docker volume <span class="nb">ls</span>
+
+<span class="c">## Stop the db2 and dbTmp containers</span>
+docker stop db2 dbTmp
+
+<span class="c">## List the anonymous volumes</span>
+docker volume <span class="nb">ls</span>
+
+<span class="c">## Check the status of the containers:</span>
+docker ps <span class="nt">-a</span>
+
+<span class="c"># Create a Docker Volume</span>
+
+<span class="c">## Create a Docker volume</span>
+docker volume create website
+
+<span class="c">## Verify the volume</span>
+docker volume <span class="nb">ls</span>
+
+<span class="c">## Copy the "widget-factory-inc" data to the website containers</span>
+<span class="nb">sudo cp</span> <span class="nt">-r</span> /home/cloud_user/widget-factory-inc/web/<span class="k">*</span> /var/lib/docker/volumes/website/_data/
+
+<span class="c">## List the copied data:</span>
+<span class="nb">sudo ls</span> <span class="nt">-l</span> /var/lib/docker/volumes/website/_data/
+
+<span class="c"># Use the Website Volume with Containers</span>
+
+<span class="c">## Run a docker container with the website volume:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web1 <span class="nt">-p</span> 80:80 <span class="nt">-v</span> website:/usr/local/apache2/htdocs:ro httpd:2.4
+
+<span class="c">## Check the status of the container:</span>
+docker ps
+
+<span class="c">## In a web browser, verify connectivity to the container:</span>
+&lt;PUBLIC_IP_ADDRESS&gt;
+
+<span class="c">## Run a second container with the --rm flag:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> webTmp <span class="nt">--rm</span> <span class="nt">-v</span> website:/usr/local/apache2/htdocs:ro httpd:2.4
+
+<span class="c">## Check the status of the containers:</span>
+docker ps
+
+<span class="c">## Stop the webTmp container:</span>
+docker stop webTmp
+
+<span class="c">## Check the status of the containers:</span>
+docker ps <span class="nt">-a</span>
+
+<span class="c">## Verify that the website can still be accessed through a web browser:</span>
+&lt;PUBLIC_IP_ADDRESS&gt;
+
+<span class="c"># Clean Up Unused Volumes</span>
+
+<span class="c">## Clean up the unused volumes:</span>
+docker volume prune
+<span class="c">## Check the currently running containers:</span>
+docker ps <span class="nt">-a</span>
+
+<span class="c">## Remove the db2 container:</span>
+docker <span class="nb">rm </span>db2
+
+<span class="c">## Clean up the unused volumes again:</span>
+docker volume prune
+
+<span class="c">## List the current volumes:</span>
+docker volume <span class="nb">ls</span>
+
+<span class="c"># Back Up and Restore the Docker Volume</span>
+
+<span class="c">## Switch to the root user:</span>
+<span class="nb">sudo</span> <span class="nt">-i</span>
+
+<span class="c">## Find where the website volume data is stored:</span>
+docker volume inspect website
+
+<span class="c">## Copy the Mountpoint.</span>
+
+<span class="c">## Back up the volume:</span>
+<span class="nb">tar </span>czf /tmp/website_<span class="si">$(</span><span class="nb">date</span> +%Y-%m-%d-%H%M<span class="si">)</span>.tgz <span class="nt">-C</span> /var/lib/docker/volumes/website/_data <span class="nb">.</span>
+
+<span class="c">## Verify that the data was backed up properly:</span>
+<span class="nb">ls</span> <span class="nt">-l</span> /tmp/website_<span class="k">*</span>.tgz
+
+<span class="c">## List the contents of the tgz file:</span>
+<span class="nb">tar </span>tf &lt;BACKUP_FILE_NAME&gt;.tgz
+
+<span class="c">## Exit out of root:</span>
+<span class="nb">exit</span>
+
+<span class="c">## Run a new container using the website volume, and create a backup:</span>
+docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class="nt">-v</span> website:/website <span class="nt">-v</span> /tmp:/backup bash <span class="nb">tar </span>czf /backup/website_<span class="si">$(</span><span class="nb">date</span> +%Y-%m-%d-%H-%M<span class="si">)</span>.tgz <span class="nt">-C</span> /website <span class="nb">.</span>
+
+<span class="c">## Verify that the data was backed up properly:</span>
+<span class="nb">ls</span> <span class="nt">-l</span> /tmp/website_<span class="k">*</span>.tgz
+
+<span class="c">## Switch to the root user:</span>
+<span class="nb">sudo</span> <span class="nt">-i</span>
+
+<span class="c">## Change to the /docker/volumes/ directory:</span>
+<span class="nb">cd</span> /var/lib/docker/volumes/
+
+<span class="c">## List the volumes:</span>
+<span class="nb">ls</span> <span class="nt">-l</span>
+
+<span class="c">## Change to the website/_data directory:</span>
+<span class="nb">cd </span>website/_data/
+
+<span class="c">## Remove the contents of the directory:</span>
+<span class="nb">rm</span> <span class="k">*</span> <span class="nt">-rf</span>
+
+<span class="c">## Verify that the backups are still available:</span>
+<span class="nb">ls</span> <span class="nt">-l</span> /tmp/website_<span class="k">*</span>.tgz
+
+<span class="c">## Restore the data to the current directory:</span>
+<span class="nb">tar </span>xf /tmp/&lt;BACKUP_FILE_NAME&gt;.tgz <span class="nb">.</span>
+
+<span class="c">## Verify that the data was restored successfully:</span>
+<span class="nb">ls</span> <span class="nt">-l</span></code></pre></figure></details><hr style="3px solid #bbb" /><h2 id="storing-container-data-in-aws-s3"> <a href="#storing-container-data-in-aws-s3" class="anchor-heading" aria-labelledby="storing-container-data-in-aws-s3"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Storing Container Data in AWS S3</h2><h3 id="store-the-website-data-to-aws-s3"> <a href="#store-the-website-data-to-aws-s3" class="anchor-heading" aria-labelledby="store-the-website-data-to-aws-s3"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Store the website data to AWS S3</h3><h4 id="key-words"> <a href="#key-words" class="anchor-heading" aria-labelledby="key-words"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Key Words</h4><ul><li>First, Set up the AWS account and S3 bucket<li>s3fs is a FUSE-based file system to mount the S3 bucket to the server</ul><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Configuration and Installation</span>
+
+<span class="c">## Install the awscli, while checking if there are any versions currently installed, and not stopping any user processes:</span>
+pip <span class="nb">install</span> <span class="nt">--upgrade</span> <span class="nt">--user</span> awscli
+
+<span class="c">## Configure the CLI:</span>
+aws configure
+
+<span class="c">## Enter the following:</span>
+
+<span class="c">### AWS Access Key ID: &lt;ACCESS_KEY_ID&gt;</span>
+
+<span class="c">### AWS Secret Access Key: &lt;SECRET_ACCESS_KEY&gt;</span>
+
+<span class="c">### Default region name: us-east-1</span>
+
+<span class="c">### Default output format: json</span>
+
+<span class="c">## Copy the CLI configuration to the root user:</span>
+<span class="nb">sudo cp</span> <span class="nt">-r</span> ~/.aws /root
+
+<span class="c">## Install the s3fs package:</span>
+<span class="nb">sudo </span>yum <span class="nb">install </span>s3fs-fuse <span class="nt">-y</span>
+
+<span class="c"># Prepare the Bucket</span>
+
+<span class="c">## Create a mount point for the s3 bucket:</span>
+<span class="nb">sudo mkdir</span> /mnt/widget-factory
+
+<span class="c">## Export the bucket name:</span>
+<span class="nb">export </span><span class="nv">BUCKET</span><span class="o">=</span>&lt;S3_BUCKET_NAME&gt;
+
+<span class="c">## Mount the S3 bucket:</span>
+<span class="nb">sudo </span>s3fs <span class="nv">$BUCKET</span> /mnt/widget-factory <span class="nt">-o</span> allow_other <span class="nt">-o</span> <span class="nv">use_cache</span><span class="o">=</span>/tmp/s3fs
+
+<span class="c">## Verify that the bucket was mounted successfully:</span>
+ll /mnt/widget-factory
+
+<span class="c">## Copy the website files to the s3 bucket:</span>
+<span class="nb">cp</span> <span class="nt">-r</span> ~/widget-factory-inc/web/<span class="k">*</span> /mnt/widget-factory
+
+<span class="c">## Verify the files are in the folder:</span>
+ll /mnt/widget-factory
+
+<span class="c">## Verify the files are in the s3 bucket:</span>
+aws s3 <span class="nb">ls </span>s3://<span class="nv">$BUCKET</span>
+
+<span class="c"># Use the S3 Bucket Files in a Docker Container</span>
+<span class="c">## Run an httpd container using the S3 bucket:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web1 <span class="nt">-p</span> 80:80 <span class="nt">--mount</span> <span class="nb">type</span><span class="o">=</span><span class="nb">bind</span>,source<span class="o">=</span>/mnt/widget-factory,target<span class="o">=</span>/usr/local/apache2/htdocs,readonly httpd:2.4
+
+<span class="c">## In a web browser, verify connectivity to the container:</span>
+&lt;SERVER_PUBLIC_IP_ADDRESS&gt;
+
+<span class="c">## Check the bucket cache, then change to the /mnt/widget-factory/ directory:</span>
+<span class="nb">cd</span> /mnt/widget-factory
+
+<span class="c">## Create a new page within the bucket:</span>
+<span class="nb">cp </span>index.html newPage.html
+
+<span class="c">## In a web browser, verify that the new page is accessible:</span>
+&lt;SERVER_PUBLIC_IP_ADDRESS&gt;/newPage.html
+
+<span class="c">## Verify that the page was added to the bucket:</span>
+aws s3 <span class="nb">ls</span> <span class="nv">$BUCKET</span></code></pre></figure></details><hr style="3px solid #bbb" /><h2 id="storing-container-data-in-az-storage"> <a href="#storing-container-data-in-az-storage" class="anchor-heading" aria-labelledby="storing-container-data-in-az-storage"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Storing Container Data in AZ Storage</h2><h4 id="key-points-3"> <a href="#key-points-3" class="anchor-heading" aria-labelledby="key-points-3"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Key Points</h4><ul><li>First create an AZ Storage<li>blobfuse is a FUSE-based file system to mount the Blob storage container to the server</ul><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Configuration and Installation</span>
+<span class="c">## Obtain the Azure login credentials:</span>
+az login
+<span class="c">## Copy the code provided by the command.</span>
+<span class="c">## Open a browser and navigate to https://microsoft.com/devicelogin.</span>
+<span class="c">## Enter the code copied in a previous step and click Next.</span>
+<span class="c">## Use the login credentials from the lab page to finish logging in.</span>
+<span class="c">## Switch back to the terminal and wait for the confirmation.</span>
+
+<span class="c"># Prepare the Storage</span>
+<span class="c">## Find the name of the Storage account:</span>
+az storage account list | <span class="nb">grep </span>name | <span class="nb">head</span> <span class="nt">-1</span>
+
+<span class="c">## Copy the name of the Storage account to the clipboard.</span>
+<span class="c">## Export the Storage account name:</span>
+<span class="nb">export </span><span class="nv">AZURE_STORAGE_ACCOUNT</span><span class="o">=</span>&lt;COPIED_STORAGE_ACCOUNT_NAME&gt;
+<span class="c"># Retrieve the Storage access key:</span>
+az storage account keys list <span class="nt">--account-name</span><span class="o">=</span><span class="nv">$AZURE_STORAGE_ACCOUNT</span>
+
+<span class="c"># Copy the key1 "value" for later use.</span>
+<span class="c"># Export the key value:</span>
+<span class="nb">export </span><span class="nv">AZURE_STORAGE_ACCESS_KEY</span><span class="o">=</span>&lt;KEY1_VALUE&gt;
+
+<span class="c">##  Install blobfuse:</span>
+<span class="nb">sudo </span>rpm <span class="nt">-Uvh</span> https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
+<span class="nb">sudo </span>yum <span class="nb">install </span>blobfuse fuse <span class="nt">-y</span>
+
+<span class="c">## Modify the fuse.conf configuration file:</span>
+<span class="nb">sudo sed</span> <span class="nt">-ri</span> <span class="s1">'s/# user_allow_other/user_allow_other/'</span> /etc/fuse.conf
+
+<span class="c"># Use the Azure Blob Storage Container</span>
+<span class="c">## Create necessary directories:</span>
+<span class="nb">sudo mkdir</span> <span class="nt">-p</span> /mnt/widget-factory /mnt/blobfusetmp
+
+<span class="c">## Change ownership of the directories:</span>
+<span class="nb">sudo chown </span>cloud_user /mnt/widget-factory/ /mnt/blobfusetmp/
+
+<span class="c">## Mount the Blob Storage from Azure:</span>
+blobfuse /mnt/widget-factory <span class="nt">--container-name</span><span class="o">=</span>website <span class="nt">--tmp-path</span><span class="o">=</span>/mnt/blobfusetmp <span class="nt">-o</span> allow_other
+
+<span class="c">## Copy website files into the Blob Storage container:</span>
+<span class="nb">cp</span> <span class="nt">-r</span> ~/widget-factory-inc/web/<span class="k">*</span> /mnt/widget-factory/
+
+<span class="c">## Verify the copy worked:</span>
+ll /mnt/widget-factory/
+
+<span class="c">## Verify the files made it to Azure Blob Storage:</span>
+az storage blob list <span class="nt">-c</span> website <span class="nt">--output</span> table
+
+<span class="c">## Run a Docker container:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web1 <span class="nt">-p</span> 80:80 <span class="nt">--mount</span> <span class="nb">type</span><span class="o">=</span><span class="nb">bind</span>,source<span class="o">=</span>/mnt/widget-factory,target<span class="o">=</span>/usr/local/apache2/htdocs,readonly httpd:2.4
+
+<span class="c">## Once the command is complete, open a web browser and navigate to the public IP address of the server.</span>
+<span class="c">## Verify the website is up and running.</span></code></pre></figure></details><hr style="3px solid #bbb" /><h2 id="building-container-images-using-dockerfiles"> <a href="#building-container-images-using-dockerfiles" class="anchor-heading" aria-labelledby="building-container-images-using-dockerfiles"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Building Container Images Using Dockerfiles</h2><h3 id="creating-a-container-image-by-hand-is-possible-but-it-requires-manual-processes-there-has-to-be-a-more-automatic-way-to-build-images-manual-processes-do-not-scale-and-are-not-easily-version-controlled-docker-provides-a-solution-to-this-problem---the-dockerfile"> <a href="#creating-a-container-image-by-hand-is-possible-but-it-requires-manual-processes-there-has-to-be-a-more-automatic-way-to-build-images-manual-processes-do-not-scale-and-are-not-easily-version-controlled-docker-provides-a-solution-to-this-problem---the-dockerfile" class="anchor-heading" aria-labelledby="creating-a-container-image-by-hand-is-possible-but-it-requires-manual-processes-there-has-to-be-a-more-automatic-way-to-build-images-manual-processes-do-not-scale-and-are-not-easily-version-controlled-docker-provides-a-solution-to-this-problem---the-dockerfile"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Creating a container image by hand is possible, but it requires manual processes. There has to be a more automatic way to build images. Manual processes do not scale and are not easily version controlled. Docker provides a solution to this problem - the Dockerfile.</h3><h4 id="key-points-4"> <a href="#key-points-4" class="anchor-heading" aria-labelledby="key-points-4"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Key Points</h4><ul><li>Every time the docker build with the Dockerfile is done, add a tag (:0.1)</ul><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Build a First Version</span>
+
+<span class="c">## Change to the widget-factory-inc directory:</span>
+<span class="nb">cd </span>widget-factory-inc
+
+<span class="c">## Create a Dockerfile that uses httpd:2.4 as the base image:</span>
+vim Dockerfile
+
+<span class="c">## In the new file, insert the following:</span>
+FROM httpd:2.4
+RUN apt update <span class="nt">-y</span> <span class="o">&amp;&amp;</span> apt upgrade <span class="nt">-y</span> <span class="o">&amp;&amp;</span> apt autoremove <span class="nt">-y</span> <span class="o">&amp;&amp;</span> apt clean <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists<span class="k">*</span>
+
+<span class="c">## Save the file:</span>
+ESC
+:wq
+
+<span class="c">## Verify that the file was saved successfully:</span>
+<span class="nb">cat </span>Dockerfile
+
+<span class="c">## Build the 0.1 version of the widgetfactory image using the Dockerfile:</span>
+docker build <span class="nt">-t</span> widgetfactory:0.1 <span class="nb">.</span>
+
+<span class="c">## Set variables to examine the image's size and layers:</span>
+<span class="nb">export </span><span class="nv">showLayers</span><span class="o">=</span><span class="s1">'{{ range .RootFS.Layers }}{{ println . }}{{end}}'</span>
+<span class="nb">export </span><span class="nv">showSize</span><span class="o">=</span><span class="s1">'{{ .Size }}'</span>
+
+<span class="c">## Compare the httpd and widgetfactory images:</span>
+docker images
+
+<span class="c">## Show the widgetfactory image's size:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showSize</span><span class="s2">"</span> widgetfactory:0.1
+
+<span class="c">## Show the layers:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showLayers</span><span class="s2">"</span> widgetfactory:0.1
+
+<span class="c">## Show the layers of the httpd:2.4 image:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showLayers</span><span class="s2">"</span> httpd:2.4
+
+<span class="c"># Load the Website into the Container</span>
+
+<span class="c">## Open the Dockerfile:</span>
+vim Dockerfile
+
+<span class="c">## Remove the Apache welcome page from the image by adding the following:</span>
+RUN <span class="nb">rm</span> <span class="nt">-f</span> /usr/local/apache2/htdocs/index.html
+
+<span class="c">## Save the file:</span>
+ESC
+:wq
+
+<span class="c">## Build version 0.2 of the widgetfactory image:</span>
+docker build <span class="nt">-t</span> widgetfactory:0.2 <span class="nb">.</span>
+
+<span class="c">## Inspect both versions of the widgetfactory image to see the differences in size and layers:</span>
+docker images
+
+<span class="c">## Show the widgetfactory:0.1 image's size:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showSize</span><span class="s2">"</span> widgetfactory:0.1
+
+<span class="c">## Compare it to the image size for widgetfactory:0.2:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showSize</span><span class="s2">"</span> widgetfactory:0.2
+
+<span class="c">## Using an interactive terminal, check the htdocs folder for widgetfactory:0.2. Are the website files in the folder?:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> widgetfactory:0.2 bash
+<span class="nb">ls </span>htdocs
+
+<span class="c">## Exit the container:</span>
+<span class="nb">exit</span>
+
+<span class="c">## Show the layers for the widgetfactory:0.1 image:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showLayers</span><span class="s2">"</span> widgetfactory:0.1
+
+<span class="c">## Show the layers for the widgetfactory:0.2 image and compare the two:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showLayers</span><span class="s2">"</span> widgetfactory:0.2
+
+<span class="c">## Open the Dockerfile:</span>
+vim Dockerfile
+
+<span class="c">## Add the website data to the container by adding the following to the end of the file:</span>
+WORKDIR /usr/local/apache2/htdocs
+COPY ./web <span class="nb">.</span>
+
+<span class="c">## Save the file:</span>
+ESC
+:wq
+
+<span class="c">## Build version 0.3 of the widgetfactory image:</span>
+docker build <span class="nt">-t</span> widgetfactory:0.3 <span class="nb">.</span>
+
+<span class="c">## Inspect versions 0.2 and 0.3 to see the differences in size and layers:</span>
+docker images
+
+<span class="c">## Show the widgetfactory:0.2 image's size:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showSize</span><span class="s2">"</span> widgetfactory:0.2
+
+<span class="c">## Compare it to the image size for widgetfactory:0.3:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showSize</span><span class="s2">"</span> widgetfactory:0.3
+
+<span class="c">## Show the layers for the widgetfactory:0.2 image:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showLayers</span><span class="s2">"</span> widgetfactory:0.2
+
+<span class="c">## Show the layers for the widgetfactory:0.3 image and compare the two:</span>
+docker inspect <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$showLayers</span><span class="s2">"</span> widgetfactory:0.3
+
+<span class="c">## Using an interactive terminal, check the htdocs folder for widgetfactory:0.3:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> widgetfactory:0.3 bash</code></pre></figure></details><hr style="3px solid #bbb" /><h2 id="docker-container-networking"> <a href="#docker-container-networking" class="anchor-heading" aria-labelledby="docker-container-networking"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Docker Container Networking</h2><h3 id="each-container-should-serve-a-single-purpose-such-as-running-one-application-like-a-web-server-containers-can-be-powerful-by-themselves-but-when-connected-together-they-are-far-more-useful-for-example-a-web-server-container-can-be-connected-to-a-database-container-to-provide-application-storage-docker-provides-multiple-options-for-networking-containers"> <a href="#each-container-should-serve-a-single-purpose-such-as-running-one-application-like-a-web-server-containers-can-be-powerful-by-themselves-but-when-connected-together-they-are-far-more-useful-for-example-a-web-server-container-can-be-connected-to-a-database-container-to-provide-application-storage-docker-provides-multiple-options-for-networking-containers" class="anchor-heading" aria-labelledby="each-container-should-serve-a-single-purpose-such-as-running-one-application-like-a-web-server-containers-can-be-powerful-by-themselves-but-when-connected-together-they-are-far-more-useful-for-example-a-web-server-container-can-be-connected-to-a-database-container-to-provide-application-storage-docker-provides-multiple-options-for-networking-containers"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Each container should serve a single purpose, such as running one application like a web server. Containers can be powerful by themselves, but when connected together, they are far more useful. For example, a web server container can be connected to a database container to provide application storage. Docker provides multiple options for networking containers</h3><h4 id="key-points-5"> <a href="#key-points-5" class="anchor-heading" aria-labelledby="key-points-5"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Key Points</h4><ul><li>Detached mode, shown by the option –detach or -d, means that a Docker container runs in the background of your terminal. It does not receive input or display output.<li>add –rm to use it temporarily. when it is used with Busybox, it just ssh’s into busybox<li>Busybox can ssh into the httpd bridge network</ul><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Explore the Default Network</span>
+
+<span class="c">## List the default networks:</span>
+docker network <span class="nb">ls</span>
+
+<span class="c">## Run an httpd container named web1, without specifying a network, and see which network it uses:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web1 httpd:2.4
+docker inspect web1
+
+<span class="c">## Take note of the IPAddress.</span>
+<span class="c"># Run a container using the busybox image, and see if you can connect to the web1 server:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> busybox
+
+<span class="c"># Check the container's networking, and verify it is in the same IP range as web1:</span>
+ip addr
+
+<span class="c">## Ping the web1 container using the IP address:</span>
+ping &lt;WEB1_IP_ADDRESS&gt;
+
+<span class="c">## Attempt to ping the web1 container by name:</span>
+ping web1
+<span class="c">## Attempt to access web1 using wget:</span>
+wget &lt;WEB1_IP_ADDRESS&gt;
+
+<span class="c">## Exit the container:</span>
+<span class="nb">exit</span>
+
+<span class="c"># Explore Bridge Networks</span>
+
+<span class="c">## Create a new bridge network named test_application:</span>
+docker network create test_application
+
+<span class="c">## Run an httpd container named web2, in the test_application network:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web2 <span class="nt">--network</span> test_application httpd:2.4
+
+<span class="c">## Check the status of the container:</span>
+docker ps <span class="nt">-a</span>
+
+<span class="c">## Verify that web2 was added to the test_application network:</span>
+docker inspect web2
+
+<span class="c">## Run a container using the busybox image, and see if you can connect to the web2 server, within the test_application network:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="nt">--network</span> test_application busybox
+
+<span class="c">## Check the container's networking, and verify it is in the same IP range as web2:</span>
+ip addr
+
+<span class="c">## Ping the web2 container using the IP address:</span>
+ping &lt;WEB2_IP_ADDRESS&gt;
+
+<span class="c">## Attempt to ping the web2 container by name:</span>
+ping web2
+
+<span class="c">## Using wget, attempt to access web2 with the hostname:</span>
+wget web2
+
+<span class="c">## Attempt to ping web1:</span>
+ping &lt;WEB1_IP_ADDRESS&gt;
+
+<span class="c">## Attempt to access web1 using wget:</span>
+wget &lt;WEB1_IP_ADDRESS&gt;
+
+<span class="c">## Exit the container:</span>
+<span class="nb">exit</span>
+
+<span class="c"># Explore the Host Network</span>
+
+<span class="c">## Run an httpd container named web3 on the host network:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> web3 <span class="nt">--network</span> host httpd:2.4
+
+<span class="c">## Check the status of the container:</span>
+docker ps <span class="nt">-a</span>
+
+<span class="c">## Attempt to connect to web3 directly from the server:</span>
+wget localhost
+
+<span class="c">## Stop web3:</span>
+docker stop web3
+
+<span class="c">## Attempt to connect to web3 directly from the server again:</span>
+wget localhost
+
+<span class="c">## Start web3:</span>
+docker start web3
+
+<span class="c">## Run a container using the busybox image, and see if you can connect to the web3 server:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="nt">--network</span> host busybox
+ping web3
+
+<span class="c">## Using wget, attempt to access localhost within the busybox image:</span>
+wget localhost
+
+<span class="c">## Attempt to ping web2:</span>
+ping &lt;WEB2_IP_ADDRESS&gt;
+
+<span class="c">## Attempt to ping web1:</span>
+ping &lt;WEB1_IP_ADDRESS&gt;</code></pre></figure></details><hr style="3px solid #bbb" /><h1> <a href="#key-points-5" class="anchor-heading" aria-labelledby="key-points-5"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Docker First Setup From A Cloud Guru Part 1</h1><h2> <a href="#key-points-5" class="anchor-heading" aria-labelledby="key-points-5"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> This is a page for deploying several resources on Docker, from A Cloud Guru</h2><h3> <a href="#key-points-5" class="anchor-heading" aria-labelledby="key-points-5"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Date Posted: 2023 02 19</h3><h1 id="tutorial-running-a-sample-docker-image"> <a href="#tutorial-running-a-sample-docker-image" class="anchor-heading" aria-labelledby="tutorial-running-a-sample-docker-image"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Tutorial: Running a Sample Docker Image</h1><h2 id="dockerize-a-flask-applicaiton"> <a href="#dockerize-a-flask-applicaiton" class="anchor-heading" aria-labelledby="dockerize-a-flask-applicaiton"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Dockerize a Flask Applicaiton</h2><h3 id="deployment-of-a-flask-applicaiton"> <a href="#deployment-of-a-flask-applicaiton" class="anchor-heading" aria-labelledby="deployment-of-a-flask-applicaiton"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Deployment of a Flask Applicaiton</h3><h4 id="key-points-6"> <a href="#key-points-6" class="anchor-heading" aria-labelledby="key-points-6"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Key Points</h4><ul><li>Dockerfile also builds a network in the directory<li>docker ps: Running Containers<li>docker images ls: current images<li>once docker run –rm -it –network notes -p 80:80 notesapp:0.1 is run then do Ctrl+C to quit the container<li>Once Dockerfile is edited, edit a tag using: docker build -t notesapp:0.2 .</ul><details> <summary>Script Example</summary><figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Create the Build Files</span>
+<span class="c">## Change to the notes directory:</span>
+<span class="nb">cd </span>notes
+
+<span class="c">## List the files in the directory:</span>
+<span class="nb">ls</span> <span class="nt">-la</span>
+
+<span class="c">## Inspect the config.py file:</span>
+<span class="nb">cat </span>config.py
+
+import os
+
+db_host <span class="o">=</span> os.environ.get<span class="o">(</span><span class="s1">'DB_HOST'</span>, <span class="nv">default</span><span class="o">=</span><span class="s1">'localhost'</span><span class="o">)</span>
+db_name <span class="o">=</span> os.environ.get<span class="o">(</span><span class="s1">'DB_NAME'</span>, <span class="nv">default</span><span class="o">=</span><span class="s1">'notes'</span><span class="o">)</span>
+db_user <span class="o">=</span> os.environ.get<span class="o">(</span><span class="s1">'DB_USERNAME'</span>, <span class="nv">default</span><span class="o">=</span><span class="s1">'notes'</span><span class="o">)</span>
+db_password <span class="o">=</span> os.environ.get<span class="o">(</span><span class="s1">'DB_PASSWORD'</span>, <span class="nv">default</span><span class="o">=</span><span class="s1">''</span><span class="o">)</span>
+db_port <span class="o">=</span> os.environ.get<span class="o">(</span><span class="s1">'DB_PORT'</span>, <span class="nv">default</span><span class="o">=</span><span class="s1">'5432'</span><span class="o">)</span>
+
+SQLALCHEMY_TRACK_MODIFICATIONS <span class="o">=</span> False
+SQLALCHEMY_DATABASE_URI <span class="o">=</span> f<span class="s2">"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"</span>
+
+<span class="c">## Crate the .dockerignore file:</span>
+vim .dockerignore
+
+<span class="c"># In the file, paste the following:</span>
+.dockerignore
+Dockerfile
+.gitignore
+Pipfile.lock
+migrations/
+
+<span class="c">## Save the file:</span>
+ESC
+:wq
+
+<span class="c">## Create the Dockerfile:</span>
+vim Dockerfile
+
+<span class="c">## In the file, paste the following:</span>
+FROM python:3
+ENV PYBASE /pybase
+ENV PYTHONUSERBASE <span class="nv">$PYBASE</span>
+ENV PATH <span class="nv">$PYBASE</span>/bin:<span class="nv">$PATH</span>
+RUN pip <span class="nb">install </span>pipenv
+
+WORKDIR /tmp
+COPY Pipfile <span class="nb">.</span>
+RUN pipenv lock
+RUN <span class="nv">PIP_USER</span><span class="o">=</span>1 <span class="nv">PIP_IGNORE_INSTALLED</span><span class="o">=</span>1 pipenv <span class="nb">install</span> <span class="nt">-d</span> <span class="nt">--system</span> <span class="nt">--ignore-pipfile</span>
+
+COPY <span class="nb">.</span> /app/notes
+WORKDIR /app/notes
+EXPOSE 80
+CMD <span class="o">[</span><span class="s2">"flask"</span>, <span class="s2">"run"</span>, <span class="s2">"--port=80"</span>, <span class="s2">"--host=0.0.0.0"</span><span class="o">]</span>
+
+<span class="c"># Build and Setup Environment</span>
+<span class="c">## Build the notesapp image:</span>
+docker build <span class="nt">-t</span> notesapp:0.1 <span class="nb">.</span>
+
+<span class="c">## Check the status of the image:</span>
+docker images
+
+<span class="c">## List the containers:</span>
+docker ps <span class="nt">-a</span>
+
+<span class="c">## List the docker networks:</span>
+docker network <span class="nb">ls</span>
+
+<span class="c">## Run a container using the notesapp image and mount the migrations directory:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="nt">--network</span> notes <span class="nt">-v</span> /home/cloud_user/notes/migrations:/app/notes/migrations notesapp:0.1 bash
+
+<span class="c">## Once connected to the container, enable SQLAlchemy:</span>
+flask db init
+
+<span class="c">## Check the migrations folder:</span>
+<span class="nb">ls</span> <span class="nt">-l</span> migrations
+
+<span class="c">## Create the files needed to configure the database:</span>
+flask db migrate
+
+<span class="c">## Apply the files:</span>
+flask db upgrade
+
+<span class="c"># Run, Evaluate, and Upgrade</span>
+<span class="c">## Run a container using the notesapp:0.1 image:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="nt">--network</span> notes <span class="nt">-p</span> 80:80 notesapp:0.1
+
+<span class="c">## Using a web browser, navigate to the public IP address for the server.</span>
+<span class="c">## Sign up for a new account using an email address and password.</span>
+<span class="c">## Once you are signed up, log in to your account.</span>
+<span class="c">## Create your first note.</span>
+<span class="c">## Verify that you can edit the note.</span>
+
+<span class="c">## Back in the terminal, disable Debug mode by editing the .env file:</span>
+vim .env
+
+<span class="c">## Remove the export FLASK_ENV='development' line.</span>
+<span class="c">## Save the file:</span>
+ESC
+:wq
+
+<span class="c">## Build the image again:</span>
+docker build <span class="nt">-t</span> notesapp:0.2 <span class="nb">.</span>
+
+<span class="c">## Run a container using the updated image:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="nt">--network</span> notes <span class="nt">-p</span> 80:80 notesapp:0.2
+
+<span class="c">## In a web browser, navigate to the public IP address for the server, and log in to your account.</span>
+<span class="c">## Verify that you can add a second note.</span>
+
+<span class="c">## In the terminal, stop the container:</span>
+CTRL+C
+
+<span class="c"># Upgrade to Gunicorn</span>
+<span class="c">## Check the Pipfile:</span>
+<span class="nb">cat </span>Pipfile
+
+<span class="c">## Run a container and modify the pip file:</span>
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="nt">-v</span> /home/cloud_user/notes/Pipfile:/tmp/Pipfile notesapp:0.2 bash
+
+<span class="c">## Once connected, change to the /tmp directory:</span>
+<span class="nb">cd</span> /tmp
+
+<span class="c">## Add gunicorn to the list of dependencies:</span>
+pipenv <span class="nb">install </span>gunicorn
+
+<span class="c">## Exit the container:</span>
+<span class="nb">exit</span>
+
+<span class="c">## Verify that gunicorn was added under [packages]:</span>
+<span class="nb">cat </span>Pipfile
+
+<span class="c">## Modify the init.py script:</span>
+vim __init__.py
+
+from dotenv import load_dotenv, find_dotenv
+load_dotenv<span class="o">(</span>find_dotenv<span class="o">())</span>
+
+<span class="c">## Beneath the import section, add the following:</span>
+from dotenv import load_dotenv, find_dotenv
+load_dotenv<span class="o">(</span>find_dotenv<span class="o">())</span>
+
+<span class="c">## Save the file:</span>
+ESC
+:wq
+
+<span class="c">## Open the Dockerfile:</span>
+vim Dockerfile
+
+<span class="c">## To the bottom of the file, make the following changes:</span>
+COPY <span class="nb">.</span> /app/notes
+WORKDIR /app
+EXPOSE 80
+CMD <span class="o">[</span><span class="s2">"gunicorn"</span>, <span class="s2">"-b 0.0.0.0:80"</span>, <span class="s2">"notes:create_app()"</span><span class="o">]</span>
+
+<span class="c">## Save the file:</span>
+ESC
+:wq
+
+<span class="c"># Build a Production Image</span>
+<span class="c">## Build the updated notesapp image:</span>
+docker build <span class="nt">-t</span> notesapp:0.3 <span class="nb">.</span>
+
+<span class="c">## Run a detached container using the updated image:</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> notesapp <span class="nt">--network</span> notes <span class="nt">-p</span> 80:80 notesapp:0.3
+
+<span class="c">## Check the status of the container:</span>
+docker ps <span class="nt">-a</span>
+
+<span class="c">## In a web browser, navigate to the public IP address for the server, and log in to your account.</span>
+<span class="c">## pVerify that you can create a new note.</span></code></pre></figure></details><hr style="3px solid #bbb" /></main><hr><footer><p><a href="#top" id="back-to-top">Back to top</a></p><span>[ <a href="https://github.com/kyoon55">Github</a> ]</span> <span>[ <a href="mailto:kyoon5@gwu.edu">Click here to email me</a> ]</span><div class="d-flex mt-2"></div></footer></div></div><div class="search-overlay"></div></div><script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script> <script> var config = {} ; mermaid.initialize(config); window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid')); </script><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><link rel="stylesheet" href="/my-tech/assets/css/just-the-docs-default.css"> <script src="/my-tech/assets/js/vendor/lunr.min.js"></script> <script src="/my-tech/assets/js/just-the-docs.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/my-tech/assets/images/favicon.ico" type="image/x-icon"><title>Docker First Setup From A Cloud Guru Part 1 | My SRE Stuff</title><meta name="generator" content="Jekyll v4.3.2" /><meta property="og:title" content="Docker First Setup From A Cloud Guru Part 1" /><meta property="og:locale" content="en_US" /><meta name="description" content="This is a page for deploying several resources on Docker, from A Cloud Guru" /><meta property="og:description" content="This is a page for deploying several resources on Docker, from A Cloud Guru" /><link rel="canonical" href="http://localhost:4000/my-tech/doc/Docker/docker-1/" /><meta property="og:url" content="http://localhost:4000/my-tech/doc/Docker/docker-1/" /><meta property="og:site_name" content="My SRE Stuff" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2023-02-19T00:00:00-05:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="Docker First Setup From A Cloud Guru Part 1" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-19T00:00:00-05:00","datePublished":"2023-02-19T00:00:00-05:00","description":"This is a page for deploying several resources on Docker, from A Cloud Guru","headline":"Docker First Setup From A Cloud Guru Part 1","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/my-tech/doc/Docker/docker-1/"},"url":"http://localhost:4000/my-tech/doc/Docker/docker-1/"}</script>
