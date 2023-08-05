@@ -7,15 +7,14 @@ nav_order: 1
 date: 2015-12-29
 ---
 
-
 <h1>{{ page.title }}</h1>
 <h2>{{ page.excerpt }}</h2>
 <h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 # Tutorial: Running a Sample Docker Image
 
-## Dockerize a Flask Applicaiton
+## Title
 
-### Deployment of a Flask Applicaiton
+### Sub Title
 
 #### Key Points
 - 1
