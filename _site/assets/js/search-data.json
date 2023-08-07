@@ -1238,776 +1238,790 @@
     
     "relUrl": "/doc/AWS/creation-of-basic-infra/#container-logging"
   },"177": {
-    "doc": "Kubernetes 1.24 Installation",
-    "title": "Kubernetes 1.24 Installation",
-    "content": " ",
-    "url": "/my-tech/doc/Kubernetes/doc-1/",
-    
-    "relUrl": "/doc/Kubernetes/doc-1/"
-  },"178": {
-    "doc": "Kubernetes 1.24 Installation",
-    "title": "",
-    "content": "Date Posted: 2023 02 05 . Basic Kubernetes 1.24 Installation # Install Packages # Containerd is needed # Before installing containerd load configuration files # Disable swap # Install dependency packages (apt-transport-https, curl,ca-certifcate, gnupg, lsb-release) # Install kubeadm, kubectl, kubelet # Initialize the Cluster Sudo kubeadm init --pod-network-cidr 1927.168.0.0/16 --kubernetes-version 1.23.0 # Kubeconfig # Network Add On # Calico, vpc, etc. # Join worker nodes # Sudo kubeadm join # Upgrading kubeadm refernce: https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/ # Upgrade the control plane # Check the version # Drain the control plane node kubectl drain node-name --ignore-daemonsets # Upgrade kubectl kubelet # Uncordon the node # Upgrade the worker node # Upgrade kubeadm # $ sudo kubeadm upgrade node # Upgrade kubelet and kubectl # Restart the service # https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster # Download etcd # Run etcd # etcd --listen-client-urls=http://$IP1:2379,http://$IP2:2379,http://$IP3:2379,http://$IP4:2379,http://$IP5:2379 --advertise-client-urls=http://$IP1:2379,http://$IP2:2379,http://$IP3:2379,http://$IP4:2379,http://$IP5:2379 # List etcd serveres # ETCDCTL_API=3 etcdctl --endpoints 10.2.0.9:2379 \\ --cert=/etc/kubernetes/pki/etcd/server.crt \\ --key=/etc/kubernetes/pki/etcd/server.key \\ --cacert=/etc/kubernetes/pki/etcd/ca.crt \\ member list # Backup etcd # ETCDCTL_API=3etcdctl --endpoints $ENDPOINT snapshot save snapshotdb ## Worker Nodes ## From https://kubernetes.io/docs/setup/production-environment/container-runtimes/ # containerd preinstall configuration cat &lt;&lt;EOF | sudo tee /etc/modules-load.d/containerd.conf overlay br_netfilter EOF sudo modprobe overlay sudo modprobe br_netfilter # Setup required sysctl params, these persist across reboots. cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf net.bridge.bridge-nf-call-iptables = 1 net.ipv4.ip_forward = 1 net.bridge.bridge-nf-call-ip6tables = 1 EOF # Apply sysctl params without reboot sudo sysctl --system # Install containerd ## Set up the repository ### Install packages to allow apt to use a repository over HTTPS sudo apt-get update sudo apt-get install -y \\ apt-transport-https \\ ca-certificates \\ curl \\ gnupg \\ lsb-release OR Sudo apt-get update &amp;&amp; sudo apt-get install -y containerd ## Add Docker’s official GPG key curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg ## Add Docker apt repository. echo \\ \"deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \\ $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null ## Install packages sudo apt-get update sudo apt-get install -y \\ containerd.io # Configure containerd sudo mkdir -p /etc/containerd containerd config default | sudo tee /etc/containerd/config.toml # Restart containerd sudo systemctl restart containerd Resource: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/ # Update the package sudo apt-get update # install needed packages sudo apt-get install -y apt-transport-https ca-certificates curl sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg echo \"deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main\" | sudo tee /etc/apt/sources.list.d/kubernetes.list sudo apt-get update # Install kubelet, kubelet, and kubeadm sudo apt-get install -y kubelet=1.20.7-00 kubeadm=1.20.7-00 kubectl=1.20.7-00 # stop automatic update for kubernetes packages sudo apt-mark hold kubelet kubeadm kubectl Resource: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/ # Switch to Control Plane and start kubeadm $ sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///run/containerd/containerd.sock # copy and paste what kubeadm output says $ sudo kubeadm join 172.16.1.11:6443 --token h8vno9.7eroqaei7v1isdpn \\ --discovery-token-ca-cert-hash sha256:44f1def2a041f116bc024f7e57cdc0cdcc8d8f36f0b942bdd27c7f864f645407 --cri-socket unix:///run/containerd/containerd.sock # Configure kubectl access, add kubeconfig mkdir -p $HOME/.kube sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config sudo chown $(id -u):$(id -g) $HOME/.kube/config # Deploy Flannel as a network plugin kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml $ kubectl get nodes https://github.com/alijahnas/CKA-practice-exercises/blob/CKA-v1.20/cluster-architecture-installation-configuration.md#:~:text=https%3A//kubernetes.io/docs/tasks/administer%2Dcluster/kubeadm/kubeadm%2Dupgrade/ ########## Switch to Master Node ######### # Upgrade kubeadm sudo apt-mark unhold kubeadm sudo apt-get update &amp;&amp; sudo apt-get install -y kubeadm=1.21.1-00 sudo apt-mark hold kubeadm # Upgrade controlplane node kubectl drain k8s-controlplane --ignore-daemonsets sudo kubeadm upgrade plan sudo kubeadm upgrade apply v1.21.1 # Update Flannel kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml # Upgrade kubelet and kubectl sudo apt-mark unhold kubelet kubectl sudo apt-get update &amp;&amp; sudo apt-get install -y kubelet=1.21.1-00 kubectl=1.21.1-00 sudo apt-mark hold kubelet kubectl sudo systemctl daemon-reload sudo systemctl restart kubelet # Make master node reschedulable kubectl uncordon k8s-controlplane ####### Swtich to Worker Node # Upgrade kubeadm sudo apt-mark unhold kubeadm sudo apt-get update &amp;&amp; sudo apt-get install -y kubeadm=1.21.1-00 sudo apt-mark hold kubeadm # Upgrade worker node kubectl drain k8s-node-1 --ignore-daemonsets sudo kubeadm upgrade node # Upgrade kubelet and kubectl sudo apt-mark unhold kubelet kubectl sudo apt-get update &amp;&amp; sudo apt-get install -y kubelet=1.21.1-00 kubectl=1.21.1-00 sudo apt-mark hold kubelet kubectl sudo systemctl daemon-reload sudo systemctl restart kubelet # Make worker node reschedulable kubectl uncordon k8s-node-1 # Hold kubernetes from upgrading sudo apt-mark hold kubeadm kubelet kubectl # Upgrade node kubectl drain k8s-node-1 --ignore-daemonsets sudo apt update &amp;&amp; sudo apt upgrade -y # Be careful about container runtime (e.g., docker) upgrade. # Reboot node if necessary sudo reboot # Make worker node reschedulable kubectl uncordon k8s-node-1 https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster ## Check the version $ kubectl exec-it -n kube-system etcd-k8s-controlplane -- etcd --version etcd Version: 3.4.13 Git SHA: ae9734ed2 Go Version: go1.12.17 Go OS/Arch: linux/amd64 ## Download etcd client wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz tar xzvf etcd-v3.4.13-linux-amd64.tar.gz sudo mv etcd-v3.4.13-linux-amd64/etcdctl /usr/local/bin ## save etcd snapshot sudo ETCDCTL_API=3 etcdctl snapshot save --endpoints 172.16.1.11:2379 snapshot.db --cacert /etc/kubernetes/pki/etcd/server.crt --cert /etc/kubernetes/pki/etcd/ca.crt --key /etc/kubernetes/pki/etcd/ca.key # View the snapshot ETCDCTL_API=3 sudo etcdctl --write-out=table snapshot status snapshot.db +----------+----------+------------+------------+ | HASH | REVISION | TOTAL KEYS | TOTAL SIZE | +----------+----------+------------+------------+ | 4056f9fc | 18821 | 809 | 4.1 MB | +----------+----------+------------+------------+ . ",
-    "url": "/my-tech/doc/Kubernetes/doc-1/",
-    
-    "relUrl": "/doc/Kubernetes/doc-1/"
-  },"179": {
     "doc": "Terraform Deployment of basic infrastructure on AWS",
     "title": "Terraform Deployment of basic infrastructure on AWS",
     "content": " ",
     "url": "/my-tech/docs/Terraform/doc-1/",
     
     "relUrl": "/docs/Terraform/doc-1/"
-  },"180": {
+  },"178": {
     "doc": "Terraform Deployment of basic infrastructure on AWS",
     "title": "",
     "content": "Date Posted: 2023 03 05 . Terraform main.tf file to deploy basic infrastructure terraform { required_version = \"&gt;= 0.14.5\" required_providers { local = { source = \"hashicorp/local\" version = \"2.0.0\" } tls = { source = \"hashicorp/tls\" version = \"3.0.0\" } } } provider \"local\" { } provider \"tls\" { } resource \"tls_private_key\" \"ssh_key\" { algorithm = \"RSA\" rsa_bits = 4096 } resource \"local_file\" \"cloud_config\" { filename = \"cloud-config.yaml\" content = &lt;&lt;-EOT write_files: - path: /etc/app/key permissions: '0600' content: | ${tls_private_key.ssh_key.private_key_pem} - path: /etc/app/key.pub permissions: '0644' content: | ${tls_private_key.ssh_key.public_key_openssh} EOT } . ",
     "url": "/my-tech/docs/Terraform/doc-1/",
     
     "relUrl": "/docs/Terraform/doc-1/"
+  },"179": {
+    "doc": "Kubernetes 1.24 Installation",
+    "title": "Kubernetes 1.24 Installation",
+    "content": " ",
+    "url": "/my-tech/doc/Kubernetes/doc-1/",
+    
+    "relUrl": "/doc/Kubernetes/doc-1/"
+  },"180": {
+    "doc": "Kubernetes 1.24 Installation",
+    "title": "",
+    "content": "Date Posted: 2023 02 05 . Basic Kubernetes 1.24 Installation # Install Packages # Containerd is needed # Before installing containerd load configuration files # Disable swap # Install dependency packages (apt-transport-https, curl,ca-certifcate, gnupg, lsb-release) # Install kubeadm, kubectl, kubelet # Initialize the Cluster Sudo kubeadm init --pod-network-cidr 1927.168.0.0/16 --kubernetes-version 1.23.0 # Kubeconfig # Network Add On # Calico, vpc, etc. # Join worker nodes # Sudo kubeadm join # Upgrading kubeadm refernce: https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/ # Upgrade the control plane # Check the version # Drain the control plane node kubectl drain node-name --ignore-daemonsets # Upgrade kubectl kubelet # Uncordon the node # Upgrade the worker node # Upgrade kubeadm # $ sudo kubeadm upgrade node # Upgrade kubelet and kubectl # Restart the service # https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster # Download etcd # Run etcd # etcd --listen-client-urls=http://$IP1:2379,http://$IP2:2379,http://$IP3:2379,http://$IP4:2379,http://$IP5:2379 --advertise-client-urls=http://$IP1:2379,http://$IP2:2379,http://$IP3:2379,http://$IP4:2379,http://$IP5:2379 # List etcd serveres # ETCDCTL_API=3 etcdctl --endpoints 10.2.0.9:2379 \\ --cert=/etc/kubernetes/pki/etcd/server.crt \\ --key=/etc/kubernetes/pki/etcd/server.key \\ --cacert=/etc/kubernetes/pki/etcd/ca.crt \\ member list # Backup etcd # ETCDCTL_API=3etcdctl --endpoints $ENDPOINT snapshot save snapshotdb ## Worker Nodes ## From https://kubernetes.io/docs/setup/production-environment/container-runtimes/ # containerd preinstall configuration cat &lt;&lt;EOF | sudo tee /etc/modules-load.d/containerd.conf overlay br_netfilter EOF sudo modprobe overlay sudo modprobe br_netfilter # Setup required sysctl params, these persist across reboots. cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf net.bridge.bridge-nf-call-iptables = 1 net.ipv4.ip_forward = 1 net.bridge.bridge-nf-call-ip6tables = 1 EOF # Apply sysctl params without reboot sudo sysctl --system # Install containerd ## Set up the repository ### Install packages to allow apt to use a repository over HTTPS sudo apt-get update sudo apt-get install -y \\ apt-transport-https \\ ca-certificates \\ curl \\ gnupg \\ lsb-release OR Sudo apt-get update &amp;&amp; sudo apt-get install -y containerd ## Add Docker’s official GPG key curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg ## Add Docker apt repository. echo \\ \"deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \\ $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null ## Install packages sudo apt-get update sudo apt-get install -y \\ containerd.io # Configure containerd sudo mkdir -p /etc/containerd containerd config default | sudo tee /etc/containerd/config.toml # Restart containerd sudo systemctl restart containerd Resource: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/ # Update the package sudo apt-get update # install needed packages sudo apt-get install -y apt-transport-https ca-certificates curl sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg echo \"deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main\" | sudo tee /etc/apt/sources.list.d/kubernetes.list sudo apt-get update # Install kubelet, kubelet, and kubeadm sudo apt-get install -y kubelet=1.20.7-00 kubeadm=1.20.7-00 kubectl=1.20.7-00 # stop automatic update for kubernetes packages sudo apt-mark hold kubelet kubeadm kubectl Resource: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/ # Switch to Control Plane and start kubeadm $ sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///run/containerd/containerd.sock # copy and paste what kubeadm output says $ sudo kubeadm join 172.16.1.11:6443 --token h8vno9.7eroqaei7v1isdpn \\ --discovery-token-ca-cert-hash sha256:44f1def2a041f116bc024f7e57cdc0cdcc8d8f36f0b942bdd27c7f864f645407 --cri-socket unix:///run/containerd/containerd.sock # Configure kubectl access, add kubeconfig mkdir -p $HOME/.kube sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config sudo chown $(id -u):$(id -g) $HOME/.kube/config # Deploy Flannel as a network plugin kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml $ kubectl get nodes https://github.com/alijahnas/CKA-practice-exercises/blob/CKA-v1.20/cluster-architecture-installation-configuration.md#:~:text=https%3A//kubernetes.io/docs/tasks/administer%2Dcluster/kubeadm/kubeadm%2Dupgrade/ ########## Switch to Master Node ######### # Upgrade kubeadm sudo apt-mark unhold kubeadm sudo apt-get update &amp;&amp; sudo apt-get install -y kubeadm=1.21.1-00 sudo apt-mark hold kubeadm # Upgrade controlplane node kubectl drain k8s-controlplane --ignore-daemonsets sudo kubeadm upgrade plan sudo kubeadm upgrade apply v1.21.1 # Update Flannel kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml # Upgrade kubelet and kubectl sudo apt-mark unhold kubelet kubectl sudo apt-get update &amp;&amp; sudo apt-get install -y kubelet=1.21.1-00 kubectl=1.21.1-00 sudo apt-mark hold kubelet kubectl sudo systemctl daemon-reload sudo systemctl restart kubelet # Make master node reschedulable kubectl uncordon k8s-controlplane ####### Swtich to Worker Node # Upgrade kubeadm sudo apt-mark unhold kubeadm sudo apt-get update &amp;&amp; sudo apt-get install -y kubeadm=1.21.1-00 sudo apt-mark hold kubeadm # Upgrade worker node kubectl drain k8s-node-1 --ignore-daemonsets sudo kubeadm upgrade node # Upgrade kubelet and kubectl sudo apt-mark unhold kubelet kubectl sudo apt-get update &amp;&amp; sudo apt-get install -y kubelet=1.21.1-00 kubectl=1.21.1-00 sudo apt-mark hold kubelet kubectl sudo systemctl daemon-reload sudo systemctl restart kubelet # Make worker node reschedulable kubectl uncordon k8s-node-1 # Hold kubernetes from upgrading sudo apt-mark hold kubeadm kubelet kubectl # Upgrade node kubectl drain k8s-node-1 --ignore-daemonsets sudo apt update &amp;&amp; sudo apt upgrade -y # Be careful about container runtime (e.g., docker) upgrade. # Reboot node if necessary sudo reboot # Make worker node reschedulable kubectl uncordon k8s-node-1 https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster ## Check the version $ kubectl exec-it -n kube-system etcd-k8s-controlplane -- etcd --version etcd Version: 3.4.13 Git SHA: ae9734ed2 Go Version: go1.12.17 Go OS/Arch: linux/amd64 ## Download etcd client wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz tar xzvf etcd-v3.4.13-linux-amd64.tar.gz sudo mv etcd-v3.4.13-linux-amd64/etcdctl /usr/local/bin ## save etcd snapshot sudo ETCDCTL_API=3 etcdctl snapshot save --endpoints 172.16.1.11:2379 snapshot.db --cacert /etc/kubernetes/pki/etcd/server.crt --cert /etc/kubernetes/pki/etcd/ca.crt --key /etc/kubernetes/pki/etcd/ca.key # View the snapshot ETCDCTL_API=3 sudo etcdctl --write-out=table snapshot status snapshot.db +----------+----------+------------+------------+ | HASH | REVISION | TOTAL KEYS | TOTAL SIZE | +----------+----------+------------+------------+ | 4056f9fc | 18821 | 809 | 4.1 MB | +----------+----------+------------+------------+ . ",
+    "url": "/my-tech/doc/Kubernetes/doc-1/",
+    
+    "relUrl": "/doc/Kubernetes/doc-1/"
   },"181": {
+    "doc": "CKA Preparation",
+    "title": "CKA Preparation",
+    "content": " ",
+    "url": "/my-tech/doc/Kubernetes/doc-2/",
+    
+    "relUrl": "/doc/Kubernetes/doc-2/"
+  },"182": {
+    "doc": "CKA Preparation",
+    "title": "",
+    "content": "Date Posted: 2022 10 25 . ",
+    "url": "/my-tech/doc/Kubernetes/doc-2/",
+    
+    "relUrl": "/doc/Kubernetes/doc-2/"
+  },"183": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Docker First Setup From A Cloud Guru Part 1",
     "content": " ",
     "url": "/my-tech/doc/Docker/docker-1/",
     
     "relUrl": "/doc/Docker/docker-1/"
-  },"182": {
+  },"184": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "This is a page for deploying several resources on Docker, from A Cloud Guru",
     "content": "Date Posted: 2023 02 19 . ",
     "url": "/my-tech/doc/Docker/docker-1/",
     
     "relUrl": "/doc/Docker/docker-1/"
-  },"183": {
+  },"185": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Initializing the Docker Environment",
     "content": "Ths deployment creates a new docker environment . Key Points . | Packages needed: yum-utils, device-mapper-presistent-data, lvm2 | Once docker-ce is installed, enable it and create a docker user | . Script Example ## Installing Docker # Install the Docker prerequisites: sudo yum install -y yum-utils device-mapper-persistent-data lvm2 # Using yum-config-manager, add the CentOS-specific Docker repo: sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo # Install Docker: sudo yum -y install docker-ce ## Enable the Docker Daemon # Enable the Docker daemon: sudo systemctl enable --now docker ## Configure User Permissions # Add the lab user to the docker group: sudo usermod -aG docker cloud_user ## Caution: You will need to exit the server for the change to take effect. ## Run a Test Image # Using docker, run the hello-world image to verify that the environment is set up properly: docker run hello-world . ",
     "url": "/my-tech/doc/Docker/docker-1/#initializing-the-docker-environment",
     
     "relUrl": "/doc/Docker/docker-1/#initializing-the-docker-environment"
-  },"184": {
+  },"186": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Working with Prebuild Docker Images",
     "content": "This Docker deployment is to migrate a website, from a traditional server to containers by using Dockers . Key Points . | Once Docker is installed, Docker commands are used, such as | docker ps | docker run –name container-name -p Port:Port -d detech-background | docker stop | docker rm | docker pull | . Script Example ## Explore Docker Hub ### Sign in to Docker Hub. ## At the top of the page, search for \"httpd\".In the left-hand menu, filter for Application Infrastructure, and Official Images. Select the httpd project. At the top of the page, click the Tags tab. Under latest, select linux/amd64. Back in the list of available images, select nginx. Finally, Review the How to use this image section. ## Get and View httpd ```bash ## In the Docker Instance, verify that docker is installed: docker ps ## Using docker, pull the httpd:2.4 image: docker pull httpd:2.4 ## Run the image: docker run --name httpd -p 8080:80 -d httpd:2.4 ## Check the status of the container: docker ps ## In a web browser, test connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8080 ``` ## Run a Copy of the Website in httpd ```bash ## Clone the Widget Factory Inc repository git clone https://github.com/linuxacademy/content-widget-factory-inc ## Change to the content-widget-factory-inc directory: cd content-widget-factory-inc ## Check the files: ll ## Move to the web directory: cd web ## Check the files: ll ## Stop the httpd container: docker stop httpd ## Remove the httpd container: docker rm httpd ## Verify that the container has been removed: docker ps -a ## Run the container with the website data: docker run --name httpd -p 8080:80 -v $(pwd):/usr/local/apache2/htdocs:ro -d httpd:2.4 ## Check the status of the container: docker ps ## In a web browser, check connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8080 ``` ## Get and View Nginx ```bash ## Using docker, pull the latest version of nginx: docker pull nginx ## Verify that the image was pulled successfully: docker images ## Run the container using the nginx image: docker run --name nginx -p 8081:80 -d nginx ## Check the status of the container: docker ps ## Verify connectivity to the nginx container: &lt;PUBLIC_IP_ADDRESS&gt;:8081 ``` ## Run a Copy of the Website in Nginx ```bash ## Stop the nginx container: docker stop nginx ## Remove the nginx container: docker rm nginx ## Verify that the container has been removed: docker ps -a ## Run the nginx container, and mount the website data: docker run --name nginx -v $(pwd):/usr/share/nginx/html:ro -p 8081:80 -d nginx ## Check the status of the container: docker ps ## In a web browser, verify connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt;:8081 ## Stop the nginx container: docker stop nginx ## Remove the nginx container: docker rm nginx ## Verify that the container has been removed: docker ps -a ``` . ",
     "url": "/my-tech/doc/Docker/docker-1/#working-with-prebuild-docker-images",
     
     "relUrl": "/doc/Docker/docker-1/#working-with-prebuild-docker-images"
-  },"185": {
+  },"187": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Handcrafting a Container Image",
     "content": "Manually mounting volumes for each new container isn’t a scalable solution. This deployment guides you to creating a new image from an existing container. Key Points . | Some commands: . | docker exec -t container-name bash | . | . Script Example # Get and Run the Base Image ## Retrieve the httpd image: docker pull httpd:2.4 ## Run the image: docker run --name webtemplate -d httpd:2.4 ## Check the status of the webtemplate container: docker ps # Install Tools and Code in the Container ## Log in to the container: docker exec -it webtemplate bash ## Run apt update and install git apt update &amp;&amp; apt install git -y ## Clone the website code from GitHub: git clone https://github.com/linuxacademy/content-widget-factory-inc.git /tmp/widget-factory-inc ## Verify that the code was cloned successfully: ls -l /tmp/widget-factory-inc/ ## List the files in the htdocs/ directory: ls -l htdocs/ ## Remove the index.html file: rm htdocs/index.html ## Copy the webcode from /tmp/ to the htdocs/ folder: cp -r /tmp/widget-factory-inc/web/* htdocs/ ## Verify that they were copied over successfully: ls -l htdocs/ ## Exit the container: exit # Create an Image from the Container ## Copy the Container ID: docker ps ## Create an image from the container: docker commit &lt;CONTAINER_ID&gt; example/widgetfactory:v1 ## Verify that the image was created successfully: docker images ## Take note of the image size. Then clean up the Template for a Second Version ## Log in to the container: docker exec -it webtemplate bash ## Remove the cloned code from the /tmp/ directory: rm -rf /tmp/widget-factory-inc/ ## Use apt to uninstall git and clean the cache: apt remove git -y &amp;&amp; apt autoremove -y &amp;&amp; apt clean ## Exit the container: exit ## Check the status of the container: docker ps ## Create an image from the updated container: docker commit &lt;CONTAINER_ID&gt; example/widgetfactory:v2 ## Verify that both images are now running: docker images ## Delete the v1 image: docker rmi example/widgetfactory:v1 # Run Multiple Containers from the Image ## Run multiple containers using the new image: docker run -d --name web1 -p 8081:80 example/ widgetfactory:v2 docker run -d --name web2 -p 8082:80 example/widgetfactory:v2 docker run -d --name web3 -p 8083:80 example/widgetfactory:v2 ## Check the status of the containers: docker ps ## Stop the base webtemplate image: docker stop webtemplate ## Verify that only the created containers are running: docker ps ## Using a web browser, verify that the containers are running successfully: &lt;SERVER_PUBLIC_IP_ADDRESS&gt;:8081 &lt;SERVER_PUBLIC_IP_ADDRESS&gt;:8082 &lt;SERVER_PUBLIC_IP_ADDRESS&gt;:8083 . ",
     "url": "/my-tech/doc/Docker/docker-1/#handcrafting-a-container-image",
     
     "relUrl": "/doc/Docker/docker-1/#handcrafting-a-container-image"
-  },"186": {
+  },"188": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Storing Container Data In Docker Volumes",
     "content": "Another way to back up the data that’s stored in he docker containers . Script Example ## Discover Aonoymous Docker Volumes docker images ## Run a container \"postgress:12.1\" docker run -d --name db1 postgres:12.1 docker run -d --name db2 postgres:12.1 ## Check the status ## Check the Docker volumes, creates an anonymous volume docker ps docker volume ls ## inspect the db1 and db2 containers docker inspect db1 -f '' | python -m json.tool docker inspect db2 -f '' | python -m json.tool ## Create a third container using the --rm flag docker run -d --rm --name dbTemp postgres:12.1 ## check the status docker ps -a docker volume ls ## Stop the db2 and dbTmp containers docker stop db2 dbTmp ## List the anonymous volumes docker volume ls ## Check the status of the containers: docker ps -a # Create a Docker Volume ## Create a Docker volume docker volume create website ## Verify the volume docker volume ls ## Copy the \"widget-factory-inc\" data to the website containers sudo cp -r /home/cloud_user/widget-factory-inc/web/* /var/lib/docker/volumes/website/_data/ ## List the copied data: sudo ls -l /var/lib/docker/volumes/website/_data/ # Use the Website Volume with Containers ## Run a docker container with the website volume: docker run -d --name web1 -p 80:80 -v website:/usr/local/apache2/htdocs:ro httpd:2.4 ## Check the status of the container: docker ps ## In a web browser, verify connectivity to the container: &lt;PUBLIC_IP_ADDRESS&gt; ## Run a second container with the --rm flag: docker run -d --name webTmp --rm -v website:/usr/local/apache2/htdocs:ro httpd:2.4 ## Check the status of the containers: docker ps ## Stop the webTmp container: docker stop webTmp ## Check the status of the containers: docker ps -a ## Verify that the website can still be accessed through a web browser: &lt;PUBLIC_IP_ADDRESS&gt; # Clean Up Unused Volumes ## Clean up the unused volumes: docker volume prune ## Check the currently running containers: docker ps -a ## Remove the db2 container: docker rm db2 ## Clean up the unused volumes again: docker volume prune ## List the current volumes: docker volume ls # Back Up and Restore the Docker Volume ## Switch to the root user: sudo -i ## Find where the website volume data is stored: docker volume inspect website ## Copy the Mountpoint. ## Back up the volume: tar czf /tmp/website_$(date +%Y-%m-%d-%H%M).tgz -C /var/lib/docker/volumes/website/_data . ## Verify that the data was backed up properly: ls -l /tmp/website_*.tgz ## List the contents of the tgz file: tar tf &lt;BACKUP_FILE_NAME&gt;.tgz ## Exit out of root: exit ## Run a new container using the website volume, and create a backup: docker run -it --rm -v website:/website -v /tmp:/backup bash tar czf /backup/website_$(date +%Y-%m-%d-%H-%M).tgz -C /website . ## Verify that the data was backed up properly: ls -l /tmp/website_*.tgz ## Switch to the root user: sudo -i ## Change to the /docker/volumes/ directory: cd /var/lib/docker/volumes/ ## List the volumes: ls -l ## Change to the website/_data directory: cd website/_data/ ## Remove the contents of the directory: rm * -rf ## Verify that the backups are still available: ls -l /tmp/website_*.tgz ## Restore the data to the current directory: tar xf /tmp/&lt;BACKUP_FILE_NAME&gt;.tgz . ## Verify that the data was restored successfully: ls -l . ",
     "url": "/my-tech/doc/Docker/docker-1/#storing-container-data-in-docker-volumes",
     
     "relUrl": "/doc/Docker/docker-1/#storing-container-data-in-docker-volumes"
-  },"187": {
+  },"189": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Storing Container Data in AWS S3",
     "content": "Store the website data to AWS S3 . Key Words . | First, Set up the AWS account and S3 bucket | s3fs is a FUSE-based file system to mount the S3 bucket to the server | . Script Example # Configuration and Installation ## Install the awscli, while checking if there are any versions currently installed, and not stopping any user processes: pip install --upgrade --user awscli ## Configure the CLI: aws configure ## Enter the following: ### AWS Access Key ID: &lt;ACCESS_KEY_ID&gt; ### AWS Secret Access Key: &lt;SECRET_ACCESS_KEY&gt; ### Default region name: us-east-1 ### Default output format: json ## Copy the CLI configuration to the root user: sudo cp -r ~/.aws /root ## Install the s3fs package: sudo yum install s3fs-fuse -y # Prepare the Bucket ## Create a mount point for the s3 bucket: sudo mkdir /mnt/widget-factory ## Export the bucket name: export BUCKET=&lt;S3_BUCKET_NAME&gt; ## Mount the S3 bucket: sudo s3fs $BUCKET /mnt/widget-factory -o allow_other -o use_cache=/tmp/s3fs ## Verify that the bucket was mounted successfully: ll /mnt/widget-factory ## Copy the website files to the s3 bucket: cp -r ~/widget-factory-inc/web/* /mnt/widget-factory ## Verify the files are in the folder: ll /mnt/widget-factory ## Verify the files are in the s3 bucket: aws s3 ls s3://$BUCKET # Use the S3 Bucket Files in a Docker Container ## Run an httpd container using the S3 bucket: docker run -d --name web1 -p 80:80 --mount type=bind,source=/mnt/widget-factory,target=/usr/local/apache2/htdocs,readonly httpd:2.4 ## In a web browser, verify connectivity to the container: &lt;SERVER_PUBLIC_IP_ADDRESS&gt; ## Check the bucket cache, then change to the /mnt/widget-factory/ directory: cd /mnt/widget-factory ## Create a new page within the bucket: cp index.html newPage.html ## In a web browser, verify that the new page is accessible: &lt;SERVER_PUBLIC_IP_ADDRESS&gt;/newPage.html ## Verify that the page was added to the bucket: aws s3 ls $BUCKET . ",
     "url": "/my-tech/doc/Docker/docker-1/#storing-container-data-in-aws-s3",
     
     "relUrl": "/doc/Docker/docker-1/#storing-container-data-in-aws-s3"
-  },"188": {
+  },"190": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Storing Container Data in AZ Storage",
     "content": "Key Points . | First create an AZ Storage | blobfuse is a FUSE-based file system to mount the Blob storage container to the server | . Script Example # Configuration and Installation ## Obtain the Azure login credentials: az login ## Copy the code provided by the command. ## Open a browser and navigate to https://microsoft.com/devicelogin. ## Enter the code copied in a previous step and click Next. ## Use the login credentials from the lab page to finish logging in. ## Switch back to the terminal and wait for the confirmation. # Prepare the Storage ## Find the name of the Storage account: az storage account list | grep name | head -1 ## Copy the name of the Storage account to the clipboard. ## Export the Storage account name: export AZURE_STORAGE_ACCOUNT=&lt;COPIED_STORAGE_ACCOUNT_NAME&gt; # Retrieve the Storage access key: az storage account keys list --account-name=$AZURE_STORAGE_ACCOUNT # Copy the key1 \"value\" for later use. # Export the key value: export AZURE_STORAGE_ACCESS_KEY=&lt;KEY1_VALUE&gt; ## Install blobfuse: sudo rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm sudo yum install blobfuse fuse -y ## Modify the fuse.conf configuration file: sudo sed -ri 's/# user_allow_other/user_allow_other/' /etc/fuse.conf # Use the Azure Blob Storage Container ## Create necessary directories: sudo mkdir -p /mnt/widget-factory /mnt/blobfusetmp ## Change ownership of the directories: sudo chown cloud_user /mnt/widget-factory/ /mnt/blobfusetmp/ ## Mount the Blob Storage from Azure: blobfuse /mnt/widget-factory --container-name=website --tmp-path=/mnt/blobfusetmp -o allow_other ## Copy website files into the Blob Storage container: cp -r ~/widget-factory-inc/web/* /mnt/widget-factory/ ## Verify the copy worked: ll /mnt/widget-factory/ ## Verify the files made it to Azure Blob Storage: az storage blob list -c website --output table ## Run a Docker container: docker run -d --name web1 -p 80:80 --mount type=bind,source=/mnt/widget-factory,target=/usr/local/apache2/htdocs,readonly httpd:2.4 ## Once the command is complete, open a web browser and navigate to the public IP address of the server. ## Verify the website is up and running. ",
     "url": "/my-tech/doc/Docker/docker-1/#storing-container-data-in-az-storage",
     
     "relUrl": "/doc/Docker/docker-1/#storing-container-data-in-az-storage"
-  },"189": {
+  },"191": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Building Container Images Using Dockerfiles",
     "content": "Creating a container image by hand is possible, but it requires manual processes. There has to be a more automatic way to build images. Manual processes do not scale and are not easily version controlled. Docker provides a solution to this problem - the Dockerfile. Key Points . | Every time the docker build with the Dockerfile is done, add a tag (:0.1) | . Script Example # Build a First Version ## Change to the widget-factory-inc directory: cd widget-factory-inc ## Create a Dockerfile that uses httpd:2.4 as the base image: vim Dockerfile ## In the new file, insert the following: FROM httpd:2.4 RUN apt update -y &amp;&amp; apt upgrade -y &amp;&amp; apt autoremove -y &amp;&amp; apt clean &amp;&amp; rm -rf /var/lib/apt/lists* ## Save the file: ESC :wq ## Verify that the file was saved successfully: cat Dockerfile ## Build the 0.1 version of the widgetfactory image using the Dockerfile: docker build -t widgetfactory:0.1 . ## Set variables to examine the image's size and layers: export showLayers='{{ range .RootFS.Layers }}{{ println . }}{{end}}' export showSize='{{ .Size }}' ## Compare the httpd and widgetfactory images: docker images ## Show the widgetfactory image's size: docker inspect -f \"$showSize\" widgetfactory:0.1 ## Show the layers: docker inspect -f \"$showLayers\" widgetfactory:0.1 ## Show the layers of the httpd:2.4 image: docker inspect -f \"$showLayers\" httpd:2.4 # Load the Website into the Container ## Open the Dockerfile: vim Dockerfile ## Remove the Apache welcome page from the image by adding the following: RUN rm -f /usr/local/apache2/htdocs/index.html ## Save the file: ESC :wq ## Build version 0.2 of the widgetfactory image: docker build -t widgetfactory:0.2 . ## Inspect both versions of the widgetfactory image to see the differences in size and layers: docker images ## Show the widgetfactory:0.1 image's size: docker inspect -f \"$showSize\" widgetfactory:0.1 ## Compare it to the image size for widgetfactory:0.2: docker inspect -f \"$showSize\" widgetfactory:0.2 ## Using an interactive terminal, check the htdocs folder for widgetfactory:0.2. Are the website files in the folder?: docker run --rm -it widgetfactory:0.2 bash ls htdocs ## Exit the container: exit ## Show the layers for the widgetfactory:0.1 image: docker inspect -f \"$showLayers\" widgetfactory:0.1 ## Show the layers for the widgetfactory:0.2 image and compare the two: docker inspect -f \"$showLayers\" widgetfactory:0.2 ## Open the Dockerfile: vim Dockerfile ## Add the website data to the container by adding the following to the end of the file: WORKDIR /usr/local/apache2/htdocs COPY ./web . ## Save the file: ESC :wq ## Build version 0.3 of the widgetfactory image: docker build -t widgetfactory:0.3 . ## Inspect versions 0.2 and 0.3 to see the differences in size and layers: docker images ## Show the widgetfactory:0.2 image's size: docker inspect -f \"$showSize\" widgetfactory:0.2 ## Compare it to the image size for widgetfactory:0.3: docker inspect -f \"$showSize\" widgetfactory:0.3 ## Show the layers for the widgetfactory:0.2 image: docker inspect -f \"$showLayers\" widgetfactory:0.2 ## Show the layers for the widgetfactory:0.3 image and compare the two: docker inspect -f \"$showLayers\" widgetfactory:0.3 ## Using an interactive terminal, check the htdocs folder for widgetfactory:0.3: docker run --rm -it widgetfactory:0.3 bash . ",
     "url": "/my-tech/doc/Docker/docker-1/#building-container-images-using-dockerfiles",
     
     "relUrl": "/doc/Docker/docker-1/#building-container-images-using-dockerfiles"
-  },"190": {
+  },"192": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Docker Container Networking",
     "content": "Each container should serve a single purpose, such as running one application like a web server. Containers can be powerful by themselves, but when connected together, they are far more useful. For example, a web server container can be connected to a database container to provide application storage. Docker provides multiple options for networking containers . Key Points . | Detached mode, shown by the option –detach or -d, means that a Docker container runs in the background of your terminal. It does not receive input or display output. | add –rm to use it temporarily. when it is used with Busybox, it just ssh’s into busybox | Busybox can ssh into the httpd bridge network | . Script Example # Explore the Default Network ## List the default networks: docker network ls ## Run an httpd container named web1, without specifying a network, and see which network it uses: docker run -d --name web1 httpd:2.4 docker inspect web1 ## Take note of the IPAddress. # Run a container using the busybox image, and see if you can connect to the web1 server: docker run --rm -it busybox # Check the container's networking, and verify it is in the same IP range as web1: ip addr ## Ping the web1 container using the IP address: ping &lt;WEB1_IP_ADDRESS&gt; ## Attempt to ping the web1 container by name: ping web1 ## Attempt to access web1 using wget: wget &lt;WEB1_IP_ADDRESS&gt; ## Exit the container: exit # Explore Bridge Networks ## Create a new bridge network named test_application: docker network create test_application ## Run an httpd container named web2, in the test_application network: docker run -d --name web2 --network test_application httpd:2.4 ## Check the status of the container: docker ps -a ## Verify that web2 was added to the test_application network: docker inspect web2 ## Run a container using the busybox image, and see if you can connect to the web2 server, within the test_application network: docker run --rm -it --network test_application busybox ## Check the container's networking, and verify it is in the same IP range as web2: ip addr ## Ping the web2 container using the IP address: ping &lt;WEB2_IP_ADDRESS&gt; ## Attempt to ping the web2 container by name: ping web2 ## Using wget, attempt to access web2 with the hostname: wget web2 ## Attempt to ping web1: ping &lt;WEB1_IP_ADDRESS&gt; ## Attempt to access web1 using wget: wget &lt;WEB1_IP_ADDRESS&gt; ## Exit the container: exit # Explore the Host Network ## Run an httpd container named web3 on the host network: docker run -d --name web3 --network host httpd:2.4 ## Check the status of the container: docker ps -a ## Attempt to connect to web3 directly from the server: wget localhost ## Stop web3: docker stop web3 ## Attempt to connect to web3 directly from the server again: wget localhost ## Start web3: docker start web3 ## Run a container using the busybox image, and see if you can connect to the web3 server: docker run --rm -it --network host busybox ping web3 ## Using wget, attempt to access localhost within the busybox image: wget localhost ## Attempt to ping web2: ping &lt;WEB2_IP_ADDRESS&gt; ## Attempt to ping web1: ping &lt;WEB1_IP_ADDRESS&gt; . ",
     "url": "/my-tech/doc/Docker/docker-1/#docker-container-networking",
     
     "relUrl": "/doc/Docker/docker-1/#docker-container-networking"
-  },"191": {
+  },"193": {
     "doc": "Docker First Setup From A Cloud Guru Part 1",
     "title": "Dockerize a Flask Applicaiton",
     "content": "Deployment of a Flask Applicaiton . Key Points . | Dockerfile also builds a network in the directory | docker ps: Running Containers | docker images ls: current images | once docker run –rm -it –network notes -p 80:80 notesapp:0.1 is run then do Ctrl+C to quit the container | Once Dockerfile is edited, edit a tag using: docker build -t notesapp:0.2 . | . Script Example # Create the Build Files ## Change to the notes directory: cd notes ## List the files in the directory: ls -la ## Inspect the config.py file: cat config.py import os db_host = os.environ.get('DB_HOST', default='localhost') db_name = os.environ.get('DB_NAME', default='notes') db_user = os.environ.get('DB_USERNAME', default='notes') db_password = os.environ.get('DB_PASSWORD', default='') db_port = os.environ.get('DB_PORT', default='5432') SQLALCHEMY_TRACK_MODIFICATIONS = False SQLALCHEMY_DATABASE_URI = f\"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}\" ## Crate the .dockerignore file: vim .dockerignore # In the file, paste the following: .dockerignore Dockerfile .gitignore Pipfile.lock migrations/ ## Save the file: ESC :wq ## Create the Dockerfile: vim Dockerfile ## In the file, paste the following: FROM python:3 ENV PYBASE /pybase ENV PYTHONUSERBASE $PYBASE ENV PATH $PYBASE/bin:$PATH RUN pip install pipenv WORKDIR /tmp COPY Pipfile . RUN pipenv lock RUN PIP_USER=1 PIP_IGNORE_INSTALLED=1 pipenv install -d --system --ignore-pipfile COPY . /app/notes WORKDIR /app/notes EXPOSE 80 CMD [\"flask\", \"run\", \"--port=80\", \"--host=0.0.0.0\"] # Build and Setup Environment ## Build the notesapp image: docker build -t notesapp:0.1 . ## Check the status of the image: docker images ## List the containers: docker ps -a ## List the docker networks: docker network ls ## Run a container using the notesapp image and mount the migrations directory: docker run --rm -it --network notes -v /home/cloud_user/notes/migrations:/app/notes/migrations notesapp:0.1 bash ## Once connected to the container, enable SQLAlchemy: flask db init ## Check the migrations folder: ls -l migrations ## Create the files needed to configure the database: flask db migrate ## Apply the files: flask db upgrade # Run, Evaluate, and Upgrade ## Run a container using the notesapp:0.1 image: docker run --rm -it --network notes -p 80:80 notesapp:0.1 ## Using a web browser, navigate to the public IP address for the server. ## Sign up for a new account using an email address and password. ## Once you are signed up, log in to your account. ## Create your first note. ## Verify that you can edit the note. ## Back in the terminal, disable Debug mode by editing the .env file: vim .env ## Remove the export FLASK_ENV='development' line. ## Save the file: ESC :wq ## Build the image again: docker build -t notesapp:0.2 . ## Run a container using the updated image: docker run --rm -it --network notes -p 80:80 notesapp:0.2 ## In a web browser, navigate to the public IP address for the server, and log in to your account. ## Verify that you can add a second note. ## In the terminal, stop the container: CTRL+C # Upgrade to Gunicorn ## Check the Pipfile: cat Pipfile ## Run a container and modify the pip file: docker run --rm -it -v /home/cloud_user/notes/Pipfile:/tmp/Pipfile notesapp:0.2 bash ## Once connected, change to the /tmp directory: cd /tmp ## Add gunicorn to the list of dependencies: pipenv install gunicorn ## Exit the container: exit ## Verify that gunicorn was added under [packages]: cat Pipfile ## Modify the init.py script: vim __init__.py from dotenv import load_dotenv, find_dotenv load_dotenv(find_dotenv()) ## Beneath the import section, add the following: from dotenv import load_dotenv, find_dotenv load_dotenv(find_dotenv()) ## Save the file: ESC :wq ## Open the Dockerfile: vim Dockerfile ## To the bottom of the file, make the following changes: COPY . /app/notes WORKDIR /app EXPOSE 80 CMD [\"gunicorn\", \"-b 0.0.0.0:80\", \"notes:create_app()\"] ## Save the file: ESC :wq # Build a Production Image ## Build the updated notesapp image: docker build -t notesapp:0.3 . ## Run a detached container using the updated image: docker run -d --name notesapp --network notes -p 80:80 notesapp:0.3 ## Check the status of the container: docker ps -a ## In a web browser, navigate to the public IP address for the server, and log in to your account. ## pVerify that you can create a new note. ",
     "url": "/my-tech/doc/Docker/docker-1/#dockerize-a-flask-applicaiton",
     
     "relUrl": "/doc/Docker/docker-1/#dockerize-a-flask-applicaiton"
-  },"192": {
+  },"194": {
     "doc": "Docker First Setup From A Cloud Guru Part 2",
     "title": "Docker First Setup From A Cloud Guru Part 2",
     "content": " ",
     "url": "/my-tech/doc/Docker/docker-2/",
     
     "relUrl": "/doc/Docker/docker-2/"
-  },"193": {
+  },"195": {
     "doc": "Docker First Setup From A Cloud Guru Part 2",
     "title": "This is a page for deploying several resources on Docker, from A Cloud Guru",
     "content": "Date Posted: 2023 02 19 . ",
     "url": "/my-tech/doc/Docker/docker-2/",
     
     "relUrl": "/doc/Docker/docker-2/"
-  },"194": {
+  },"196": {
     "doc": "Docker First Setup From A Cloud Guru Part 2",
     "title": "Tutorial: Running a Sample Docker Image",
     "content": " ",
     "url": "/my-tech/doc/Docker/docker-2/#tutorial-running-a-sample-docker-image",
     
     "relUrl": "/doc/Docker/docker-2/#tutorial-running-a-sample-docker-image"
-  },"195": {
+  },"197": {
     "doc": "Docker First Setup From A Cloud Guru Part 2",
     "title": "Building Smaller Images with Multi-Stage Builds",
     "content": "This decresaes size and # of layers to simplify Dockerfile deployments . Key Points . | Dockerfile starts with “FROM python3 AS base” | Then it creates another layer to ahorten # of layers: “FROM base AS builder” | . Script Example # Do Prep Work in the Image ## Change to the notes directory: cd notes ## Check the Dockerfile: cat Dockerfile ## Build an image using the file: docker build -t notesapp:default . ## Set a variable to view the layers of the image: export showLayers='{{ range .RootFS.Layers }}{{ println . }}{{end}}' ## Set a variable to show the size of the image: export showSize='{{ .Size }}' ## Show the image layers: docker inspect -f \"$showLayers\" notesapp:default ## Count the number of layers: docker inspect -f \"$showLayers\" notesapp:default | wc -l ## Show the size of the image: docker inspect -f \"$showSize\" notesapp:default | numfmt --to=iec . ",
     "url": "/my-tech/doc/Docker/docker-2/#building-smaller-images-with-multi-stage-builds",
     
     "relUrl": "/doc/Docker/docker-2/#building-smaller-images-with-multi-stage-builds"
-  },"196": {
+  },"198": {
     "doc": "Docker First Setup From A Cloud Guru Part 2",
     "title": "Tutorial: Running a Sample Docker Image",
     "content": " ",
     "url": "/my-tech/doc/Docker/docker-2/#tutorial-running-a-sample-docker-image-1",
     
     "relUrl": "/doc/Docker/docker-2/#tutorial-running-a-sample-docker-image-1"
-  },"197": {
+  },"199": {
     "doc": "Docker First Setup From A Cloud Guru Part 2",
     "title": "Updating Containers with Watchtower",
     "content": "Watchtower is a container that notifies changes in containers . Script Example # Create the Docker file ## Create a Dockerfile vi Dockerfile ## We need to set these parameters and conditions: ### The base image should be node. ### Using the RUN instruction, make a directory called /var/node. ### Use the ADD instruction to add the contents of the code directory into /var/node. ### Make /var/node the working directory. ### Execute an npm install. ### Set ./bin/www as the command. ### From the command line, log in to Docker Hub. ### Build your image using &lt;USERNAME&gt;/express. ### Push the image to Docker Hub. ### When we're finished, the file should look like this: ## Dockerfile: FROM node RUN mkdir -p /var/node ADD content-express-demo-app/ /var/node/ WORKDIR /var/node RUN npm install CMD ./bin/www # Log in to Docker Hub ## We've got to build our Docker image, but before we do that, log into our Docker Hub account. Do it from the command line, like this: docker login # Build the Docker Image ## Now we can build the image, where &lt;USERNAME&gt; in the command is your Docker Hub username: docker build -t &lt;USERNAME&gt;/express -f Dockerfile . # Push the Image to Docker Hub ## Push the image up to Docker Hub with this: docker push &lt;USERNAME&gt;/express ## If we log into the Docker Hub with a web browser, we should see the image in our repository. # Create the Demo Container ## In order for Watchtower to watch anything, we've got to give it something to keep an eye on. We're going to create a Docker container and set some parameters, all in one command: docker run -d --name demo-app -p 80:3000 --restart always &lt;USERNAME&gt;/express ## To make sure it's running, execute a quick docker ps. We should see it in the list. # Create the Watchtower Container ## Now we'll spin up Watchtower to watch our demo-app container. We can create the Watchtower container with this: docker run -d --name watchtower --restart always -v /var/run/docker.sock:/var/run/docker.sock v2tec/watchtower -i 30 ## Again, run a docker ps real quick to make sure this container spun up properly. # Testing ## We want to see if Watchtower is actually keeping watch, so we've got to take a couple more steps. # Update the Docker Image Dockerfile of \"Dockerimage\" FROM node RUN mkdir -p /var/node RUN mkdir -p /var/test ADD content-express-demo-app/ /var/node/ WORKDIR /var/node RUN npm install CMD ./bin/www ## Rebuild the image with this: docker build -t &lt;USERNAME&gt;/express -f Dockerfile . ## Push it up to Docker Hub: docker push &lt;USERNAME&gt;/express . ",
     "url": "/my-tech/doc/Docker/docker-2/#updating-containers-with-watchtower",
     
     "relUrl": "/doc/Docker/docker-2/#updating-containers-with-watchtower"
-  },"198": {
+  },"200": {
     "doc": "Docker First Setup From A Cloud Guru Part 2",
     "title": "Add Metadata and Labels",
     "content": "This will create several labels, the maintainer, build date, application name, and application versions . Key Points . | 1 | 2 | . Script Example ## Create a Dockerfile FROM node LABEL maintainer=\"EMAIL_ADDRESS\" ARG BUILD_VERSION ARG BUILD_DATE ARG APPLICATION_NAME LABEL org.label-schema.build-date=$BUILD_DATE LABEL org.label-schema.application=$APPLICATION_NAME LABEL org.label-schema.version=$BUILD_VERSION RUN mkdir -p /var/node ADD weather-app/ /var/node/ WORKDIR /var/node RUN npm install EXPOSE 3000 CMD ./bin/www # Build the Docker Image ## Log in to Docker Hub: [root@docker_workstation]# docker login Build the Docker image using the following parameters: ## Note: Be sure to replace &lt;DOCKER_USERNAME&gt; with your Docker Hub username. [root@docker_workstation]# docker build -t &lt;DOCKER_USERNAME&gt;/weather-app --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \\ --build-arg APPLICATION_NAME=weather-app --build-arg BUILD_VERSION=v1.0 -f Dockerfile . ## Show image ID: [root@docker_workstation]# docker images ## Use image ID to inspect: [root@docker_workstation]# docker inspect &lt;IMAGE_ID&gt; # Push the Image to Docker Hub ## Push the weather-app image to Docker Hub. ## Note: Be sure to replace &lt;DOCKER_USERNAME&gt; with your Docker Hub username. [root@docker_workstation]# docker push &lt;DOCKER_USERNAME&gt;/weather-app # Create the weather-app Container ## On the Docker Server, start the weather-app container. ## Note: Be sure to replace &lt;DOCKER_USERNAME&gt; with your Docker Hub username. [root@docker_server]# docker run -d --name weather-app -p 80:3000 --restart always &lt;DOCKER_USERNAME&gt;/weather-app ## Verify the image is running: [root@docker_server]# docker ps # Check Out Version 1.1 of the Weather App ## On the Docker Workstation, in the weather-app directory, check out version 1.1 of the weather app: [root@docker_workstation]# cd weather-app [root@docker_workstation]# git checkout v1.1 [root@docker_workstation]# git branch [root@docker_workstation]# cd ../ # Rebuild the weather-app Image ## Rebuild and push the weather-app image. ## Note: Be sure to replace &lt;DOCKER_USERNAME&gt; with your Docker Hub username. [root@docker_workstation]# docker build -t &lt;DOCKER_USERNAME&gt;/weather-app --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \\ --build-arg APPLICATION_NAME=weather-app --build-arg BUILD_VERSION=v1.1 -f Dockerfile . Just to double check, inspect the image (running docker images first to get the image ID): [root@docker_workstation]# docker inspect &lt;IMAGE_ID&gt; ## We should be running v1.1 now, so let's push it up: [root@docker_workstation]# docker push &lt;DOCKER_USERNAME&gt;/weather-app ## On the Docker Server: ## Show image status: [root@docker_server]# docker ps ## Using the container ID from the previous command, inspect the weather-app image: [root@docker_server]# docker inspect &lt;IMAGE_ID&gt; This one should also be at v1.1. ",
     "url": "/my-tech/doc/Docker/docker-2/#add-metadata-and-labels",
     
     "relUrl": "/doc/Docker/docker-2/#add-metadata-and-labels"
-  },"199": {
+  },"201": {
     "doc": "My Page",
     "title": " Welcome to my SRE Page ",
     "content": "I am an infrastructure and platform engineer with over 8 years of experience in the IT industry, catering to diverse clients. My primary responsibility revolves around ensuring the constant availability and reliability of the infrastructure that hosts our clients' IT solutions. Through extensive hands-on experience in managing IT infrastructure and platforms, I have consistently succeeded in maintaining a reliable and secure environment. To achieve my goal of delivering top-notch services, I am committed to staying updated with the latest technologies. I regularly conduct intensive research to incorporate cutting-edge solutions into our infrastructure. Moreover, I actively maintain a robust set of tools and resources that contribute to the dependability and efficiency of the systems. As a leader in my field, I not only strive for excellence in my work but also inspire and guide my team members to perform at their best. My passion for this profession drives me to constantly seek new challenges and opportunities for growth, ensuring that our clients receive the highest level of service and satisfaction. From: Containerd: https://containerd.io/ . ",
     "url": "/my-tech/",
     
     "relUrl": "/"
-  },"200": {
+  },"202": {
     "doc": "My Page",
     "title": " My Duties and Responsibilities ",
     "content": "AWS . | build Infrastructure on AWS | Deploy several AWS resources and services | Use CloudFormation to deploy and update resources | Terraform . | Build and update multi-plaform infrastructure using Terraform | Jenkins . | Run scheduled, triggered, or manual jobs on Jenkins | Create and manage automated scripts inside Jenkins Jobs | Kubernetes . | Create, operate, and update Openshift and EKS distributions of Kubernetes | Troubleshoot common issues of Kubernetes | Performance Monitoring . | Manage creation of logging, monitoring, and alerting tools such as Prometheus, Grafana, Splunk, etc. | Docker . | Create and operate images and containers that are quickly deployable. | ",
     "url": "/my-tech/",
     
     "relUrl": "/"
-  },"201": {
+  },"203": {
     "doc": "My Page",
     "title": " Posts ",
     "content": "CloudFormation Stack Deployment Examples Part 1 List of CloudFormation Stack Deployments for AWS resources . 03 May 2023 . a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql this page describes about a tutorial about creating an AWS basic infrastructure, with VPC, public, and private subnets, IGW, NAT, security groups, EC2 and RDS that runs postgresql . 16 Apr 2023 . tutorial about the running a sample docker image in numbered steps this page describes about tutorial about the running a sample docker image in numbered steps . 29 Mar 2023 . Terraform Deployment of basic infrastructure on AWS . 05 Mar 2023 . CICD . 01 Mar 2023 . Misc Front page of documents uncategorized . 01 Mar 2023 . Terraform . 25 Feb 2023 . Docker First Setup From A Cloud Guru Part 1 This is a page for deploying several resources on Docker, from A Cloud Guru . 19 Feb 2023 . Link . Menu | | | Expand . (external link) . | Document . Search | Copy Copied ",
     "url": "/my-tech/",
     
     "relUrl": "/"
-  },"202": {
+  },"204": {
     "doc": "My Page",
     "title": "My Page",
     "content": " ",
     "url": "/my-tech/",
     
     "relUrl": "/"
-  },"203": {
+  },"205": {
     "doc": "AWS",
     "title": "AWS",
     "content": " ",
     "url": "/my-tech/docs/AWS",
     
     "relUrl": "/docs/AWS"
-  },"204": {
+  },"206": {
     "doc": "AWS",
     "title": "",
     "content": "Date Posted: 2023 02 01 . ",
     "url": "/my-tech/docs/AWS",
     
     "relUrl": "/docs/AWS"
-  },"205": {
+  },"207": {
     "doc": "AWS",
     "title": "This is the first page of deploying AWS resources",
     "content": " ",
     "url": "/my-tech/docs/AWS#this-is-the-first-page-of-deploying-aws-resources",
     
     "relUrl": "/docs/AWS#this-is-the-first-page-of-deploying-aws-resources"
-  },"206": {
+  },"208": {
     "doc": "Terraform",
     "title": "Terraform",
     "content": " ",
     "url": "/my-tech/docs/Terraform",
     
     "relUrl": "/docs/Terraform"
-  },"207": {
+  },"209": {
     "doc": "Terraform",
     "title": "",
     "content": "Date Posted: 2023 02 25 . ",
     "url": "/my-tech/docs/Terraform",
     
     "relUrl": "/docs/Terraform"
-  },"208": {
+  },"210": {
     "doc": "Terraform",
     "title": "Table of Contents",
     "content": ". | Table of Contents | Terraform Architecture | Installation . | Windows | Linux (Ubuntu) Package Manager | macOS Package Manager | . | Terraform CLI . | terraform version | terraform -install-autocomplete | terraform fmt . | Options | . | terraform validate | terraform providers | terraform init | terraform plan | terraform apply . | Examples | . | terraform destroy | terraform taint | terraform untaint | terraform refresh | terraform workspace | terraform state . | Examples | . | terraform output | terraform graph | terraform import | terraform login [hostname] | terraform logout [hostname] | HCL Comment Styles | Terraform Providers (Plugins) | Provider Configuration | Terraform Resources | Terraform Variables . | Declaring Variables | Assigning values to variables | String Interpolation | . | Variable Types . | type number | type string | type bool | type list (of strings) | type map | type tuple | type object | . | Data Sources . | Use Data Sources | . | Output Values . | Declare an Output Value | . | Loops . | count | for_each | For Expressions | Splat Expressions | Dynamic Blocks | . | Conditional Expressions | Terraform Locals | Terraform provisioners | Built-in Functions | Backends and Remote State . | Backends | Configure Terraform to use the remote state from within the S3 bucket | . | Terraform Modules | Troubleshooting and Logging | . | . ",
     "url": "/my-tech/docs/Terraform#table-of-contents",
     
     "relUrl": "/docs/Terraform#table-of-contents"
-  },"209": {
+  },"211": {
     "doc": "Terraform",
     "title": "Terraform Architecture",
     "content": ". ",
     "url": "/my-tech/docs/Terraform#terraform-architecture",
     
     "relUrl": "/docs/Terraform#terraform-architecture"
-  },"210": {
+  },"212": {
     "doc": "Terraform",
     "title": "Installation",
     "content": "Windows . ",
     "url": "/my-tech/docs/Terraform#installation",
     
     "relUrl": "/docs/Terraform#installation"
-  },"211": {
+  },"213": {
     "doc": "Terraform",
     "title": "Download the Windows binary for 32 or 64-bit CPUs from https://www.terraform.io/downloads.",
     "content": " ",
     "url": "/my-tech/docs/Terraform#download-the-windows-binary-for-32-or-64-bit-cpus-from-httpswwwterraformiodownloads",
     
     "relUrl": "/docs/Terraform#download-the-windows-binary-for-32-or-64-bit-cpus-from-httpswwwterraformiodownloads"
-  },"212": {
+  },"214": {
     "doc": "Terraform",
     "title": "Unzip the package.",
     "content": " ",
     "url": "/my-tech/docs/Terraform#unzip-the-package",
     
     "relUrl": "/docs/Terraform#unzip-the-package"
-  },"213": {
+  },"215": {
     "doc": "Terraform",
     "title": "Move the Terraform binary to the Windows PATH.",
     "content": "Linux (Ubuntu) Package Manager . ",
     "url": "/my-tech/docs/Terraform#move-the-terraform-binary-to-the-windows-path",
     
     "relUrl": "/docs/Terraform#move-the-terraform-binary-to-the-windows-path"
-  },"214": {
+  },"216": {
     "doc": "Terraform",
     "title": "Run the following commands at the terminal:",
     "content": "``` curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - sudo apt-add-repository \"deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main\" sudo apt-get update &amp;&amp; sudo apt-get install terraform ``` . ",
     "url": "/my-tech/docs/Terraform#run-the-following-commands-at-the-terminal",
     
     "relUrl": "/docs/Terraform#run-the-following-commands-at-the-terminal"
-  },"215": {
+  },"217": {
     "doc": "Terraform",
     "title": "Install Terraform using the package manager:",
     "content": "``` sudo apt update &amp;&amp; sudo apt install terraform -y ``` . macOS Package Manager . ",
     "url": "/my-tech/docs/Terraform#install-terraform-using-the-package-manager",
     
     "relUrl": "/docs/Terraform#install-terraform-using-the-package-manager"
-  },"216": {
+  },"218": {
     "doc": "Terraform",
     "title": "Run the following commands at the terminal:",
     "content": "``` brew tap hashicorp/tap brew install hashicorp/tap/terraform ``` . ",
     "url": "/my-tech/docs/Terraform#run-the-following-commands-at-the-terminal-1",
     
     "relUrl": "/docs/Terraform#run-the-following-commands-at-the-terminal-1"
-  },"217": {
+  },"219": {
     "doc": "Terraform",
     "title": "Terraform CLI",
     "content": "The Terraform CLI provides a variety of commands to interact with and manage Terraform configurations. Here are some commonly used commands: . terraform version . Displays the version of Terraform and all installed plugins. terraform -install-autocomplete . Sets up tab auto-completion, requires logging back in. terraform fmt . Rewrites all Terraform configuration files to a canonical format. Both configuration files (.tf) and variable files (.tfvars) are updated. Options . | -check : Check if the input is formatted. It does not overwrite the file. | -recursive : Also process files in subdirectories. By default, only the given directory (or current directory) is processed. | . terraform validate . Validates the configuration files for errors. It refers only to the configuration and not accessing any remote services such as remote state, or provider APIs. terraform providers . Prints out a tree of modules in the referenced configuration annotated with their provider requirements. terraform init . Initializes a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc. This is the first command that should be run for any new or existing Terraform configuration per machine. This sets up all the local data necessary to run Terraform that is typically not committed to version control. This command is always safe to run multiple times. | Option | Description | . | -backend=false | Disable backend or Terraform Cloud initialization for this configuration and use what was previously initialized instead. | . | -reconfigure | Reconfigure a backend, ignoring any saved configuration. | . | -migrate-state | Reconfigure a backend and attempt to migrate any existing state. | . | -upgrade | Install the latest module and provider versions allowed within configured constraints, overriding the default behavior of selecting exactly the version recorded in the dependency lockfile. | . terraform plan . Generates an execution plan, showing what actions will Terraform take to apply the current configuration. This command will not actually perform the planned actions. | Option | Description | . | -out=path | Write a plan file to the given path. This can be used as input to the “apply” command. | . | -input=true | Ask for input for variables if not directly set. | . | -var 'foo=bar' | Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable. | . | -var-file=filename | Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variable file. | . | -destroy | Select the “destroy” planning mode, which creates a plan to destroy all objects currently managed by this Terraform configuration instead of the usual behavior. | . | -refresh-only | Select the “refresh only” planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform. | . | -target=resource | Limit the planning operation to only the given module, resource, or resource instance and all of its dependencies. You can use this option multiple times to include more than one object. This is for exceptional use only. | . terraform apply . Creates or updates infrastructure according to Terraform configuration files in the current directory. | Option | Description | . | -auto-approve | Skip interactive approval of plan before applying. | . | -replace | Force replacement of a particular resource instance using its resource address. | . | -var ‘foo=bar’ | Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable. | . | -var-file=filename | Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variable file. | . | -parallelism=n | Limit the number of concurrent operations. Defaults to 10. | . Examples . terraform apply -auto-approve -var-file=ec2.tfvars terraform apply -replace=\"aws_instance.web\" . terraform destroy . Destroys Terraform-managed infrastructure and is an alias for terraform apply -destroy. | Option | Description | . | -auto-approve | Skip interactive approval before destroying. | . | -target | Limit the destroying operation to only the given resource and all of its dependencies. You can use this option multiple times to include more than one object. | . Example: terraform destroy -target aws_vpc.my_vpc -auto-approve . terraform taint . Describes a resource instance that may not be fully functional, either because its creation partially failed or because you’ve manually marked it as such using this command. Subsequent Terraform plans will include actions to destroy the remote object and create a new object to replace it. terraform untaint . Removes that state from a resource instance, causing Terraform to see it as fully-functional and not in need of replacement. terraform refresh . Updates the state file of your infrastructure with metadata that matches the physical resources they are tracking. This will not modify your infrastructure, but it can modify your state file to update metadata. terraform workspace . | Option | Description | . | delete | Delete a workspace. | . | list | List workspaces. | . | new | Create a new workspace. | . | select | Select a workspace. | . | show | Show the name of the current workspace. | . terraform state . This does advanced state management. The state is stored by default in a local file named “terraform.tfstate”, but it can also be stored remotely, which works better in a team environment. | Option | Description | . | list | List resources in the state. | . | show | Show a resource in the state. | . | mv | Move an item in the state. | . | rm | Remove instances from the state. | . | pull | Pull current state and output to stdout. | . Examples . terraform state show aws_instance.web terraform state pull &gt; my_terraform.tfstate terraform state mv aws_iam_role.my_instance_role terraform state list terraform state rm aws_instance.web . terraform output . Reads an output variable from a Terraform state file and prints the value. With no additional arguments, output will display all the outputs for the root module. Examples: . | terraform output [-json]: Lists all outputs in the state file. | terraform output instance_public_ip: Lists a specific output value. | . terraform graph . Produces a representation of the dependency graph between different objects in the current configuration and state. The graph is presented in the DOT language. The typical program that can read this format is GraphViz, but many web services are also available to read this format. Linux Example: . sudo apt install graphviz terraform graph | dot -Tpng &gt; graph.png . terraform import . Import existing infrastructure into your Terraform state. This will find and import the specified resource into your Terraform state, allowing existing infrastructure to come under Terraform management without having to be initially created by Terraform. Example: terraform import aws_instance.new_server i-123abc . Imports EC2 instance with id i-abc123 into the Terraform resource named “new_server” of type “aws_instance”. terraform login [hostname] . Retrieves an authentication token for the given hostname, if it supports automatic login, and saves it in a credentials file in your home directory. If no hostname is provided, the default hostname is app.terraform.io, to log in to Terraform Cloud. terraform logout [hostname] . Removes locally-stored credentials for the specified hostname. If no hostname is provided, the default hostname is app.terraform.io. HCL Comment Styles . | #: single-line comment. | //: single-line comment (alternative to #). | /* ... */: multi-line comment (block comment). | . Terraform Providers (Plugins) . A provider is a Terraform plugin that allows users to manage an external API. A provider usually provides resources to manage a cloud or infrastructure platform, such as AWS or Azure, or technology (for example Kubernetes). There are providers for Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS). Provider Configuration . terraform { required_providers { aws = { source = \"hashicorp/aws\" # global and unique source address version = \"~&gt; 3.0\" # version constraint } } } # Configure the AWS Provider provider \"aws\" { region = \"eu-west-1\" # provider configuration options } . Terraform Resources . Resources are the most important element in the Terraform language. It describes one or more infrastructure objects to manage. Together the resource type and local name serve as an identifier for a given resource and must be unique within a module. Example: aws_vpc.main . Creating resources: . resource \"&lt;provider&gt;_&lt;resource_type&gt;\" \"local_name\"{ argument1 = value argument2 = value … } # Example: resource \"aws_vpc\" \"main\" { cidr_block = \"10.0.0.0/16\" enable_dns_support = true tags = { \"Name\" = \"Main VPC\" } } . Terraform Variables . Input variables allow you customize aspects of Terraform without using hard-coded values in the source. Declaring Variables . Variable declarations can appear anywhere in your configuration files. However, it’s recommended to put them into a separate file called variables.tf. # variable declaration variable \"vpc_cidr_block\" { description = \"CIDR block for VPC\". default = \"192.168.0.0/16\" type = string } . Assigning values to variables . ",
     "url": "/my-tech/docs/Terraform#terraform-cli",
     
     "relUrl": "/docs/Terraform#terraform-cli"
-  },"218": {
+  },"220": {
     "doc": "Terraform",
     "title": "Using the default argument in the variable declaration block.",
     "content": " ",
     "url": "/my-tech/docs/Terraform#using-the-default-argument-in-the-variable-declaration-block",
     
     "relUrl": "/docs/Terraform#using-the-default-argument-in-the-variable-declaration-block"
-  },"219": {
+  },"221": {
     "doc": "Terraform",
     "title": "Assign a value to the variable in the variable definition file which by default is terraform.tfvars. Example: vpc_cidr_block = “172.16.0.0/16”",
     "content": " ",
     "url": "/my-tech/docs/Terraform#assign-a-value-to-the-variable-in-the-variable-definition-file-which-by-default-is-terraformtfvars-example-vpc_cidr_block--172160016",
     
     "relUrl": "/docs/Terraform#assign-a-value-to-the-variable-in-the-variable-definition-file-which-by-default-is-terraformtfvars-example-vpc_cidr_block--172160016"
-  },"220": {
+  },"222": {
     "doc": "Terraform",
     "title": "Using -var command-line option. Example: terraform apply -var=”vpc_cidr_block=10.0.10.0/24”",
     "content": " ",
     "url": "/my-tech/docs/Terraform#using--var-command-line-option-example-terraform-apply--varvpc_cidr_block10010024",
     
     "relUrl": "/docs/Terraform#using--var-command-line-option-example-terraform-apply--varvpc_cidr_block10010024"
-  },"221": {
+  },"223": {
     "doc": "Terraform",
     "title": "Using -var-file command-line option. Example: terraform apply -auto-approve -var-file=web-prod.tfvars",
     "content": " ",
     "url": "/my-tech/docs/Terraform#using--var-file-command-line-option-example-terraform-apply--auto-approve--var-fileweb-prodtfvars",
     
     "relUrl": "/docs/Terraform#using--var-file-command-line-option-example-terraform-apply--auto-approve--var-fileweb-prodtfvars"
-  },"222": {
+  },"224": {
     "doc": "Terraform",
     "title": "Exporting the variable at the terminal. Example: export TF_VAR_vpc_cidr_block=”192.168.100.0/24”",
     "content": "Variable definition precedence (from highest to lowest): . ",
     "url": "/my-tech/docs/Terraform#exporting-the-variable-at-the-terminal-example-export-tf_var_vpc_cidr_block192168100024",
     
     "relUrl": "/docs/Terraform#exporting-the-variable-at-the-terminal-example-export-tf_var_vpc_cidr_block192168100024"
-  },"223": {
+  },"225": {
     "doc": "Terraform",
     "title": "Variables specified at the terminal using -var and -var-file options.",
     "content": " ",
     "url": "/my-tech/docs/Terraform#variables-specified-at-the-terminal-using--var-and--var-file-options",
     
     "relUrl": "/docs/Terraform#variables-specified-at-the-terminal-using--var-and--var-file-options"
-  },"224": {
+  },"226": {
     "doc": "Terraform",
     "title": "Variables defined in terraform.tfvars.",
     "content": " ",
     "url": "/my-tech/docs/Terraform#variables-defined-in-terraformtfvars",
     
     "relUrl": "/docs/Terraform#variables-defined-in-terraformtfvars"
-  },"225": {
+  },"227": {
     "doc": "Terraform",
     "title": "Variables defined as environment variables using TF_VAR prefix.",
     "content": "String Interpolation . You can interpolate other values in strings by these values in ${}, such as ${var.foo}. The interpolation syntax is powerful and allows you to reference variables, attributes of resources, call functions, etc. You can escape interpolation with double dollar signs: $${foo} will be rendered as a literal ${foo}. Variable Types . | Simple types a. number b. string c. bool d. null | Complex types a. Collection types i. list ii. map iii. set b. Structural types i. tuple object | . type number . variable \"web_port\" { description = \"Web Port\" default = 80 type = number } . type string . variable \"aws_region\" { description = \"AWS Region\" type = string default = \"eu-west-1\" } . type bool . variable \"enable_dns\" { description = \"DNS Support for the VPC\" type = bool default = true } . type list (of strings) . type list (of strings) variable \"azs\" { description = \"AZs in the Region\" type = list(string) default = [ \"eu-west-1a\", \"eu-west-1b\", \"eu-west-1c\" ] } . type map . variable \"amis\" { type = map(string) default = { \"eu-central-1\" = \"ami-0dcc0ebde7b2e00db\", \"us-west-1\" = \"ami-04a50faf2a2ec1901\" } } . type tuple . variable \"my_instance\" { type = tuple([string, number, bool]) default = [\"t2.micro\", 1, true ] } . type object . variable \"egress_dsg\" { type = object({ from_port = number to_port = number protocol = string cidr_blocks = list(string) }) default = { from_port = 0, to_port = 65365, protocol = \"tcp\", cidr_blocks = [\"100.0.0.0/16\", \"200.0.0.0/16\", \"0.0.0.0/0\"] } } . Data Sources . Data sources in Terraform are used to get information about resources external to Terraform. For example, the public IP address of an EC2 instance. Data sources are provided by providers. Use Data Sources . A data block requests that Terraform read from a given data source (“aws_ami”) and export the result under the given local name (“ubuntu”). The data source and name together serve as an identifier for a given resource and therefore must be unique within a module. Within the block body (between { and }) are query constraints defined by the data source. data \"aws_ami\" \"ubuntu\" { most_recent = true owners = [\"self\"] tags = { Name = \"app-server\" Tested = \"true\" } } . Output Values . Output values print out information about your infrastructure at the terminal, and can expose information for other Terraform configurations (e.g. modules) to use. Declare an Output Value . Each output value exported by a module must be declared using an output block. The label immediately after the output keyword is the name. output \"instance_ip_addr\" { value = aws_instance.server.private_ip } . Loops . Terraform offers the following looping constructs, each intended to be used in a slightly different scenario: . | count meta-argument: loop over resources. | for_each meta-argument: loop over resources and inline blocks within a resource. | for expressions: loop over lists and maps. | . count . The count meta-argument is defined by the Terraform language and can be used to manage similar resources. count is a looping technique and can be used with modules and with every resource type. # creating 3 EC2 instances using count resource \"aws_instance\" \"web\" { ami = \"ami-06ec8443c2a35b0ba\" instance_type = \"t2.micro\" count = 3 } . In blocks where count is set, an additional count object is available. count.index represents the distinct index number (starting with 0) corresponding to the current object. for_each . for_each is another meta-argument used to duplicate resources that are similar but need to be configured differently. for_each was introduced more recently to overcome the downsides of count. If your resources are almost identical, count is appropriate. If some of their arguments need distinct values that can’t be directly derived from an integer, it’s safer to use for_each. # declaring a variable variable \"users\" { type = list(string) default = [\"demo\", \"test\", \"john\"] } # creating IAM users resource \"aws_iam_user\" \"user\" { for_each = toset(var.users) # converts a list to a set name = each.key } . Second example . variable \"example_map\" { type = map(string) default = { \"key1\" = \"value1\" \"key2\" = \"value2\" \"key3\" = \"value3\" } } #use the var resource \"aws_s3_bucket\" \"example\" { for_each = var.example_map bucket = each.key } . For Expressions . A for expression creates a complex type value by transforming another complex type value. variable \"names\" { type = list default = [\"daniel\", \"ada'\", \"john wick\"] } output \"short_upper_names\" { # filter the resulting list by specifying a condition: value = [for name in var.names : upper(name) if length(name) &gt; 7] } . If you run terraform apply -auto-approve you’ll get: . Outputs: short_upper_names = [ \"JOHN WICK\", ] . Splat Expressions . A splat expression provides a more concise way to express a common operation that could otherwise be performed with a for expression. Dynamic Blocks . Dynamic blocks act much like a for expression, but produce nested blocks instead of a complex typed value. They iterate over a given complex value, and generate a nested block for each element of that complex value. They are supported inside resource, data, provider, and provisioner blocks. A dynamic block produces nested blocks instead of a complex typed value. # Declaring a variable of type list variable \"ingress_ports\" { description = \"List Of Ingress Ports\" type = list(number) default = [22, 80, 110, 143] } resource \"aws_default_security_group\" \"default_sec_group\" { vpc_id = aws_vpc.main.id # Creating the ingress rules using dynamic blocks dynamic \"ingress\"{ # it produces ingress nested blocks for_each = var.ingress_ports # iterating over the list variable iterator = iport content { from_port = iport.value to_port = iport.value protocol = \"tcp\" cidr_blocks = [\"0.0.0.0/0\"] } } } . A second example . variable \"security_group_rules\" { type = map(object({ type = string from_port = number to_port = number protocol = string cidr_blocks = list(string) })) default = { \"ssh\" = { type = \"ssh\" from_port = 22 to_port = 22 protocol = \"tcp\" cidr_blocks = [\"0.0.0.0/0\"] }, \"http\" = { type = \"http\" from_port = 80 to_port = 80 protocol = \"tcp\" cidr_blocks = [\"0.0.0.0/0\"] } } } #use it now resource \"aws_security_group\" \"example\" { dynamic \"ingress\" { for_each = var.security_group_rules content { type = ingress.value.type from_port = ingress.value.from_port to_port = ingress.value.to_port protocol = ingress.value.protocol cidr_blocks = ingress.value.cidr_blocks } } } . Conditional Expressions . A conditional expression uses the value of a boolean expression to select one of two values. Syntax: condition ? true_val : false_val . If condition is true then the result is true_val. If condition is false then the result is false_val. The condition can be any expression that resolves to a boolean value. This will usually be an expression that uses the equality, comparison, or logical operators. variable \"iscreate\" { type = bool default = true } # Creating the test-server instance if `iscreate` equals true resource \"aws_instance\" \"test-server\" { ami = \"ami-05cafdf7c9f772ad2\" instance_type = \"t2.micro\" count = var.iscreate == true ? 1:0 # conditional expression } # Creating the prod-server instance if `iscreate` equals false resource \"aws_instance\" \"prod-server\" { ami = \"ami-05cafdf7c9f772ad2\" instance_type = \"t2.large\" # it's not free tier eligible count = var.iscreate == false ? 1:0 # conditional expression } . Terraform Locals . Terraform local values are named values that you can refer to in your configuration. Compared to variables, Terraform locals do not change values during or between Terraform runs and unlike input variables, locals are not submitted by users but calculated inside the configuration. Locals are available only in the current module. They are locally scoped. # the local values are declared in a single `locals` block locals { owner = \"Saif\" cidr_blocks = [\"172.16.10.0/24\", \"172.16.20.0/24\", \"172.16.30.0/24\"] common-tags = { Name = \"dev\" Environment = \"development\" Version = 1.10 } } # Create a VPC. resource \"aws_vpc\" \"dev_vpc\" { cidr_block = \"172.16.0.0/16\" tags = local.common-tags } # Create a subnet in the VPC resource \"aws_subnet\" \"dev_subnets\" { vpc_id = aws_vpc.dev_vpc.id cidr_block = local.cidr_blocks[0] availability_zone = \"eu-west-1a\" tags = local.common-tags } # Create an Internet Gateway Resource resource \"aws_internet_gateway\" \"dev_igw\" { vpc_id = aws_vpc.dev_vpc.id tags = { \"Name\" = \"${local.common-tags[\"Name\"]}-igw\" \"Version\" = \"${local.common-tags[\"Version\"]}\" } } . Note: Local values are created by a locals block (plural), but you reference them as attributes on an object named local (singular). Terraform provisioners . Terraform Provisioners are used to execute scripts or commands on a resource after it has been created or destroyed. Provisioners are typically used to configure a newly created resource, such as installing software or executing a post-creation script. In Terraform, there are two types of provisioners: . Local-exec Provisioner: This provisioner is used to execute commands on the machine running Terraform. Example . resource \"aws_instance\" \"example\" { ami = \"ami-0c55b159cbfafe1f0\" instance_type = \"t2.micro\" provisioner \"local-exec\" { command = \"echo ${aws_instance.example.private_ip} &gt; private_ip.txt\" } } . Remote-exec Provisioner: This provisioner is used to execute commands on the newly created resource. resource \"aws_instance\" \"example\" { ami = \"ami-0c55b159cbfafe1f0\" instance_type = \"t2.micro\" key_name = \"my_key_pair\" provisioner \"remote-exec\" { inline = [ \"sudo apt-get update\", \"sudo apt-get install -y nginx\", \"sudo service nginx start\" ] connection { type = \"ssh\" user = \"ubuntu\" private_key = file(\"~/.ssh/my_key_pair.pem\") host = aws_instance.example.public_ip } } } . Built-in Functions . Terraform includes a number of built-in functions that can be called from within expressions to transform and combine values. Examples of functions: min, max, file, concat, element, index, lookup. Terraform does not support user-defined functions. There are functions for numbers, strings, collections, file system, date and time, IP Network, Type Conversions and more. You can experiment with the behavior of Terraform’s built-in functions from the Terraform console, by running the terraform console command. Examples: . &gt; max(1, 12, 10) 12 &gt; min(12, 54, 9) 9 &gt; format(\"There are %d lights\", 4) There are 4 lights &gt; join(\", \", [\"foo\", \"bar\"]) foo, bar &gt; split(\",\", \"foo,bar\") [ \"foo\", \"bar\" ] &gt; replace(\"hello world\", \"/w.*d/\", \"everybody\") hello everybody &gt; substr(\"hello world\", 1, 4) ello &gt; element([\"a\", \"b\", \"c\"], 1) b &gt; lookup({a=\"ay\", b=\"bee\"}, \"a\", \"what?\") ay &gt; lookup({a=\"ay\", b=\"bee\"}, \"c\", \"what?\") what? &gt; slice([\"a\", \"b\", \"c\", \"d\"], 1, 3) [ \"b\", \"c\", ] &gt; timestamp() \"2023-25-02T13:52:18Z\" &gt; formatdate(\"DD MMM YYYY hh:mm ZZZ\", \"2023-25-02T13:52:18Z\") 25 Feb 2023 13:52 UTC &gt; cidrhost(\"10.1.2.240/28\", 1) 10.1.2.241 &gt; cidrhost(\"10.1.2.240/28\", 14) 10.1.2.254 . Backends and Remote State . Backends . Each Terraform configuration has an associated backend that defines how operations are executed and where the Terraform state is stored. The default backend is local, and it stores the state as a plain file in the current working directory. The backend needs to be initialized by running terraform init. If you switch the backend, Terraform provides a migration option which is terraform init -migrate-state. Terraform supports both local and remote backends: . local (default) backend stores state in a local JSON file on disk. remote backends stores state remotely. Examples of remote backends are AzureRM, Consul, GCS, Amazon S3, and Terraform Cloud. They can support features like remote operation, state locking, encryption, and versioning. Configure Remote State on Amazon S3 On the AWS console go to Amazon S3 and create a bucket. Configure Terraform to use the remote state from within the S3 bucket . | On the AWS console go to Amazon S3 and create a bucket. | ",
     "url": "/my-tech/docs/Terraform#variables-defined-as-environment-variables-using-tf_var-prefix",
     
     "relUrl": "/docs/Terraform#variables-defined-as-environment-variables-using-tf_var-prefix"
-  },"226": {
+  },"228": {
     "doc": "Terraform",
     "title": "Configure Terraform to use the remote state from within the S3 bucket.",
     "content": "| . terraform { backend \"s3\" { bucket = \"terraform-state\" key = \"s3-backend.tfstate\" region = \"eu-west-1\" } } . | Run terraform init to initialize the backend. | . Terraform Modules . Terraform modules are a powerful way to reuse code and stick to the DRY principle, which stands for Do Not Repeat Yourself. Think of modules as functions in a programming language. Modules will help you organize configuration, encapsulate configuration, re-use configuration and provide consistency and ensure best-practices. Terraform supports Local and Remote modules: . | Local modules are stored locally, in a separate directory, outside of the root environment and have the source path prefixed with ./ or ../ . | Remote modules are stored externally in a separate repository, and support versioning. External Terraform modules are found on the Terraform Registry. | . A Terraform module is a set of Terraform configuration files in a single directory. When you run Terraform commands like terraform plan or terraform apply directly from such a directory, then that directory will be considered the root module. The modules that are imported from other directories into the root module are called child modules. Calling a child module from within the root module: . module \"myec2\" { # path to the module's directory # the source argument is mandatory for all modules. source = \"../modules/ec2\" # module inputs ami_id = var.ami_id instance_type = var.instance_type servers = var.servers } . It’s good practice to start building everything as a module, create a library of modules to share with your team and from the very beginning to start thinking of your entire infrastructure as a collection of reusable modules. After adding or removing a module, you must re-run terraform init to install the module. Troubleshooting and Logging . The TF_LOG enables logging and can be set to one of the following log levels: TRACE, DEBUG, INFO, WARN or ERROR. Once you have configured your logging you can save the output to a file. This is useful for further inspection. The TF_LOG_PATH variable will create the specified file and append the logs generated by Terraform. Example: . export TF_LOG_PATH=terraform.log terraform apply . You can generate logs from the core application and the Terraform provider separately. To enable core logging, set the TF_LOG_CORE environment variable, and to generate provider logs set the TF_LOG_PROVIDER to the appropriate log level. ",
     "url": "/my-tech/docs/Terraform#configure-terraform-to-use-the-remote-state-from-within-the-s3-bucket-1",
     
     "relUrl": "/docs/Terraform#configure-terraform-to-use-the-remote-state-from-within-the-s3-bucket-1"
-  },"227": {
+  },"229": {
     "doc": "Kubernetes",
     "title": "Kubernetes",
     "content": " ",
     "url": "/my-tech/docs/Kubernetes",
     
     "relUrl": "/docs/Kubernetes"
-  },"228": {
+  },"230": {
     "doc": "Kubernetes",
     "title": "",
     "content": "Date Posted: 2023 02 04 . ",
     "url": "/my-tech/docs/Kubernetes",
     
     "relUrl": "/docs/Kubernetes"
-  },"229": {
+  },"231": {
     "doc": "Kubernetes",
     "title": "Objective 1: Cluster Architecture, Installation &amp; Configuration",
     "content": ". | Objective 1: Cluster Architecture, Installation \\&amp; Configuration . | 1.1 Manage Role Based Access Control (RBAC) . | Lab Environment | Lab Practice | . | 1.2 Use Kubeadm to Install a Basic Cluster . | Kubeadm Tasks for All Nodes | Kubeadm Tasks for Single Control Node | Kubeadm Tasks for Worker Node(s) | Kubeadm Troubleshooting | Kubeadm Optional Tasks | . | 1.3 Manage A Highly-Available Kubernetes Cluster . | HA Deployment Types | Upgrading from Single Control-Plane to High Availability | . | 1.4 Provision Underlying Infrastructure to Deploy a Kubernetes Cluster | 1.5 Perform a Version Upgrade on a Kubernetes Cluster using Kubeadm . | First Control Plane Node | Additional Control Plane Nodes | Upgrade Control Plane Node Kubectl And Kubelet Tools | Upgrade Worker Nodes | . | 1.6 Implement Etcd Backup And Restore . | Snapshot The Keyspace | Restore From Snapshot | . | . | Objective 2: Workloads \\&amp; Scheduling . | 2.1 Understand Deployments And How To Perform Rolling Update And Rollbacks . | Create Deployment | Perform Rolling Update | Perform Rollbacks | . | 2.2 Use Configmaps And Secrets To Configure Applications . | Configmaps | Secrets | Other Concepts | . | 2.3 Know How To Scale Applications | 2.4 Understand The Primitives Used To Create Robust, Self-Healing, Application Deployments | 2.5 Understand How Resource Limits Can Affect Pod Scheduling | 2.6 Awareness Of Manifest Management And Common Templating Tools | . | Objective 3: Services \\&amp; Networking . | 3.1 Understand Host Networking Configuration On The Cluster Nodes | 3.2 Understand Connectivity Between Pods | 3.3 Understand ClusterIP, NodePort, LoadBalancer Service Types And Endpoints . | ClusterIP | NodePort | LoadBalancer | ExternalIP | ExternalName | Networking Cleanup for Objective 3.3 | . | 3.4 Know How To Use Ingress Controllers And Ingress Resources | 3.5 Know How To Configure And Use CoreDNS | 3.6 Choose An Appropriate Container Network Interface Plugin | . | Objective 4: Storage . | 4.1 Understand Storage Classes, Persistent Volumes . | Storage Classes | Persistent Volumes | . | 4.2 Understand Volume Mode, Access Modes And Reclaim Policies For Volumes . | Volume Mode | Access Modes | Reclaim Policies | . | 4.3 Understand Persistent Volume Claims Primitive | 4.4 Know How To Configure Applications With Persistent Storage | . | Objective 5: Troubleshooting . | 5.1 Evaluate Cluster And Node Logging . | Cluster Logging | Node Logging | . | 5.2 Understand How To Monitor Applications | 5.3 Manage Container Stdout \\&amp; Stderr Logs | 5.4 Troubleshoot Application Failure | 5.5 Troubleshoot Cluster Component Failure | 5.6 Troubleshoot Networking | . | . ",
     "url": "/my-tech/docs/Kubernetes#objective-1-cluster-architecture-installation--configuration",
     
     "relUrl": "/docs/Kubernetes#objective-1-cluster-architecture-installation--configuration"
-  },"230": {
+  },"232": {
     "doc": "Kubernetes",
     "title": "1.1 Manage Role Based Access Control (RBAC)",
     "content": "Documentation and Resources: . | Kubectl Cheat Sheet | Using RBAC Authorization | A Practical Approach to Understanding Kubernetes Authorization | . RBAC is handled by roles (permissions) and bindings (assignment of permissions to subjects): . | Object | Description | . | Role | Permissions within a particular namespace | . | ClusterRole | Permissions to non-namespaced resources; can be used to grant the same permissions as a Role | . | RoleBinding | Grants the permissions defined in a role to a user or set of users | . | ClusterRoleBinding | Grant permissions across a whole cluster | . Lab Environment . If desired, use a managed Kubernetes cluster, such as Amazon EKS, to immediately begin working with RBAC. The command aws --region REGION eks update-kubeconfig --name CLUSTERNAME will generate a .kube configuration file on your workstation to permit kubectl commands. Lab Practice . Create the wahlnetwork1 namespace. kubectl create namespace wahlnetwork1 . Create a deployment in the wahlnetwork1 namespace using the image of your choice: . ",
     "url": "/my-tech/docs/Kubernetes#11-manage-role-based-access-control-rbac",
     
     "relUrl": "/docs/Kubernetes#11-manage-role-based-access-control-rbac"
-  },"231": {
+  },"233": {
     "doc": "Kubernetes",
     "title": "kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4 -n wahlnetwork1",
     "content": " ",
     "url": "/my-tech/docs/Kubernetes#kubectl-create-deployment-hello-node---imagek8sgcrioechoserver14--n-wahlnetwork1",
     
     "relUrl": "/docs/Kubernetes#kubectl-create-deployment-hello-node---imagek8sgcrioechoserver14--n-wahlnetwork1"
-  },"232": {
+  },"234": {
     "doc": "Kubernetes",
     "title": "kubectl create deployment busybox --image=busybox -n wahlnetwork1 -- sleep 2000",
     "content": "You can view the yaml file by adding --dry-run=client -o yaml to the end of either deployment. apiVersion: apps/v1 kind: Deployment metadata: creationTimestamp: null labels: app: hello-node name: hello-node namespace: wahlnetwork1 spec: replicas: 1 selector: matchLabels: app: hello-node strategy: {} template: metadata: creationTimestamp: null labels: app: hello-node spec: containers: - image: k8s.gcr.io/echoserver:1.4 name: echoserver resources: {} . Create the pod-reader role in the wahlnetwork1 namespace. kubectl create role pod-reader --verb=get --verb=list --verb=watch --resource=pods -n wahlnetwork1 . Alternatively, use kubectl create role pod-reader --verb=get --verb=list --verb=watch --resource=pods -n wahlnetwork1 --dry-run=client -o yaml to output a proper yaml configuration. apiVersion: rbac.authorization.k8s.io/v1 kind: Role metadata: creationTimestamp: null name: pod-reader namespace: wahlnetwork1 rules: - apiGroups: - \"\" resources: - pods verbs: - get - list - watch . Create the read-pods rolebinding between the role named pod-reader and the user spongebob in the wahlnetwork1 namespace. kubectl create rolebinding --role=pod-reader --user=spongebob read-pods -n wahlnetwork1 . Alternatively, use kubectl create rolebinding --role=pod-reader --user=spongebob read-pods -n wahlnetwork1 --dry-run=client -o yaml to output a proper yaml configuration. apiVersion: rbac.authorization.k8s.io/v1 kind: RoleBinding metadata: creationTimestamp: null name: read-pods roleRef: apiGroup: rbac.authorization.k8s.io kind: Role name: pod-reader subjects: - apiGroup: rbac.authorization.k8s.io kind: User name: spongebob . Create the cluster-secrets-reader clusterrole. kubectl create clusterrole cluster-secrets-reader --verb=get --verb=list --verb=watch --resource=secrets . Alternatively, use kubectl create clusterrole cluster-secrets-reader --verb=get --verb=list --verb=watch --resource=secrets --dry-run=client -o yaml to output a proper yaml configuration. apiVersion: rbac.authorization.k8s.io/v1 kind: ClusterRole metadata: creationTimestamp: null name: cluster-secrets-reader rules: - apiGroups: - \"\" resources: - secrets verbs: - get - list - watch . Create the cluster-read-secrets clusterrolebinding between the clusterrole named cluster-secrets-reader and the user gizmo. kubectl create clusterrolebinding --clusterrole=cluster-secrets-reader --user=gizmo cluster-read-secrets . Alternatively, use kubectl create clusterrolebinding --clusterrole=cluster-secrets-reader --user=gizmo cluster-read-secrets --dry-run=client -o yaml to output a proper yaml configuration. apiVersion: rbac.authorization.k8s.io/v1 kind: ClusterRoleBinding metadata: creationTimestamp: null name: cluster-read-secrets roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-secrets-reader subjects: - apiGroup: rbac.authorization.k8s.io kind: User name: gizmo . Test to see if this works by running the auth command. kubectl auth can-i get secrets --as=gizmo . Attempt to get secrets as the gizmo user. kubectl get secrets --as=gizmo . NAME TYPE DATA AGE default-token-lz87v kubernetes.io/service-account-token 3 7d1h . ",
     "url": "/my-tech/docs/Kubernetes#kubectl-create-deployment-busybox---imagebusybox--n-wahlnetwork1----sleep-2000",
     
     "relUrl": "/docs/Kubernetes#kubectl-create-deployment-busybox---imagebusybox--n-wahlnetwork1----sleep-2000"
-  },"233": {
+  },"235": {
     "doc": "Kubernetes",
     "title": "1.2 Use Kubeadm to Install a Basic Cluster",
     "content": "Official documentation: Creating a cluster with kubeadm . Terraform code is available here to create the resources necessary to experiment with kubeadm . Kubeadm Tasks for All Nodes . | Create Amazon EC2 Instances . | Create an AWS Launch Template using an Ubuntu 18.04 LTS image (or newer) of size t3a.small (2 CPU, 2 GiB Memory). | Disable the swap file. | Note: This can be validated by using the console command free when SSH’d to the instance. The swap space total should be 0. | . | Consume this template as part of an Auto Scaling Group of 1 or more instances. This makes deployment of new instances and removal of old instances trivial. | . | Configure iptables . | This allows iptables to see bridged traffic. | . | Install the Docker container runtime . | The docker-install script is handy for this. | . | Install kubeadm, kubelet, and kubectl | . Alternatively, use a user-data bash script attached to the Launch Template: . #!/bin/bash # Disable Swap sudo swapoff -a # Bridge Network sudo modprobe br_netfilter sudo cat &lt;&lt;'EOF' | sudo tee /etc/sysctl.d/k8s.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 EOF sudo sysctl --system # Install Docker sudo curl -fsSL https://get.docker.com -o /home/ubuntu/get-docker.sh sudo sh /home/ubuntu/get-docker.sh # Install Kube tools sudo apt-get update &amp;&amp; sudo apt-get install -y apt-transport-https curl curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - cat &lt;&lt;'EOF' | sudo tee /etc/apt/sources.list.d/kubernetes.list deb https://apt.kubernetes.io/ kubernetes-xenial main EOF sudo apt-get update sudo apt-get install -y kubelet kubeadm kubectl sudo apt-mark hold kubelet kubeadm kubectl . Optionally, add sudo kubeadm config images pull to the end of the script to pre-pull images required for setting up a Kubernetes cluster. $ sudo kubeadm config images pull [config/images] Pulled k8s.gcr.io/kube-apiserver:v1.19.2 [config/images] Pulled k8s.gcr.io/kube-controller-manager:v1.19.2 [config/images] Pulled k8s.gcr.io/kube-scheduler:v1.19.2 [config/images] Pulled k8s.gcr.io/kube-proxy:v1.19.2 [config/images] Pulled k8s.gcr.io/pause:3.2 [config/images] Pulled k8s.gcr.io/etcd:3.4.13-0 [config/images] Pulled k8s.gcr.io/coredns:1.7.0 . Kubeadm Tasks for Single Control Node . | Initialize the cluster . | Choose your Container Network Interface (CNI) plugin. This guide uses Calico’s CNI. | Run sudo kubeadm init --pod-network-cidr=192.168.0.0/16 to initialize the cluster and provide a pod network aligned to Calico’s default configuration. | Write down the kubeadm join output to join worker nodes later in this guide. | Example kubeadm join 10.0.0.100:6443 --token 12345678901234567890 --discovery-token-ca-cert-hash sha256:123456789012345678901234567890123456789012345678901234567890 | . | . | Install Calico | Configure local kubectl access . | This step simply copies the admin.conf file into a location accessible for a regular user. | . | . Alternatively, use the Flannel CNI. | Run sudo kubeadm init --pod-network-cidr=10.244.0.0/16 to initialize the cluster and provide a pod network aligned to Flannel’s default configuration. | Note: The kube-flannel.yml file is hosted in the same location. | . | . Kubeadm Tasks for Worker Node(s) . | Join the cluster . | Note: You can view the cluster config with kubectl config view. This includes the cluster server address (e.g. server: https://10.0.0.100:6443) | . | . Kubeadm Troubleshooting . | If using kubeadm init without a pod network CIDR the CoreDNS pods will remain stuck in pending state | Broke cluster and want to start over? Use kubeadm reset and rm -rf .kube in the user home directory to remove the old config and avoid TLS certificate errors | If seeing error: error loading config file \"/etc/kubernetes/admin.conf\": open /etc/kubernetes/admin.conf: permission denied it likely means the KUBECONFIG variable is set to that path, try unset KUBECONFIG to use the $HOME/.kube/config file. | . Kubeadm Optional Tasks . | Install kubectl client locally on Windows for those using this OS. | Single node cluster? Taint the control node to accept pods without dedicated worker nodes. | Deploy the “hello-node” app from the minikube tutorial to test basic functionality. | . ",
     "url": "/my-tech/docs/Kubernetes#12-use-kubeadm-to-install-a-basic-cluster",
     
     "relUrl": "/docs/Kubernetes#12-use-kubeadm-to-install-a-basic-cluster"
-  },"234": {
+  },"236": {
     "doc": "Kubernetes",
     "title": "1.3 Manage A Highly-Available Kubernetes Cluster",
     "content": "High Availability Production Environment . Kubernetes Components for HA: . | Load Balancer / VIP | DNS records | etcd Endpoint | Certificates | Any HA specific queries / configuration / settings | . HA Deployment Types . | With stacked control plane nodes. This approach requires less infrastructure. The etcd members and control plane nodes are co-located. | With an external etcd cluster. This approach requires more infrastructure. The control plane nodes and etcd members are separated. (source) | . Upgrading from Single Control-Plane to High Availability . If you have plans to upgrade this single control-plane kubeadm cluster to high availability you should specify the –control-plane-endpoint to set the shared endpoint for all control-plane nodes. Such an endpoint can be either a DNS name or an IP address of a load-balancer. (source) . ",
     "url": "/my-tech/docs/Kubernetes#13-manage-a-highly-available-kubernetes-cluster",
     
     "relUrl": "/docs/Kubernetes#13-manage-a-highly-available-kubernetes-cluster"
-  },"235": {
+  },"237": {
     "doc": "Kubernetes",
     "title": "1.4 Provision Underlying Infrastructure to Deploy a Kubernetes Cluster",
     "content": "See Objective 1.2 Use Kubeadm to Install a Basic Cluster. Note: Make sure that swap is disabled on all nodes. ",
     "url": "/my-tech/docs/Kubernetes#14-provision-underlying-infrastructure-to-deploy-a-kubernetes-cluster",
     
     "relUrl": "/docs/Kubernetes#14-provision-underlying-infrastructure-to-deploy-a-kubernetes-cluster"
-  },"236": {
+  },"238": {
     "doc": "Kubernetes",
     "title": "1.5 Perform a Version Upgrade on a Kubernetes Cluster using Kubeadm",
     "content": ". | Upgrading kubeadm clusters | Safely Drain a Node while Respecting the PodDisruptionBudget | Cluster Management: Maintenance on a Node | . Note: All containers are restarted after upgrade, because the container spec hash value is changed. Upgrades are constrained from one minor version to the next minor version. First Control Plane Node . Update the kubeadm tool and verify the new version . Note: The --allow-change-held-packages flag is used because kubeadm updates should be held to prevent automated updates. apt-get update &amp;&amp; \\ apt-get install -y --allow-change-held-packages kubeadm=1.19.x-00 kubeadm version . Drain the node to mark as unschedulable . kubectl drain $NODENAME --ignore-daemonsets . Drain Diagram ![drain](https://kubernetes.io/images/docs/kubectl_drain.svg) . Perform an upgrade plan to validate that your cluster can be upgraded . Note: This also fetches the versions you can upgrade to and shows a table with the component config version states. sudo kubeadm upgrade plan . Upgrade the cluster . sudo kubeadm upgrade apply v1.19.x . Uncordon the node to mark as schedulable . kubectl uncordon $NODENAME . Additional Control Plane Nodes . Repeat the first control plane node steps while replacing the “upgrade the cluster” step using the command below: . sudo kubeadm upgrade node . Upgrade Control Plane Node Kubectl And Kubelet Tools . Upgrade the kubelet and kubectl on all control plane nodes . apt-get update &amp;&amp; \\ apt-get install -y --allow-change-held-packages kubelet=1.19.x-00 kubectl=1.19.x-00 . Restart the kubelet . sudo systemctl daemon-reload sudo systemctl restart kubelet . Upgrade Worker Nodes . Upgrade kubeadm . apt-get update &amp;&amp; \\ apt-get install -y --allow-change-held-packages kubeadm=1.19.x-00 . Drain the node . kubectl drain $NODENAME --ignore-daemonsets . Upgrade the kubelet configuration . sudo kubeadm upgrade node . Upgrade kubelet and kubectl . apt-get update &amp;&amp; \\ apt-get install -y --allow-change-held-packages kubelet=1.19.x-00 kubectl=1.19.x-00 sudo systemctl daemon-reload sudo systemctl restart kubelet . Uncordon the node . kubectl uncordon $NODENAME . ",
     "url": "/my-tech/docs/Kubernetes#15-perform-a-version-upgrade-on-a-kubernetes-cluster-using-kubeadm",
     
     "relUrl": "/docs/Kubernetes#15-perform-a-version-upgrade-on-a-kubernetes-cluster-using-kubeadm"
-  },"237": {
+  },"239": {
     "doc": "Kubernetes",
     "title": "1.6 Implement Etcd Backup And Restore",
     "content": ". | Operating etcd clusters for Kubernetes: Backing up an etcd cluster | Etcd Documentation: Disaster Recovery | Kubernetes Tips: Backup and Restore Etcd | . Snapshot The Keyspace . Use etcdctl snapshot save. Snapshot the keyspace served by $ENDPOINT to the file snapshot.db: . ETCDCTL_API=3 etcdctl --endpoints $ENDPOINT snapshot save snapshot.db . Restore From Snapshot . Use etcdctl snapshot restore. Note: Restoring overwrites some snapshot metadata (specifically, the member ID and cluster ID); the member loses its former identity. Note: Snapshot integrity is verified when restoring from a snapshot using an integrity hash created by etcdctl snapshot save, but not when restoring from a file copy. Create new etcd data directories (m1.etcd, m2.etcd, m3.etcd) for a three member cluster: . $ ETCDCTL_API=3 etcdctl snapshot restore snapshot.db \\ --name m1 \\ --initial-cluster m1=http://host1:2380,m2=http://host2:2380,m3=http://host3:2380 \\ --initial-cluster-token etcd-cluster-1 \\ --initial-advertise-peer-urls http://host1:2380 $ ETCDCTL_API=3 etcdctl snapshot restore snapshot.db \\ --name m2 \\ --initial-cluster m1=http://host1:2380,m2=http://host2:2380,m3=http://host3:2380 \\ --initial-cluster-token etcd-cluster-1 \\ --initial-advertise-peer-urls http://host2:2380 $ ETCDCTL_API=3 etcdctl snapshot restore snapshot.db \\ --name m3 \\ --initial-cluster m1=http://host1:2380,m2=http://host2:2380,m3=http://host3:2380 \\ --initial-cluster-token etcd-cluster-1 \\ --initial-advertise-peer-urls http://host3:2380 . ",
     "url": "/my-tech/docs/Kubernetes#16-implement-etcd-backup-and-restore",
     
     "relUrl": "/docs/Kubernetes#16-implement-etcd-backup-and-restore"
-  },"238": {
+  },"240": {
     "doc": "Kubernetes",
     "title": "Objective 2: Workloads &amp; Scheduling",
     "content": ". | Objective 1: Cluster Architecture, Installation \\&amp; Configuration . | 1.1 Manage Role Based Access Control (RBAC) . | Lab Environment | Lab Practice | . | 1.2 Use Kubeadm to Install a Basic Cluster . | Kubeadm Tasks for All Nodes | Kubeadm Tasks for Single Control Node | Kubeadm Tasks for Worker Node(s) | Kubeadm Troubleshooting | Kubeadm Optional Tasks | . | 1.3 Manage A Highly-Available Kubernetes Cluster . | HA Deployment Types | Upgrading from Single Control-Plane to High Availability | . | 1.4 Provision Underlying Infrastructure to Deploy a Kubernetes Cluster | 1.5 Perform a Version Upgrade on a Kubernetes Cluster using Kubeadm . | First Control Plane Node | Additional Control Plane Nodes | Upgrade Control Plane Node Kubectl And Kubelet Tools | Upgrade Worker Nodes | . | 1.6 Implement Etcd Backup And Restore . | Snapshot The Keyspace | Restore From Snapshot | . | . | Objective 2: Workloads \\&amp; Scheduling . | 2.1 Understand Deployments And How To Perform Rolling Update And Rollbacks . | Create Deployment | Perform Rolling Update | Perform Rollbacks | . | 2.2 Use Configmaps And Secrets To Configure Applications . | Configmaps | Secrets | Other Concepts | . | 2.3 Know How To Scale Applications | 2.4 Understand The Primitives Used To Create Robust, Self-Healing, Application Deployments | 2.5 Understand How Resource Limits Can Affect Pod Scheduling | 2.6 Awareness Of Manifest Management And Common Templating Tools | . | Objective 3: Services \\&amp; Networking . | 3.1 Understand Host Networking Configuration On The Cluster Nodes | 3.2 Understand Connectivity Between Pods | 3.3 Understand ClusterIP, NodePort, LoadBalancer Service Types And Endpoints . | ClusterIP | NodePort | LoadBalancer | ExternalIP | ExternalName | Networking Cleanup for Objective 3.3 | . | 3.4 Know How To Use Ingress Controllers And Ingress Resources | 3.5 Know How To Configure And Use CoreDNS | 3.6 Choose An Appropriate Container Network Interface Plugin | . | Objective 4: Storage . | 4.1 Understand Storage Classes, Persistent Volumes . | Storage Classes | Persistent Volumes | . | 4.2 Understand Volume Mode, Access Modes And Reclaim Policies For Volumes . | Volume Mode | Access Modes | Reclaim Policies | . | 4.3 Understand Persistent Volume Claims Primitive | 4.4 Know How To Configure Applications With Persistent Storage | . | Objective 5: Troubleshooting . | 5.1 Evaluate Cluster And Node Logging . | Cluster Logging | Node Logging | . | 5.2 Understand How To Monitor Applications | 5.3 Manage Container Stdout \\&amp; Stderr Logs | 5.4 Troubleshoot Application Failure | 5.5 Troubleshoot Cluster Component Failure | 5.6 Troubleshoot Networking | . | . ",
     "url": "/my-tech/docs/Kubernetes#objective-2-workloads--scheduling",
     
     "relUrl": "/docs/Kubernetes#objective-2-workloads--scheduling"
-  },"239": {
+  },"241": {
     "doc": "Kubernetes",
     "title": "2.1 Understand Deployments And How To Perform Rolling Update And Rollbacks",
     "content": "Official Documentation . Deployments are used to manage Pods and ReplicaSets in a declarative manner. Create Deployment . Using the nginx image on Docker Hub, we can use a Deployment to push any number of replicas of that image to the cluster. Create the nginx deployment in the wahlnetwork1 namespace. kubectl create deployment nginx --image=nginx --replicas=3 -n wahlnetwork1 . Alternatively, use kubectl create deployment nginx --image=nginx --replicas=3 -n wahlnetwork1 --dry-run=client -o yaml to output a proper yaml configuration. apiVersion: apps/v1 kind: Deployment metadata: creationTimestamp: null labels: app: nginx name: nginx namespace: wahlnetwork1 spec: replicas: 3 selector: matchLabels: app: nginx strategy: {} template: metadata: creationTimestamp: null labels: app: nginx spec: containers: - image: nginx name: nginx resources: {} . Perform Rolling Update . Official Documentation . Used to make changes to the pod’s template and roll them out to the cluster. Triggered when data within .spec.template is changed. Update the nginx deployment in the wahlnetwork1 namespace to use version 1.16.1 . kubectl set image deployment/nginx nginx=nginx:1.16.1 -n wahlnetwork1 --record . Track the rollout status. kubectl rollout status deployment.v1.apps/nginx -n wahlnetwork1 . Waiting for deployment \"nginx\" rollout to finish: 1 out of 2 new replicas have been updated... Waiting for deployment \"nginx\" rollout to finish: 1 out of 2 new replicas have been updated... Waiting for deployment \"nginx\" rollout to finish: 1 out of 2 new replicas have been updated... Waiting for deployment \"nginx\" rollout to finish: 1 old replicas are pending termination... Waiting for deployment \"nginx\" rollout to finish: 1 old replicas are pending termination... deployment \"nginx\" successfully rolled out . Perform Rollbacks . Official Documentation . Rollbacks offer a method for reverting the changes to a pod’s .spec.template data to a previous version. By default, executing the rollout undo command will revert to the previous version. The desired version can also be declared. Review the version history for the nginx deployment in the wahlnetwork1 namespace. In this scenario, other revisions 1-4 have been made to simulate a deployment lifecycle. The 4th revision specifies a fake image version of 1.222222222222 to force a rolling update failure. kubectl rollout history deployment.v1.apps/nginx -n wahlnetwork1 . deployment.apps/nginx REVISION CHANGE-CAUSE 1 &lt;none&gt; 2 kubectl.exe set image deployment/nginx nginx=nginx:1.16.1 --record=true --namespace=wahlnetwork1 3 kubectl.exe set image deployment/nginx nginx=nginx:1.14.1 --record=true --namespace=wahlnetwork1 4 kubectl.exe set image deployment/nginx nginx=nginx:1.222222222222 --record=true --namespace=wahlnetwork1 . Revert to the previous version of the nginx deployment to use image version 1.14.1. This forces revision 3 to become revision # Note that revision 3 no longer exists. kubectl rollout undo deployment.v1.apps/nginx -n wahlnetwork1 . deployment.apps/nginx rolled back ~ kubectl rollout history deployment.v1.apps/nginx -n wahlnetwork1 deployment.apps/nginx REVISION CHANGE-CAUSE 1 &lt;none&gt; 2 kubectl.exe set image deployment/nginx nginx=nginx:1.16.1 --record=true --namespace=wahlnetwork1 4 kubectl.exe set image deployment/nginx nginx=nginx:1.222222222222 --record=true --namespace=wahlnetwork1 5 kubectl.exe set image deployment/nginx nginx=nginx:1.14.1 --record=true --namespace=wahlnetwork1 . Revert to revision 2 of the nginx deployment, which becomes revision 6 (the next available revision number). Note that revision 2 no longer exists. kubectl rollout undo deployment.v1.apps/nginx -n wahlnetwork1 --to-revision=2 . ~ kubectl rollout history deployment.v1.apps/nginx -n wahlnetwork1 deployment.apps/nginx REVISION CHANGE-CAUSE 1 &lt;none&gt; 4 kubectl.exe set image deployment/nginx nginx=nginx:1.222222222222 --record=true --namespace=wahlnetwork1 5 kubectl.exe set image deployment/nginx nginx=nginx:1.14.1 --record=true --namespace=wahlnetwork1 6 kubectl.exe set image deployment/nginx nginx=nginx:1.16.1 --record=true --namespace=wahlnetwork1 . ",
     "url": "/my-tech/docs/Kubernetes#21-understand-deployments-and-how-to-perform-rolling-update-and-rollbacks",
     
     "relUrl": "/docs/Kubernetes#21-understand-deployments-and-how-to-perform-rolling-update-and-rollbacks"
-  },"240": {
+  },"242": {
     "doc": "Kubernetes",
     "title": "2.2 Use Configmaps And Secrets To Configure Applications",
     "content": "Configmaps . API object used to store non-confidential data in key-value pairs . | Official Documentation Configure a Pod to Use a ConfigMap | . Create a configmap named game-config using a directory. kubectl create configmap game-config --from-file=/code/configmap/ . ~ k describe configmap game-config Name: game-config Namespace: default Labels: &lt;none&gt; Annotations: &lt;none&gt; Data ==== game.properties: ---- enemies=aliens lives=3 enemies.cheat=true enemies.cheat.level=noGoodRotten secret.code.passphrase=UUDDLRLRBABAS secret.code.allowed=true secret.code.lives=30 ui.properties: ---- color.good=purple color.bad=yellow allow.textmode=true how.nice.to.look=fairlyNice Events: &lt;none&gt; . Create a configmap named game-config using a file. kubectl create configmap game-config-2 --from-file=/code/configmap/game.properties . Create a configmap named game-config using an env-file. kubectl create configmap game-config-env-file --from-env-file=/code/configmap/game-env-file.properties . Create a configmap named special-config using a literal key/value pair. kubectl create configmap special-config --from-literal=special.how=very . Edit a configmap named game-config. kubectl edit configmap game-config . Get a configmap named game-config and output the response into yaml. kubectl get configmaps game-config -o yaml . Use a configmap with a pod by declaring a value for .spec.containers.env.name.valueFrom.configMapKeyRef. apiVersion: v1 kind: Pod metadata: name: dapi-test-pod spec: containers: - name: test-container image: k8s.gcr.io/busybox command: [\"/bin/sh\", \"-c\", \"env\"] env: # Define the environment variable - name: SPECIAL_LEVEL_KEY valueFrom: configMapKeyRef: # The ConfigMap containing the value you want to assign to SPECIAL_LEVEL_KEY name: special-config # Specify the key associated with the value key: special.how restartPolicy: Never . Investigate the configmap value very from the key SPECIAL_LEVEL_KEY by reviewing the logs for the pod or by connecting to the pod directly. kubectl exec -n wahlnetwork1 --stdin nginx-6889dfccd5-msmn8 --tty -- /bin/bash . ~ kubectl logs dapi-test-pod KUBERNETES_SERVICE_PORT=443 KUBERNETES_PORT=tcp://10.96.0.1:443 HOSTNAME=dapi-test-pod SHLVL=1 HOME=/root KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin KUBERNETES_PORT_443_TCP_PORT=443 KUBERNETES_PORT_443_TCP_PROTO=tcp SPECIAL_LEVEL_KEY=very KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443 KUBERNETES_SERVICE_PORT_HTTPS=443 PWD=/ KUBERNETES_SERVICE_HOST=10.96.0.1 . Secrets . | Managing Secret using kubectl | Using Secrets | . Create a secret named db-user-pass using files. kubectl create secret generic db-user-pass ` --from-file=./username.txt ` --from-file=./password.txt . The key name can be modified by inserting a key name into the file path. For example, setting the key names to funusername and funpassword can be done as shown below: . kubectl create secret generic fundb-user-pass ` --from-file=funusername=./username.txt ` --from-file=funpassword=./password.txt . Check to make sure the key names matches the defined names. kubectl describe secret fundb-user-pass . Name: fundb-user-pass Namespace: default Labels: &lt;none&gt; Annotations: &lt;none&gt; Type: Opaque Data ==== funpassword: 14 bytes funusername: 7 bytes . Get secret values from db-user-pass. kubectl get secret db-user-pass -o jsonpath='{.data}' . Edit secret values using the edit command. kubectl edit secrets db-user-pass . apiVersion: v1 data: password.txt: PASSWORD username.txt: USERNAME kind: Secret metadata: creationTimestamp: \"2020-10-13T22:48:27Z\" name: db-user-pass namespace: default resourceVersion: \"1022459\" selfLink: /api/v1/namespaces/default/secrets/db-user-pass uid: 6bb24810-dd33-4b92-9a37-424f3c7553b6 type: Opaque . Use a secret with a pod by declaring a value for .spec.containers.env.name.valueFrom.secretKeyRef. apiVersion: v1 kind: Pod metadata: name: secret-env-pod spec: containers: - name: mycontainer image: redis env: - name: SECRET_USERNAME valueFrom: secretKeyRef: name: mysecret key: username - name: SECRET_PASSWORD valueFrom: secretKeyRef: name: mysecret key: password restartPolicy: Never . Other Concepts . | Using imagePullSecrets | . ",
     "url": "/my-tech/docs/Kubernetes#22-use-configmaps-and-secrets-to-configure-applications",
     
     "relUrl": "/docs/Kubernetes#22-use-configmaps-and-secrets-to-configure-applications"
-  },"241": {
+  },"243": {
     "doc": "Kubernetes",
     "title": "2.3 Know How To Scale Applications",
     "content": "Scaling is accomplished by changing the number of replicas in a Deployment. | Running Multiple Instances of Your App | . Scale a deployment named nginx from 3 to 4 replicas. kubectl scale deployments/nginx --replicas=4 . ",
     "url": "/my-tech/docs/Kubernetes#23-know-how-to-scale-applications",
     
     "relUrl": "/docs/Kubernetes#23-know-how-to-scale-applications"
-  },"242": {
+  },"244": {
     "doc": "Kubernetes",
     "title": "2.4 Understand The Primitives Used To Create Robust, Self-Healing, Application Deployments",
     "content": ". | Don’t use naked Pods (that is, Pods not bound to a ReplicaSet or Deployment) if you can avoid it. Naked Pods will not be rescheduled in the event of a node failure. (source) | A Deployment, which both creates a ReplicaSet to ensure that the desired number of Pods is always available, and specifies a strategy to replace Pods (such as RollingUpdate), is almost always preferable to creating Pods directly, except for some explicit restartPolicy: Never scenarios. A Job may also be appropriate. (source) | Define and use labels that identify semantic attributes of your application or Deployment, such as { app: myapp, tier: frontend, phase: test, deployment: v3 }. (source) | . ",
     "url": "/my-tech/docs/Kubernetes#24-understand-the-primitives-used-to-create-robust-self-healing-application-deployments",
     
     "relUrl": "/docs/Kubernetes#24-understand-the-primitives-used-to-create-robust-self-healing-application-deployments"
-  },"243": {
+  },"245": {
     "doc": "Kubernetes",
     "title": "2.5 Understand How Resource Limits Can Affect Pod Scheduling",
     "content": "Resource limits are a mechanism to control the amount of resources needed by a container. This commonly translates into CPU and memory limits. | Limits set an upper boundary on the amount of resources a container is allowed to consume from the host. | Requests set an upper boundary on the amount of resources a container is allowed to consume from the host. | If a limit is set without a request, the request value is set to equal the limit value. | Managing Resources for Containers | Resource Quotas | . Here is an example of pod configured with resource requests and limits. apiVersion: v1 kind: Pod metadata: name: frontend spec: containers: - name: app image: images.my-company.example/app:v4 resources: requests: memory: \"64Mi\" cpu: \"250m\" limits: memory: \"128Mi\" cpu: \"500m\" - name: log-aggregator image: images.my-company.example/log-aggregator:v6 resources: requests: memory: \"64Mi\" cpu: \"250m\" limits: memory: \"128Mi\" cpu: \"500m\" . ",
     "url": "/my-tech/docs/Kubernetes#25-understand-how-resource-limits-can-affect-pod-scheduling",
     
     "relUrl": "/docs/Kubernetes#25-understand-how-resource-limits-can-affect-pod-scheduling"
-  },"244": {
+  },"246": {
     "doc": "Kubernetes",
     "title": "2.6 Awareness Of Manifest Management And Common Templating Tools",
     "content": ". | Templating YAML in Kubernetes with real code | yq: Command-line YAML/XML processor | kustomize: lets you customize raw, template-free YAML files for multiple purposes, leaving the original YAML untouched and usable as is. | Helm: A tool for managing Charts. Charts are packages of pre-configured Kubernetes resources. | . ",
     "url": "/my-tech/docs/Kubernetes#26-awareness-of-manifest-management-and-common-templating-tools",
     
     "relUrl": "/docs/Kubernetes#26-awareness-of-manifest-management-and-common-templating-tools"
-  },"245": {
+  },"247": {
     "doc": "Kubernetes",
     "title": "Objective 3: Services &amp; Networking",
     "content": ". | Objective 3: Services &amp; Networking . | 3.1 Understand Host Networking Configuration On The Cluster Nodes | 3.2 Understand Connectivity Between Pods | 3.3 Understand ClusterIP, NodePort, LoadBalancer Service Types And Endpoints . | ClusterIP | NodePort | LoadBalancer | ExternalIP | ExternalName | Networking Cleanup for Objective 3.3 | . | 3.4 Know How To Use Ingress Controllers And Ingress Resources | 3.5 Know How To Configure And Use CoreDNS | 3.6 Choose An Appropriate Container Network Interface Plugin | . | . Note: If you need access to the pod network while working through the networking examples, use the Get a Shell to a Running Container guide to deploy a shell container. I often like to have a tab open to the shell container to run arbitrary network commands without the need to exec in and out of it repeatedly. ",
     "url": "/my-tech/docs/Kubernetes#objective-3-services--networking",
     
     "relUrl": "/docs/Kubernetes#objective-3-services--networking"
-  },"246": {
+  },"248": {
     "doc": "Kubernetes",
     "title": "3.1 Understand Host Networking Configuration On The Cluster Nodes",
     "content": ". | Design . | All nodes can talk | All pods can talk (without NAT) | Every pod gets a unique IP address | . | Network Types . | Pod Network | Node Network | Services Network . | Rewrites egress traffic destined to a service network endpoint with a pod network IP address | . | . | Proxy Modes . | IPTables Mode . | The standard mode | kube-proxy watches the Kubernetes control plane for the addition and removal of Service and Endpoint objects | For each Service, it installs iptables rules, which capture traffic to the Service’s clusterIP and port, and redirect that traffic to one of the Service’s backend sets. | For each Endpoint object, it installs iptables rules which select a backend Pod. | Official Documentation | Kubernetes Networking Demystified: A Brief Guide | . | IPVS Mode . | Since 1.11 | Linux IP Virtual Server (IPVS) | L4 load balancer | . | . | . ",
     "url": "/my-tech/docs/Kubernetes#31-understand-host-networking-configuration-on-the-cluster-nodes",
     
     "relUrl": "/docs/Kubernetes#31-understand-host-networking-configuration-on-the-cluster-nodes"
-  },"247": {
+  },"249": {
     "doc": "Kubernetes",
     "title": "3.2 Understand Connectivity Between Pods",
     "content": "Official Documentation . Read The Kubernetes network model: . | Every pod gets its own address | Fundamental requirements on any networking implementation . | Pods on a node can communicate with all pods on all nodes without NAT | Agents on a node (e.g. system daemons, kubelet) can communicate with all pods on that node | Pods in the host network of a node can communicate with all pods on all nodes without NAT | . | Kubernetes IP addresses exist at the Pod scope . | Containers within a pod can communicate with one another over localhost | “IP-per-pod” model | . | . ",
     "url": "/my-tech/docs/Kubernetes#32-understand-connectivity-between-pods",
     
     "relUrl": "/docs/Kubernetes#32-understand-connectivity-between-pods"
-  },"248": {
+  },"250": {
     "doc": "Kubernetes",
     "title": "3.3 Understand ClusterIP, NodePort, LoadBalancer Service Types And Endpoints",
     "content": "Services are all about abstracting away the details of which pods are running behind a particular network endpoint. For many applications, work must be processed by some other service. Using a service allows the application to “toss over” the work to Kubernetes, which then uses a selector to determine which pods are healthy and available to receive the work. The service abstracts numerous replica pods that are available to do work. | Official Documentation | Katakoda Networking Introduction | . Note: This section was completed using a GKE cluster and may differ from what your cluster looks like. ClusterIP . | Exposes the Service on a cluster-internal IP. | Choosing this value makes the Service only reachable from within the cluster. | This is the default ServiceType. | Using Source IP | Kubectl Expose Command Reference | . The imperative option is to create a deployment and then expose the deployment. In this example, the deployment is exposed using a ClusterIP service that accepts traffic on port 80 and translates it to the pod using port 8080. kubectl create deployment funkyapp1 --image=k8s.gcr.io/echoserver:1.4 . kubectl expose deployment funkyapp1 --name=funkyip --port=80 --target-port=8080 --type=ClusterIP . Note: The --type=ClusterIP parameter is optional when deploying a ClusterIP service since this is the default type. apiVersion: v1 kind: Service metadata: creationTimestamp: null labels: app: funkyapp1 #Selector name: funkyip spec: ports: - port: 80 protocol: TCP targetPort: 8080 selector: app: funkyapp1 type: ClusterIP #Note this! . Using kubectl describe svc funkyip shows more details: . Name: funkyip Namespace: default Labels: app=funkyapp1 Annotations: cloud.google.com/neg: {\"ingress\":true} Selector: app=funkyapp1 Type: ClusterIP IP: 10.108.3.156 Port: &lt;unset&gt; 80/TCP TargetPort: 8080/TCP Endpoints: 10.104.2.7:8080 Session Affinity: None Events: &lt;none&gt; . Check to make sure the funkyip service exists. This also shows the assigned service (cluster IP) address. kubectl get svc funkyip . NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE funkyip ClusterIP 10.108.3.156 &lt;none&gt; 80/TCP 21m . From there, you can see the endpoint created to match any pod discovered using the app: funkyapp1 label. kubectl get endpoints funkyip . NAME ENDPOINTS AGE funkyip 10.104.2.7:8080 21m . The endpoint matches the IP address of the matching pod. kubectl get pods -o wide . NAME READY STATUS RESTARTS AGE IP NODE NOMINATED NODE READINESS GATES funkyapp1-7b478ccf9b-2vlc2 1/1 Running 0 21m 10.104.2.7 gke-my-first-cluster-1-default-pool-504c1e77-zg6v &lt;none&gt; &lt;none&gt; shell-demo 1/1 Running 0 3m12s 10.128.0.14 gke-my-first-cluster-1-default-pool-504c1e77-m9lk &lt;none&gt; &lt;none&gt; . The .spec.ports.port value defines the port used to access the service. The .spec.ports.targetPort value defines the port used to access the container’s application. User -&gt; Port -&gt; Kubernetes Service -&gt; Target Port -&gt; Application . This can be tested using curl: . export CLUSTER_IP=$(kubectl get services/funkyip -o go-template='(index .spec.clusterIP)') echo CLUSTER_IP=$CLUSTER_IP . From there, use curl $CLUSTER_IP:80 to hit the service port, which redirects to the targetPort of 8080. curl 10.108.3.156:80 . CLIENT VALUES: client_address=10.128.0.14 command=GET real path=/ query=nil request_version=1.1 request_uri=http://10.108.3.156:8080/ SERVER VALUES: server_version=nginx: 1.10.0 - lua: 10001 HEADERS RECEIVED: accept=*/* host=10.108.3.156 user-agent=curl/7.64.0 BODY: -no body in request-root . NodePort . | Exposes the Service on each Node’s IP at a static port (the NodePort). | Official Documentation | . kubectl expose deployment funkyapp1 --name=funkynode --port=80 --target-port=8080 --type=NodePort . apiVersion: v1 kind: Service metadata: creationTimestamp: null labels: app: funkyapp1 #Selector name: funkynode spec: ports: - port: 80 protocol: TCP targetPort: 8080 selector: app: funkyapp1 type: NodePort #Note this! . This service is available on each node at a specific port. kubectl describe svc funkynode . Name: funkynode Namespace: default Labels: app=funkyapp1 Annotations: cloud.google.com/neg: {\"ingress\":true} Selector: app=funkyapp1 Type: NodePort IP: 10.108.5.37 Port: &lt;unset&gt; 80/TCP TargetPort: 8080/TCP NodePort: &lt;unset&gt; 30182/TCP Endpoints: 10.104.2.7:8080 Session Affinity: None External Traffic Policy: Cluster Events: &lt;none&gt; . By using the node IP address with the nodePort value, we can see the desired payload. Make sure to scale the deployment so that each node is running one replica of the pod. For a cluster with 2 worker nodes, this can be done with kubectl scale deploy funkyapp1 --replicas=3. From there, it is possible to curl directly to a node IP address using the nodePort when using the shell pod demo. If working from outside the pod network, use the service IP address. curl 10.128.0.14:30182 . CLIENT VALUES: client_address=10.128.0.14 command=GET real path=/ query=nil request_version=1.1 request_uri=http://10.128.0.14:8080/ SERVER VALUES: server_version=nginx: 1.10.0 - lua: 10001 HEADERS RECEIVED: accept=*/* host=10.128.0.14:30182 user-agent=curl/7.64.0 BODY: -no body in request-root . LoadBalancer . | Exposes the Service externally using a cloud provider’s load balancer. | NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created. | Source IP for Services with Type LoadBalancer | . kubectl expose deployment funkyapp1 --name=funkylb --port=80 --target-port=8080 --type=LoadBalancer . apiVersion: v1 kind: Service metadata: creationTimestamp: null labels: app: funkyapp1 name: funkylb spec: ports: - port: 80 protocol: TCP targetPort: 8080 selector: app: funkyapp1 type: LoadBalancer #Note this! . Get information on the funkylb service to determine the External IP address. kubectl get svc funkylb . NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE funkylb LoadBalancer 10.108.11.148 35.232.149.96 80:31679/TCP 64s . It is then possible to retrieve the payload using the External IP address and port value from anywhere on the Internet; no need to use the pod shell demo! . curl 35.232.149.96:80 . CLIENT VALUES: client_address=10.104.2.1 command=GET real path=/ query=nil request_version=1.1 request_uri=http://35.232.149.96:8080/ SERVER VALUES: server_version=nginx: 1.10.0 - lua: 10001 HEADERS RECEIVED: accept=*/* host=35.232.149.96 user-agent=curl/7.55.1 BODY: -no body in request- . ExternalIP . Official Documentation . | Exposes a Kubernetes service on an external IP address. | Kubernetes has no control over this external IP address. | . Here is an example spec: . apiVersion: v1 kind: Service metadata: name: my-service spec: selector: app: MyApp ports: - name: http protocol: TCP port: 80 targetPort: 9376 externalIPs: - 80.11.12.10 #Take note! . ExternalName . | Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record with its value. | No proxy of any kind is set up. | . Networking Cleanup for Objective 3.3 . Run these commands to cleanup the resources, if desired. kubectl delete svc funkyip kubectl delete svc funkynode kubectl delete svc funkylb kubectl delete deploy funkyapp1 . ",
     "url": "/my-tech/docs/Kubernetes#33-understand-clusterip-nodeport-loadbalancer-service-types-and-endpoints",
     
     "relUrl": "/docs/Kubernetes#33-understand-clusterip-nodeport-loadbalancer-service-types-and-endpoints"
-  },"249": {
+  },"251": {
     "doc": "Kubernetes",
     "title": "3.4 Know How To Use Ingress Controllers And Ingress Resources",
     "content": "Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. | Traffic routing is controlled by rules defined on the Ingress resource. | An Ingress controller is responsible for fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router or additional frontends to help handle the traffic. | For example, the NGINX Ingress Controller for Kubernetes | . | The name of an Ingress object must be a valid DNS subdomain name. | Ingress Documentation | A list of Ingress Controllers | Katacoda - Create Ingress Routing lab | Katacoda - Nginx on Kubernetes lab | . Example of an ingress resource: . apiVersion: networking.k8s.io/v1 kind: Ingress metadata: name: minimal-ingress annotations: nginx.ingress.kubernetes.io/rewrite-target: / spec: rules: - http: paths: - path: /testpath pathType: Prefix backend: service: name: test port: number: 80 . Information on some of the objects within this resource: . | Ingress Rules | Path Types | . And, in the case of Nginx, a custom resource definition (CRD) is often used to extend the usefulness of an ingress. An example is shown below: . apiVersion: k8s.nginx.org/v1 kind: VirtualServer metadata: name: cafe spec: host: cafe.example.com tls: secret: cafe-secret upstreams: - name: tea service: tea-svc port: 80 - name: coffee service: coffee-svc port: 80 routes: - path: /tea action: pass: tea - path: /coffee action: pass: coffee . ",
     "url": "/my-tech/docs/Kubernetes#34-know-how-to-use-ingress-controllers-and-ingress-resources",
     
     "relUrl": "/docs/Kubernetes#34-know-how-to-use-ingress-controllers-and-ingress-resources"
-  },"250": {
+  },"252": {
     "doc": "Kubernetes",
     "title": "3.5 Know How To Configure And Use CoreDNS",
     "content": "CoreDNS is a general-purpose authoritative DNS server that can serve as cluster DNS. | A bit of history: . | As of Kubernetes v1.12, CoreDNS is the recommended DNS Server, replacing kube-dns. | In Kubernetes version 1.13 and later the CoreDNS feature gate is removed and CoreDNS is used by default. | In Kubernetes 1.18, kube-dns usage with kubeadm has been deprecated and will be removed in a future version. | . | Using CoreDNS for Service Discovery | Customizing DNS Service | . CoreDNS is installed with the following default Corefile configuration: . apiVersion: v1 kind: ConfigMap metadata: name: coredns namespace: kube-system data: Corefile: | .:53 { errors health { lameduck 5s } ready kubernetes cluster.local in-addr.arpa ip6.arpa { pods insecure fallthrough in-addr.arpa ip6.arpa ttl 30 } prometheus :9153 forward . /etc/resolv.conf cache 30 loop reload loadbalance } . If you need to customize CoreDNS behavior, you create and apply your own ConfigMap to override settings in the Corefile. The Configuring DNS Servers for Kubernetes Clusters document describes this in detail. Review your configmaps for the kube-system namespace to determine if there is a coredns-custom configmap. kubectl get configmaps --namespace=kube-system . NAME DATA AGE cluster-kubestore 0 23h clustermetrics 0 23h extension-apiserver-authentication 6 24h gke-common-webhook-lock 0 23h ingress-gce-lock 0 23h ingress-uid 2 23h kube-dns 0 23h kube-dns-autoscaler 1 23h metrics-server-config 1 23h . Create a file named coredns.yml containing a configmap with the desired DNS entries in the data field such as the example below: . apiVersion: v1 kind: ConfigMap metadata: name: coredns-custom namespace: kube-system data: example.server: | # All custom server files must have a “.server” file extension. # Change example.com to the domain you wish to forward. example.com { # Change 1.1.1.1 to your customer DNS resolver. forward . 1.1.1.1 } . Apply the configmap. kubectl apply -f coredns.yml . Validate the existence of the coredns-custom configmap. kubectl get configmaps --namespace=kube-system . NAME DATA AGE cluster-kubestore 0 24h clustermetrics 0 24h coredns-custom 1 6s extension-apiserver-authentication 6 24h gke-common-webhook-lock 0 24h ingress-gce-lock 0 24h ingress-uid 2 24h kube-dns 0 24h kube-dns-autoscaler 1 24h metrics-server-config 1 24h . Get the configmap and output the value in yaml format. kubectl get configmaps --namespace=kube-system coredns-custom -o yaml . apiVersion: v1 data: example.server: | # Change example.com to the domain you wish to forward. example.com { # Change 1.1.1.1 to your customer DNS resolver. forward . 1.1.1.1 } kind: ConfigMap metadata: annotations: kubectl.kubernetes.io/last-applied-configuration: | {\"apiVersion\":\"v1\",\"data\":{\"example.server\":\"# Change example.com to the domain you wish to forward.\\nexample.com {\\n # Change 1.1.1.1 to your customer DNS resolver.\\n forward . 1.1.1.1\\n}\\n\"},\"kind\":\"ConfigMap\",\"metadata\":{\"annotations\":{},\"name\":\"coredns-custom\",\"namespace\":\"kube-system\"}} creationTimestamp: \"2020-10-27T19:49:24Z\" managedFields: - apiVersion: v1 fieldsType: FieldsV1 fieldsV1: f:data: .: {} f:example.server: {} f:metadata: f:annotations: .: {} f:kubectl.kubernetes.io/last-applied-configuration: {} manager: kubectl-client-side-apply operation: Update time: \"2020-10-27T19:49:24Z\" name: coredns-custom namespace: kube-system resourceVersion: \"519480\" selfLink: /api/v1/namespaces/kube-system/configmaps/coredns-custom uid: 8d3250a5-cbb4-4f01-aae3-4e83bd158ebe . ",
     "url": "/my-tech/docs/Kubernetes#35-know-how-to-configure-and-use-coredns",
     
     "relUrl": "/docs/Kubernetes#35-know-how-to-configure-and-use-coredns"
-  },"251": {
+  },"253": {
     "doc": "Kubernetes",
     "title": "3.6 Choose An Appropriate Container Network Interface Plugin",
     "content": "Generally, it seems that Flannel is good for starting out in a very simplified environment, while Calico (and others) extend upon the basic functionality to meet design-specific requirements. | Network Plugins | Choosing a CNI Network Provider for Kubernetes | Comparing Kubernetes CNI Providers: Flannel, Calico, Canal, and Weave | . Common decision points include: . | Network Model: Layer 2, Layer 3, VXLAN, etc. | Routing: Routing and route distribution for pod traffic between nodes | Network Policy: Essentially the firewall between network / pod segments | IP Address Management (IPAM) | Datastore: . | etcd - for direct connection to an etcd cluster | Kubernetes - for connection to a Kubernetes API server | . | . ",
     "url": "/my-tech/docs/Kubernetes#36-choose-an-appropriate-container-network-interface-plugin",
     
     "relUrl": "/docs/Kubernetes#36-choose-an-appropriate-container-network-interface-plugin"
-  },"252": {
+  },"254": {
     "doc": "Kubernetes",
     "title": "Objective 4: Storage",
     "content": ". | Objective 4: Storage . | 4.1 Understand Storage Classes, Persistent Volumes . | Storage Classes | Persistent Volumes | . | 4.2 Understand Volume Mode, Access Modes And Reclaim Policies For Volumes . | Volume Mode | Access Modes | Reclaim Policies | . | 4.3 Understand Persistent Volume Claims Primitive | 4.4 Know How To Configure Applications With Persistent Storage | . | . ",
     "url": "/my-tech/docs/Kubernetes#objective-4-storage",
     
     "relUrl": "/docs/Kubernetes#objective-4-storage"
-  },"253": {
+  },"255": {
     "doc": "Kubernetes",
     "title": "4.1 Understand Storage Classes, Persistent Volumes",
     "content": ". | Storage Classes | Persistent Volumes | . Storage Classes . | Reclaim Policy: PersistentVolumes that are dynamically created by a StorageClass will have the reclaim policy specified in the reclaimPolicy field of the class . | Delete: When PersistentVolumeClaim is deleted, also deletes PersistentVolume and underlying storage object | Retain: When PersistentVolumeClaim is deleted, PersistentVolume remains and volume is “released” | . | Volume Binding Mode: . | Immediate: By default, the Immediate mode indicates that volume binding and dynamic provisioning occurs once the PersistentVolumeClaim is created | WaitForFirstConsumer: Delay the binding and provisioning of a PersistentVolume until a Pod using the PersistentVolumeClaim is created . | Supported by AWSElasticBlockStore, GCEPersistentDisk, and AzureDisk | . | . | Allow Volume Expansion: Allow volumes to be expanded . | Note: It is not possible to reduce the size of a PersistentVolume | . | Default Storage Class: A default storage class is used when a PersistentVolumeClaim does not specify the storage class . | Can be handy when a single default services all pod volumes | . | Provisioner . | Determines the volume plugin to use for provisioning PVs. | Example: gke-pd, azure-disk | . | . View all storage classes . kubectl get storageclass or kubectl get sc . NAME PROVISIONER RECLAIMPOLICY VOLUMEBINDINGMODE ALLOWVOLUMEEXPANSION AGE standard (default) kubernetes.io/gce-pd Delete Immediate true 25h . View the storage class in yaml format . kubectl get sc standard -o yaml . allowVolumeExpansion: true apiVersion: storage.k8s.io/v1 kind: StorageClass metadata: name: standard parameters: type: pd-standard provisioner: kubernetes.io/gce-pd reclaimPolicy: Delete volumeBindingMode: Immediate . Make a custom storage class using the yaml configuration below and save it as speedyssdclass.yaml . allowVolumeExpansion: true apiVersion: storage.k8s.io/v1 kind: StorageClass metadata: name: speedyssdclass parameters: type: pd-ssd # Note: This will use SSD backed disks fstype: ext4 replication-type: none provisioner: kubernetes.io/gce-pd reclaimPolicy: Delete volumeBindingMode: Immediate . Apply the storage class configuration to the cluster . kubectl apply -f speedyssdclass.yaml . storageclass.storage.k8s.io/speedyssdclass created . Get the storage classes . kubectl get sc . NAME PROVISIONER RECLAIMPOLICY VOLUMEBINDINGMODE ALLOWVOLUMEEXPANSION AGE speedyssdclass kubernetes.io/gce-pd Retain WaitForFirstConsumer true 5m19s standard (default) kubernetes.io/gce-pd Delete Immediate true 8d . Persistent Volumes . View a persistent volume in yaml format . kubectl get pv pvc-d2f6e37e-277f-4b7b-8725-542609f1dea4 -o yaml . apiVersion: v1 kind: PersistentVolume metadata: name: pvc-d2f6e37e-277f-4b7b-8725-542609f1dea4 spec: accessModes: - ReadWriteOnce capacity: storage: 1Gi persistentVolumeReclaimPolicy: Delete storageClassName: standard volumeMode: Filesystem . Create a new disk named pv100 in Google Cloud to be used as a persistent volume . Note: Use the zone of your GKE cluster . gcloud compute disks create pv100 --size 10GiB --zone=us-central1-c . Make a custom persistent volume using the yaml configuration below and save it as pv100.yaml . apiVersion: v1 kind: PersistentVolume metadata: name: pv100 spec: accessModes: - ReadWriteOnce capacity: storage: 1Gi persistentVolumeReclaimPolicy: Delete storageClassName: standard volumeMode: Filesystem gcePersistentDisk: # This section is required since we are not using a Storage Class fsType: ext4 pdName: pv100 . Apply the persistent volume to the cluster . kubectl apply -f pv100.yaml . persistentvolume/pv100 created . Get the persistent volume and notice that it has a status of Available since there is no PersistentVolumeClaim to bind against . kubectl get pv pv100 . NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE pv100 1Gi RWO Delete Available standard 2m51s . ",
     "url": "/my-tech/docs/Kubernetes#41-understand-storage-classes-persistent-volumes",
     
     "relUrl": "/docs/Kubernetes#41-understand-storage-classes-persistent-volumes"
-  },"254": {
+  },"256": {
     "doc": "Kubernetes",
     "title": "4.2 Understand Volume Mode, Access Modes And Reclaim Policies For Volumes",
     "content": ". | Volume Mode | Access Modes | Reclaim Policy | . Volume Mode . | Filesystem: Kubernetes formats the volume and presents it to a specified mount point. | If the volume is backed by a block device and the device is empty, Kuberneretes creates a filesystem on the device before mounting it for the first time. | . | Block: Kubernetes exposes a raw block device to the container. | Improved time to usage and perhaps performance. | The container must know what to do with the device; there is no filesystem. | . | Defined in .spec.volumeMode for a PersistentVolumeClaim. | . View the volume mode for persistent volume claims using the -o wide to see the VOLUMEMODE column . kubectl get pvc -o wide . NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE VOLUMEMODE www-web-0 Bound pvc-f3e92637-7e0d-46a3-ad87-ef1275bb5a72 1Gi RWO standard 19m Filesystem www-web-1 Bound pvc-d2f6e37e-277f-4b7b-8725-542609f1dea4 1Gi RWO standard 19m Filesystem . Access Modes . | ReadWriteOnce (RWO): can be mounted as read-write by a single node | ReadOnlyMany (ROX): can be mounted as read-only by many nodes | ReadWriteMany (RWX): can be mounted as read-write by many nodes | Defined in .spec.accessModes for a PersistentVolumeClaim and PersistentVolume | . View the access mode for persistent volume claims . kubectl get pvc . NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE www-web-0 Bound pvc-f3e92637-7e0d-46a3-ad87-ef1275bb5a72 1Gi RWO standard 28m www-web-1 Bound pvc-d2f6e37e-277f-4b7b-8725-542609f1dea4 1Gi RWO standard 27m . Reclaim Policies . | Reclaim Policy: PersistentVolumes that are dynamically created by a StorageClass will have the reclaim policy specified in the reclaimPolicy field of the class . | Delete: When PersistentVolumeClaim is deleted, also deletes PersistentVolume and underlying storage object | Retain: When PersistentVolumeClaim is deleted, PersistentVolume remains and volume is “released” | . | Change the Reclaim Policy of a PersistentVolume | Defined in .spec.persistentVolumeReclaimPolicy for PersistentVolume. | . View the reclaim policy set on persistent volumes . kubectl get pv . NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE pvc-d2f6e37e-277f-4b7b-8725-542609f1dea4 1Gi RWO Delete Bound default/www-web-1 standard 45m pvc-f3e92637-7e0d-46a3-ad87-ef1275bb5a72 1Gi RWO Delete Bound default/www-web-0 standard 45m . ",
     "url": "/my-tech/docs/Kubernetes#42-understand-volume-mode-access-modes-and-reclaim-policies-for-volumes",
     
     "relUrl": "/docs/Kubernetes#42-understand-volume-mode-access-modes-and-reclaim-policies-for-volumes"
-  },"255": {
+  },"257": {
     "doc": "Kubernetes",
     "title": "4.3 Understand Persistent Volume Claims Primitive",
     "content": "Make a custom persistent volume claim using the yaml configuration below and save it as pvc01.yaml . apiVersion: v1 kind: PersistentVolumeClaim metadata: name: pvc01 spec: storageClassName: standard accessModes: - ReadWriteOnce resources: requests: storage: 3Gi . Apply the persistent volume claim . kubectl apply -f pvc01.yaml . persistentvolumeclaim/pvc01 created . Get the persistent volume claim . kubectl get pvc pvc01 . NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE pvc01 Bound pvc-9f2e7c5d-b64c-467e-bba6-86ccb333d981 3Gi RWO standard 5m19s . ",
     "url": "/my-tech/docs/Kubernetes#43-understand-persistent-volume-claims-primitive",
     
     "relUrl": "/docs/Kubernetes#43-understand-persistent-volume-claims-primitive"
-  },"256": {
+  },"258": {
     "doc": "Kubernetes",
     "title": "4.4 Know How To Configure Applications With Persistent Storage",
     "content": ". | Configure a Pod to Use a PersistentVolume for Storage | . Create a new yaml file using the configuration below and save it as pv-pod.yaml . Note: Make sure to create pvc01 in this earlier step . apiVersion: v1 kind: Pod metadata: name: pv-pod spec: volumes: - name: pv-pod-storage # The name of the volume, used by .spec.containers.volumeMounts.name persistentVolumeClaim: claimName: pvc01 # This pvc was created in an earlier step containers: - name: pv-pod-container image: nginx ports: - containerPort: 80 name: \"http-server\" volumeMounts: - mountPath: \"/usr/share/nginx/html\" name: pv-pod-storage # This refers back to .spec.volumes.name . Apply the pod . kubectl apply -f pv-pod.yaml . pod/pv-pod created . Watch the pod provisioning process . kubectl get pod -w pv-pod . NAME READY STATUS RESTARTS AGE pv-pod 1/1 Running 0 30s . View the binding on pvc01 . kubectl describe pvc pvc01 . Name: pvc01 Namespace: default StorageClass: standard Status: Bound Volume: pvc-9f2e7c5d-b64c-467e-bba6-86ccb333d981 Labels: &lt;none&gt; Annotations: pv.kubernetes.io/bind-completed: yes pv.kubernetes.io/bound-by-controller: yes volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd Finalizers: [kubernetes.io/pvc-protection] Capacity: 3Gi Access Modes: RWO VolumeMode: Filesystem Mounted By: pv-pod # Here it is! Events: Type Reason Age From Message ---- ------ ---- ---- ------- Normal ProvisioningSucceeded 36m persistentvolume-controller Successfully provisioned volume pvc-9f2e7c5d-b64c-467e-bba6-86ccb333d981 using kubernetes.io/gce-pd . ",
     "url": "/my-tech/docs/Kubernetes#44-know-how-to-configure-applications-with-persistent-storage",
     
     "relUrl": "/docs/Kubernetes#44-know-how-to-configure-applications-with-persistent-storage"
-  },"257": {
+  },"259": {
     "doc": "Kubernetes",
     "title": "Objective 5: Troubleshooting",
     "content": ". | Troubleshooting Kubernetes deployments . | Objective 5: Troubleshooting . | 5.1 Evaluate Cluster And Node Logging . | Cluster Logging | Node Logging | . | 5.2 Understand How To Monitor Applications | 5.3 Manage Container Stdout &amp; Stderr Logs | 5.4 Troubleshoot Application Failure | 5.5 Troubleshoot Cluster Component Failure | 5.6 Troubleshoot Networking | . | . ",
     "url": "/my-tech/docs/Kubernetes#objective-5-troubleshooting",
     
     "relUrl": "/docs/Kubernetes#objective-5-troubleshooting"
-  },"258": {
+  },"260": {
     "doc": "Kubernetes",
     "title": "5.1 Evaluate Cluster And Node Logging",
     "content": "Cluster Logging . Having a separate storage location for cluster component logging, such as nodes, pods, and applications. | Cluster-level logging architectures | Kubernetes Logging Best Practices | . Commonly deployed in one of three ways: . ",
     "url": "/my-tech/docs/Kubernetes#51-evaluate-cluster-and-node-logging",
     
     "relUrl": "/docs/Kubernetes#51-evaluate-cluster-and-node-logging"
-  },"259": {
+  },"261": {
     "doc": "Kubernetes",
     "title": "Logging agent on each node that sends log data to a backend storage repository",
     "content": "# These agents can be deployed using a DaemonSet replica to ensure nodes have the agent running # Note: This approach only works for applications’ standard output (stdout) and standard error (stderr) . ",
     "url": "/my-tech/docs/Kubernetes#logging-agent-on-each-node-that-sends-log-data-to-a-backend-storage-repository",
     
     "relUrl": "/docs/Kubernetes#logging-agent-on-each-node-that-sends-log-data-to-a-backend-storage-repository"
-  },"260": {
+  },"262": {
     "doc": "Kubernetes",
     "title": "Logging agent as a sidecar to specific deployments that sends log data to a backend storage repository",
     "content": "# Note: Writing logs to a file and then streaming them to stdout can double disk usage . ",
     "url": "/my-tech/docs/Kubernetes#logging-agent-as-a-sidecar-to-specific-deployments-that-sends-log-data-to-a-backend-storage-repository",
     
     "relUrl": "/docs/Kubernetes#logging-agent-as-a-sidecar-to-specific-deployments-that-sends-log-data-to-a-backend-storage-repository"
-  },"261": {
+  },"263": {
     "doc": "Kubernetes",
     "title": "Configure the containerized application to send log data to a backend storage repository",
     "content": "Node Logging . Having a log file on the node that is populated with standard output (stdout) and standard error (stderr) log entries from containers running on the node. | Logging at the node level | . ",
     "url": "/my-tech/docs/Kubernetes#configure-the-containerized-application-to-send-log-data-to-a-backend-storage-repository",
     
     "relUrl": "/docs/Kubernetes#configure-the-containerized-application-to-send-log-data-to-a-backend-storage-repository"
-  },"262": {
+  },"264": {
     "doc": "Kubernetes",
     "title": "5.2 Understand How To Monitor Applications",
     "content": ". | Using kubectl describe pod to fetch details about pods | Interacting with running Pods | . ",
     "url": "/my-tech/docs/Kubernetes#52-understand-how-to-monitor-applications",
     
     "relUrl": "/docs/Kubernetes#52-understand-how-to-monitor-applications"
-  },"263": {
+  },"265": {
     "doc": "Kubernetes",
     "title": "5.3 Manage Container Stdout &amp; Stderr Logs",
     "content": ". | Kubectl Commands - Logs | How to find—and use—your GKE logs with Cloud Logging | Enable Log Rotation in Kubernetes Cluster | . kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] . | -f will follow the logs | -p will pull up the previous instance of the container | -c will select a specific container for pods that have more than one | . ",
     "url": "/my-tech/docs/Kubernetes#53-manage-container-stdout--stderr-logs",
     
     "relUrl": "/docs/Kubernetes#53-manage-container-stdout--stderr-logs"
-  },"264": {
+  },"266": {
     "doc": "Kubernetes",
     "title": "5.4 Troubleshoot Application Failure",
     "content": ". | Troubleshoot Applications | Status: Pending . | The Pod has been accepted by the Kubernetes cluster, but one or more of the containers has not been set up and made ready to run. | If no resources available on cluster, Cluster Autoscaling will increased node count if enabled | Once node count satisfied, pods in Pending status will be deployed | . | Status: Waiting . | A container in the Waiting state is still running the operations it requires in order to complete start up | . | . Describe the pod to get details on the configuration, containers, events, conditions, volumes, etc. | Is the status equal to RUNNING? | Are there enough resources to schedule the pod? | Are there enough hostPorts remaining to schedule the pod? | . kubectl describe pod counter . Name: counter Namespace: default Priority: 0 Node: gke-my-first-cluster-1-default-pool-504c1e77-xcvj/10.128.0.15 Start Time: Tue, 10 Nov 2020 16:33:10 -0600 Labels: &lt;none&gt; Annotations: &lt;none&gt; Status: Running IP: 10.104.1.7 IPs: IP: 10.104.1.7 Containers: count: Container ID: docker://430313804a529153c1dc5badd1394164906a7dead8708a4b850a0466997e1c34 Image: busybox Image ID: docker-pullable://busybox@sha256:a9286defaba7b3a519d585ba0e37d0b2cbee74ebfe590960b0b1d6a5e97d1e1d Port: &lt;none&gt; Host Port: &lt;none&gt; Args: /bin/sh -c i=0; while true; do echo \"$i: $(date)\" &gt;&gt; /var/log/1.log; echo \"$(date) INFO $i\" &gt;&gt; /var/log/2.log; i=$((i+1)); sleep 1; done State: Running Started: Tue, 10 Nov 2020 16:33:12 -0600 Ready: True Restart Count: 0 Environment: &lt;none&gt; Mounts: /var/log from varlog (rw) /var/run/secrets/kubernetes.io/serviceaccount from default-token-2qnnp (ro) count-log-1: Container ID: docker://d5e95aa4aec3a55435d610298f94e7b8b2cfdf2fb88968f00ca4719a567a6e37 Image: busybox Image ID: docker-pullable://busybox@sha256:a9286defaba7b3a519d585ba0e37d0b2cbee74ebfe590960b0b1d6a5e97d1e1d Port: &lt;none&gt; Host Port: &lt;none&gt; Args: /bin/sh -c tail -n+1 -f /var/log/1.log State: Running Started: Tue, 10 Nov 2020 16:33:13 -0600 Ready: True Restart Count: 0 Environment: &lt;none&gt; Mounts: /var/log from varlog (rw) /var/run/secrets/kubernetes.io/serviceaccount from default-token-2qnnp (ro) count-log-2: Container ID: docker://eaa9983cbd55288a139b63c30cfe3811031dedfae0842b9233ac48db65387d4d Image: busybox Image ID: docker-pullable://busybox@sha256:a9286defaba7b3a519d585ba0e37d0b2cbee74ebfe590960b0b1d6a5e97d1e1d Port: &lt;none&gt; Host Port: &lt;none&gt; Args: /bin/sh -c tail -n+1 -f /var/log/2.log State: Running Started: Tue, 10 Nov 2020 16:33:13 -0600 Ready: True Restart Count: 0 Environment: &lt;none&gt; Mounts: /var/log from varlog (rw) /var/run/secrets/kubernetes.io/serviceaccount from default-token-2qnnp (ro) Conditions: Type Status Initialized True Ready True ContainersReady True PodScheduled True Volumes: varlog: Type: EmptyDir (a temporary directory that shares a pod's lifetime) Medium: SizeLimit: &lt;unset&gt; default-token-2qnnp: Type: Secret (a volume populated by a Secret) SecretName: default-token-2qnnp Optional: false QoS Class: BestEffort Node-Selectors: &lt;none&gt; Tolerations: node.kubernetes.io/not-ready:NoExecute op=Exists for 300s node.kubernetes.io/unreachable:NoExecute op=Exists for 300s Events: Type Reason Age From Message ---- ------ ---- ---- ------- Normal Scheduled 30m default-scheduler Successfully assigned default/counter to gke-my-first-cluster-1-default-pool-504c1e77-xcvj Normal Pulling 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Pulling image \"busybox\" Normal Pulled 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Successfully pulled image \"busybox\" Normal Created 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Created container count Normal Started 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Started container count Normal Pulling 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Pulling image \"busybox\" Normal Created 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Created container count-log-1 Normal Pulled 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Successfully pulled image \"busybox\" Normal Started 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Started container count-log-1 Normal Pulling 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Pulling image \"busybox\" Normal Pulled 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Successfully pulled image \"busybox\" Normal Created 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Created container count-log-2 Normal Started 30m kubelet, gke-my-first-cluster-1-default-pool-504c1e77-xcvj Started container count-log-2 . Validate the commands being presented to the pod to ensure nothing was configured incorrectly. kubectl apply --validate -f mypod.yaml . ",
     "url": "/my-tech/docs/Kubernetes#54-troubleshoot-application-failure",
     
     "relUrl": "/docs/Kubernetes#54-troubleshoot-application-failure"
-  },"265": {
+  },"267": {
     "doc": "Kubernetes",
     "title": "5.5 Troubleshoot Cluster Component Failure",
     "content": ". | Troubleshoot Clusters | A general overview of cluster failure modes | Control Plane Components | Node Components | . Components to investigate: . | Control Plane Components . | kube-apiserver | etcd | kube-scheduler | kube-controller-manager | cloud-controller-manager | . | Node Components . | kubelet | kube-proxy | Container runtime (e.g. Docker) | . | . View the components with: . kubectl get all -n kube-system . NAME READY STATUS RESTARTS AGE pod/konnectivity-agent-56nck 1/1 Running 0 15d pod/konnectivity-agent-gmklx 1/1 Running 0 15d pod/konnectivity-agent-wg92c 1/1 Running 0 15d pod/kube-dns-576766df6b-cz4ln 3/3 Running 0 15d pod/kube-dns-576766df6b-rcsk7 3/3 Running 0 15d pod/kube-dns-autoscaler-7f89fb6b79-pq66d 1/1 Running 0 15d pod/kube-proxy-gke-my-first-cluster-1-default-pool-504c1e77-m9lk 1/1 Running 0 15d pod/kube-proxy-gke-my-first-cluster-1-default-pool-504c1e77-xcvj 1/1 Running 0 15d pod/kube-proxy-gke-my-first-cluster-1-default-pool-504c1e77-zg6v 1/1 Running 0 15d pod/l7-default-backend-7fd66b8b88-ng57f 1/1 Running 0 15d pod/metrics-server-v0.3.6-7c5cb99b6f-2d8bx 2/2 Running 0 15d NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/default-http-backend NodePort 10.108.1.184 &lt;none&gt; 80:32084/TCP 15d service/kube-dns ClusterIP 10.108.0.10 &lt;none&gt; 53/UDP,53/TCP 15d service/metrics-server ClusterIP 10.108.1.154 &lt;none&gt; 443/TCP 15d NAME DESIRED CURRENT READY UP-TO-DATE AVAILABLE NODE SELECTOR AGE daemonset.apps/konnectivity-agent 3 3 3 3 3 &lt;none&gt; 15d daemonset.apps/kube-proxy 0 0 0 0 0 kubernetes.io/os=linux,node.kubernetes.io/kube-proxy-ds-ready=true 15d daemonset.apps/metadata-proxy-v0.1 0 0 0 0 0 cloud.google.com/metadata-proxy-ready=true,kubernetes.io/os=linux 15d daemonset.apps/nvidia-gpu-device-plugin 0 0 0 0 0 &lt;none&gt; 15d NAME READY UP-TO-DATE AVAILABLE AGE deployment.apps/kube-dns 2/2 2 2 15d deployment.apps/kube-dns-autoscaler 1/1 1 1 15d deployment.apps/l7-default-backend 1/1 1 1 15d deployment.apps/metrics-server-v0.3.6 1/1 1 1 15d NAME DESIRED CURRENT READY AGE replicaset.apps/kube-dns-576766df6b 2 2 2 15d replicaset.apps/kube-dns-autoscaler-7f89fb6b79 1 1 1 15d replicaset.apps/l7-default-backend-7fd66b8b88 1 1 1 15d replicaset.apps/metrics-server-v0.3.6-7c5cb99b6f 1 1 1 15d replicaset.apps/metrics-server-v0.3.6-7ff8cdbc49 0 0 0 15d . Retrieve detailed information about the cluster . kubectl cluster-info or kubectl cluster-info dump . Retrieve a list of known API resources to aid with describing or troubleshooting . kubectl api-resources . NAME SHORTNAMES APIGROUP NAMESPACED KIND bindings true Binding componentstatuses cs false ComponentStatus configmaps cm true ConfigMap endpoints ep true Endpoints events ev true Event limitranges limits true LimitRange namespaces ns false Namespace nodes no false Node persistentvolumeclaims pvc true PersistentVolumeClaim persistentvolumes pv false PersistentVolume &lt;snip&gt; . Check the logs in /var/log on the master and worker nodes: . | Master . | /var/log/kube-apiserver.log - API Server, responsible for serving the API | /var/log/kube-scheduler.log - Scheduler, responsible for making scheduling decisions | /var/log/kube-controller-manager.log - Controller that manages replication controllers | . | Worker Nodes . | /var/log/kubelet.log - Kubelet, responsible for running containers on the node | /var/log/kube-proxy.log - Kube Proxy, responsible for service load balancing | . | . ",
     "url": "/my-tech/docs/Kubernetes#55-troubleshoot-cluster-component-failure",
     
     "relUrl": "/docs/Kubernetes#55-troubleshoot-cluster-component-failure"
-  },"266": {
+  },"268": {
     "doc": "Kubernetes",
     "title": "5.6 Troubleshoot Networking",
     "content": ". | Flannel Troubleshooting . | The flannel kube subnet manager relies on the fact that each node already has a podCIDR defined. | . | Calico Troubleshooting . | Containers do not have network connectivity | . | . ",
     "url": "/my-tech/docs/Kubernetes#56-troubleshoot-networking",
     
     "relUrl": "/docs/Kubernetes#56-troubleshoot-networking"
-  },"267": {
+  },"269": {
     "doc": "Misc",
     "title": "Misc",
     "content": " ",
     "url": "/my-tech/docs/Misc",
     
     "relUrl": "/docs/Misc"
-  },"268": {
+  },"270": {
     "doc": "Misc",
     "title": "Front page of documents uncategorized",
     "content": "Date Posted: 2023 03 01 . Summary Code . ",
     "url": "/my-tech/docs/Misc",
     
     "relUrl": "/docs/Misc"
-  },"269": {
+  },"271": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "tutorial about the running a sample docker image in numbered steps",
     "content": " ",
     "url": "/my-tech/doc/Misc/template/",
     
     "relUrl": "/doc/Misc/template/"
-  },"270": {
+  },"272": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "this page describes about tutorial about the running a sample docker image in numbered steps",
     "content": "Date Posted: 2022 12 29 . ",
     "url": "/my-tech/doc/Misc/template/",
     
     "relUrl": "/doc/Misc/template/"
-  },"271": {
+  },"273": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Tutorial: Running a Sample Docker Image",
     "content": "Summary Code . ",
     "url": "/my-tech/doc/Misc/template/#tutorial-running-a-sample-docker-image",
     
     "relUrl": "/doc/Misc/template/#tutorial-running-a-sample-docker-image"
-  },"272": {
+  },"274": {
     "doc": "Title",
     "title": "Title",
     "content": " ",
     "url": "/my-tech/template/",
     
     "relUrl": "/template/"
-  },"273": {
+  },"275": {
     "doc": "Title",
     "title": "Excerpt",
     "content": "Date Posted: 2015 12 29 . ",
     "url": "/my-tech/template/",
     
     "relUrl": "/template/"
-  },"274": {
+  },"276": {
     "doc": "Title",
     "title": "Tutorial: Running a Sample Docker Image",
     "content": " ",
     "url": "/my-tech/template/#tutorial-running-a-sample-docker-image",
     
     "relUrl": "/template/#tutorial-running-a-sample-docker-image"
-  },"275": {
+  },"277": {
     "doc": "Title",
     "title": "Title",
     "content": "Sub Title . Key Points . | 1 | 2 | . Script Example . ",
     "url": "/my-tech/template/",
     
     "relUrl": "/template/"
-  },"276": {
+  },"278": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "tutorial about the running a sample docker image in numbered steps",
     "content": " ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/"
-  },"277": {
+  },"279": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "this page describes about tutorial about the running a sample docker image in numbered steps",
     "content": "Date Posted: 2023 03 29 . ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/"
-  },"278": {
+  },"280": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Tutorial: Running a Sample Docker Image",
     "content": "In this tutorial, we will guide you through the process of running a sample Docker image. Docker allows you to package an application and its dependencies into a standardized unit called a container, which can be easily deployed and run on any platform. Follow the numbered steps below to get started: . ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#tutorial-running-a-sample-docker-image",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#tutorial-running-a-sample-docker-image"
-  },"279": {
+  },"281": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Install Docker: Before you can run a Docker image, ensure Docker is installed on your system. Visit the Docker website and follow the installation instructions for your operating system.",
     "content": " ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#install-docker-before-you-can-run-a-docker-image-ensure-docker-is-installed-on-your-system-visit-the-docker-website-and-follow-the-installation-instructions-for-your-operating-system",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#install-docker-before-you-can-run-a-docker-image-ensure-docker-is-installed-on-your-system-visit-the-docker-website-and-follow-the-installation-instructions-for-your-operating-system"
-  },"280": {
+  },"282": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Pull the Docker Image: Docker images are hosted in repositories, and you need to pull the desired image to your local system. Open a terminal or command prompt and enter the following command:",
     "content": "docker pull IMAGE_NAME . Replace IMAGE_NAME with the name of the Docker image you want to use. This command will download the image from the repository. ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#pull-the-docker-image-docker-images-are-hosted-in-repositories-and-you-need-to-pull-the-desired-image-to-your-local-system-open-a-terminal-or-command-prompt-and-enter-the-following-command",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#pull-the-docker-image-docker-images-are-hosted-in-repositories-and-you-need-to-pull-the-desired-image-to-your-local-system-open-a-terminal-or-command-prompt-and-enter-the-following-command"
-  },"281": {
+  },"283": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Verify Image Pull: To verify that the image has been successfully pulled, use the following command:",
     "content": "docker images . You should see the pulled image listed among the available images. ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#verify-image-pull-to-verify-that-the-image-has-been-successfully-pulled-use-the-following-command",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#verify-image-pull-to-verify-that-the-image-has-been-successfully-pulled-use-the-following-command"
-  },"282": {
+  },"284": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Run the Docker Image: Now it’s time to run the Docker image as a container. Execute the following command:",
     "content": "docker run IMAGE_NAME . Replace IMAGE_NAME with the name of the image you pulled in the previous step. Docker will create a new container based on this image. ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#run-the-docker-image-now-its-time-to-run-the-docker-image-as-a-container-execute-the-following-command",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#run-the-docker-image-now-its-time-to-run-the-docker-image-as-a-container-execute-the-following-command"
-  },"283": {
+  },"285": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Access Container Output: If the containerized application produces any output, you can access it using the Docker logs. Run the following command to view the logs:",
     "content": "docker logs CONTAINER_ID . Replace CONTAINER_ID with the ID of the running container, which you can find using the command docker ps. ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#access-container-output-if-the-containerized-application-produces-any-output-you-can-access-it-using-the-docker-logs-run-the-following-command-to-view-the-logs",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#access-container-output-if-the-containerized-application-produces-any-output-you-can-access-it-using-the-docker-logs-run-the-following-command-to-view-the-logs"
-  },"284": {
+  },"286": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Interact with the Container: Sometimes, you may need to interact with the running container, such as executing commands or modifying files. Use the following command to access the container’s shell:",
     "content": "docker exec -it CONTAINER_ID bash . This will open a shell inside the running container, allowing you to execute commands as if you were on the host system. ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#interact-with-the-container-sometimes-you-may-need-to-interact-with-the-running-container-such-as-executing-commands-or-modifying-files-use-the-following-command-to-access-the-containers-shell",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#interact-with-the-container-sometimes-you-may-need-to-interact-with-the-running-container-such-as-executing-commands-or-modifying-files-use-the-following-command-to-access-the-containers-shell"
-  },"285": {
+  },"287": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Stop the Container: Once you are done with the container, you can stop it using the command:",
     "content": "docker stop CONTAINER_ID . Replace CONTAINER_ID with the ID of the running container. ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#stop-the-container-once-you-are-done-with-the-container-you-can-stop-it-using-the-command",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#stop-the-container-once-you-are-done-with-the-container-you-can-stop-it-using-the-command"
-  },"286": {
+  },"288": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Remove the Container: If you no longer need the container, you can remove it using the following command:",
     "content": "docker rm CONTAINER_ID . Remember to replace CONTAINER_ID with the ID of the container you want to remove. ",
     "url": "/my-tech/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#remove-the-container-if-you-no-longer-need-the-container-you-can-remove-it-using-the-following-command",
     
     "relUrl": "/doc/Misc/tutorial-about-the-running-a-sample-docker-image-in-numbered-steps%20copy/#remove-the-container-if-you-no-longer-need-the-container-you-can-remove-it-using-the-following-command"
-  },"287": {
+  },"289": {
     "doc": "tutorial about the running a sample docker image in numbered steps",
     "title": "Remove the Docker Image: If you no longer need the Docker image, you can remove it from your system using the command:",
     "content": "docker rmi IMAGE_NAME . Replace IMAGE_NAME with the name of the image you want to remove. That’s it! You have successfully run a sample Docker image as a container. Docker provides a powerful and flexible platform for deploying and managing applications. Explore further by experimenting with other Docker images and building your own containers. Remember to check the official Docker documentation for more detailed information and advanced topics. ",
