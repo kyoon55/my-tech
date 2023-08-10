@@ -13,7 +13,6 @@ date: 2023-12-29
 <h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 
 ## What's Inside this CloudFormation?
-
 **Description**: CloudFormation template for setting up a network infrastructure and deploying a WordPress application.
 
 ### Parameters
