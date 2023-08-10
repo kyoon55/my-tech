@@ -576,7 +576,7 @@ chmod 400 Dev.pem
 ssh -i "Dev.pem" ec2-user@private-IP-address
 ```
 
-# Create 2 More Private EC2 Insntaces
+# Create 2 More Private EC2 Instances
 
 <details>
 <summary>This CloudFormation Stack provisions basic infrastructure, with public and private subnets, along with public and private EC2 instances, Plus two more private EC2 instancesqqus</summary>
