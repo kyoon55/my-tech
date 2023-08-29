@@ -46,12 +46,116 @@ Secure methods for remote operations.
 #### File transfer with **sftp**:
 - `sftp db_user@<<other_server>>`: Gives an encrypted FTP-like session.
 
-### Resources
-- **Chapter 4**: Managing user and group accounts in Red Hat Enterprise Linux 8 | Red Hat Customer Portal.
-
 ### Tasks Overview:
 1. Check for outstanding patches.
 2. Grab web content for the web_user account.
 3. Help db_user retrieve database dumps from another server. 
 
-Note: All operations are based on a RHEL 8 server set up by an intern with DHCP networking. Only cloud_user login credentials are available.
+
+## Linux System Documentation
+
+Linux offers comprehensive system documentation. This lesson covers 'man' pages, the 'info' command, and the /usr/share/doc directory.
+
+### **Objective:**
+Install Apache for web developers on RHEL 8, confirm documentation presence, and share the Apache license file. Also, pre-install MariaDB anticipating future needs.
+
+### **Checking for Apache/MariaDB Documentation**
+1. **Man Pages**
+    ```bash
+    man httpd
+    man mariadb
+    man mysql
+    ```
+
+2. **Info Pages**
+    ```bash
+    info httpd
+    info mariadb
+    info mysql
+    ```
+
+3. **Other System Documentation**
+    ```bash
+    ls -la /usr/share/doc | egrep -i "httpd|mariadb|mysql"
+    ```
+
+### **Installing Apache and MariaDB**
+```bash
+sudo dnf -y install httpd mariadb
+```
+
+### **Using Built-in Command Help**
+1. **MariaDB Help**
+    ```bash
+    mariadb --help
+    mariadb -?
+    ```
+
+2. **Help for Man & Info**
+    ```bash
+    man --help
+    info --help
+    ```
+
+### **Using Apache/MariaDB Documentation**
+1. **Man Pages**
+    - Check documentation:
+        ```bash
+        man httpd
+        man mariadb
+        ```
+
+    - Discover man pages:
+        ```bash
+        whatis httpd
+        whatis httpd mariadb mysql
+        ```
+
+    - Additional information:
+        ```bash
+        apropos httpd
+        apropos httpd mariadb
+        ```
+
+    - Access a specific man page by page number:
+        ```bash
+        man 8 httpd
+        ```
+
+    - Man command info:
+        ```bash
+        man man
+        man info
+        ```
+
+2. **Info Pages**
+    - Check documentation:
+        ```bash
+        info httpd
+        info mariadb
+        ```
+
+    - Info command info:
+        ```bash
+        info info
+        info man
+        ```
+
+3. **System Documentation in /usr/share/doc**
+    - Locate Apache documentation:
+        ```bash
+        ls -la /usr/share/doc | egrep -i "httpd|mariadb|mysql"
+        ```
+
+    - Change to the Apache documentation directory:
+        ```bash
+        cd /usr/share/doc/httpd
+        ls -la
+        ```
+
+    - View the license file:
+        ```bash
+        more LICENSE
+        ```
+
+This documentation assists users in exploring the in-depth details of various commands and utilities in Linux.
