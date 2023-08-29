@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Linux Introduction 
+title: Linux 
 has_children: true
 permalink: /docs/Linux
 date: 2022-11-29
