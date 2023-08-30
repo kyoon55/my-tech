@@ -1,6 +1,6 @@
 ---
 layout: default
-title: CICD  
+title: CICD Introduction
 has_children: true
 permalink: /docs/CICD
 date: 2023-03-01

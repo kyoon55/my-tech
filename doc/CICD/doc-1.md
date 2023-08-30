@@ -1,8 +1,6 @@
 ---
 layout: default
-title: CICD  
-has_children: true
-permalink: /docs/CICD
+title: CI/CD runners and agents with Azure Container Apps Jobs
 parent: CICD
 nav_order: 1
 date: 2023-01-05
