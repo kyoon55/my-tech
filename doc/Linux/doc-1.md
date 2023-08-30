@@ -232,5 +232,103 @@ Create a new system log to monitor httpd events on RHEL 8 for web developers. Th
         rm -rf error_logs
         ```
 
-### **Conclusion:**
-After setting up the desired logs, a proof of concept was completed. The next steps will involve a meeting with the web team to discuss further actions.
+# Working with Linux Files - Permissions
+
+## Introduction
+A key aspect of Linux security is managing file and directory access. When files or directories are created, their permissions are determined by the 'umask' of the session. Linux also offers the convenience of using hard and soft links as shortcuts to files. This lesson covers:
+- Standard Linux `ugo/rwx` permissions model.
+- Setting and troubleshooting permissions.
+- Understanding 'umask', its configuration, and functioning.
+- How to utilize hard and soft links.
+
+## Resources
+- [Managing file permissions Red Hat Enterprise Linux 8 | Red Hat Customer Portal](#)
+- [File-system permissions - Wikipedia](#)
+
+## Instructions
+
+### 1. Setting up New Storage Location
+
+- **Become Root**:
+  ```bash
+  sudo -i
+  ```
+
+- **Create a new storage location and move data**:
+  ```bash
+  mkdir /web_data
+  mv -v /var/www/* /web_data
+  ```
+
+- **Adjusting ownership and permissions**:
+  ```bash
+  chown -R web_user:web_group /web_data
+  chmod -R g+w /web_data
+  mkdir /web_data/db_stuff
+  chown -R db_user:web_group /web_data/db_stuff
+  chmod -R 775 /web_data
+  chmod -R 770 /web_data/db_stuff
+  ```
+
+### 2. Test Permissions
+
+- **For web_user**:
+  ```bash
+  su - web_user
+  echo Hello! > /web_data/html/index.html
+  cat /web_data/html/index.html
+  exit
+  ```
+
+- **For db_user**:
+  ```bash
+  su - db_user
+  echo For DBAs only! > /web_data/db_stuff/README
+  cat /web_data/db_stuff/README
+  exit
+  ```
+
+- **For cloud_user**:
+  ```bash
+  su - cloud_user
+  echo I wanna play too! > /web_data/html/play.html
+  cat /web_data/html/index.html
+  groups cloud_user
+  cat /web_data/db_stuff/README
+  exit
+  ```
+
+### 3. Create Links to New Location
+
+- **Soft links for directories**:
+  ```bash
+  ln -s /web_data/* /var/www
+  ```
+
+- **Hard link for DBA README**:
+  ```bash
+  su - db_user
+  ln /web_data/db_stuff/README .
+  rm -f /web_data/db_stuff/README
+  exit
+  ```
+
+### 4. Cleanup and Addressing Broken Symlinks
+
+- **Deleting the db_stuff Directory and addressing broken symlinks**:
+  ```bash
+  rm -rf /web_data/db_stuff
+  rm -f /var/www/db_stuff
+  ```
+
+### 5. Adjust the web_user Umask
+
+- **Setting Umask for web_user**:
+  ```bash
+  su - web_user
+  echo 'umask 0027' >> ~/.bashrc
+  exit
+  su - web_user
+  touch testfile
+  ls -la
+  ```
