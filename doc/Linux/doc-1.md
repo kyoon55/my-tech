@@ -478,3 +478,241 @@ The `/home` directory has become cluttered due to inactive user accounts, leftov
     ```bash
     bzip2 -d archives/CentOS-8.2.2004-x86_64-boot.iso.bz2
     ```
+
+# SSH and `su` Command Lab Guide
+
+## **Introduction**
+This lab guides us through the use of the `su` command, delves into the capabilities of the `ssh` command, demonstrates the setup for key-based authentication in SSH, and explores SSH utilities for secure file transfers.
+
+## **Tasks**
+
+### 1. **Log in and Switch Users**
+- Login to the server:
+    ```bash
+    ssh cloud_user@<PUBLIC_IP_ADDRESS>
+    ```
+- Check the current user and groups:
+    ```bash
+    whoami ; groups
+    id
+    ```
+- Become the root user and configure the root user's environment:
+    ```bash
+    sudo -i
+    echo export SOURCED1=.bash_profile >> ~/.bash_profile ; echo 'echo $SOURCED1' >> ~/.bash_profile
+    echo export SOURCED2=.bashrc >> ~/.bashrc ; echo 'echo $SOURCED2' >> ~/.bashrc
+    exit
+    ```
+- Check the configured environment:
+    ```bash
+    grep SOURCED .bash_profile
+    grep SOURCED .bashrc
+    ```
+- Reset sudo timeout:
+    ```bash
+    sudo -k
+    ```
+- Observe the difference between `sudo`, `sudo -i`, `su`, and `su -`.
+
+### 2. **Access Remote Systems Using SSH**
+- Connect to another cloud server:
+    ```bash
+    ssh cloud_user@<SECOND_PUBLIC_IP_ADDRESS>
+    ```
+- Change the password for `cloud_user` and gather some system information:
+    ```bash
+    sudo -i passwd cloud_user
+    top
+    hostname
+    df -hT
+    exit
+    ```
+- Fetch and store some system information locally:
+    ```bash
+    ssh -t cloud_user@<SECOND_PUBLIC_IP_ADDRESS> df -hT >> server_health.txt
+    ssh -t cloud_user@<SECOND_PUBLIC_IP_ADDRESS> free >> server_health.txt
+    cat server_health.txt
+    ```
+
+### 3. **Configure Key-Based Authentication for SSH**
+- Generate an SSH key pair:
+    ```bash
+    ssh-keygen
+    ```
+- Copy the public key to the second server:
+    ```bash
+    ssh-copy-id <SECOND_PUBLIC_IP_ADDRESS>
+    ```
+- Test key-based login:
+    ```bash
+    ssh cloud_user@<SECOND_PUBLIC_IP_ADDRESS>
+    exit
+    ```
+- Start the ssh-agent and add the private key:
+    ```bash
+    eval $(ssh-agent -s)
+    ssh-add
+    ```
+
+### 4. **Securely Transfer Files between Systems**
+- Execute a backup on a remote system and transfer the files securely:
+    ```bash
+    ssh cloud_user@<SECOND_PUBLIC_IP_ADDRESS> tar -czvf wget-server2.tar.gz wget-1*.rpm
+    scp cloud_user@<SECOND_PUBLIC_IP_ADDRESS>:~/wget-server2*.* .
+    ls -l
+    ```
+
+# Accessing Linux Systems Using RHEL 8
+
+### **Log in and Switch Users**
+- Log in to the server using the credentials provided:
+  ```bash
+  ssh cloud_user@<PUBLIC_IP_ADDRESS>
+  ```
+- To get information on who we are, use:
+  ```bash
+  whoami ; groups
+  ```
+- For more information on our user ID, primary group ID, and groups that we're part of, run this command:
+  ```bash
+  id
+  ```
+- To determine what files get run when we use different commands to elevate our privileges, become the root user:
+  ```bash
+  sudo -i
+  ```
+- Enter the following command to export and echo SOURCED1 into the root user's bash_profile:
+  ```bash
+  echo export SOURCED1=.bash_profile >> ~/.bash_profile ; echo 'echo $SOURCED1' >> ~/.bash_profile
+  ```
+- Make sure both lines are there:
+  ```bash
+  grep SOURCED .bash_profile
+  ```
+- Enter the following command to export and echo SOURCED2 into the root user's .bashrc:
+  ```bash
+  echo export SOURCED2=.bashrc >> ~/.bashrc ; echo 'echo $SOURCED2' >> ~/.bashrc
+  ```
+- Make sure both SOURCED lines are there:
+  ```bash
+  grep SOURCED .bashrc
+  ```
+- Exit by simply entering:
+  ```bash
+  exit
+  ```
+- Kill the timeout:
+  ```bash
+  sudo -k
+  ```
+- To see the echoes, enter:
+  ```bash
+  sudo -i echo
+  ```
+- Type in the cloud_user's password to see the echoes.
+- Set the root user's password:
+  ```bash
+  sudo -i passwd root
+  ```
+- Enter a new password for the root user.
+- Run the command to see the cloud_user's path:
+  ```bash
+  su -c 'echo $PATH'
+  ```
+- Enter the root user's password. This should show the cloud_user's path.
+- Run the command to sign in as the root user and show the cloud_user's path:
+  ```bash
+  su - -c 'echo $PATH'
+  ```
+- Enter the root user's password. This should show the root user's profile, bashrc, and path.
+
+  Understand that `sudo` equals the `cloud_user`, but `sudo -i` equals the `root user`. `su` also equals the `cloud_user`, while `su -` equals the `root user`.
+
+### **Access Remote Systems Using SSH**
+- Connect to a remote system on the second cloud server:
+  ```bash
+  ssh cloud_user@<SECOND_PUBLIC_IP_ADDRESS>
+  ```
+- When asked if you want to continue connecting, type "yes".
+- Enter the password for the remote system on the second cloud server.
+- Change the password:
+  ```bash
+  sudo -i passwd cloud_user
+  ```
+- Enter first the old password and then a new password that you'd prefer to use.
+- To get some information on the remote system, query the remote system by running the following commands:
+  ```bash
+  top
+  hostname
+  df -hT
+  ```
+- Exit out of the server:
+  ```bash
+  exit
+  ```
+- Return the remote system's output to the initial system:
+  ```bash
+  ssh -t cloud_user@<SECOND_PUBLIC_IP_ADDRESS> df -hT >> server_health.txt
+  ```
+- Enter the password for the remote system on the second cloud server.
+- If you see an error message, pull up the server health file:
+  ```bash
+  cat server_health.txt
+  ```
+- See the free memory on the server with the `free` command:
+  ```bash
+  ssh -t cloud_user@<SECOND_PUBLIC_IP_ADDRESS> free >> server_health.txt
+  ```
+- Enter the password for the remote system on the second cloud server.
+- Get the information and see the text file about the server health file:
+  ```bash
+  cat server_health.txt
+  ```
+
+### **Configure Key-Based Authentication for SSH**
+- Generate a public/private key pair using the defaults on the first cloud server:
+  ```bash
+  ssh-keygen
+  ```
+- Hit Enter and type in a passphrase, ideally something that's easy to remember. This should give you your randomart image and ID.
+- Copy that ID to the second cloud server, also known as the remote server:
+  ```bash
+  ssh-copy-id <SECOND_PUBLIC_IP_ADDRESS>
+  ```
+- Type in the password for the second cloud server.
+- Connect to the remote server:
+  ```bash
+  ssh cloud_user@<SECOND_PUBLIC_IP_ADDRESS>
+  ```
+- Type in the passphrase that you created a few steps ago to test if the key is working.
+- Exit out of the remote server:
+  ```bash
+  exit
+  ```
+- Add the `cloud_user` identity to the agent and to reload the agent:
+  ```bash
+  eval $(ssh-agent -s)
+  ```
+- Add your `cloud_user` identity to the agent, which can now act on your behalf:
+  ```bash
+  ssh-add
+  ```
+- Type in your passphrase.
+- Connect to the remote server:
+  ```bash
+  ssh cloud_user@<SECOND_PUBLIC_IP_ADDRESS>
+  ```
+
+### **Securely Transfer Files between Systems**
+- Execute a backup command on a remote system:
+  ```bash
+  ssh cloud_user@<SECOND_PUBLIC_IP_ADDRESS> tar -czvf wget-server2.tar.gz wget-1*.rpm
+  ```
+- Hit the Up arrow and perform an `scp`:
+  ```bash
+  scp cloud_user@<SECOND_PUBLIC_IP_ADDRESS>:~/wget-server2*.* .
+  ```
+- Check the home directory to make sure all the files have been transferred:
+  ```bash
+  ls -l
+  ```
