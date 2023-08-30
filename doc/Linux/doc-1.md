@@ -1,6 +1,6 @@
 ---
 layout: default
-title: RHCSA Overview
+title: RHCSA - Understanding and Using Essential Tools on RHEL 8
 parent: Linux
 nav_order: 1
 date: 2023-01-15
@@ -193,11 +193,6 @@ sudo dnf -y install httpd mariadb
 # Manipulating Text Files in Linux
 
 In the daily life of a Linux system administrator, text files are everywhere, forming the core of the system's configuration and software. Editing and manipulating these files, especially text files, is crucial.
-
-### **Resources:**
-
-- Mastering Regular Expressions
-- Getting started with regular expressions: An example
 
 ### **Objective:**
 
