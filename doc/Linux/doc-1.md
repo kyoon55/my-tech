@@ -158,4 +158,79 @@ sudo dnf -y install httpd mariadb
         more LICENSE
         ```
 
-This documentation assists users in exploring the in-depth details of various commands and utilities in Linux.
+## Manipulating Text Files in Linux
+
+In the daily life of a Linux system administrator, text files are everywhere, forming the core of the system's configuration and software. Editing and manipulating these files, especially text files, is crucial.
+
+### **Resources:**
+- Mastering Regular Expressions
+- Getting started with regular expressions: An example
+
+### **Objective:**
+Create a new system log to monitor httpd events on RHEL 8 for web developers. They need a log aggregating all httpd web server-related logs in a text file for report generation.
+
+### **Steps:**
+
+1. **Setting Up**
+    - Log in as `root`, then switch to `web_user` (this user will own the logs).
+    - Create directories:
+        ```bash
+        mkdir -p log_project/raw_logs
+        mkdir log_project/processed_logs
+        cd log_project/
+        ```
+
+2. **Creating the Master Log**
+    - Create an empty "master" log:
+        ```bash
+        touch raw_logs/master.log
+        ```
+    - View structure of `/var/log`:
+        ```bash
+        sudo tree /var/log | more
+        ```
+    - Generate the "master" log with references to `httpd`:
+        ```bash
+        sudo grep httpd /var/log/* > raw_logs/master.log 2> errors.log
+        ```
+    - Examine the error logs and move them:
+        ```bash
+        cat errors.log
+        mv errors.log raw_logs
+        ```
+    - Update the "master" log without error messages:
+        ```bash
+        sudo grep httpd /var/log/* > raw_logs/master.log 2>/dev/null
+        ```
+
+3. **Incorporating the Systemd Journal**
+    - Append the systemd journal logs to the "master" log:
+        ```bash
+        journalctl --unit=httpd --no-pager >> raw_logs/master.log
+        ```
+    - Backup the "master" log:
+        ```bash
+        cp raw_logs/master.log /tmp
+        ```
+
+4. **Using the `grep` Command & Regular Expressions**
+    - Reorganize directory structure:
+        ```bash
+        mv processed_logs httpd_logs
+        mkdir error_logs
+        mv -v raw_logs/errors.log error_logs
+        ```
+    - Examine logs and extract specific lines:
+        ```bash
+        grep systemd raw_logs/master.log > httpd_logs/systemd.log
+        egrep -v "dnf|secure" raw_logs/master.log > httpd_logs/no_dnf_secure.log
+        ```
+
+5. **Cleaning Up**
+    - Remove the unnecessary error logs directory:
+        ```bash
+        rm -rf error_logs
+        ```
+
+### **Conclusion:**
+After setting up the desired logs, a proof of concept was completed. The next steps will involve a meeting with the web team to discuss further actions.
