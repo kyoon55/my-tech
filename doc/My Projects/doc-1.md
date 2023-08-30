@@ -9,3 +9,5 @@ date: 2023-07-01
 <h2>{{ page.excerpt }}</h2>
 <h3>Date Posted: {{ page.date | date: "%Y %m %d" }}</h3>
 
+# Creating a list of EC2 instances, with Auto Scaling Group
+
