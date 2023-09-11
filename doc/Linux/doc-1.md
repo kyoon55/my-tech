@@ -1034,3 +1034,11 @@ grep -ir file /usr/share/doc/zip ; grep -r file /usr/share/doc/zip > grepoutput.
 
 cat grepoutput.txt
 ```
+
+## Managing Files and Directories on RHEL 8
+
+- Check the size of the directory:
+  
+```bash
+du -sh /user/share/doc
+```
