@@ -1042,3 +1042,9 @@ cat grepoutput.txt
 ```bash
 du -sh /user/share/doc
 ```
+
+- Create a tar file from a directrory
+
+```bash
+tar -cf documentation.tar /usr/share/doc
+```
