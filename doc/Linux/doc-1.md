@@ -1030,8 +1030,6 @@ grep -ir file /usr/share/doc/zip ; grep -r file /usr/share/doc/zip > grepoutput.
 10. Check the text file output:
 
 ```bash
-
-
 cat grepoutput.txt
 ```
 
@@ -1047,4 +1045,91 @@ du -sh /user/share/doc
 
 ```bash
 tar -cf documentation.tar /usr/share/doc
+```
+
+- List the entries in the tar file (-v with more details)
+
+```bash
+tar -tfv documentation.tar
+```
+
+- Uncompress the tar.gz file
+
+```bash
+tar -xzvf documentation.tar.gz
+```
+
+- Using gzip, compress the file
+
+```bash
+gzip file wget-1.19.5-8.el8_1.1.x86_64.rpm.gz
+```
+
+- Using gzip, compress the whole file in the directory
+
+```bash
+gzip *
+```
+
+- Create a multiple file in the file:
+
+```bash
+touch ~/{file1,file2,file3}.cf
+```
+
+- Link, Hard Link, and Soft Link
+  - Link: between the file name and the actual data stored
+  - Hard Link: the permissions, link count, ownership, timestamps, and file content are the same
+    - If the original file is deleted, the data exists in the hard link
+    - Only deleted when all links are deleted
+  - Soft Link (Symbolic Link): links together non-regular and regular files
+    - Can span multiple filesystems
+    - not a standard file
+    - if origianl file is lost, the soft link is deleted
+    - ```bash
+    $ ls -l soft_link_test /tmp/soft_link_new
+-rw-rw-r--. 1 tcarrigan tcarrigan 17 Aug 30 11:59 soft_link_test
+lrwxrwxrwx. 1 tcarrigan tcarrigan 35 Aug 30 12:09 /tmp/soft_link_new -> /home/tcarrigan/demo/soft_link_test```
+
+- Create a soft link
+
+```bash
+ln -s original softlink (file)
+```
+
+- Create a soft link (directory)
+
+```bash
+ln -s directory otherdirectory
+```
+
+- Create a hard link
+
+```bash
+ln original hardlink
+```
+
+- Add a user named "snuffy' and create a password for the user
+
+```bash
+useradd -m -g users -G devops snuffy
+passwd snuffy
+```
+
+- Chmod user: only groupos
+
+```bash
+chown .users ~/directory/
+```
+
+- chmod write capabilities for the group
+
+```bash
+chmod g+w ~/directory/
+```
+
+- Update the permissions in the directory so that the users can only delete files that are owned by themselves
+
+```bash
+chmod +t /directory/
 ```
