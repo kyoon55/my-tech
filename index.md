@@ -105,14 +105,6 @@ description: "Main Page."
 ![](assets/images/architecture.png)
 *From: Containerd: https://containerd.io/*
 
-<h2 style="text-align:center"> My Processes So Far: </h2>
-| Type     | Result                         |
-| ---      | ---                            |
-| base     | Plain text.                    |
-| bold     | I would like a **big** coffee. |
-| emphasis | I would like a *big* coffee.   |
-| link     | Check out the [official docs](https://jekyllrb.com/docs/datafiles/) for more info on using data files with Jekyll. |
-
 <h2 style="text-align:center"> My Duties and Responsibilities </h2>
 
 <div class="features">
@@ -176,3 +168,12 @@ description: "Main Page."
 {% endfor %}
 
 {% include icons/icons.html %}
+
+<h2 style="text-align:center"> My Processes So Far: </h2>
+
+| Type     | Result                         |
+| ---      | ---                            |
+| base     | Plain text.                    |
+| bold     | I would like a **big** coffee. |
+| emphasis | I would like a *big* coffee.   |
+| link     | Check out the [official docs](https://jekyllrb.com/docs/datafiles/) for more info on using data files with Jekyll. |
