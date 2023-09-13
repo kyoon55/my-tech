@@ -237,5 +237,5 @@ else
 	exit 118
 fi
 
-{ endhighlight}
+{% endhighlight %}
 </details>
