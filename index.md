@@ -168,3 +168,10 @@ description: "Main Page."
 {% endfor %}
 
 {% include icons/icons.html %}
+
+| Type     | Result                         |
+| ---      | ---                            |
+| base     | Plain text.                    |
+| bold     | I would like a **big** coffee. |
+| emphasis | I would like a *big* coffee.   |
+| link     | Check out the [official docs](https://jekyllrb.com/docs/datafiles/) for more info on using data files with Jekyll. |
