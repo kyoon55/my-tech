@@ -103,17 +103,9 @@ echo $?
 grep -E 'manny|moe|jack|marcia|jan|cindy' /etc/passwd
 ```
 
-## Creating Simple Shell Scripts
-
-# Lesson Guide: Creating Simple Shell Scripts - An Example
+## Lesson Guide: Creating Simple Shell Scripts - An Example
 
 Shell scripts are a vital asset in a system administrator's toolkit. They can be used for tasks like automation, reporting, or just ad-hoc assignments involving repetitive tasks. This lesson introduces basic shell scripting concepts.
-
-## Resources:
-- [The System Administrator's Guide to Bash Scripting](#)
-- [Using Bash for automation | Enable Sysadmin](#)
-
-## Instructions:
 
 ### Our Web Team Wants More Power!
 
