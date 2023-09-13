@@ -1,6 +1,6 @@
 ---
 layout: default
-title: RHCSA - Understanding and Using Essential Tools on RHEL 8
+title: RHCSA - Creating Simple Shell Scripts, from A Cloud Guru
 parent: Linux
 nav_order: 1
 date: 2023-01-15
@@ -103,7 +103,63 @@ echo $?
 grep -E 'manny|moe|jack|marcia|jan|cindy' /etc/passwd
 ```
 
-## Creating Simple Shell Scripts,
+## Creating Simple Shell Scripts
+
+# Lesson Guide: Creating Simple Shell Scripts - An Example
+
+Shell scripts are a vital asset in a system administrator's toolkit. They can be used for tasks like automation, reporting, or just ad-hoc assignments involving repetitive tasks. This lesson introduces basic shell scripting concepts.
+
+## Resources:
+- [The System Administrator's Guide to Bash Scripting](#)
+- [Using Bash for automation | Enable Sysadmin](#)
+
+## Instructions:
+
+### Our Web Team Wants More Power!
+
+The Web Team needs permission to run specific `yum` commands for regular security checks and admin functions. We've drafted a script, `web_admin.sh`, for this purpose.
+
+#### **Analyzing the `web_admin.sh` Script**
+To view the script content:
+```bash
+more web_admin.sh
+```
+Testing the script:
+```bash
+sudo ./web_admin.sh
+```
+To check for updates:
+```bash
+sudo ./web_admin.sh check-updates
+```
+Examining the result:
+```bash
+echo $?
+```
+Reviewing installed packages (e.g., bash):
+```bash
+sudo ./web_admin.sh check-installed bash
+```
+Inspecting the result:
+```bash
+echo $?
+```
+Observing available packages (e.g., nginx):
+```bash
+sudo ./web_admin.sh check-available nginx
+```
+Checking the result:
+```bash
+echo $?
+```
+Checking with a non-existent package (foo-foo):
+```bash
+sudo ./web_admin.sh check-available foo-foo
+```
+Evaluating the outcome:
+```bash
+echo $?
+```
 
 <details>
 <summary>Provisioing the Basic Infrastructure by Creating a CloudFormation Stack</summary>
